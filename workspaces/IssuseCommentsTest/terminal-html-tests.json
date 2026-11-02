@@ -1,0 +1,68 @@
+[
+  {
+    "TEST 01: DIV": "<!-- TEST 01: DIV -->\n<div id=\"terminal-history\"\n     class=\"terminal-region\"\n     data-owner=\"github-bot\"\n     contenteditable=\"false\"\n     style=\"background-color:#000;color:#00ff00\">\n  GitHub Bot history area\n</div>\n\n<div id=\"terminal-input\"\n     data-owner=\"chatgpt-agent\"\n     contenteditable=\"true\">\n  ChatGPT Agent writing area\n</div>"
+  },
+  {
+    "TEST 02: SECTION": "<!-- TEST 02: SECTION -->\n<section id=\"terminal-section\"\n         class=\"terminal-history\"\n         data-owner=\"github-bot\"\n         title=\"Terminal history\">\n  Section content\n</section>"
+  },
+  {
+    "TEST 03: PRE": "<!-- TEST 03: PRE -->\n<pre id=\"terminal-screen\"\n     class=\"terminal\"\n     style=\"white-space:pre;overflow-x:auto\"\n     tabindex=\"0\">$ pwd\n/workspaces\n$ ls\nREADME.md  src\n</pre>"
+  },
+  {
+    "TEST 04: CODE": "<!-- TEST 04: CODE -->\n<code id=\"terminal-command\"\n      class=\"language-bash\"\n      style=\"color:#00ff00\">$ echo hello</code>"
+  },
+  {
+    "TEST 05: SPAN": "<!-- TEST 05: SPAN -->\n<span class=\"prompt\"\n      data-type=\"command\"\n      title=\"Terminal prompt\"\n      style=\"color:#00ff00\">$ </span>"
+  },
+  {
+    "TEST 06: KBD": "<!-- TEST 06: KBD -->\n<kbd title=\"Keyboard input\"\n     style=\"color:#00ff00\">Ctrl+C</kbd>"
+  },
+  {
+    "TEST 07: SAMP": "<!-- TEST 07: SAMP -->\n<samp title=\"Command output\"\n      style=\"color:#00ff00\">hello world</samp>"
+  },
+  {
+    "TEST 08: BR": "<!-- TEST 08: BR -->\nFirst line<br>\nSecond line"
+  },
+  {
+    "TEST 09: STRONG": "<!-- TEST 09: STRONG -->\n<strong title=\"Error\"\n        style=\"color:#ff0000\">ERROR</strong>"
+  },
+  {
+    "TEST 10: HR": "<!-- TEST 10: HR -->\n<hr>"
+  },
+  {
+    "TEST 11: DETAILS": "<!-- TEST 11: DETAILS -->\n<details id=\"terminal-history-details\"\n         class=\"history\"\n         name=\"terminal-history\"\n         open>"
+  },
+  {
+    "TEST 12: SUMMARY": "<!-- TEST 12: SUMMARY -->\n  <summary id=\"history-title\"\n           title=\"Expand or collapse history\"\n           style=\"color:#00ff00\">\n    Terminal History\n  </summary>\n  <pre>$ pwd\n/workspaces</pre>\n</details>"
+  },
+  {
+    "TEST 13: TABLE": "<!-- TEST 13: TABLE -->\n<table class=\"terminal-table\"\n       style=\"background-color:#000;color:#00ff00\">"
+  },
+  {
+    "TEST 14: TR": "<!-- TEST 14: TR -->\n  <tr class=\"success\"\n      data-status=\"complete\">"
+  },
+  {
+    "TEST 15: TD": "<!-- TEST 15: TD -->\n    <td colspan=\"2\"\n        style=\"color:#00ff00\">\n      Command completed\n    </td>\n  </tr>\n\n  <tr>\n    <td rowspan=\"2\">Status</td>\n    <td>Success</td>\n  </tr>\n  <tr>\n    <td>Exit code: 0</td>\n  </tr>\n</table>"
+  },
+  {
+    "TEST 16: A": "<!-- TEST 16: A -->\n<a href=\"https://github.com/BestNameYet/IssueStack-/issues/4\"\n   title=\"Open test issue\"\n   target=\"_blank\"\n   rel=\"noopener noreferrer\">\n  View test issue\n</a>"
+  },
+  {
+    "TEST 17: TEXTAREA": "<!-- TEST 17: TEXTAREA -->\n<textarea rows=\"3\"\n          cols=\"50\"\n          placeholder=\"Enter terminal command\"\n          readonly>Read-only command</textarea>\n\n<textarea rows=\"2\"\n          cols=\"40\"\n          disabled>Disabled command input</textarea>"
+  },
+  {
+    "TEST 18: INPUT": "<!-- TEST 18: INPUT -->\n<input type=\"text\"\n       value=\"ls -la\"\n       placeholder=\"Enter command\"\n       readonly>\n\n<input type=\"text\"\n       value=\"Disabled input\"\n       disabled>"
+  },
+  {
+    "TEST 19: BUTTON": "<!-- TEST 19: BUTTON -->\n<button type=\"button\"\n        title=\"Terminal submit control\"\n        disabled>\n  Execute\n</button>"
+  },
+  {
+    "TEST 20: FORM": "<!-- TEST 20: FORM -->\n<form id=\"terminal-form-test\"\n      method=\"get\"\n      action=\"#terminal-form-test\">\n  <input type=\"text\"\n         name=\"command\"\n         value=\"pwd\">\n  <button type=\"button\" disabled>\n    Submit command\n  </button>\n</form>"
+  },
+  {
+    "TEST 21: CSS PROPERTIES": "<!-- TEST 21: CSS PROPERTIES -->\n\n<!-- Background color -->\n<span style=\"background-color:#000000\">\n  Black background\n</span>\n\n<!-- Foreground color -->\n<span style=\"color:#00ff00\">\n  Green foreground\n</span>\n\n<!-- Font family -->\n<span style=\"font-family:monospace\">\n  Monospace font\n</span>\n\n<!-- White-space handling -->\n<pre style=\"white-space:pre\">A    B    C</pre>\n\n<!-- Font size -->\n<span style=\"font-size:14px\">\n  Fourteen-pixel text\n</span>\n\n<!-- Horizontal overflow -->\n<pre style=\"overflow-x:auto\">Very long terminal output line ..............................................................</pre>\n\n<!-- Combined terminal appearance -->\n<div style=\"background-color:#000000;\n            color:#00ff00;\n            font-family:monospace;\n            font-size:14px;\n            white-space:pre;\n            overflow-x:auto\">\n$ pwd\n/workspaces/api-to-node.js\n$ ls\nREADME.md  src  package.json\n$ _\n</div>"
+  },
+  {
+    "TEST 22: WRITING AREA DELIMITERS": "<!-- TEST 22: WRITING AREA DELIMITERS -->\n\n<!-- GITHUB_BOT_START -->\n<pre>\n$ pwd\n/workspaces/api-to-node.js\n$ ls\nREADME.md\nsrc\n</pre>\n<!-- GITHUB_BOT_END -->\n\n<!-- CHATGPT_AGENT_START -->\n<pre>$ </pre>\n<!-- CHATGPT_AGENT_END -->"
+  }
+]

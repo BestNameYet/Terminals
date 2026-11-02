@@ -30,6 +30,9 @@ jobs:
           if (!isObject(comment)) {
             throw new Error("Issue comment must be a JSON object.");
           }
+          if (!Object.prototype.hasOwnProperty.call(comment, "set")) {
+            throw new Error("JSON must contain a set object.");
+          }
           const runpath = comment.runpath;
           if (typeof runpath !== "string" || !runpath.trim()) {
             throw new Error("JSON must contain a nonempty string runpath.");

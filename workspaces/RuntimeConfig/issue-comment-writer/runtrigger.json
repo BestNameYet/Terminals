@@ -1,6 +1,8 @@
 {
   "metadata": {
-    "timestamp": "<ISO 8601 timestamp>"
+    "timestamp": "2026-11-02T23:09:10Z",
+    "version": "1.0.0",
+    "purpose": "Runtrigger template for the Issue comment writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
   },
   "js_path": "<repository-relative path to JavaScript program>",
   "args": {

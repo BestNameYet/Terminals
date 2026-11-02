@@ -18,7 +18,7 @@ function readTests(value) {
     : fs.readFileSync(value, "utf8");
   const tests = JSON.parse(input);
   if (!Array.isArray(tests) || tests.length === 0) {
-    throw new Error("Third argument must represent a nonempty JSON array.");
+    throw new Error("jsonArrayPath must represent a nonempty JSON array.");
   }
   return tests;
 }
@@ -62,9 +62,9 @@ async function apiRequest(method, endpoint, token, body) {
 function parseNamedArgs(input) {
   const args = JSON.parse(input);
   if (!args || typeof args !== "object" || Array.isArray(args)) {
-    throw new Error("Expected a JSON object with issue_path, comment_id, and json_array_path.");
+    throw new Error("Expected a JSON object with issuePath, commentId, and jsonArrayPath.");
   }
-  for (const name of ["issue_path", "comment_id", "json_array_path"]) {
+  for (const name of ["issuePath", "commentId", "jsonArrayPath"]) {
     if (typeof args[name] !== "string" || !args[name].trim()) {
       throw new Error("Argument '" + name + "' must be a nonempty string.");
     }
@@ -76,10 +76,9 @@ async function main() {
   if (process.argv.length !== 3) {
     throw new Error("Usage: node issue-comment-writer.js '<named-args-json-object>'");
   }
-  const { issue_path, comment_id, json_array_path } = parseNamedArgs(process.argv[2]);
-  const issue = parseIssuePath(issue_path);
-  const commentId = comment_id;
-  const body = renderTests(readTests(json_array_path));
+  const { issuePath, commentId, jsonArrayPath } = parseNamedArgs(process.argv[2]);
+  const issue = parseIssuePath(issuePath);
+  const body = renderTests(readTests(jsonArrayPath));
   const token = process.env.GH_TOKEN || process.env.WORKSPACE_API || process.env.GITHUB_TOKEN;
   if (!token) throw new Error("Set GH_TOKEN, WORKSPACE_API, or GITHUB_TOKEN with Issues: write access to the target repository.");
 

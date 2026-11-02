@@ -1,5 +1,7 @@
 {
-  "timestamp": null,
+  "metadata": {
+    "timestamp": null
+  },
   "js_path": "workspaces/RuntimeConfig/issue-comment-writer/issue-comment-writer.js",
   "args": {
     "issuePath": null,

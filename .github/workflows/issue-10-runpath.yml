@@ -135,7 +135,14 @@ jobs:
               return suppliedValue;
             }
 
-            applyExactSet(template, comment.set);
+            // metadata is maintained by the template and is not part of the set contract.
+            const setTemplate = Object.fromEntries(
+              Object.entries(template).filter(([key]) => key !== "metadata")
+            );
+            applyExactSet(setTemplate, comment.set);
+            for (const key of Object.keys(setTemplate)) {
+              template[key] = setTemplate[key];
+            }
 
             const id = event.comment.id;
             const number = event.issue.number;

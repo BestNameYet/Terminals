@@ -1,0 +1,14 @@
+name: RuntimeConfig runtrigger
+
+on:
+  push:
+    paths:
+      - 'workspaces/RuntimeConfig/**/runtrigger.json'
+      - '!workspaces/RuntimeConfig/runtrigger.json'
+
+jobs:
+  halt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exit successfully
+        run: exit 0

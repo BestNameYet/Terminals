@@ -2,8 +2,8 @@
   "timestamp": null,
   "js_path": "workspaces/RuntimeConfig/issue-comment-writer/issue-comment-writer.js",
   "args": {
-    "issue_path": null,
-    "comment_id": null,
-    "json_array_path": null
+    "issuePath": null,
+    "commentId": null,
+    "jsonArrayPath": null
   }
 }

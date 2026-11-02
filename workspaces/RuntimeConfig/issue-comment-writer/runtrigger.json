@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "timestamp": null
+    "timestamp": "<ISO 8601 timestamp>"
   },
-  "js_path": "workspaces/RuntimeConfig/issue-comment-writer/issue-comment-writer.js",
+  "js_path": "<repository-relative path to JavaScript program>",
   "args": {
-    "issuePath": null,
-    "commentId": null,
-    "jsonArrayPath": null
+    "issuePath": "<GitHub Issue URL or owner/repo/issues/number>",
+    "commentId": "<new or existing numeric comment ID>",
+    "jsonArrayPath": "<path to a JSON array file or serialized JSON array>"
   }
 }

@@ -1,0 +1,67 @@
+name: Issue 10 RuntimeConfig runner
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    if: ${{ github.event.issue.number == 10 && github.event.issue.pull_request == null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate comment and locate trigger
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          const comment = JSON.parse(event.comment.body);
+          if (!comment || typeof comment !== "object" || Array.isArray(comment)) {
+            throw new Error("Issue comment must be a JSON object.");
+          }
+          const runpath = comment.runpath;
+          if (typeof runpath !== "string" || !runpath.trim()) {
+            throw new Error("JSON must contain a nonempty string runpath.");
+          }
+          if (path.isAbsolute(runpath) || runpath.split(/[\\/]/).includes("..")) {
+            throw new Error("runpath must be a relative RuntimeConfig subfolder.");
+          }
+          
+          const base = path.resolve("workspaces/RuntimeConfig");
+          const requested = runpath.startsWith("workspaces/RuntimeConfig/")
+            ? path.resolve(runpath)
+            : path.resolve(base, runpath);
+          const inside = (parent, child) => {
+            const relative = path.relative(parent, child);
+            return !!relative && relative !== ".." && !relative.startsWith(".." + path.sep) && !path.isAbsolute(relative);
+          };
+          if (!inside(base, requested)) {
+            throw new Error("runpath is not a RuntimeConfig subfolder.");
+          }
+          
+          const actualBase = fs.realpathSync(base);
+          const directory = fs.realpathSync(requested);
+          if (!inside(actualBase, directory) || !fs.statSync(directory).isDirectory()) {
+            throw new Error("runpath must resolve to an existing RuntimeConfig subfolder.");
+          }
+          const trigger = fs.realpathSync(path.join(directory, "runtrigger.json"));
+          if (path.dirname(trigger) !== directory || !fs.statSync(trigger).isFile()) {
+            throw new Error("Selected subfolder must contain a regular runtrigger.json.");
+          }
+          
+          const triggerPath = path.relative(process.cwd(), trigger);
+          fs.appendFileSync(process.env.GITHUB_ENV, "RUNTRIGGER_PATH=" + triggerPath + "\n");
+          console.log("Validated RUNTRIGGER_PATH=" + triggerPath);
+          NODE
+
+      - name: Execute runner
+        run: node workspaces/RuntimeConfig/runner.js "$RUNTRIGGER_PATH"

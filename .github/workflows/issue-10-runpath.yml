@@ -12,6 +12,8 @@ jobs:
   run:
     if: ${{ github.event.issue.number == 10 && github.event.issue.pull_request == null && github.event.repository.owner.type == 'User' && github.event.repository.owner.id == github.event.comment.user.id && github.event.repository.owner.login == github.event.comment.user.login }}
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,7 +29,6 @@ jobs:
       - name: Commit generated trigger
         if: ${{ env.CREATED_TRIGGER == 'true' }}
         env:
-          GH_TOKEN: ${{ github.token }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           git config user.name "github-actions[bot]"

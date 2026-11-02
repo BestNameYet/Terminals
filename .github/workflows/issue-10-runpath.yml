@@ -116,13 +116,21 @@ jobs:
                 return templateValue;
               }
 
+              if (Array.isArray(templateValue)) {
+                if (!Array.isArray(suppliedValue) ||
+                    suppliedValue.length !== templateValue.length ||
+                    suppliedValue.length === 0) {
+                  throw new Error(location + " must have the same nonempty array structure.");
+                }
+                return templateValue.map((value, i) =>
+                  applyExactSet(value, suppliedValue[i], location + "[" + i + "]"));
+              }
+
               assertPopulated(suppliedValue, location);
-              if (templateValue !== null &&
-                  (Array.isArray(templateValue) !== Array.isArray(suppliedValue) ||
-                   (Array.isArray(templateValue)
-                    ? false
-                    : typeof suppliedValue !== typeof templateValue))) {
-                throw new Error(location + " has a different type from runtrigger.json.");
+              if (typeof suppliedValue === "object" ||
+                  (templateValue !== null &&
+                   typeof suppliedValue !== typeof templateValue)) {
+                throw new Error(location + " must be a populated scalar matching the template type.");
               }
               return suppliedValue;
             }

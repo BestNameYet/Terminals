@@ -6,7 +6,7 @@
   },
   "js_path": "<repository-relative path to JavaScript program>",
   "args": {
-    "issuePath": "<GitHub Issue URL or owner/repo/issues/number>",
+    "issuePath": "<literal string identifying the target GitHub Issue: owner/repo/issues/number (e.g. BestNameYet/Terminals/issues/10), or the full https://github.com/owner/repo/issues/number URL>",
     "commentId": "<literal string \"new\" to create a comment, or existing numeric comment ID to update one>",
     "jsonArrayPath": "<path to a JSON array file or serialized JSON array>"
   }

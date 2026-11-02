@@ -74,43 +74,61 @@ jobs:
               throw new Error("runtrigger.json must contain a JSON object.");
             }
           
-            function hasNull(value) {
-              if (value === null) return true;
-              if (Array.isArray(value)) return value.some(hasNull);
-              if (isObject(value)) return Object.values(value).some(hasNull);
-              return false;
-            }
-          
-            function applySet(target, overrides, prefix = "set") {
-              if (Object.keys(overrides).length === 0) {
-                throw new Error(prefix + " must contain at least one key.");
+            function assertPopulated(value, location) {
+              if (value === null || value === undefined) {
+                throw new Error(location + " must not be null.");
               }
-              for (const [key, value] of Object.entries(overrides)) {
-                const name = prefix + "." + key;
-                if (!Object.prototype.hasOwnProperty.call(target, key)) {
-                  throw new Error("Unknown runtrigger key: " + name);
+              if (typeof value === "string" && !value.trim()) {
+                throw new Error(location + " must not be empty.");
+              }
+              if (Array.isArray(value)) {
+                if (value.length === 0) throw new Error(location + " must not be empty.");
+                value.forEach((item, i) => assertPopulated(item, location + "[" + i + "]"));
+              } else if (isObject(value)) {
+                if (Object.keys(value).length === 0) {
+                  throw new Error(location + " must not be empty.");
                 }
-                if (hasNull(value)) {
-                  throw new Error("Null values are prohibited in " + name);
-                }
-                const existing = target[key];
-                if (isObject(existing)) {
-                  if (!isObject(value)) {
-                    throw new Error(name + " must be an object matching the template.");
-                  }
-                  applySet(existing, value, name);
-                } else {
-                  if (existing !== null && (
-                      (Array.isArray(existing) && !Array.isArray(value)) ||
-                      (!Array.isArray(existing) && typeof value !== typeof existing))) {
-                    throw new Error("Value type does not match template for " + name);
-                  }
-                  target[key] = value;
+                for (const [key, item] of Object.entries(value)) {
+                  assertPopulated(item, location + "." + key);
                 }
               }
             }
-          
-            applySet(template, comment.set);
+
+            function applyExactSet(templateValue, suppliedValue, location = "set") {
+              if (isObject(templateValue)) {
+                if (!isObject(suppliedValue)) {
+                  throw new Error(location + " must be an object matching the template.");
+                }
+                const required = Object.keys(templateValue);
+                const actual = Object.keys(suppliedValue);
+                const missing = required.filter(key =>
+                  !Object.prototype.hasOwnProperty.call(suppliedValue, key));
+                const extra = actual.filter(key =>
+                  !Object.prototype.hasOwnProperty.call(templateValue, key));
+                if (missing.length || extra.length) {
+                  throw new Error(location + " keys must match runtrigger.json exactly; missing: " +
+                    JSON.stringify(missing) + "; extra: " + JSON.stringify(extra));
+                }
+                for (const key of required) {
+                  templateValue[key] = applyExactSet(
+                    templateValue[key], suppliedValue[key], location + "." + key);
+                }
+                return templateValue;
+              }
+
+              assertPopulated(suppliedValue, location);
+              if (templateValue !== null &&
+                  (Array.isArray(templateValue) !== Array.isArray(suppliedValue) ||
+                   (Array.isArray(templateValue)
+                    ? false
+                    : typeof suppliedValue !== typeof templateValue))) {
+                throw new Error(location + " has a different type from runtrigger.json.");
+              }
+              return suppliedValue;
+            }
+
+            applyExactSet(template, comment.set);
+
             const id = event.comment.id;
             const number = event.issue.number;
             if (!Number.isSafeInteger(id) || id <= 0 || number !== 10) {

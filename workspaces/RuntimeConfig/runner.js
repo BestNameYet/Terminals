@@ -21,18 +21,17 @@ function main() {
     throw new Error("Trigger args must be a JSON object.");
   }
 
-  const values = Object.entries(args).map(([name, value]) => {
+  for (const [name, value] of Object.entries(args)) {
     if (value === null) {
       throw new Error("Argument '" + name + "' is null.");
     }
-    return typeof value === "string" ? value : JSON.stringify(value);
-  });
+  }
 
   const scriptPath = path.resolve(configuration.js_path);
   if (!fs.statSync(scriptPath).isFile()) {
     throw new Error("js_path does not point to a file: " + configuration.js_path);
   }
-  const result = spawnSync(process.execPath, [scriptPath, ...values], { stdio: "inherit" });
+  const result = spawnSync(process.execPath, [scriptPath, JSON.stringify(args)], { stdio: "inherit" });
   if (result.error) throw result.error;
   if (result.signal) throw new Error("Script terminated by signal: " + result.signal);
   process.exitCode = result.status ?? 1;

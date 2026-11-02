@@ -42,5 +42,8 @@ jobs:
           console.log("Saved RUNTRIGGER_PATH=" + paths[0]);
           NODE
 
+      - name: Parse runtrigger JSON
+        run: node workspaces/RuntimeConfig/parse-json.js "$RUNTRIGGER_PATH"
+
       - name: Exit successfully
         run: exit 0

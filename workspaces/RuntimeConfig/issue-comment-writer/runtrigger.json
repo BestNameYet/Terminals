@@ -4,10 +4,10 @@
     "version": "1.0.0",
     "purpose": "Runtrigger template for the Issue comment writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
   },
-  "js_path": "<repository-relative path to JavaScript program>",
+  "js_path": "<repository-relative JavaScript file path; fictional example: workspaces/RuntimeConfig/demo-writer-6d94e2a7/script.js>",
   "args": {
-    "issuePath": "<literal string identifying the target GitHub Issue: owner/repo/issues/number (e.g. BestNameYet/Terminals/issues/10), or the full https://github.com/owner/repo/issues/number URL>",
-    "commentId": "<literal string \"new\" to create a comment, or existing numeric comment ID to update one>",
-    "jsonArrayPath": "<path to a JSON array file or serialized JSON array>"
+    "issuePath": "<literal GitHub Issue path or URL; fictional path example: demo-owner-6d94e2a7/demo-repository-6d94e2a7/issues/246810; fictional URL example: https://github.com/demo-owner-6d94e2a7/demo-repository-6d94e2a7/issues/246810>",
+    "commentId": "<literal string \"new\" creates a comment; an existing positive numeric comment ID string updates one; fictional numeric ID example: \"864209753118\">",
+    "jsonArrayPath": "<repository-relative JSON array file path or literal serialized JSON array; fictional file example: workspaces/DemoData-6d94e2a7/fragments.json; literal array example: [{\"html\":\"<p>Illustration only</p>\"}]>"
   }
 }

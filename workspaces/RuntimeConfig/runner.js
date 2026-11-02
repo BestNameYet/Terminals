@@ -17,13 +17,13 @@ function main() {
     throw new Error("Trigger must specify js_path.");
   }
   const args = configuration.args;
-  if (!args || typeof args !== "object") {
-    throw new Error("Trigger must contain an args object or array.");
+  if (!args || typeof args !== "object" || Array.isArray(args)) {
+    throw new Error("Trigger args must be a JSON object.");
   }
 
-  const values = (Array.isArray(args) ? args : Object.values(args)).map((value, index) => {
+  const values = Object.entries(args).map(([name, value]) => {
     if (value === null) {
-      throw new Error("Argument " + (index + 1) + " is null.");
+      throw new Error("Argument '" + name + "' is null.");
     }
     return typeof value === "string" ? value : JSON.stringify(value);
   });

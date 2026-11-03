@@ -5,6 +5,7 @@ on:
     types: [edited]
 
 permissions:
+  contents: read
   issues: write
 
 concurrency:

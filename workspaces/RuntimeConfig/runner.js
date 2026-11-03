@@ -13,8 +13,8 @@ function main() {
   if (!configuration || typeof configuration !== "object" || Array.isArray(configuration)) {
     throw new Error("Trigger JSON must be an object.");
   }
-  if (typeof configuration.js_path !== "string" || !configuration.js_path.trim()) {
-    throw new Error("Trigger must specify js_path.");
+  if (typeof configuration.jsPath !== "string" || !configuration.jsPath.trim()) {
+    throw new Error("Trigger must specify jsPath.");
   }
   const args = configuration.args;
   if (!args || typeof args !== "object" || Array.isArray(args)) {
@@ -27,9 +27,9 @@ function main() {
     }
   }
 
-  const scriptPath = path.resolve(configuration.js_path);
+  const scriptPath = path.resolve(configuration.jsPath);
   if (!fs.statSync(scriptPath).isFile()) {
-    throw new Error("js_path does not point to a file: " + configuration.js_path);
+    throw new Error("jsPath does not point to a file: " + configuration.jsPath);
   }
   const result = spawnSync(process.execPath, [scriptPath, JSON.stringify(args)], { stdio: "inherit" });
   if (result.error) throw result.error;

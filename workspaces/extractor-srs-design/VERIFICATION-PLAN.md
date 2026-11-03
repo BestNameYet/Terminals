@@ -2,7 +2,7 @@
 
 **Document:** EXT-VERIFY-001 | **Version:** 1.0 | **Date:** 2026-11-03  
 **Coverage:** 78/78 functional requirements and 18/18 nonfunctional requirements in FINAL-SRS.md.  
-**Execution status:** **NOT RUN** for every proposed new Terminals test. Source-system historical runs described in Issue #4 are **not** recorded as results for these tests.
+**Execution status (updated 2026-11-03):** E2E-008 PASS with independently committed evidence; other acceptance cases retain their recorded statuses. Historical source-system runs are not substituted as Terminals results.
 
 ## 1. Test method and evidence
 
@@ -194,7 +194,7 @@ Each line is an independently testable acceptance case. The final column is the 
 
 **E2E-007 — missing selected branch:** Supply valid nonempty linear_conversation but broken ancestry; full profile MUST fail with branch-specific error; linear records must NOT be relabeled selected visible transcript. **Status: NOT RUN**.
 
-**E2E-008 — concurrency:** Dispatch at least two public shares simultaneously, capture both run IDs, allow serial noncancelled publication, prove no overwritten paths and verify all required files for both outputs. **Status: NOT RUN**.
+**E2E-008 — concurrency:** Dispatch at least two public shares simultaneously, capture both run IDs, allow serial noncancelled publication, prove no overwritten paths and verify all required files for both outputs. **Status: PASS** (2026-11-03; [independent two-share evidence](acceptance/E2E-008-DISTINCT-SHARES-20261103.md)).
 
 **E2E-009 — partial publication:** Simulate successful push followed by remote mismatch; final result is PUBLISHED_UNVERIFIED or FAILED with run/path evidence and no false VERIFIED. **Status: NOT RUN**.
 
@@ -233,3 +233,7 @@ All 12 failure IDs EXT-ERR-INPUT, PATH, DISPATCH, HTTP, DECODE, LINEAR, BRANCH, 
 
 Requirements documented: **78 functional, 18 nonfunctional.** Acceptance cases specified: **78 functional, 18 nonfunctional, 10 integration scenarios**, with 18 required fixture classes. **New extractor acceptance tests run for this design delivery: 0.** Do not infer functionality from the presence of the SRS, study or archived comments.
 
+
+## 9. Post-delivery execution addendum (2026-11-03)
+
+[E2E-008](acceptance/E2E-008-DISTINCT-SHARES-20261103.md) passed for two distinct public shares dispatched in the same recorded second; all 16 repository output files and both final attestations independently verified. This does not imply that the remaining listed acceptance tests have passed.

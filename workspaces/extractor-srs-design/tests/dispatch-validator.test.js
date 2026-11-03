@@ -1,0 +1,15 @@
+"use strict";
+const {test}=require("node:test"),assert=require("node:assert/strict");
+const {normalizeRequest,validateUrl,ValidationError}=require("../runtime/dispatch-validator.js");
+const URL="https://chatgpt.com/share/6ae8ca4c-fde8-83e8-991c-f6beaed35051?ogimg=plain";
+const ctx={run_id:"321",run_attempt:"1"};
+const run=x=>normalizeRequest(x,ctx);
+test("JSON mode and default template",()=>{const r=run({request_json:JSON.stringify({target_url:URL})});assert.equal(r.share_uuid,"6ae8ca4c-fde8-83e8-991c-f6beaed35051");assert.equal(r.write_path,"workspaces/shared-conversations/6ae8ca4c-fde8-83e8-991c-f6beaed35051/321-1");});
+test("legacy accepts target URL",()=>assert.equal(run({target_url:URL}).input_mode,"legacy"));
+test("mixed modes rejected",()=>assert.throws(()=>run({request_json:JSON.stringify({target_url:URL}),target_url:URL}),e=>e.code==="MIXED_INPUT_MODE"));
+test("unknown request field rejected",()=>assert.throws(()=>run({request_json:JSON.stringify({target_url:URL,share_url:URL})}),e=>e.code==="UNKNOWN_REQUEST_KEY"));
+test("unknown template rejected",()=>assert.throws(()=>run({target_url:URL,write_path:"workspaces/shared-conversations/{foo}/321"}),e=>e.code==="INVALID_PATH"));
+test("path traversal rejected",()=>assert.throws(()=>run({target_url:URL,write_path:"workspaces/shared-conversations/../foo"}),e=>e.code==="INVALID_PATH"));
+test("invalid host rejected",()=>assert.throws(()=>validateUrl("https://evil.example/share/6ae8ca4c-fde8-83e8-991c-f6beaed35051"),e=>e.code==="INVALID_URL"));
+test("explicit path honored",()=>assert.equal(run({target_url:URL,write_path:"workspaces/shared-conversations/a/321-1"}).write_path,"workspaces/shared-conversations/a/321-1"));
+test("missing request fails",()=>assert.throws(()=>run({}),e=>e.code==="MISSING_INPUT"));

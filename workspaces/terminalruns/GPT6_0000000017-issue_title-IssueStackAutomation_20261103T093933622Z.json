@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals/issues/3 --jq .title",
+  "outputThat": [
+    "Reserved Slot 03 — Unassigned"
+  ]
+}

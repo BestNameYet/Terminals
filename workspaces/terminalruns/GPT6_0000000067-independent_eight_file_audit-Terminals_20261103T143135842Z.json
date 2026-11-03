@@ -1,0 +1,19 @@
+{
+  "inputThis": "$:set -euo pipefail\nnode --check workspaces/extractor-srs-design/acceptance/verify-live-export.js\nnode --test --test-concurrency=4 workspaces/extractor-srs-design/tests/*.test.js workspaces/extractor-srs-design/input-validator.test.js > /tmp/extractor-acceptance-tests.log\ntail -n 14 /tmp/extractor-acceptance-tests.log\nmkdir -p /tmp/extractor-live-attestation\ngh run download 41645489733 --repo BestNameYet/Terminals --name chatgpt-shared-export-final-attestation-41645489733-1 --dir /tmp/extractor-live-attestation\nnode workspaces/extractor-srs-design/acceptance/verify-live-export.js workspaces/shared-conversations/6ae9dd85-7ff0-83e8-90c3-4592305a2362/41645489733-1 /tmp/extractor-live-attestation/final-attestation.json",
+  "outputThat": [
+    "ok 149 - opaque Promise tag is preserved without executing or dereferencing",
+    "  ---",
+    "  duration_ms: 0.167217",
+    "  type: 'test'",
+    "  ...",
+    "1..149",
+    "# tests 149",
+    "# suites 0",
+    "# pass 149",
+    "# fail 0",
+    "# cancelled 0",
+    "# skipped 0",
+    "# todo 0",
+    "# duration_ms 915.278365"
+  ]
+}

@@ -2,10 +2,27 @@ name: ChatGPT shared chat extractor
 
 on:
   workflow_dispatch:
+    inputs:
+      target_url:
+        description: Public ChatGPT shared-conversation URL
+        required: true
+        type: string
+        default: "https://chatgpt.com/share/6ae8ca4c-fde8-83e8-991c-f6beaed35051"
+      write_path:
+        description: Repository-relative conversation output directory
+        required: true
+        type: string
+        default: "workspaces/shared-conversations/6ae8ca4c-fde8-83e8-991c-f6beaed35051"
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Confirm manual dispatch
-        run: echo "Workflow dispatched"
+      - name: Receive dispatch inputs
+        shell: bash
+        env:
+          TARGET_URL: ${{ inputs.target_url }}
+          WRITE_PATH: ${{ inputs.write_path }}
+        run: |
+          printf 'Target URL: %s\n' "$TARGET_URL"
+          printf 'Write path: %s\n' "$WRITE_PATH"

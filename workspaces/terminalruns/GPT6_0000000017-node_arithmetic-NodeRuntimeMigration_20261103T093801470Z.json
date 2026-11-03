@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:node -p '2**10'",
+  "outputThat": [
+    "1024"
+  ]
+}

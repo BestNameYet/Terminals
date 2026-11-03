@@ -1,5 +1,5 @@
 name: Issue 3 comment terminal
-run-name: Terminal #${{ fromJSON(inputs.event_payload).issue.number }} · comment ${{ fromJSON(inputs.event_payload).comment.id }} · ${{ fromJSON(inputs.event_payload).action }}
+run-name: "Terminal #${{ fromJSON(inputs.event_payload).issue.number }} · comment ${{ fromJSON(inputs.event_payload).comment.id }} · ${{ fromJSON(inputs.event_payload).action }}"
 
 on:
   workflow_dispatch:

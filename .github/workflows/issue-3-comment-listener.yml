@@ -1,26 +1,105 @@
-name: Issue 3 comment listener
+name: Issue 3 comment terminal
 
 on:
   issue_comment:
     types: [created, edited]
 
 permissions:
-  issues: read
+  contents: write
+  issues: write
+
+concurrency:
+  group: issue-3-comment-terminal
+  cancel-in-progress: false
 
 jobs:
-  observe-comment:
-    if: ${{ github.event.issue.number == 3 && github.event.issue.pull_request == null }}
+  run:
+    if: ${{ github.event.issue.number == 3 && github.event.issue.pull_request == null && github.event.repository.owner.type == 'User' && github.event.repository.owner.id == github.event.comment.user.id && github.event.repository.owner.login == github.event.comment.user.login }}
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Record Issue 3 comment event
-        env:
-          COMMENT_ACTION: ${{ github.event.action }}
-          COMMENT_ID: ${{ github.event.comment.id }}
-          COMMENT_URL: ${{ github.event.comment.html_url }}
-          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Dispatch comment and commit stdout lines
         run: |
-          echo "Event: $COMMENT_ACTION"
-          echo "Issue: 3"
-          echo "Comment ID: $COMMENT_ID"
-          echo "Author: $COMMENT_AUTHOR"
-          echo "Comment URL: $COMMENT_URL"
+          node <<'NODE'
+          "use strict";
+          const fs = require("node:fs");
+          const { spawnSync } = require("node:child_process");
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          let input;
+          try {
+            input = JSON.parse(event.comment.body);
+          } catch (err) {
+            if (err instanceof SyntaxError) {
+              console.log("Comment is not valid JSON; no command executed.");
+              process.exit(0);
+            }
+            throw err;
+          }
+          if (input === null || typeof input !== "object" || Array.isArray(input)) {
+            throw new Error("Expected a JSON object");
+          }
+          for (const key of ["runOn", "whatPrompt", "forWhom"]) {
+            if (typeof input[key] !== "string" || !input[key].trim()) {
+              throw new Error("Missing or invalid required field: " + key);
+            }
+          }
+          if (!["$", "gh"].includes(input.runOn)) {
+            throw new Error('runOn must be "$" or "gh"');
+          }
+          if (!/^[A-Za-z0-9_-]{1,128}$/.test(input.forWhom)) {
+            throw new Error("forWhom must be a safe nonce (1–128 letters, numbers, _ or -)");
+          }
+          const repo = event.repository.full_name;
+          const nonce = input.forWhom;
+          const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+          const resultPath = "workspace/terminalruns/" + nonce + "_" + timestamp + ".json";
+          const raw = input.whatPrompt.trim();
+          const command = input.runOn === "$" ? input.whatPrompt : (
+            /^gh(?:\s|$)/.test(raw) ? raw : "gh " + raw
+          );
+          const execution = spawnSync("bash", ["-o", "pipefail", "-c", command], {
+            cwd: process.env.GITHUB_WORKSPACE,
+            env: process.env,
+            encoding: "utf8",
+            timeout: 300000,
+            maxBuffer: 64 * 1024 * 1024
+          });
+          const stdout = execution.stdout || "";
+          const lines = stdout === "" ? [] : stdout.split(/\r?\n/);
+          if (lines.length && lines[lines.length - 1] === "") lines.pop();
+          const json = JSON.stringify(lines, null, 2) + "\n";
+          const outputPath = require("node:path").join(process.env.GITHUB_WORKSPACE, resultPath);
+          fs.mkdirSync(require("node:path").dirname(outputPath), { recursive: true });
+          fs.writeFileSync(outputPath, json, "utf8");
+          
+          const apiPath = "repos/" + repo + "/contents/" + resultPath;
+          const message = "Save Issue #3 terminal stdout " + nonce + " (" + event.action + ")";
+          function gh(args) {
+            const response = spawnSync("gh", ["api", ...args], {
+              cwd: process.env.GITHUB_WORKSPACE, env: process.env,
+              encoding: "utf8", timeout: 30000, maxBuffer: 16 * 1024 * 1024
+            });
+            if (response.error || response.status !== 0) {
+              throw new Error("GitHub API failed: " + (response.error?.message || response.stderr));
+            }
+            return JSON.parse(response.stdout);
+          }
+          const written = gh([apiPath, "--method", "PUT",
+            "-f", "message=" + message,
+            "-f", "content=" + Buffer.from(json, "utf8").toString("base64")]);
+          const checked = gh([apiPath]);
+          if (Buffer.from(checked.content.replace(/\s/g, ""), "base64").toString("utf8") !== json) {
+            throw new Error("Read-back verification of stdout JSON failed");
+          }
+          console.log(JSON.stringify({
+            resultPath, lineCount: lines.length, exitCode: execution.status,
+            signal: execution.signal, commit: written.commit?.sha,
+            stderr: execution.stderr || "", error: execution.error?.message || null
+          }));
+          if (execution.error || execution.status !== 0) process.exitCode = 1;
+          NODE

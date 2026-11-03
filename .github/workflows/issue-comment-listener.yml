@@ -24,26 +24,25 @@ jobs:
           const fs = require("node:fs");
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
           const registry = JSON.parse(fs.readFileSync(".github/issue-workflow-registry.json", "utf8"));
-          if (!registry || typeof registry !== "object" || Array.isArray(registry)) {
-            throw new Error("Issue-workflow registry must be an object");
-          }
-          for (const [key, paths] of Object.entries(registry)) {
-            if (!/^[1-9][0-9]*$/.test(key) ||
-                !Number.isSafeInteger(Number(key)) ||
-                !Array.isArray(paths) ||
-                !paths.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
-              throw new Error("Invalid registry entry for issue " + key);
+          if (!Array.isArray(registry)) throw new Error("Registry must be an array");
+          const seen = new Set();
+          for (const [index, entry] of registry.entries()) {
+            if (!entry || !Number.isSafeInteger(entry.issue) || entry.issue < 1 ||
+                !Array.isArray(entry.workflows) ||
+                !entry.workflows.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
+              throw new Error("Invalid registry entry at index " + index);
             }
+            if (seen.has(entry.issue)) throw new Error("Duplicate issue " + entry.issue);
+            seen.add(entry.issue);
           }
           const issueNumber = event.issue?.number;
           if (!Number.isSafeInteger(issueNumber)) throw new Error("Issue comment event missing issue number");
-          const key = String(issueNumber);
-          const matched = Object.hasOwn(registry, key);
-          const workflows = matched ? registry[key] : [];
-          const match = {issue_number: issueNumber, matched, key, workflows, action: event.action, comment_id: event.comment?.id};
-          console.log(JSON.stringify(match));
+          const index = registry.findIndex(entry => entry.issue === issueNumber);
+          const matched = index !== -1;
+          const workflows = matched ? registry[index].workflows : [];
+          console.log(JSON.stringify({issue_number: issueNumber, index, matched, workflows, action: event.action, comment_id: event.comment?.id}));
           fs.appendFileSync(process.env.GITHUB_OUTPUT,
             "matched=" + String(matched) + "\n" +
-            "registry_key=" + key + "\n" +
+            "registry_index=" + String(index) + "\n" +
             "workflow_paths=" + JSON.stringify(workflows) + "\n");
           NODE

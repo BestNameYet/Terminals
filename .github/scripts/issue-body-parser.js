@@ -46,11 +46,51 @@ function parseIssueBody(body) {
   return { inputs, statuses };
 }
 
-if (require.main === module) {
-  const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
-  const current = parseIssueBody(event.issue.body);
-  const previous = event.changes?.body?.from == null ? null : parseIssueBody(event.changes.body.from);
-  console.log(JSON.stringify({ issue: event.issue.number, previous, current }, null, 2));
+function compareInputs(previous, current) {
+  function byControl(inputs, version) {
+    const index = new Map();
+    for (const input of inputs) {
+      if (index.has(input.control)) {
+        throw new Error("Duplicate input control in " + version + ": " + input.control);
+      }
+      if (typeof input.checked !== "boolean") {
+        throw new TypeError("Invalid checkbox value for " + input.control);
+      }
+      index.set(input.control, input.checked);
+    }
+    return index;
+  }
+
+  const before = byControl(previous.inputs, "previous");
+  const after = byControl(current.inputs, "current");
+  for (const control of before.keys()) {
+    if (!after.has(control)) throw new Error("Input removed: " + control);
+  }
+  for (const control of after.keys()) {
+    if (!before.has(control)) throw new Error("Input added: " + control);
+  }
+  return [...after].map(([control, checked]) => ({
+    control,
+    previous: before.get(control),
+    current: checked,
+    changed: before.get(control) !== checked
+  }));
 }
 
-module.exports = { parseIssueBody };
+if (require.main === module) {
+  const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+  const previousBody = event.changes?.body?.from;
+  if (typeof previousBody !== "string") {
+    throw new Error("Issue body edit event is missing changes.body.from");
+  }
+  const previous = parseIssueBody(previousBody);
+  const current = parseIssueBody(event.issue.body);
+  const comparisons = compareInputs(previous, current);
+  console.log(JSON.stringify({
+    issue: event.issue.number,
+    comparisons,
+    changedInputs: comparisons.filter(item => item.changed)
+  }, null, 2));
+}
+
+module.exports = { parseIssueBody, compareInputs };

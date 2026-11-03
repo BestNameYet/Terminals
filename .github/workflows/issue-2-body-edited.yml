@@ -5,12 +5,14 @@ on:
     types: [edited]
 
 permissions:
-  issues: read
+  issues: write
 
 jobs:
   inspect-body-edit:
     if: ${{ github.event.issue.number == 2 && github.event.issue.pull_request == null && github.event.changes.body != null }}
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check whether workflow toggle changed
         id: toggle

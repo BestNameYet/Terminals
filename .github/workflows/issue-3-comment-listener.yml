@@ -46,10 +46,7 @@ jobs:
           try {
             input = JSON.parse(event.comment.body);
           } catch (err) {
-            if (err instanceof SyntaxError) {
-              console.log("Comment is not valid JSON; no command executed.");
-              process.exit(0);
-            }
+            if (err instanceof SyntaxError) throw new Error("Issue comment must contain valid JSON: " + err.message);
             throw err;
           }
           if (input === null || typeof input !== "object" || Array.isArray(input)) {

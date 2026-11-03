@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:node <<'NODE'\nconst {spawn}=require('node:child_process');\nconst requests=[\n {name:'small',target_url:'https://chatgpt.com/share/6ae6b576-9fa8-83e8-a040-4091fe0218e3'},\n {name:'large',target_url:'https://chatgpt.com/share/6ae9dd85-7ff0-83e8-90c3-4592305a2362'}\n];\nconst dispatch=r=>new Promise(resolve=>{\n const payload=JSON.stringify({target_url:r.target_url,request_id:'e2e008-distinct-'+r.name+'-20261103',export_profile:'complete'});\n const p=spawn('gh',['workflow','run','chatgpt-shared-conversation-extractor.yml','--repo','BestNameYet/Terminals','--ref','main','--raw-field','request_json='+payload]);\n let stdout='',stderr='';\n p.stdout.on('data',c=>stdout+=c);p.stderr.on('data',c=>stderr+=c);\n p.on('close',code=>resolve({share:r.name,status:code,run_url:stdout.trim(),error:stderr.trim()}));\n p.on('error',e=>resolve({share:r.name,status:-1,error:e.message}));\n});\nPromise.all(requests.map(dispatch)).then(r=>{\n for(const x of r)console.log(JSON.stringify(x));\n if(r.some(x=>x.status!==0))process.exitCode=1;\n});\nNODE",
+  "outputThat": [
+    "{\"share\":\"small\",\"status\":0,\"run_url\":\"https://github.com/BestNameYet/Terminals/actions/runs/41654917999\",\"error\":\"\"}",
+    "{\"share\":\"large\",\"status\":0,\"run_url\":\"https://github.com/BestNameYet/Terminals/actions/runs/41654917547\",\"error\":\"\"}"
+  ]
+}

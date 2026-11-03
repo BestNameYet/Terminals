@@ -1,7 +1,7 @@
 # ChatGPT shared-conversation extractor — design and implementation
 
 **Repository:** BestNameYet/Terminals  
-**Current implementation status:** Node.js candidate runtime and workflow committed. Repository-side unit tests passed (23/23) on 2026-11-03. **A live GitHub Actions export, publication and remote-readback test has not yet been executed.**
+**Current implementation status:** Node.js extractor and dispatch workflows committed. [Live workflow run 41645489733](https://github.com/BestNameYet/Terminals/actions/runs/41645489733) completed successfully, published all eight files and uploaded an external final attestation. A [separate independent audit](acceptance/RESULT-41645489733.md) rechecked the source-linear projection, selected branch, every published file and final attestation; 149 existing automated tests passed. **Full EXT-SRS-001 acceptance certification remains open.**
 
 ## Active workflow entry points
 
@@ -17,9 +17,9 @@
 - [tests/html-response-parser.test.js](tests/html-response-parser.test.js)
 - [tests/capture-and-parse.test.js](tests/capture-and-parse.test.js)
 
-Run unit tests: `node --test workspaces/extractor-srs-design/tests/*.test.js`.
+Run the current combined test suite: `node --test --test-concurrency=4 workspaces/extractor-srs-design/tests/*.test.js workspaces/extractor-srs-design/input-validator.test.js`.
 
-**Verified repository-side test receipt:** [Terminals Issue #3 command](https://github.com/BestNameYet/Terminals/issues/3#issuecomment-6603513786), [output file](../terminalruns/GPT6_0000000017-verify_shared_extractor-Terminals_20261103T121456776Z.json) (23 PASS, zero FAIL).
+**Verified repository-side test receipts:** initial [23-test run](https://github.com/BestNameYet/Terminals/issues/3#issuecomment-6603513786); most recent [independent live audit and 149-test run](../terminalruns/GPT6_0000000071-independent_audit_retry-Terminals_20261103T143310413Z.json) (149 PASS, zero FAIL).
 
 ## Specifications and documentation
 
@@ -31,10 +31,11 @@ Run unit tests: `node --test workspaces/extractor-srs-design/tests/*.test.js`.
 - [SRS.md](SRS.md): earlier 32-requirement specification; superseded by FINAL-SRS.md for the current implementation target.
 - [STUDY.md](STUDY.md), [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md), [sources/issue-4-comments.json](sources/issue-4-comments.json): original research and historical documentation.
 - [HTML-PARSER-CANDIDATE.md](HTML-PARSER-CANDIDATE.md): earlier parser candidate notes (local artifact; not required for production).
+- [acceptance/verify-live-export.js](acceptance/verify-live-export.js) and [acceptance/RESULT-41645489733.md](acceptance/RESULT-41645489733.md): independent live eight-file content/provenance auditor and actual run evidence.
 
 ## Important limits
 
-- 23/23 unit tests and GitHub source readback establish that the modules exist and pass synthetic tests, **not** that the workflow can successfully retrieve a live ChatGPT share or commit verified output.
+- A real live export, Git commit and byte-level readback have now succeeded for the **specific public share tested**; independent audit of that result also passed. These tests do **not** prove semantic completeness against every ChatGPT UI or every source format.
 - Privacy and raw-data publication policy must be reviewed before storing a real conversation in Git.
 - The current code covers only a subset of the full SRS verification plan; no universal serialization-compatibility claim is made.
 - The final SRS and legacy SRS share an identifier with conflicting counts; the [review](REVIEW-FINAL-SRS.md) records this documentation issue.

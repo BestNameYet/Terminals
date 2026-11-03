@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf ' leading and trailing  \\n'",
+  "outputThat": [
+    " leading and trailing  "
+  ]
+}

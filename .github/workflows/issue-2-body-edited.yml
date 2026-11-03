@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check whether workflow toggle changed
+        id: toggle
         run: |
           node - <<'NODE'
           const fs = require("node:fs");
@@ -37,12 +38,19 @@ jobs:
           const previous = extractToggle(event.changes.body.from);
           const current = extractToggle(event.issue.body);
           const changed = previous !== current;
+          const toggleStatus = changed ? current : null;
+
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,
+            "toggle_changed=" + String(changed) + "\\n" +
+            (changed ? "toggle_status=" + String(toggleStatus) + "\\n" : ""));
+
           console.log(JSON.stringify({
             issue: event.issue.number,
             url: event.issue.html_url,
             editor: event.sender.login,
             toggleChanged: changed,
             previousEnabled: previous,
-            currentEnabled: current
+            currentEnabled: current,
+            ...(changed ? { toggleStatus } : {})
           }, null, 2));
           NODE

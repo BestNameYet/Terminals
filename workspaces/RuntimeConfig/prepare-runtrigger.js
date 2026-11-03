@@ -13,32 +13,32 @@ if (!isObject(comment)) {
 if (!Object.prototype.hasOwnProperty.call(comment, "set")) {
   throw new Error("JSON must contain a set object.");
 }
-const runpath = comment.runpath;
-if (typeof runpath !== "string" || !runpath.trim()) {
-  throw new Error("JSON must contain a nonempty string runpath.");
+const runPath = comment.runPath;
+if (typeof runPath !== "string" || !runPath.trim()) {
+  throw new Error("JSON must contain a nonempty string runPath.");
 }
-if (path.isAbsolute(runpath) || /[\r\n\0]/.test(runpath) ||
-    runpath.split(/[\\/]/).includes("..")) {
-  throw new Error("runpath must be a relative RuntimeConfig subfolder.");
+if (path.isAbsolute(runPath) || /[\r\n\0]/.test(runPath) ||
+    runPath.split(/[\\/]/).includes("..")) {
+  throw new Error("runPath must be a relative RuntimeConfig subfolder.");
 }
 
 const base = path.resolve("workspaces/RuntimeConfig");
-const requested = runpath.startsWith("workspaces/RuntimeConfig/")
-  ? path.resolve(runpath)
-  : path.resolve(base, runpath);
+const requested = runPath.startsWith("workspaces/RuntimeConfig/")
+  ? path.resolve(runPath)
+  : path.resolve(base, runPath);
 const inside = (parent, child) => {
   const relative = path.relative(parent, child);
   return !!relative && relative !== ".." &&
     !relative.startsWith(".." + path.sep) && !path.isAbsolute(relative);
 };
 if (!inside(base, requested)) {
-  throw new Error("runpath is not a RuntimeConfig subfolder.");
+  throw new Error("runPath is not a RuntimeConfig subfolder.");
 }
 
 const actualBase = fs.realpathSync(base);
 const directory = fs.realpathSync(requested);
 if (!inside(actualBase, directory) || !fs.statSync(directory).isDirectory()) {
-  throw new Error("runpath must resolve to an existing RuntimeConfig subfolder.");
+  throw new Error("runPath must resolve to an existing RuntimeConfig subfolder.");
 }
 const trigger = fs.realpathSync(path.join(directory, "runtrigger.json"));
 if (path.dirname(trigger) !== directory || !fs.statSync(trigger).isFile()) {

@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:ruby -e 'require \"yaml\"; [\".github/workflows/chatgpt-shared-conversation-extractor.yml\", \".github/workflows/manual-dispatch.yml\"].each { |p| d = YAML.load_file(p); abort \"no jobs in #{p}\" unless d[\"jobs\"].is_a?(Hash); puts \"YAML_OK #{p} jobs=#{d[\"jobs\"].keys.join(\",\")}\" }'",
+  "outputThat": [
+    "YAML_OK .github/workflows/chatgpt-shared-conversation-extractor.yml jobs=export",
+    "YAML_OK .github/workflows/manual-dispatch.yml jobs=extract"
+  ]
+}

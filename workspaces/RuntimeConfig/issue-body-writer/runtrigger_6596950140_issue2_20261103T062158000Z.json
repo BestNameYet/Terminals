@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "timestamp": "2026-11-03T05:40:24.656Z",
+    "version": "1.0.0",
+    "purpose": "Runtrigger template for the Issue body writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
+  },
+  "jsPath": "workspaces/RuntimeConfig/issue-body-writer/issue-body-writer.js",
+  "args": {
+    "issuePath": "BestNameYet/Terminals/issues/2",
+    "jsonArrayPath": "[{\"body\":\"<section id=\\\"workflow-section\\\">\\n\\n<h2>Section toggle</h2>\\n\\n- [x] <strong>Enable section workflow</strong>\\n\\n</section>\\n\\n<div id=\\\"workflow-division\\\">\\n\\n<h2>Division toggle</h2>\\n\\n- [ ] <strong>Enable division workflow</strong>\\n\\n</div>\"}]"
+  }
+}

@@ -81,7 +81,7 @@ jobs:
           const stdout = execution.stdout || "";
           const lines = stdout === "" ? [] : stdout.split(/\r?\n/);
           if (lines.length && lines[lines.length - 1] === "") lines.pop();
-          const json = JSON.stringify(lines, null, 2) + "\n";
+          const json = JSON.stringify({ inputThis: input.runOn + ":" + input.whatPrompt, outputThat: lines }, null, 2) + "\n";
           const outputPath = require("node:path").join(process.env.GITHUB_WORKSPACE, resultPath);
           fs.mkdirSync(require("node:path").dirname(outputPath), { recursive: true });
           fs.writeFileSync(outputPath, json, "utf8");

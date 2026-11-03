@@ -1,1 +1,12 @@
-{}
+{
+  "metadata": {
+    "timestamp": "2026-11-03T05:40:24.656Z",
+    "version": "1.0.0",
+    "purpose": "Runtrigger template for the Issue body writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
+  },
+  "jsPath": "workspaces/RuntimeConfig/issue-body-writer/issue-body-writer.js",
+  "args": {
+    "issuePath": "<GitHub Issue path owner/repo/issues/number or full GitHub Issue URL>",
+    "jsonArrayPath": "<repository-relative JSON array file path or literal serialized JSON array>"
+  }
+}

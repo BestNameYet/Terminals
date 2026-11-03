@@ -1,0 +1,27 @@
+name: Repository issue comment listener
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  listen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record incoming issue comment event
+        env:
+          EVENT_ACTION: ${{ github.event.action }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+        run: |
+          printf 'action=%s\n' "$EVENT_ACTION"
+          printf 'issue_number=%s\n' "$ISSUE_NUMBER"
+          printf 'comment_id=%s\n' "$COMMENT_ID"
+          printf 'comment_author=%s\n' "$COMMENT_AUTHOR"
+          printf 'comment_url=%s\n' "$COMMENT_URL"

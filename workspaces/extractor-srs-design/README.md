@@ -1,33 +1,40 @@
-# Extractor SRS design package
+# ChatGPT shared-conversation extractor — design and implementation
 
-This folder contains the final extractor design and standalone input-validator implementation/tests. **The extractor is not deployed.**
+**Repository:** BestNameYet/Terminals  
+**Current implementation status:** Node.js candidate runtime and workflow committed. Repository-side unit tests passed (23/23) on 2026-11-03. **A live GitHub Actions export, publication and remote-readback test has not yet been executed.**
 
-## Files
+## Active workflow entry points
 
-- [STUDY.md](STUDY.md) — comprehensive comparison of the five Terminals Issue #4 comments, current StateMachines/IssueStack implementations, algorithm tradeoffs, efficiency, security and design decisions.
-- [SRS.md](SRS.md) — final implementation-oriented requirements, canonical request JSON, schemas, 32 functional requirements, 18 nonfunctional requirements, invariants, failure behavior and 33 acceptance cases.
-- [sources/issue-4-comments.json](sources/issue-4-comments.json) — verbatim complete bodies of **all five** source comments, with IDs, URLs, source ordering and metadata.
-- [SOURCES.md](SOURCES.md) — exact source pointers and implementation evidence.
-- [VERIFICATION.md](VERIFICATION.md) — documentation delivery verification and explicitly unexecuted implementation tests.
-- [input-validator.js](input-validator.js) — final Node.js 20+ request/CLI validator aligned with EXT-SRS-001 and reconciled from Issue #4 candidate comments 6602632769 and 6602684689.
-- [input-validator.test.js](input-validator.test.js) — 123 standalone tests for canonical/legacy modes, URL, run isolation, schema, symlinks, collisions, CLI and GitHub step outputs.
+- [Named extractor workflow](../../.github/workflows/chatgpt-shared-conversation-extractor.yml): `workflow_dispatch` plus `workflow_call`; validates a canonical `request_json` or legacy URL/path, runs tests, fetches HTML, performs both projections, prepares eight files, uploads an artifact, publishes them to Git, checks remote bytes, and uploads an external final attestation.
+- [Legacy manual dispatch alias](../../.github/workflows/manual-dispatch.yml): forwards existing `target_url` and `write_path` dispatches to the named extractor; it no longer simply prints inputs.
 
-## Selected design
+## Runtime and tests
 
-One `workflow_dispatch` Node.js pipeline accepts a JSON request with a public ChatGPT share URL and templated destination; fetches HTML once; decodes the indexed stream once **without evaluating downloaded scripts**; preserves the full `linear_conversation` order; independently reconstructs `mapping/current_node` selected ancestry; generates raw, linear, selected Markdown/JSON, diagnostics and receipts; publishes eight outputs and performs remote readback.
+- [runtime/dispatch-validator.js](runtime/dispatch-validator.js): admission validation, URL checks, template expansion and run context.
+- [runtime/html-response-parser.js](runtime/html-response-parser.js): nonexecuting React Router serialization decoder; linear and ancestry projections.
+- [runtime/capture-and-parse.js](runtime/capture-and-parse.js): HTTP acquisition, rendering and eight-output preparation.
+- [tests/dispatch-validator.test.js](tests/dispatch-validator.test.js)
+- [tests/html-response-parser.test.js](tests/html-response-parser.test.js)
+- [tests/capture-and-parse.test.js](tests/capture-and-parse.test.js)
 
-The current Terminals manual-dispatch.yml is a stub and has **not** been replaced by an extractor as part of this documentation task. See SRS.md for the precise release gates.
+Run unit tests: `node --test workspaces/extractor-srs-design/tests/*.test.js`.
 
-## Validator usage (not the extractor)
+**Verified repository-side test receipt:** [Terminals Issue #3 command](https://github.com/BestNameYet/Terminals/issues/3#issuecomment-6603513786), [output file](../terminalruns/GPT6_0000000017-verify_shared_extractor-Terminals_20261103T121456776Z.json) (23 PASS, zero FAIL).
 
-```bash
-node --test workspaces/extractor-srs-design/input-validator.test.js
+## Specifications and documentation
 
-GITHUB_RUN_ID=12345 GITHUB_RUN_ATTEMPT=1 GITHUB_WORKSPACE="$PWD" \\
-  node workspaces/extractor-srs-design/input-validator.js \\
-  --target-url 'https://chatgpt.com/share/<UUID>'
-```
+- [FINAL-SRS.md](FINAL-SRS.md): expanded 78-functional-requirement final proposed baseline.
+- [INTERFACES-AND-SCHEMAS.md](INTERFACES-AND-SCHEMAS.md): request, output and receipt contracts.
+- [VERIFICATION-PLAN.md](VERIFICATION-PLAN.md): proposed requirement tests (implementation acceptance suite not yet run).
+- [DECISIONS-AND-RISKS.md](DECISIONS-AND-RISKS.md): architectural decisions and unresolved risks.
+- [REVIEW-FINAL-SRS.md](REVIEW-FINAL-SRS.md): review findings and suggested corrections.
+- [SRS.md](SRS.md): earlier 32-requirement specification; superseded by FINAL-SRS.md for the current implementation target.
+- [STUDY.md](STUDY.md), [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md), [sources/issue-4-comments.json](sources/issue-4-comments.json): original research and historical documentation.
+- [HTML-PARSER-CANDIDATE.md](HTML-PARSER-CANDIDATE.md): earlier parser candidate notes (local artifact; not required for production).
 
-The URL above is a placeholder: replace `<UUID>` with an actual share ID. For canonical dispatch JSON, pass `--request-json '{"target_url":"https://chatgpt.com/share/<UUID>"}'` instead, or set `INPUT_REQUEST_JSON`. JSON mode is mutually exclusive with legacy `INPUT_TARGET_URL`/`INPUT_WRITE_PATH`. `GITHUB_RUN_ID`, `GITHUB_RUN_ATTEMPT`, and `GITHUB_WORKSPACE` are trusted execution context, not accepted request fields. `GITHUB_OUTPUT` receives normalized step outputs if present.
+## Important limits
 
-Local validation: **123/123 passed on Node.js v22.16.0**; the committed code and tests were independently read back and matched locally verified Git blob hashes. GitHub Actions execution, extractor integration, source HTML retrieval, and publication/readback of extracted conversations remain untested. The original acceptance matrix is still the release gate.
+- 23/23 unit tests and GitHub source readback establish that the modules exist and pass synthetic tests, **not** that the workflow can successfully retrieve a live ChatGPT share or commit verified output.
+- Privacy and raw-data publication policy must be reviewed before storing a real conversation in Git.
+- The current code covers only a subset of the full SRS verification plan; no universal serialization-compatibility claim is made.
+- The final SRS and legacy SRS share an identifier with conflicting counts; the [review](REVIEW-FINAL-SRS.md) records this documentation issue.

@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals/contents/.github/issue-workflow-registry.json --jq .name",
+  "outputThat": [
+    "issue-workflow-registry.json"
+  ]
+}

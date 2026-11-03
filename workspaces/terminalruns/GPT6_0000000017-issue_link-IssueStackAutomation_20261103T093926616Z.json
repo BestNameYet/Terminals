@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals/issues/3 --jq .html_url",
+  "outputThat": [
+    "https://github.com/BestNameYet/Terminals/issues/3"
+  ]
+}

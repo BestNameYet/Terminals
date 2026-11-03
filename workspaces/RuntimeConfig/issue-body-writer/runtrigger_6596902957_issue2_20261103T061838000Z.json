@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "timestamp": "2026-11-03T05:40:24.656Z",
+    "version": "1.0.0",
+    "purpose": "Runtrigger template for the Issue body writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
+  },
+  "jsPath": "workspaces/RuntimeConfig/issue-body-writer/issue-body-writer.js",
+  "args": {
+    "issuePath": "BestNameYet/Terminals/issues/2",
+    "jsonArrayPath": "[{\"heading\":\"<h2>Workflow Control</h2>\"},{\"toggle\":\"- [ ] <strong>Enable workflow</strong>\"},{\"status\":\"<p><strong>Unchecked = OFF (disabled) · Checked = ON (enabled)</strong></p>\"}]"
+  }
+}

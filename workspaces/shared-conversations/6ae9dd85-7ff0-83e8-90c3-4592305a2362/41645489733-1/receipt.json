@@ -1,0 +1,48 @@
+{
+  "schema": "chatgpt.extractor.receipt.v1",
+  "source_revision": "ff88610f484d384c985f86b889d01d0073849c4d",
+  "decoder_version": "candidate-1",
+  "request_id": "acceptance-live-6ae9dd85-20261103-promise-compatible",
+  "run_id": "41645489733",
+  "run_attempt": 1,
+  "source_url": "https://chatgpt.com/share/6ae9dd85-7ff0-83e8-90c3-4592305a2362",
+  "final_url": "https://chatgpt.com/share/6ae9dd85-7ff0-83e8-90c3-4592305a2362",
+  "share_uuid": "6ae9dd85-7ff0-83e8-90c3-4592305a2362",
+  "http_status": 200,
+  "redirects": 0,
+  "methods": [
+    "source-linear-v1",
+    "selected-parent-chain-v1"
+  ],
+  "write_path": "workspaces/shared-conversations/6ae9dd85-7ff0-83e8-90c3-4592305a2362/41645489733-1",
+  "counts": {
+    "linear_nodes": 5912,
+    "selected_visible_messages": 592
+  },
+  "files": {
+    "response.html": {
+      "bytes": 10673095,
+      "sha256": "141da8c78e447e53274a670c96442ba8d256a7beda08b6827946ef2e73d97e24"
+    },
+    "conversation-raw.json": {
+      "bytes": 26569999,
+      "sha256": "9d0d6456506e768d01beaa83fd56cf863f43daf9e0eb1bc2fd2818e7c07f22a7"
+    },
+    "linear-conversation.json": {
+      "bytes": 16958049,
+      "sha256": "4db58a002fa206dce3cf953022b9d13f32242623748a5fb97311c0b35eddf432"
+    },
+    "conversation.json": {
+      "bytes": 536829,
+      "sha256": "0338c27bb4a88ee23957a940dbde9f83cce5bb1c585a7a2edde3f676a38e3ccd"
+    },
+    "conversation.md": {
+      "bytes": 486023,
+      "sha256": "9ec7042c483012c4ffb53d3be17489c0246036626634122ce457d4fb73f435ab"
+    },
+    "diagnostics.json": {
+      "bytes": 650,
+      "sha256": "64ee7900ae81cda95135f8f92fe494dc0bd7e564fe68316caadb27c29ed10271"
+    }
+  }
+}

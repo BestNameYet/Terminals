@@ -22,3 +22,7 @@ A command submitted through Issue #3 may invoke other workflows, including the s
 5. Reconcile discrepancies, then adopt a versioned SRS. Do not silently overwrite historical observations or conflate workflow success with completion of the user's instruction.
 
 No production workflow, Issue body or command schema is changed by creation of this workspace.
+
+## Issue #10 capability incorporation (proposed)
+
+[SRS.md](SRS.md#9-incorporating-issue-10-runtimeconfig-capabilities-into-issue-3-design) now specifies the proposed addition of Issue #10's generic RuntimeConfig Node.js execution and the Issue-comment/body writer functions to the Issue #3 terminal. Requirements I3-X-001 through I3-X-022 and tests I3-XT-001 through I3-XT-015 cover mode selection, authorization, exact template validation, commit-before-execution, receipts, side effects, regression, concurrency and failure semantics. This is a design addition only: the working Issue #3 interface still accepts only Bash and GitHub CLI, and Issue #10 remains active.

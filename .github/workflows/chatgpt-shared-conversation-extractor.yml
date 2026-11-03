@@ -17,6 +17,23 @@ on:
         required: false
         type: string
         default: ''
+  workflow_call:
+    inputs:
+      request_json:
+        description: 'Canonical JSON request object serialized as string'
+        required: false
+        type: string
+        default: ''
+      target_url:
+        description: 'Legacy share URL'
+        required: false
+        type: string
+        default: ''
+      write_path:
+        description: 'Legacy output directory template'
+        required: false
+        type: string
+        default: ''
 permissions:
   contents: write
 concurrency:

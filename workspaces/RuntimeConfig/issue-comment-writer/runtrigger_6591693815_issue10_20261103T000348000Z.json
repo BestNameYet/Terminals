@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "timestamp": "2026-11-02T23:09:10Z",
+    "version": "1.0.0",
+    "purpose": "Runtrigger template for the Issue comment writer; defines the JavaScript entrypoint and required named arguments used by the RuntimeConfig runner."
+  },
+  "jsPath": "workspaces/RuntimeConfig/issue-comment-writer/issue-comment-writer.js",
+  "args": {
+    "issuePath": "BestNameYet/Terminals/issues/10",
+    "commentId": "new",
+    "jsonArrayPath": "workspaces/IssueCommentsTests/terminal-html-tests.json"
+  }
+}

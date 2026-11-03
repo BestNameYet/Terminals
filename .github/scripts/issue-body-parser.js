@@ -148,26 +148,77 @@ function updateChangedStatuses(body, parsed, comparisons) {
   return { body: updatedBody, updates };
 }
 
-if (require.main === module) {
-  const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+async function synchronizeIssue(event, { request = globalThis.fetch } = {}) {
   const previousBody = event.changes?.body?.from;
   if (typeof previousBody !== "string") {
     throw new Error("Issue body edit event is missing changes.body.from");
   }
-  const previous = parseIssueBody(previousBody);
-  const current = parseIssueBody(event.issue.body);
-  const comparisons = compareInputs(previous, current);
-  const result = updateChangedStatuses(event.issue.body, current, comparisons);
-  if (process.env.RUNNER_TEMP) {
-    fs.writeFileSync(require("node:path").join(process.env.RUNNER_TEMP, "issue-body-updated.txt"), result.body);
+  if (event.issue?.number !== 2 || event.issue?.pull_request) {
+    throw new Error("Only Issue #2 body edits are supported");
   }
-  console.log(JSON.stringify({
-    issue: event.issue.number,
-    comparisons,
-    changedInputs: comparisons.filter(item => item.changed),
-    statusUpdates: result.updates,
-    updatedBody: result.body
-  }, null, 2));
+  const repo = event.repository?.full_name;
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo || "")) {
+    throw new Error("Invalid event repository name");
+  }
+  const token = process.env.GH_TOKEN;
+  if (!token) throw new Error("GH_TOKEN is required");
+
+  const previous = parseIssueBody(previousBody);
+  const eventCurrent = parseIssueBody(event.issue.body);
+  const changes = compareInputs(previous, eventCurrent);
+  const changedInputs = changes.filter(change => change.changed);
+  if (!changedInputs.length) {
+    return { changedInputs: [], statusUpdates: [], action: "unchanged" };
+  }
+
+  const url = "https://api.github.com/repos/" + repo + "/issues/2";
+  const headers = {
+    Accept: "application/vnd.github+json",
+    Authorization: "Bearer " + token,
+    "X-GitHub-Api-Version": "2022-11-28"
+  };
+  async function api(method, body) {
+    const response = await request(url, {
+      method, headers: body === undefined ? headers : { ...headers, "Content-Type": "application/json" },
+      ...(body === undefined ? {} : { body: JSON.stringify({ body }) })
+    });
+    if (!response.ok) {
+      throw new Error("GitHub " + method + " issue request failed (" + response.status + "): " +
+        (await response.text()).slice(0, 500));
+    }
+    return response.json();
+  }
+
+  // Read the newest body to avoid reverting edits that occurred after the event.
+  const latestIssue = await api("GET");
+  if (typeof latestIssue.body !== "string") throw new TypeError("Latest Issue body is not a string");
+  const latest = parseIssueBody(latestIssue.body);
+  const latestInputs = new Map(latest.inputs.map(input => [input.control, input.checked]));
+  for (const change of changedInputs) {
+    if (!latestInputs.has(change.control) || latestInputs.get(change.control) !== change.current) {
+      return { changedInputs, statusUpdates: [], action: "stale-event-skipped" };
+    }
+  }
+
+  const result = updateChangedStatuses(latestIssue.body, latest, changedInputs);
+  if (result.body === latestIssue.body) {
+    return { changedInputs, statusUpdates: result.updates, action: "already-synchronized" };
+  }
+
+  const writtenIssue = await api("PATCH", result.body);
+  if (writtenIssue.body !== result.body) throw new Error("GitHub PATCH response body differs from intended body");
+  const verifiedIssue = await api("GET");
+  if (verifiedIssue.body !== result.body) {
+    throw new Error("GitHub Issue body verification failed after PATCH");
+  }
+  return { changedInputs, statusUpdates: result.updates, action: "updated-and-verified" };
 }
 
-module.exports = { parseIssueBody, compareInputs, updateChangedStatuses };
+if (require.main === module) {
+  const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+  synchronizeIssue(event)
+    .then(result => console.log(JSON.stringify({ issue: event.issue.number, ...result }, null, 2)))
+    .catch(error => { console.error(error); process.exitCode = 1; });
+}
+
+module.exports = { parseIssueBody, compareInputs, updateChangedStatuses, synchronizeIssue };

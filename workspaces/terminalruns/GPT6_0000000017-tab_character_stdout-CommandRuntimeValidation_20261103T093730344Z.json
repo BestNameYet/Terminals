@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'tabs\\there\\n'",
+  "outputThat": [
+    "tabs\there"
+  ]
+}

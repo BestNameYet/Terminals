@@ -1,4 +1,4 @@
-name: ChatGPT shared chat extractor
+name: Legacy ChatGPT Shared Conversation Extraction (Forwarder)
 
 on:
   workflow_dispatch:
@@ -7,78 +7,20 @@ on:
         description: Public ChatGPT shared-conversation URL
         required: true
         type: string
-        default: "https://chatgpt.com/share/6ae8ca4c-fde8-83e8-991c-f6beaed35051"
       write_path:
-        description: Optional repository-relative output directory (defaults to UUID directory)
+        description: Optional run-specific repository output directory/template
         required: false
         type: string
-        default: ""
+        default: ''
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   extract:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout parser source
-        uses: actions/checkout@v4
-
-      - name: Initialize Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Validate dispatch inputs and expose trusted outputs
-        id: validate
-        env:
-          INPUT_TARGET_URL: ${{ inputs.target_url }}
-          INPUT_WRITE_PATH: ${{ inputs.write_path }}
-        run: |
-          set -euo pipefail
-          node workspaces/shared-chat-extractor/input-parser-validator.js
-
-      - name: Run offline validator and HTML parser regression tests
-        run: |
-          set -euo pipefail
-          node --test \
-            workspaces/shared-chat-extractor/input-parser-validator.test.js \
-            workspaces/shared-chat-extractor/html-parser.test.js
-
-      - name: Fetch and parse only the validated shared conversation URL
-        id: html
-        env:
-          VALIDATED_TARGET_URL: ${{ steps.validate.outputs.target_url }}
-          VALIDATED_SHARE_ID: ${{ steps.validate.outputs.share_id }}
-          VALIDATED_WRITE_PATH: ${{ steps.validate.outputs.write_path }}
-          EXPORT_DIR: ${{ runner.temp }}/shared-chat-export
-        run: |
-          set -euo pipefail
-          node workspaces/shared-chat-extractor/html-parser.js \
-            --target-url "$VALIDATED_TARGET_URL" \
-            --share-id "$VALIDATED_SHARE_ID" \
-            --out "$EXPORT_DIR"
-          printf 'Resolved future publication directory: %s\n' "$VALIDATED_WRITE_PATH"
-
-      - name: Upload HTML and parsed conversation artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: shared-chat-parse-${{ github.run_id }}
-          path: ${{ steps.html.outputs.out_dir }}/
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Record extraction-stage summary
-        env:
-          SHARE_ID: ${{ steps.validate.outputs.share_id }}
-          WRITE_PATH: ${{ steps.validate.outputs.write_path }}
-          SOURCE_NODES: ${{ steps.html.outputs.source_nodes }}
-        run: |
-          {
-            echo '### Shared-conversation HTML parse'
-            echo "Share UUID: $SHARE_ID"
-            echo "Linear nodes: $SOURCE_NODES"
-            echo "Validated future write path: $WRITE_PATH"
-            echo 'Capture files are in this run artifact; repository publication is a separate stage.'
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/chatgpt-shared-conversation-extractor.yml
+    with:
+      target_url: ${{ inputs.target_url }}
+      write_path: ${{ inputs.write_path }}
+    permissions:
+      contents: write

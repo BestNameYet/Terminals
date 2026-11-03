@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals/contents/.github/workflows/issue-3-comment-listener.yml --jq .name",
+  "outputThat": [
+    "issue-3-comment-listener.yml"
+  ]
+}

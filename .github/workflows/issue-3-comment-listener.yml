@@ -16,6 +16,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 concurrency:
   group: issue-3-comment-terminal-${{ github.run_id }}

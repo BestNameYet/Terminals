@@ -123,7 +123,9 @@ function decodeTable(table, limits) {
           fail("INVALID_DATE", "invalid serialized Date");
         value = { "$serializedType":"Date", "value":raw[1] };
       } else if (raw.length === 2 && typeof raw[0] === "string" && raw[0] === "P") {
-        fail("UNSUPPORTED_TAG", "unresolved Promise tag is unsupported by complete export");
+        // Preserve React Router's unresolved Promise reference without evaluating it.
+        // This is opaque serialization metadata, not a resolved conversation value.
+        value = { "$serializedType":"Promise", "value":raw[1] };
       } else if (raw.length && typeof raw[0] === "string" && /^[A-Z]$/.test(raw[0])) {
         fail("UNSUPPORTED_TAG", "unsupported tagged array: " + raw[0]);
       } else {

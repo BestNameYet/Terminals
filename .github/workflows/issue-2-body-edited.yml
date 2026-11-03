@@ -41,8 +41,8 @@ jobs:
           const toggleStatus = changed ? current : null;
 
           fs.appendFileSync(process.env.GITHUB_OUTPUT,
-            "toggle_changed=" + String(changed) + "\\n" +
-            (changed ? "toggle_status=" + String(toggleStatus) + "\\n" : ""));
+            "toggle_changed=" + String(changed) + "\n" +
+            (changed ? "toggle_status=" + String(toggleStatus) + "\n" : ""));
 
           console.log(JSON.stringify({
             issue: event.issue.number,

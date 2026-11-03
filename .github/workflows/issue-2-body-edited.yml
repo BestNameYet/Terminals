@@ -14,5 +14,11 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Issue body edit received
-        run: echo "Issue #2 body edit received."
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install HTML parser
+        run: npm install --no-save --no-package-lock --prefix .github/scripts parse5@7.3.0
+      - name: Parse Issue body
+        run: node .github/scripts/issue-body-parser.js

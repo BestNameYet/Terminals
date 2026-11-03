@@ -1,0 +1,107 @@
+name: Issue 10 RuntimeConfig Node.js execution
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: terminals-runtimeconfig-issue10
+  cancel-in-progress: false
+
+jobs:
+  execute:
+    # Non-owner, edited and non-Issue-10 comments never reach checkout.
+    if: >-
+      ${{ github.event.issue.number == 10 &&
+          github.event.action == 'created' &&
+          github.event.repository.owner.type == 'User' &&
+          github.event.sender.type == 'User' &&
+          github.event.sender.id == github.event.repository.owner.id &&
+          github.event.comment.user.id == github.event.repository.owner.id }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify original issue comment author
+        run: node workspaces/RuntimeConfig/verify-owner.js
+
+      - name: Run RuntimeConfig regression tests
+        run: node --test workspaces/RuntimeConfig/prepare-runtrigger.test.js
+
+      - name: Validate exact set and create runtrigger clone
+        run: node workspaces/RuntimeConfig/prepare-runtrigger.js
+
+      - name: Commit runtrigger BEFORE executing program and verify remote bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${CREATED_TRIGGER:-false}" = true
+          test -n "${RUNTRIGGER_PATH:-}"
+          case "$RUNTRIGGER_PATH" in
+            workspaces/RuntimeConfig/*/runtrigger_*_issue10_*.json) ;;
+            *) echo "Unsafe trigger path: $RUNTRIGGER_PATH" >&2; exit 1 ;;
+          esac
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- "$RUNTRIGGER_PATH"
+          git diff --cached --quiet && { echo 'Generated trigger not staged' >&2; exit 1; }
+          git commit -m "Persist RuntimeConfig Issue 10 trigger ${{ github.event.comment.id }}"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:"${{ github.event.repository.default_branch }}"; then break; fi
+            if [ "$attempt" -eq 3 ]; then echo 'Trigger publication failed' >&2; exit 1; fi
+            git fetch origin "${{ github.event.repository.default_branch }}"
+            git rebase "origin/${{ github.event.repository.default_branch }}"
+          done
+          git fetch origin "${{ github.event.repository.default_branch }}"
+          git show "origin/${{ github.event.repository.default_branch }}:$RUNTRIGGER_PATH" | cmp - "$RUNTRIGGER_PATH"
+          mkdir -p "$RUNNER_TEMP/runtimeconfig-issue10"
+          cp -- "$RUNTRIGGER_PATH" "$RUNNER_TEMP/runtimeconfig-issue10/runtrigger.json"
+          git rev-parse HEAD > "$RUNNER_TEMP/runtimeconfig-issue10/commit-sha.txt"
+
+      - name: Execute selected JavaScript with named args and save receipt
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKSPACE_API: ${{ secrets.WORKSPACE_API }}
+        run: |
+          set -uo pipefail
+          BASE="$RUNNER_TEMP/runtimeconfig-issue10"
+          node workspaces/RuntimeConfig/runner.js "$RUNTRIGGER_PATH" > "$BASE/execution.log" 2>&1
+          code=$?
+          cat "$BASE/execution.log"
+          node - "$BASE" "$code" "$RUNTRIGGER_PATH" "${{ github.event.comment.id }}" <<'NODE'
+          'use strict';
+          const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+          const [base,rawCode,trigger,source]=process.argv.slice(2);
+          const log=fs.readFileSync(path.join(base,'execution.log'));
+          const result={
+            schema:'terminals.runtimeconfig.execution-receipt.v1',
+            source_issue:10,
+            source_comment_id:Number(source),
+            trigger_path:trigger,
+            trigger_commit:fs.readFileSync(path.join(base,'commit-sha.txt'),'utf8').trim(),
+            exit_code:Number(rawCode),
+            execution_log_sha256:crypto.createHash('sha256').update(log).digest('hex'),
+            outcome:Number(rawCode)===0?'succeeded':'failed'
+          };
+          fs.writeFileSync(path.join(base,'execution-receipt.json'),JSON.stringify(result,null,2)+'\n');
+          console.log(JSON.stringify(result));
+          NODE
+          exit "$code"
+
+      - name: Upload persisted trigger and execution receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtimeconfig-issue10-${{ github.event.comment.id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/runtimeconfig-issue10/
+          retention-days: 30
+          if-no-files-found: warn

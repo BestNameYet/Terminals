@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf '%s\\n' \"$PWD\"",
+  "outputThat": [
+    "/home/runner/work/Terminals/Terminals"
+  ]
+}

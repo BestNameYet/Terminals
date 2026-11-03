@@ -1,0 +1,139 @@
+name: Export shared ChatGPT conversation
+
+on:
+  workflow_dispatch:
+    inputs:
+      share_url:
+        description: "Public https://chatgpt.com/share/<uuid> URL"
+        required: true
+        type: string
+        default: "https://chatgpt.com/share/6ae8ca4c-fde8-83e8-991c-f6beaed35051"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: terminals-shared-conversation-export
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SHARE_URL: ${{ inputs.share_url }}
+      EXPORT_DIR: ${{ runner.temp }}/chatgpt-share-export
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Retrieve HTML and extract conversation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node workspaces/shared-conversations/chatgpt-share-extract.js \
+            --url "$SHARE_URL" --out "$EXPORT_DIR"
+
+      - name: Validate extraction and stage destination files
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          "use strict";
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const crypto = require("node:crypto");
+          const share = new URL(process.env.SHARE_URL);
+          if (share.protocol !== "https:" || share.hostname !== "chatgpt.com" ||
+              share.username || share.password || share.port ||
+              !/^\/share\/[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/?$/i.test(share.pathname)) {
+            throw Error("Invalid public ChatGPT share URL");
+          }
+          const id = share.pathname.split("/")[2].toLowerCase();
+          const dir = path.join("workspaces", "shared-conversations", id);
+          const source = process.env.EXPORT_DIR;
+          const parsed = JSON.parse(fs.readFileSync(path.join(source, "conversation.json"), "utf8"));
+          const receipt = JSON.parse(fs.readFileSync(path.join(source, "receipt.json"), "utf8"));
+          const markdown = fs.readFileSync(path.join(source, "conversation.md"), "utf8");
+          const counts = parsed.counts || {};
+          const total = (counts.user || 0) + (counts.commentary || 0) + (counts.final || 0);
+          const headings = [...markdown.matchAll(/^(\*\*You\*\*|\*\*Assistant · Commentary\*\*|\*\*Assistant\*\*)$/gm)];
+          if (parsed.schema !== "chatgpt.shared-conversation.visible.v1" ||
+              parsed.source_url !== share.toString() || receipt.share_id !== id ||
+              total < 2 || !counts.user || !counts.final ||
+              parsed.messages.length !== total || headings.length !== total ||
+              !parsed.messages.every(m => typeof m.text === "string" && m.text.trim() &&
+                (m.role === "user" && m.channel === null ||
+                 m.role === "assistant" && ["commentary", "final"].includes(m.channel)))) {
+            throw Error("Conversation structure, roles or Markdown parity failed validation");
+          }
+          for (const filename of ["response.html", "conversation.md", "conversation.json"]) {
+            const bytes = fs.readFileSync(path.join(source, filename));
+            const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+            if (receipt.files?.[filename]?.sha256 !== digest ||
+                receipt.files[filename].bytes !== bytes.length) {
+              throw Error("Source artifact hash/size mismatch: " + filename);
+            }
+          }
+          fs.mkdirSync(dir, {recursive: true});
+          for (const filename of ["conversation.md", "conversation.json"]) {
+            fs.copyFileSync(path.join(source, filename), path.join(dir, filename));
+          }
+          fs.appendFileSync(process.env.GITHUB_ENV, "DEST_DIR=" + dir + "\n");
+          const summary = [
+            "### Verified shared-conversation export",
+            "- Source: " + share.toString(),
+            "- Messages: " + total + " (" + counts.user + " user, " +
+              counts.commentary + " commentary, " + counts.final + " final)",
+            "- Destination: `" + dir + "`",
+            "- Raw HTML and receipt: workflow artifact",
+          ];
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary.join("\n") + "\n");
+          console.log(JSON.stringify({destination: dir, counts, total}));
+          NODE
+
+      - name: Upload source HTML, transcripts, and receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shared-chat-${{ github.run_id }}
+          path: ${{ env.EXPORT_DIR }}/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Commit extracted conversation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$DEST_DIR/conversation.md" "$DEST_DIR/conversation.json"
+          if git diff --cached --quiet; then
+            echo "Extracted files are already identical to committed files."
+          else
+            git commit -m "Export ChatGPT shared conversation ${{ github.run_id }}"
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then break; fi
+              if [ "$attempt" = 3 ]; then exit 1; fi
+              git fetch origin main
+              git rebase origin/main
+            done
+          fi
+
+      - name: Read back both files from remote main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          for filename in conversation.md conversation.json; do
+            git show "origin/main:$DEST_DIR/$filename" | cmp - "$DEST_DIR/$filename"
+          done
+          echo "Remote readback verified for both conversation files."

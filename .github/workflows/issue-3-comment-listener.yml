@@ -1,11 +1,15 @@
 name: Issue 3 comment terminal
-run-name: "Terminal #${{ fromJSON(inputs.event_payload).issue.number }} · comment ${{ fromJSON(inputs.event_payload).comment.id }} · ${{ fromJSON(inputs.event_payload).action }}"
+run-name: "Terminal · ${{ inputs.nonce }}"
 
 on:
   workflow_dispatch:
     inputs:
       event_payload:
         description: Original issue_comment event JSON
+        required: true
+        type: string
+      nonce:
+        description: Command nonce or fallback comment identifier
         required: true
         type: string
 

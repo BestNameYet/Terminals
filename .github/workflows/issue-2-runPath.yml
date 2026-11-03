@@ -1,0 +1,41 @@
+name: Issue 2 RuntimeConfig runner
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  run:
+    if: ${{ github.event.issue.number == 2 && github.event.issue.pull_request == null && github.event.repository.owner.type == 'User' && github.event.repository.owner.id == github.event.comment.user.id && github.event.repository.owner.login == github.event.comment.user.login }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify comment author is repository owner
+        run: node workspaces/RuntimeConfig/verify-owner.js
+
+      - name: Validate comment and locate trigger
+        run: node workspaces/RuntimeConfig/prepare-runtrigger-issue2.js
+
+      - name: Commit generated trigger
+        if: ${{ env.CREATED_TRIGGER == 'true' }}
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$RUNTRIGGER_PATH"
+          git commit -m "Save generated runtrigger for Issue #2 comment"
+          git -c 'credential.helper=!f() { echo username=x-access-token; echo password="$GH_TOKEN"; }; f' push origin "HEAD:$DEFAULT_BRANCH"
+
+      - name: Execute runner
+        run: node workspaces/RuntimeConfig/runner.js "$RUNTRIGGER_PATH"

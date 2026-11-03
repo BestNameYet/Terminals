@@ -29,7 +29,7 @@ function scoped(fn){const f=fixture();try{fn(f);}finally{fs.rmSync(f.root,{recur
 test("documented runpath clones trigger, retains metadata and leaves template unchanged",()=>scoped(f=>{
   const {result,envFile}=run(f);assert.equal(result.status,0,result.stderr);
   const names=fs.readdirSync(f.dir).filter(s=>s.startsWith("runtrigger_"));assert.equal(names.length,1);
-  assert.match(names[0],/^runtrigger_123456_issue10_20261103T100102Z\.json$/);
+  assert.match(names[0],/^runtrigger_123456_issue10_20261103T100102000Z\.json$/);
   const out=JSON.parse(fs.readFileSync(path.join(f.dir,names[0]),"utf8"));
   assert.deepEqual(out.metadata,f.template.metadata);assert.deepEqual(out.args,f.set.args);
   assert.equal(out.jsPath,f.set.jsPath);

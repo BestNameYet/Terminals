@@ -1,0 +1,86 @@
+{
+  "schema": "terminals.acceptance.E2E-008.v1",
+  "case_id": "E2E-008",
+  "requirement_id": "EXT-FR-070",
+  "test_id": "EXT-AT-070",
+  "status": "PASS",
+  "verified_at": "2026-11-03T14:40:24.289Z",
+  "inputs": {
+    "dispatch_receipt": "workspaces/terminalruns/GPT6_20261103_E2E008_distinct_dispatch_20261103T143348489Z.json",
+    "methodology": "Two separate public ChatGPT shares dispatched concurrently via Promise.all; independent post-publication audit of both runs",
+    "distinct_share_count": 2
+  },
+  "observations": {
+    "created_at_delta_ms": 0,
+    "workflow_concurrency_group": "terminals-shared-conversation-publication",
+    "cancel_in_progress": false,
+    "main_commit_at_audit": "c5e04ec42f439b572743a65eb8d5dcea9b09fd4c",
+    "runs": [
+      {
+        "run_id": 41654917999,
+        "source_url": "https://chatgpt.com/share/6ae6b576-9fa8-83e8-a040-4091fe0218e3",
+        "request_id": "e2e008-distinct-small-20261103",
+        "created_at": "2026-11-03T14:33:50Z",
+        "conclusion": "success",
+        "output_path": "workspaces/shared-conversations/6ae6b576-9fa8-83e8-a040-4091fe0218e3/41654917999-1",
+        "published_commit_sha": "dd3d20089678604c71e6f4e522a6e2052ad20be0",
+        "source_linear_records": 1302,
+        "selected_visible_records": 186,
+        "verified_files": 8,
+        "receipt_hashes_verified": 6,
+        "attestation_verified": true,
+        "sha256": {
+          "response.html": "284b023e143e238feafdf26e6e981daceb638a8b35fffc95ed574b9991d592a8",
+          "conversation-raw.json": "d2dbc70acccadeaa1df951a349d2184288906866c19ced43875e607d72f55fda",
+          "linear-conversation.json": "f511909a0aca2c8d0f9f62c0216cfa7995cd24053fa5175b31d188a1770fb5cd",
+          "conversation.json": "5969655ac54745c34ccb7087a7a76475d621f212893b9e58a485a4f878c5508c",
+          "conversation.md": "8e431ff1a6dd1829f4274e459006d609e299b59797a613f815ceb770de7999fa",
+          "diagnostics.json": "25e3f811aac1972363cc509d9cbf97e1f60be6ba7c44735448273d723ff3ba4c",
+          "receipt.json": "2a14e17cadf5be354aeff00b74429e807b3cf9e191c81460f2123a2d018c9719",
+          "execution.json": "d08f7595f19cb614572b26ec42e6dba06d24959683022843525a3bda39dddeb8"
+        }
+      },
+      {
+        "run_id": 41654917547,
+        "source_url": "https://chatgpt.com/share/6ae9dd85-7ff0-83e8-90c3-4592305a2362",
+        "request_id": "e2e008-distinct-large-20261103",
+        "created_at": "2026-11-03T14:33:50Z",
+        "conclusion": "success",
+        "output_path": "workspaces/shared-conversations/6ae9dd85-7ff0-83e8-90c3-4592305a2362/41654917547-1",
+        "published_commit_sha": "2b0d75f33f707d137651824ba904c33f11936b37",
+        "source_linear_records": 5912,
+        "selected_visible_records": 592,
+        "verified_files": 8,
+        "receipt_hashes_verified": 6,
+        "attestation_verified": true,
+        "sha256": {
+          "response.html": "8c5ceac204e0ad0a9e2fec09cad7822c66b3132df43bae7c2fa7ebd0de80db2e",
+          "conversation-raw.json": "2c459bc2da1f96f38ef84520cd1bf8e72e2c014135bfeb928fefa0c98a8c9513",
+          "linear-conversation.json": "4db58a002fa206dce3cf953022b9d13f32242623748a5fb97311c0b35eddf432",
+          "conversation.json": "0338c27bb4a88ee23957a940dbde9f83cce5bb1c585a7a2edde3f676a38e3ccd",
+          "conversation.md": "9ec7042c483012c4ffb53d3be17489c0246036626634122ce457d4fb73f435ab",
+          "diagnostics.json": "64ee7900ae81cda95135f8f92fe494dc0bd7e564fe68316caadb27c29ed10271",
+          "receipt.json": "eb95883d93e6288816c1bf1b3be975689194f5ebe90378a8f7697eb8c6a0e62b",
+          "execution.json": "b941017b6f7c703d29948b77f7ca95f2877b164a29b229018b6724db65071f27"
+        }
+      }
+    ],
+    "verified_files_total": 16,
+    "independent_raw_node_equivalence_both": true,
+    "independent_markdown_reproduction_both": true,
+    "both_publication_commits_preserved": true,
+    "no_shared_output_path": true
+  },
+  "exclusions": [
+    "EXT-NAT-013 same-run collision injection not performed by this case",
+    "E2E-009 post-push tamper injection not performed by this case"
+  ],
+  "evidence": {
+    "workflow_runs": [
+      "https://github.com/BestNameYet/Terminals/actions/runs/41654917999",
+      "https://github.com/BestNameYet/Terminals/actions/runs/41654917547"
+    ],
+    "command_issue_3": "https://github.com/BestNameYet/Terminals/issues/3",
+    "verifier": "workspaces/extractor-srs-design/acceptance/verify-live-export.js"
+  }
+}

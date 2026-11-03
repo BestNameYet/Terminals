@@ -16,8 +16,7 @@ jobs:
   execute:
     # Non-owner, edited and non-Issue-10 comments never reach checkout.
     if: >-
-      ${{ github.event.issue.number == 10 &&
-          github.event.action == 'created' &&
+      ${{ github.event.action == 'created' &&
           github.event.repository.owner.type == 'User' &&
           github.event.sender.type == 'User' &&
           github.event.sender.id == github.event.repository.owner.id &&

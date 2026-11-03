@@ -79,3 +79,9 @@ test("iterative scanner preserves escaped quote, slash and newline", () => {
   const result = parseHtmlResponse(html(root),validated);
   assert.equal(result.linear.records[0].derived_text,text.trimEnd());
 });
+
+test("opaque Promise tag is preserved without executing or dereferencing", () => {
+  const decoded=decodeTable([{"_1":2},"deferred",["P",3],{"_1":-1}],{slots:300000,graphNodes:300000,depth:100});
+  assert.equal(decoded.root.deferred.$serializedType,"Promise");
+  assert.equal(decoded.root.deferred.value,3);
+});

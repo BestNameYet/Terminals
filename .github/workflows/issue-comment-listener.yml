@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Find matching issue workflow registry index
+      - name: Look up issue workflow registry by issue number
         id: registry
         run: |
           node <<'NODE'
@@ -24,25 +24,26 @@ jobs:
           const fs = require("node:fs");
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
           const registry = JSON.parse(fs.readFileSync(".github/issue-workflow-registry.json", "utf8"));
-          if (!Array.isArray(registry)) throw new Error("Issue-workflow registry must be an array");
-          const seen = new Set();
-          for (const [index, entry] of registry.entries()) {
-            if (!entry || !Number.isSafeInteger(entry.key) || entry.key < 1 ||
-                !Array.isArray(entry.value) ||
-                !entry.value.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
-              throw new Error("Invalid registry entry at index " + index);
+          if (!registry || typeof registry !== "object" || Array.isArray(registry)) {
+            throw new Error("Issue-workflow registry must be an object");
+          }
+          for (const [key, paths] of Object.entries(registry)) {
+            if (!/^[1-9][0-9]*$/.test(key) ||
+                !Number.isSafeInteger(Number(key)) ||
+                !Array.isArray(paths) ||
+                !paths.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
+              throw new Error("Invalid registry entry for issue " + key);
             }
-            if (seen.has(entry.key)) throw new Error("Duplicate registry key: " + entry.key);
-            seen.add(entry.key);
           }
           const issueNumber = event.issue?.number;
           if (!Number.isSafeInteger(issueNumber)) throw new Error("Issue comment event missing issue number");
-          const index = registry.findIndex(entry => entry.key === issueNumber);
-          const workflows = index === -1 ? [] : registry[index].value;
-          const match = {issue_number: issueNumber, matched: index !== -1, index, workflows, action: event.action, comment_id: event.comment?.id};
+          const key = String(issueNumber);
+          const matched = Object.hasOwn(registry, key);
+          const workflows = matched ? registry[key] : [];
+          const match = {issue_number: issueNumber, matched, key, workflows, action: event.action, comment_id: event.comment?.id};
           console.log(JSON.stringify(match));
           fs.appendFileSync(process.env.GITHUB_OUTPUT,
-            "matched=" + String(index !== -1) + "\n" +
-            "registry_index=" + String(index) + "\n" +
+            "matched=" + String(matched) + "\n" +
+            "registry_key=" + key + "\n" +
             "workflow_paths=" + JSON.stringify(workflows) + "\n");
           NODE

@@ -12,16 +12,37 @@ jobs:
   listen:
     runs-on: ubuntu-latest
     steps:
-      - name: Record incoming issue comment event
-        env:
-          EVENT_ACTION: ${{ github.event.action }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          COMMENT_ID: ${{ github.event.comment.id }}
-          COMMENT_URL: ${{ github.event.comment.html_url }}
-          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Find matching issue workflow registry index
+        id: registry
         run: |
-          printf 'action=%s\n' "$EVENT_ACTION"
-          printf 'issue_number=%s\n' "$ISSUE_NUMBER"
-          printf 'comment_id=%s\n' "$COMMENT_ID"
-          printf 'comment_author=%s\n' "$COMMENT_AUTHOR"
-          printf 'comment_url=%s\n' "$COMMENT_URL"
+          node <<'NODE'
+          "use strict";
+          const fs = require("node:fs");
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          const registry = JSON.parse(fs.readFileSync(".github/issue-workflow-registry.json", "utf8"));
+          if (!Array.isArray(registry)) throw new Error("Issue-workflow registry must be an array");
+          const seen = new Set();
+          for (const [index, entry] of registry.entries()) {
+            if (!entry || !Number.isSafeInteger(entry.issue_number) || entry.issue_number < 1 ||
+                !Array.isArray(entry.workflows) ||
+                !entry.workflows.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
+              throw new Error("Invalid registry entry at index " + index);
+            }
+            if (seen.has(entry.issue_number)) throw new Error("Duplicate registry issue_number: " + entry.issue_number);
+            seen.add(entry.issue_number);
+          }
+          const issueNumber = event.issue?.number;
+          if (!Number.isSafeInteger(issueNumber)) throw new Error("Issue comment event missing issue number");
+          const index = registry.findIndex(entry => entry.issue_number === issueNumber);
+          const workflows = index === -1 ? [] : registry[index].workflows;
+          const match = {issue_number: issueNumber, matched: index !== -1, index, workflows, action: event.action, comment_id: event.comment?.id};
+          console.log(JSON.stringify(match));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,
+            "matched=" + String(index !== -1) + "\n" +
+            "registry_index=" + String(index) + "\n" +
+            "workflow_paths=" + JSON.stringify(workflows) + "\n");
+          NODE

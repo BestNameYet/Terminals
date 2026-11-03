@@ -1,7 +1,7 @@
 [
   {
-    "issue_number": 3,
-    "workflows": [
+    "key": 3,
+    "value": [
       ".github/workflows/issue-3-comment-listener.yml"
     ]
   }

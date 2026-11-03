@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals --jq .default_branch",
+  "outputThat": [
+    "main"
+  ]
+}

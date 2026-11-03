@@ -1,8 +1,12 @@
 name: Issue 3 comment terminal
 
 on:
-  issue_comment:
-    types: [created, edited]
+  workflow_dispatch:
+    inputs:
+      event_payload:
+        description: Original issue_comment event JSON
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -14,10 +18,10 @@ concurrency:
 
 jobs:
   run:
-    if: ${{ github.event.issue.number == 3 && github.event.issue.pull_request == null && github.event.repository.owner.type == 'User' && github.event.repository.owner.id == github.event.comment.user.id && github.event.repository.owner.login == github.event.comment.user.login }}
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      ORIGINAL_EVENT: ${{ inputs.event_payload }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -29,7 +33,10 @@ jobs:
           "use strict";
           const fs = require("node:fs");
           const { spawnSync } = require("node:child_process");
-          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          const event = JSON.parse(process.env.ORIGINAL_EVENT);
+          if (!["created", "edited"].includes(event.action) || event.issue?.number !== 3 || event.issue?.pull_request) throw new Error("Invalid routed Issue 3 event");
+          const owner = event.repository?.owner;
+          if (owner?.type !== "User" || owner.id !== event.comment?.user?.id || owner.login !== event.comment?.user?.login) throw new Error("Repository owner authorization failed");
           let input;
           try {
             input = JSON.parse(event.comment.body);

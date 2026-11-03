@@ -1,0 +1,170 @@
+name: Extract ChatGPT Shared Conversation
+on:
+  workflow_dispatch:
+    inputs:
+      request_json:
+        description: 'Canonical JSON request object serialized as string'
+        required: false
+        type: string
+        default: ''
+      target_url:
+        description: 'Legacy share URL (exclusive with request_json)'
+        required: false
+        type: string
+        default: ''
+      write_path:
+        description: 'Legacy output directory template'
+        required: false
+        type: string
+        default: ''
+permissions:
+  contents: write
+concurrency:
+  group: terminals-shared-conversation-publication
+  cancel-in-progress: false
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout immutable triggering revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate workflow dispatch inputs
+        shell: bash
+        env:
+          REQUEST_JSON: ${{ inputs.request_json }}
+          TARGET_URL: ${{ inputs.target_url }}
+          WRITE_PATH: ${{ inputs.write_path }}
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs');
+          fs.writeFileSync(process.env.RUNNER_TEMP+'/dispatch-inputs.json', JSON.stringify({
+            request_json:process.env.REQUEST_JSON,target_url:process.env.TARGET_URL,
+            write_path:process.env.WRITE_PATH
+          }));
+          NODE
+          node workspaces/extractor-srs-design/runtime/dispatch-validator.js \
+            "$RUNNER_TEMP/dispatch-inputs.json" > "$RUNNER_TEMP/validated-inputs.json"
+      - name: Run candidate parser and validator tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test workspaces/extractor-srs-design/tests/*.test.js
+      - name: Fetch HTML once and decode into eight candidate outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          node workspaces/extractor-srs-design/runtime/capture-and-parse.js \
+            "$RUNNER_TEMP/validated-inputs.json" "$RUNNER_TEMP/export"
+      - name: Verify hashes and output schemas independently
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+          const base=path.join(process.env.RUNNER_TEMP,'export');
+          const receipt=JSON.parse(fs.readFileSync(path.join(base,'receipt.json')));
+          const expected=['response.html','conversation-raw.json','linear-conversation.json','conversation.json','conversation.md','diagnostics.json'];
+          for(const n of expected){
+            const b=fs.readFileSync(path.join(base,n)),r=receipt.files[n];
+            if(!r || r.bytes!==b.length || r.sha256!==crypto.createHash('sha256').update(b).digest('hex'))throw Error('Receipt mismatch: '+n);
+          }
+          const linear=JSON.parse(fs.readFileSync(path.join(base,'linear-conversation.json')));
+          const visible=JSON.parse(fs.readFileSync(path.join(base,'conversation.json')));
+          if(linear.records.length!==linear.source_node_count || linear.records.some((r,i)=>r.index!==i))throw Error('Linear count/order mismatch');
+          if(visible.messages.length!==Object.values(visible.counts).reduce((a,b)=>a+b,0) || !visible.counts.user || !visible.counts.final)throw Error('Visible count mismatch');
+          const text=fs.readFileSync(path.join(base,'conversation.md'),'utf8');
+          const labels=[...text.matchAll(/^(\*\*You\*\*|\*\*Assistant · Commentary\*\*|\*\*Assistant\*\*)$/gm)];
+          if(labels.length!==visible.messages.length)throw Error('Markdown count mismatch');
+          NODE
+      - name: Upload complete capture as Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatgpt-shared-export-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/export/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish exact eight files to run-specific destination
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const req=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+'/validated-inputs.json'));
+          const rel=req.write_path,root=process.cwd(),base=path.resolve(root,'workspaces/shared-conversations');
+          const dest=path.resolve(root,rel);
+          if(!dest.startsWith(base+path.sep))throw Error('Output escapes approved root');
+          let part=root;
+          for(const seg of rel.split('/')){
+            part=path.join(part,seg);
+            const stat=fs.lstatSync(part,{throwIfNoEntry:false});
+            if(stat?.isSymbolicLink()||(stat&&!stat.isDirectory()))throw Error('Unsafe destination ancestor');
+          }
+          if(fs.existsSync(dest))throw Error('Destination exists: collision refused');
+          fs.mkdirSync(dest,{recursive:true});
+          for(const name of ['response.html','conversation-raw.json','linear-conversation.json','conversation.json','conversation.md','diagnostics.json','receipt.json','execution.json']){
+            fs.copyFileSync(path.join(process.env.RUNNER_TEMP,'export',name),path.join(dest,name),fs.constants.COPYFILE_EXCL);
+          }
+          fs.writeFileSync(process.env.RUNNER_TEMP+'/export-path.txt',rel+'\n');
+          NODE
+          DEST="$(cat "$RUNNER_TEMP/export-path.txt")"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- "$DEST"
+          git diff --cached --quiet && { echo 'No output changes'; exit 0; }
+          git commit -m "Export complete shared conversation ${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main
+            git rebase origin/main
+          done
+          echo 'Publication failed after three attempts' >&2
+          exit 1
+      - name: Verify all eight files from remote main
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="$(cat "$RUNNER_TEMP/export-path.txt")"
+          git fetch origin main
+          for name in response.html conversation-raw.json linear-conversation.json conversation.json conversation.md diagnostics.json receipt.json execution.json; do
+            git show "origin/main:$DEST/$name" | cmp - "$RUNNER_TEMP/export/$name"
+          done
+          echo 'All eight remote outputs are byte-identical' >> "$GITHUB_STEP_SUMMARY"
+      - name: Write independently verified final publication attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+          const dir=path.join(process.env.RUNNER_TEMP,'export');
+          const dest=fs.readFileSync(path.join(process.env.RUNNER_TEMP,'export-path.txt'),'utf8').trim();
+          const files=['response.html','conversation-raw.json','linear-conversation.json','conversation.json','conversation.md','diagnostics.json','receipt.json','execution.json'];
+          const evidence=files.map(name=>{
+            const data=fs.readFileSync(path.join(dir,name));
+            return {path:dest+'/'+name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex'),matched_remote_bytes:true};
+          });
+          const attestation={
+            schema:'chatgpt.extractor.final-attestation.v1',
+            request_id:JSON.parse(fs.readFileSync(path.join(dir,'receipt.json'),'utf8')).request_id,
+            run_id:process.env.GITHUB_RUN_ID,run_attempt:Number(process.env.GITHUB_RUN_ATTEMPT),
+            source_revision:process.env.GITHUB_SHA,repository:process.env.GITHUB_REPOSITORY,
+            published_commit_sha:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+            remote_ref:'refs/heads/main',verification:'VERIFIED',paths:evidence
+          };
+          fs.writeFileSync(path.join(process.env.RUNNER_TEMP,'final-attestation.json'),JSON.stringify(attestation,null,2)+'\n');
+          NODE
+      - name: Upload final verified attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatgpt-shared-export-final-attestation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/final-attestation.json
+          retention-days: 30
+          if-no-files-found: error

@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'literal: {\\\"x\\\":1}\\n'",
+  "outputThat": [
+    "literal: {\"x\":1}"
+  ]
+}

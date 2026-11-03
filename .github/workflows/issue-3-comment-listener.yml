@@ -57,7 +57,7 @@ jobs:
           const repo = event.repository.full_name;
           const nonce = input.forWhom;
           const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
-          const resultPath = "workspace/terminalruns/" + nonce + "_" + timestamp + ".json";
+          const resultPath = "workspaces/terminalruns/" + nonce + "_" + timestamp + ".json";
           const raw = input.whatPrompt.trim();
           const command = input.runOn === "$" ? input.whatPrompt : (
             /^gh(?:\s|$)/.test(raw) ? raw : "gh " + raw

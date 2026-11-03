@@ -7,6 +7,10 @@ on:
 permissions:
   issues: write
 
+concurrency:
+  group: issue-2-status-sync
+  cancel-in-progress: false
+
 jobs:
   inspect-body-edit:
     if: ${{ github.event.issue.number == 2 && github.event.issue.pull_request == null && github.event.changes.body != null }}
@@ -20,5 +24,5 @@ jobs:
           persist-credentials: false
       - name: Install HTML parser
         run: npm install --no-save --no-package-lock --prefix .github/scripts parse5@7.3.0
-      - name: Parse Issue body
+      - name: Synchronize Issue status and verify saved body
         run: node .github/scripts/issue-body-parser.js

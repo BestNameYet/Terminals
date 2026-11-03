@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'carriage\\rreturn\\n'",
+  "outputThat": [
+    "carriage\rreturn"
+  ]
+}

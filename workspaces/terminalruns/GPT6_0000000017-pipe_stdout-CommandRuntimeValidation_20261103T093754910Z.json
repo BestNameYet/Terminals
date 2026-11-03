@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf '42\\n' | cat",
+  "outputThat": [
+    "42"
+  ]
+}

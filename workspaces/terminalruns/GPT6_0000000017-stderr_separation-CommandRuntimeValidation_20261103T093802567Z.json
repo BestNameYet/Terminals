@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'stdout-only\\n'; printf 'stderr-only\\n' >&2",
+  "outputThat": [
+    "stdout-only"
+  ]
+}

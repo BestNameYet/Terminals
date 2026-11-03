@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:printf 'alpha\\nbeta\\ngamma\\n'",
+  "outputThat": [
+    "alpha",
+    "beta",
+    "gamma"
+  ]
+}

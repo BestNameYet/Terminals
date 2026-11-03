@@ -12,20 +12,37 @@ jobs:
     if: ${{ github.event.issue.number == 2 && github.event.issue.pull_request == null && github.event.changes.body != null }}
     runs-on: ubuntu-latest
     steps:
-      - name: Record Issue 2 body edit
+      - name: Check whether workflow toggle changed
         run: |
           node - <<'NODE'
           const fs = require("node:fs");
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
-          const previous = event.changes?.body?.from;
           if (!Object.prototype.hasOwnProperty.call(event.changes || {}, "body")) {
             throw new Error("This edit did not change the Issue body.");
           }
+
+          function extractToggle(body) {
+            if (typeof body !== "string") throw new Error("Issue body must be a string.");
+            const section = body.match(/<section\b(?=[^>]*\bid=["']workflow-toggle["'])[^>]*>([\s\S]*?)<\/section>/i);
+            if (!section) throw new Error("Missing section #workflow-toggle.");
+            const region = section[1].match(/<div\b(?=[^>]*\bid=["']workflow-checkbox["'])[^>]*>([\s\S]*?)<\/div>/i);
+            if (!region) throw new Error("Missing div #workflow-checkbox.");
+            const toggles = [...region[1].matchAll(/^\s*- \[([ xX])\] \*\*Enable workflow\*\*\s*$/gm)];
+            if (toggles.length !== 1) {
+              throw new Error("Expected exactly one Enable workflow checkbox.");
+            }
+            return toggles[0][1].toLowerCase() === "x";
+          }
+
+          const previous = extractToggle(event.changes.body.from);
+          const current = extractToggle(event.issue.body);
+          const changed = previous !== current;
           console.log(JSON.stringify({
             issue: event.issue.number,
             url: event.issue.html_url,
             editor: event.sender.login,
-            previousBody: previous,
-            currentBody: event.issue.body
+            toggleChanged: changed,
+            previousEnabled: previous,
+            currentEnabled: current
           }, null, 2));
           NODE

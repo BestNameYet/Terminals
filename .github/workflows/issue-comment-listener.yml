@@ -61,6 +61,15 @@ jobs:
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
           const workflows = JSON.parse(process.env.REGISTERED_WORKFLOWS);
           if (!Array.isArray(workflows)) throw new Error("Registered workflows must be an array");
+          let nonce = "comment-" + String(event.comment?.id ?? "unknown");
+          try {
+            const command = JSON.parse(event.comment?.body ?? "");
+            if (command && !Array.isArray(command) && typeof command.forWhom === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(command.forWhom)) {
+              nonce = command.forWhom;
+            }
+          } catch (error) {
+            if (!(error instanceof SyntaxError)) throw error;
+          }
           const payload = JSON.stringify(event);
           if (payload.length > 65535) throw new Error("Original event exceeds workflow_dispatch input limit of 65535 characters");
           const repo = event.repository?.full_name;
@@ -92,13 +101,13 @@ jobs:
                     "X-GitHub-Api-Version": "2022-11-28",
                     "Content-Type": "application/json"
                   },
-                  body: JSON.stringify({ref, inputs: {event_payload: payload}})
+                  body: JSON.stringify({ref, inputs: {event_payload: payload, nonce}})
                 });
                 if (response.status !== 204) {
                   throw new Error("HTTP " + response.status + ": " + (await response.text()).slice(0, 500));
                 }
                 console.log(JSON.stringify({workflow: workflowPath, status: "dispatch-accepted",
-                  issue: event.issue.number, action: event.action, comment_id: event.comment.id}));
+                  issue: event.issue.number, action: event.action, comment_id: event.comment.id, nonce}));
               } catch (error) {
                 failures.push({workflow: workflowPath, error: String(error)});
               }

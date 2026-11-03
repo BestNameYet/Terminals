@@ -22,3 +22,15 @@ Baseline: `main@93c00eedeb8b762b9bf224ea670782a63ec8e9b1`, observed 2026-11-03.
 - Verification: match acceptance criteria to tests and actual receipts; command submission alone is insufficient.
 
 No root README.md or root AGENTS.md was present when this workspace was initialized.
+
+## Issue #10 capability sources for proposed Issue #3 integration
+
+- [Issue #10 instructions](https://github.com/BestNameYet/Terminals/issues/10): existing Node command contract and trigger lifecycle; note that its prose uses the stale \`js_path\` spelling.
+- [Issue #10 execution workflow](../../.github/workflows/issue-10-runtimeconfig.yml): owner checks, regression gate, clone commit/push/readback, serialized Node run, execution receipt and artifact.
+- [RuntimeConfig trigger validator](../RuntimeConfig/prepare-runtrigger.js): exact \`runpath\`/\`set\` and type/path validation; currently hardcodes Issue #10 source identity and clone name.
+- [RuntimeConfig Node runner](../RuntimeConfig/runner.js): authoritative camelCase \`jsPath\`, \`args\` and child exit propagation.
+- [Issue comment writer](../RuntimeConfig/issue-comment-writer/issue-comment-writer.js) and [template](../RuntimeConfig/issue-comment-writer/runtrigger.json): create/replace Issue comments and input contract.
+- [Issue body writer](../RuntimeConfig/issue-body-writer/issue-body-writer.js) and [template](../RuntimeConfig/issue-body-writer/runtrigger.json): replace Issue body and input contract.
+- [RuntimeConfig regression tests](../RuntimeConfig/prepare-runtrigger.test.js): parser, clone, authorization and runner test cases.
+
+The proposed Issue #3 Node command envelope and requirements are normative design additions; no existing Issue #3 implementation or test result is represented as satisfying them.

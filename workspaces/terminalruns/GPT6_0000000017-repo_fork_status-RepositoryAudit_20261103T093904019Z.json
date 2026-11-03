@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api repos/BestNameYet/Terminals --jq .fork",
+  "outputThat": [
+    "false"
+  ]
+}

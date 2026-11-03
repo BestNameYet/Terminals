@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: issue-3-comment-terminal
+  group: issue-3-comment-terminal-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:

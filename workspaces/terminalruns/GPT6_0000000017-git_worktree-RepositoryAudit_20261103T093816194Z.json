@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:git rev-parse --is-inside-work-tree",
+  "outputThat": [
+    "true"
+  ]
+}

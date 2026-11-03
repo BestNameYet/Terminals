@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:node <<'NODE'\nconst {spawnSync}=require('node:child_process');\nconst share='https://chatgpt.com/share/6ae9dd85-7ff0-83e8-90c3-4592305a2362';\nfor(const suffix of ['a','b']){\n  const request=JSON.stringify({target_url:share,request_id:'e2e008-concurrency-20261103-'+suffix,export_profile:'complete'});\n  const r=spawnSync('gh',['workflow','run','chatgpt-shared-conversation-extractor.yml','--repo','BestNameYet/Terminals','--ref','main','--raw-field','request_json='+request],{encoding:'utf8',timeout:30000});\n  console.log(JSON.stringify({suffix,status:r.status,url:(r.stdout||'').trim(),error:(r.stderr||'').trim()}));\n  if(r.status!==0)process.exitCode=1;\n}\nNODE",
+  "outputThat": [
+    "{\"suffix\":\"a\",\"status\":0,\"url\":\"https://github.com/BestNameYet/Terminals/actions/runs/41653897500\",\"error\":\"\"}",
+    "{\"suffix\":\"b\",\"status\":0,\"url\":\"https://github.com/BestNameYet/Terminals/actions/runs/41653902184\",\"error\":\"\"}"
+  ]
+}

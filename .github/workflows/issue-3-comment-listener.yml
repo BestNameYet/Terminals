@@ -1,0 +1,26 @@
+name: Issue 3 comment listener
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: read
+
+jobs:
+  observe-comment:
+    if: ${{ github.event.issue.number == 3 && github.event.issue.pull_request == null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record Issue 3 comment event
+        env:
+          COMMENT_ACTION: ${{ github.event.action }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+        run: |
+          echo "Event: $COMMENT_ACTION"
+          echo "Issue: 3"
+          echo "Comment ID: $COMMENT_ID"
+          echo "Author: $COMMENT_AUTHOR"
+          echo "Comment URL: $COMMENT_URL"

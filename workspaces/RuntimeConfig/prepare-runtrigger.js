@@ -136,7 +136,7 @@ if (Object.prototype.hasOwnProperty.call(comment, "set")) {
 
   const id = event.comment.id;
   const number = event.issue.number;
-  if (!Number.isSafeInteger(id) || id <= 0 || number !== 10) {
+  if (!Number.isSafeInteger(id) || id <= 0) {
     throw new Error("Invalid event comment ID or issue number.");
   }
   const timestamp = new Date(event.comment.created_at).toISOString()

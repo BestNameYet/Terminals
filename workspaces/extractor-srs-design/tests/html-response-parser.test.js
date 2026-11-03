@@ -62,3 +62,20 @@ rejects("no recognized stream","<html><body>Hello</body></html>","MISSING_STREAM
 test("bounded input size",()=>assert.throws(()=>parseHtmlResponse(html()+("x".repeat(1500)),validated,{htmlBytes:1024}),e=>e.code==="HTML_SIZE"));
 test("rejects indexed reference cycle",()=>assert.throws(()=>decodeTable([{"_1":0},"loop"],{slots:300000,graphNodes:300000,depth:100}),e=>e.code==="CYCLIC_REFERENCE"));
 test("recovery rejects invalid URL-admission shape",()=>assert.throws(()=>parseHtmlResponse(html(),{target_url:"https://evil.example/"}),e=>e.code==="INPUT_NOT_VALIDATED"));
+
+test("iterative scanner handles 10 MiB serialized literal", () => {
+  const root = sample();
+  const large = "Z".repeat(10 * 1024 * 1024);
+  root.loaderData["routes/share.$shareId.($action)"].serverResponse.data.linear_conversation[0].message.content.parts=[large];
+  const result = parseHtmlResponse(html(root),validated);
+  assert.equal(result.linear.records[0].derived_text.length,large.length);
+  assert.equal(result.selected.messages[0].text.length,large.length);
+  assert.equal(result.linear.source_node_count,4);
+});
+test("iterative scanner preserves escaped quote, slash and newline", () => {
+  const root = sample();
+  const text = 'quote " slash \\ newline\n'.repeat(10000);
+  root.loaderData["routes/share.$shareId.($action)"].serverResponse.data.linear_conversation[0].message.content.parts=[text];
+  const result = parseHtmlResponse(html(root),validated);
+  assert.equal(result.linear.records[0].derived_text,text.trimEnd());
+});

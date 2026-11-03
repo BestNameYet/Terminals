@@ -13,9 +13,16 @@ if (!isObject(comment)) {
 if (!Object.prototype.hasOwnProperty.call(comment, "set")) {
   throw new Error("JSON must contain a set object.");
 }
-const runPath = comment.runPath;
+// Issue #10 documents lowercase runpath. Preserve legacy runPath inputs, but
+// reject ambiguous or additional keys rather than guessing user intent.
+const canonical = Object.prototype.hasOwnProperty.call(comment, "runpath");
+const legacy = Object.prototype.hasOwnProperty.call(comment, "runPath");
+if (canonical === legacy || Object.keys(comment).length !== 2) {
+  throw new Error("JSON must contain exactly runpath (or legacy runPath) and set.");
+}
+const runPath = canonical ? comment.runpath : comment.runPath;
 if (typeof runPath !== "string" || !runPath.trim()) {
-  throw new Error("JSON must contain a nonempty string runPath.");
+  throw new Error("JSON must contain a nonempty string runpath.");
 }
 if (path.isAbsolute(runPath) || /[\r\n\0]/.test(runPath) ||
     runPath.split(/[\\/]/).includes("..")) {

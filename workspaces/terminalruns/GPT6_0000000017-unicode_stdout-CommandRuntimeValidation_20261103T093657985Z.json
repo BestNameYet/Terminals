@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'unicode café Ω 漢字\\n'",
+  "outputThat": [
+    "unicode café Ω 漢字"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'no-final-newline'",
+  "outputThat": [
+    "no-final-newline"
+  ]
+}

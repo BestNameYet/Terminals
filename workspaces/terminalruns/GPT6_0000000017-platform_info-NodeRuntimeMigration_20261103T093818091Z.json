@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:uname -s; printf 'platform-tested\\n'",
+  "outputThat": [
+    "Linux",
+    "platform-tested"
+  ]
+}

@@ -27,18 +27,18 @@ jobs:
           if (!Array.isArray(registry)) throw new Error("Issue-workflow registry must be an array");
           const seen = new Set();
           for (const [index, entry] of registry.entries()) {
-            if (!entry || !Number.isSafeInteger(entry.issue_number) || entry.issue_number < 1 ||
-                !Array.isArray(entry.workflows) ||
-                !entry.workflows.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
+            if (!entry || !Number.isSafeInteger(entry.key) || entry.key < 1 ||
+                !Array.isArray(entry.value) ||
+                !entry.value.every(p => typeof p === "string" && p.startsWith(".github/workflows/") && /\.ya?ml$/.test(p))) {
               throw new Error("Invalid registry entry at index " + index);
             }
-            if (seen.has(entry.issue_number)) throw new Error("Duplicate registry issue_number: " + entry.issue_number);
-            seen.add(entry.issue_number);
+            if (seen.has(entry.key)) throw new Error("Duplicate registry key: " + entry.key);
+            seen.add(entry.key);
           }
           const issueNumber = event.issue?.number;
           if (!Number.isSafeInteger(issueNumber)) throw new Error("Issue comment event missing issue number");
-          const index = registry.findIndex(entry => entry.issue_number === issueNumber);
-          const workflows = index === -1 ? [] : registry[index].workflows;
+          const index = registry.findIndex(entry => entry.key === issueNumber);
+          const workflows = index === -1 ? [] : registry[index].value;
           const match = {issue_number: issueNumber, matched: index !== -1, index, workflows, action: event.action, comment_id: event.comment?.id};
           console.log(JSON.stringify(match));
           fs.appendFileSync(process.env.GITHUB_OUTPUT,

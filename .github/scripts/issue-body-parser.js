@@ -38,9 +38,23 @@ function parseIssueBody(body) {
     if (attrs["data-role"] === "status") {
       const stateMap = JSON.parse(attrs["data-state-map"]);
       const displayMap = JSON.parse(attrs["data-display-map"]);
+      const textNodes = [];
+      function visitText(current) {
+        if (current.nodeName === "#text" && current.value.trim()) textNodes.push(current);
+        for (const child of current.childNodes || []) visitText(child);
+      }
+      visitText(node);
+      if (textNodes.length !== 1 || !textNodes[0].sourceCodeLocation) {
+        throw new Error("Status must have exactly one visible text node: " + attrs["data-control"]);
+      }
+      const statusAttr = loc.attrs?.["data-status"];
+      if (!statusAttr) throw new Error("Missing data-status source attribute: " + attrs["data-control"]);
       statuses.push({ control: attrs["data-control"], state: attrs["data-status"],
         stateMap, displayMap, text: innerText,
-        source: { start: loc.startOffset, end: loc.endOffset } });
+        source: { start: loc.startOffset, end: loc.endOffset,
+          attribute: { start: statusAttr.startOffset, end: statusAttr.endOffset },
+          display: { start: textNodes[0].sourceCodeLocation.startOffset,
+            end: textNodes[0].sourceCodeLocation.endOffset } } });
     }
   }
   return { inputs, statuses };
@@ -77,6 +91,63 @@ function compareInputs(previous, current) {
   }));
 }
 
+function updateChangedStatuses(body, parsed, comparisons) {
+  const statuses = new Map();
+  for (const status of parsed.statuses) {
+    if (statuses.has(status.control)) {
+      throw new Error("Duplicate status for control: " + status.control);
+    }
+    statuses.set(status.control, status);
+  }
+
+  const replacements = [];
+  const updates = [];
+  for (const change of comparisons) {
+    if (!change.changed) continue;
+    const status = statuses.get(change.control);
+    if (!status) throw new Error("Missing status for changed control: " + change.control);
+
+    const stateKey = String(change.current);
+    if (!Object.prototype.hasOwnProperty.call(status.stateMap, stateKey)) {
+      throw new Error("Missing state mapping for " + change.control + ": " + stateKey);
+    }
+    const state = status.stateMap[stateKey];
+    if (typeof state !== "string") throw new TypeError("State mapping must return a string");
+    if (!Object.prototype.hasOwnProperty.call(status.displayMap, state)) {
+      throw new Error("Missing display mapping for " + change.control + ": " + state);
+    }
+    const display = status.displayMap[state];
+    if (typeof display !== "string") throw new TypeError("Display mapping must return a string");
+
+    // Both edits use source offsets from the original Issue body string.
+    const span = status.source.attribute;
+    const originalAttribute = body.slice(span.start, span.end);
+    const match = originalAttribute.match(/^(data-status\s*=\s*)(["'])([\s\S]*?)\2$/i);
+    if (!match) throw new Error("Unrecognized data-status attribute syntax: " + change.control);
+    const quote = match[2];
+    const escapedState = state.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    replacements.push({ start: span.start, end: span.end,
+      value: match[1] + quote + escapedState + quote });
+
+    const textSpan = status.source.display;
+    const escapedDisplay = display.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    replacements.push({ start: textSpan.start, end: textSpan.end, value: escapedDisplay });
+    updates.push({ control: change.control, checked: change.current, state, display });
+  }
+
+  replacements.sort((a, b) => b.start - a.start);
+  let updatedBody = body;
+  let lastStart = body.length;
+  for (const item of replacements) {
+    if (item.start < 0 || item.end > lastStart || item.start >= item.end) {
+      throw new Error("Invalid or overlapping status replacement offsets");
+    }
+    updatedBody = updatedBody.slice(0, item.start) + item.value + updatedBody.slice(item.end);
+    lastStart = item.start;
+  }
+  return { body: updatedBody, updates };
+}
+
 if (require.main === module) {
   const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
   const previousBody = event.changes?.body?.from;
@@ -86,11 +157,17 @@ if (require.main === module) {
   const previous = parseIssueBody(previousBody);
   const current = parseIssueBody(event.issue.body);
   const comparisons = compareInputs(previous, current);
+  const result = updateChangedStatuses(event.issue.body, current, comparisons);
+  if (process.env.RUNNER_TEMP) {
+    fs.writeFileSync(require("node:path").join(process.env.RUNNER_TEMP, "issue-body-updated.txt"), result.body);
+  }
   console.log(JSON.stringify({
     issue: event.issue.number,
     comparisons,
-    changedInputs: comparisons.filter(item => item.changed)
+    changedInputs: comparisons.filter(item => item.changed),
+    statusUpdates: result.updates,
+    updatedBody: result.body
   }, null, 2));
 }
 
-module.exports = { parseIssueBody, compareInputs };
+module.exports = { parseIssueBody, compareInputs, updateChangedStatuses };

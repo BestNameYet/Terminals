@@ -1,0 +1,31 @@
+name: Issue 2 body edited
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  issues: read
+
+jobs:
+  inspect-body-edit:
+    if: ${{ github.event.issue.number == 2 && github.event.issue.pull_request == null && github.event.changes.body != null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record Issue 2 body edit
+        run: |
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          const previous = event.changes?.body?.from;
+          if (!Object.prototype.hasOwnProperty.call(event.changes || {}, "body")) {
+            throw new Error("This edit did not change the Issue body.");
+          }
+          console.log(JSON.stringify({
+            issue: event.issue.number,
+            url: event.issue.html_url,
+            editor: event.sender.login,
+            previousBody: previous,
+            currentBody: event.issue.body
+          }, null, 2));
+          NODE

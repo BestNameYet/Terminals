@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   issues: read
+  actions: write
 
 jobs:
   listen:
@@ -45,4 +46,68 @@ jobs:
             "matched=" + String(matched) + "\n" +
             "registry_index=" + String(index) + "\n" +
             "workflow_paths=" + JSON.stringify(workflows) + "\n");
+          NODE
+      - name: Dispatch every registered workflow with original event
+        if: ${{ steps.registry.outputs.matched == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REGISTERED_WORKFLOWS: ${{ steps.registry.outputs.workflow_paths }}
+        run: |
+          node <<'NODE'
+          "use strict";
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+          const workflows = JSON.parse(process.env.REGISTERED_WORKFLOWS);
+          if (!Array.isArray(workflows)) throw new Error("Registered workflows must be an array");
+          const payload = JSON.stringify(event);
+          if (payload.length > 65535) throw new Error("Original event exceeds workflow_dispatch input limit of 65535 characters");
+          const repo = event.repository?.full_name;
+          const ref = event.repository?.default_branch;
+          if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo || "") || !ref) {
+            throw new Error("Missing repository or default branch");
+          }
+          async function main() {
+            const failures = [];
+            for (const workflowPath of workflows) {
+              if (typeof workflowPath !== "string" ||
+                  !/^\.github\/workflows\/[A-Za-z0-9_.-]+\.ya?ml$/.test(workflowPath)) {
+                failures.push({workflow: workflowPath, error: "Invalid workflow path"});
+                continue;
+              }
+              if (!fs.existsSync(workflowPath)) {
+                failures.push({workflow: workflowPath, error: "Workflow file does not exist"});
+                continue;
+              }
+              const filename = path.posix.basename(workflowPath);
+              const url = "https://api.github.com/repos/" + repo +
+                "/actions/workflows/" + encodeURIComponent(filename) + "/dispatches";
+              try {
+                const response = await fetch(url, {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/vnd.github+json",
+                    Authorization: "Bearer " + process.env.GH_TOKEN,
+                    "X-GitHub-Api-Version": "2022-11-28",
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ref, inputs: {event_payload: payload}})
+                });
+                if (response.status !== 204) {
+                  throw new Error("HTTP " + response.status + ": " + (await response.text()).slice(0, 500));
+                }
+                console.log(JSON.stringify({workflow: workflowPath, status: "dispatch-accepted",
+                  issue: event.issue.number, action: event.action, comment_id: event.comment.id}));
+              } catch (error) {
+                failures.push({workflow: workflowPath, error: String(error)});
+              }
+            }
+            if (failures.length) {
+              console.error(JSON.stringify({failed_dispatches: failures}));
+              process.exitCode = 1;
+            }
+            console.log(JSON.stringify({registered: workflows.length, failed: failures.length,
+              accepted: workflows.length - failures.length}));
+          }
+          main().catch(error => {console.error(error); process.exitCode = 1;});
           NODE

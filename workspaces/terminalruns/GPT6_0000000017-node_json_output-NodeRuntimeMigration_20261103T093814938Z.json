@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:node -p 'JSON.stringify({ok:true,n:3})'",
+  "outputThat": [
+    "{\"ok\":true,\"n\":3}"
+  ]
+}

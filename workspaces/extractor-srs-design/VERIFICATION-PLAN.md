@@ -145,7 +145,7 @@ Each line is an independently testable acceptance case. The final column is the 
 | EXT-AT-067 | EXT-FR-067 | Run with no Terminals registry convention and with documented registry fixture | No invented config registry; actual required inventory processed | **NOT RUN** |
 | EXT-AT-068 | EXT-FR-068 | Inspect git staged diff after validated outputs | Exactly eight approved files and separately authorized metadata paths | **NOT RUN** |
 | EXT-AT-069 | EXT-FR-069 | Re-run bytes-identical export to same permitted run target fixture | No redundant commit; remote readback still performed | **NOT RUN** |
-| EXT-AT-070 | EXT-FR-070 | Launch two concurrent exports to same branch | No lost updates; queued/serialized push operations | **NOT RUN** |
+| EXT-AT-070 | EXT-FR-070 | Launch two concurrent exports to same branch | No lost updates; queued/serialized push operations | **PASS** — [independent 16-file verification](acceptance/results/E2E-008-distinct-41654917999-41654917547.json) |
 | EXT-AT-071 | EXT-FR-071 | Inject non-fast-forward conflicts repeatedly | No more than three bounded publish attempts; safe fail on exhaustion | **NOT RUN** |
 | EXT-AT-072 | EXT-FR-072 | After push fetch remote main and inspect each of eight required files | Every remote file byte-identical and hash-equal | **NOT RUN** |
 | EXT-AT-073 | EXT-FR-073 | Delete or alter one required remote file before final readback | VERIFIED denied and error identifies path | **NOT RUN** |

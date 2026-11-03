@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'two-key-output-ok\\n'",
+  "outputThat": [
+    "two-key-output-ok"
+  ]
+}

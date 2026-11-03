@@ -19,9 +19,209 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Synchronize Issue status with native Python HTML parser
-        run: python3 .github/scripts/issue-body-native-parser.py
+      - name: Synchronize Issue status using native HTML parser
+        run: |
+          python3 - <<'PYTHON'
+          #!/usr/bin/env python3
+          """Lossless Issue #2 status synchronizer using only Python's standard library.
+          
+          Contract: the Issue body is well-formed HTML, with one section#workflow-toggle.
+          No malformed-HTML recovery or tag correction is attempted.
+          """
+          import html
+          from html.parser import HTMLParser
+          import json
+          import os
+          import re
+          from urllib.request import Request, urlopen
+          
+          
+          class Node:
+              def __init__(self, tag=None, attrs=None, opening='', raw=''):
+                  self.tag = tag
+                  self.attrs = dict(attrs or [])
+                  self.opening = opening
+                  self.closing = ''
+                  self.raw = raw
+                  self.children = []
+          
+              def decode(self):
+                  if self.tag is None:
+                      return self.raw
+                  return self.opening + ''.join(child.decode() for child in self.children) + self.closing
+          
+              def descendants(self):
+                  for child in self.children:
+                      if child.tag is not None:
+                          yield child
+                          yield from child.descendants()
+          
+          
+          class IssueTree(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=False)
+                  self.root = Node(tag='ROOT')
+                  self.stack = [self.root]
+          
+              def handle_starttag(self, tag, attrs):
+                  node = Node(tag=tag, attrs=attrs, opening=self.get_starttag_text())
+                  self.stack[-1].children.append(node)
+                  self.stack.append(node)
+          
+              def handle_endtag(self, tag):
+                  node = self.stack.pop()
+                  if node.tag != tag:
+                      raise ValueError(f'Expected closing tag </{node.tag}>, received </{tag}>')
+                  line, col = self.getpos()
+                  position = self._offset(line, col)
+                  node.closing = self.rawdata[position:self.rawdata.index('>', position) + 1]
+          
+              def _offset(self, line, column):
+                  lines = self.rawdata.splitlines(keepends=True)
+                  return sum(len(part) for part in lines[:line - 1]) + column
+          
+              def handle_data(self, data):
+                  self.stack[-1].children.append(Node(raw=data))
+          
+              def handle_entityref(self, name):
+                  self.handle_data('&' + name + ';')
+          
+              def handle_charref(self, name):
+                  self.handle_data('&#' + name + ';')
+          
+              def handle_comment(self, data):
+                  self.handle_data('<!--' + data + '-->')
+          
+              def handle_decl(self, decl):
+                  self.handle_data('<!' + decl + '>')
+          
+              def handle_pi(self, data):
+                  self.handle_data('<?' + data + '>')
+          
+              def parse(self, body):
+                  self.feed(body)
+                  self.close()
+                  if len(self.stack) != 1:
+                      raise ValueError('HTML contains unclosed elements')
+                  if self.root.decode() != body:
+                      raise ValueError('HTML failed verbatim round-trip validation')
+                  return self.root
+          
+          
+          def scoped(root):
+              matches = [node for node in root.descendants()
+                         if node.tag == 'section' and node.attrs.get('id') == 'workflow-toggle']
+              if len(matches) != 1:
+                  raise ValueError('Expected exactly one section#workflow-toggle')
+              return matches[0]
+          
+          
+          def by_control(section, role):
+              result = {}
+              for node in section.descendants():
+                  if node.attrs.get('data-role') != role:
+                      continue
+                  control = node.attrs['data-control']
+                  if control in result:
+                      raise ValueError(f'Duplicate {role} for {control}')
+                  result[control] = node
+              return result
+          
+          
+          def checkbox(node):
+              interior = ''.join(child.decode() for child in node.children)
+              matches = re.findall(r'^\s*- \[([ xX])\](?=\s|$)', interior, re.MULTILINE)
+              if len(matches) != 1:
+                  raise ValueError('Expected exactly one checkbox')
+              return matches[0].lower() == 'x'
+          
+          
+          def updates(previous_body, current_body):
+              before = scoped(IssueTree().parse(previous_body))
+              current_root = IssueTree().parse(current_body)
+              section = scoped(current_root)
+              before_inputs = by_control(before, 'input')
+              after_inputs = by_control(section, 'input')
+              if before_inputs.keys() != after_inputs.keys():
+                  raise ValueError('Input controls changed between versions')
+              statuses = by_control(section, 'status')
+              changed = []
+              for control, input_node in after_inputs.items():
+                  value = checkbox(input_node)
+                  if value == checkbox(before_inputs[control]):
+                      continue
+                  status = statuses[control]
+                  state = json.loads(status.attrs['data-state-map'])[str(value).lower()]
+                  display = json.loads(status.attrs['data-display-map'])[state]
+                  if not isinstance(state, str) or not isinstance(display, str):
+                      raise TypeError('Mapping values must be strings')
+                  status.opening, count = re.subn(
+                      r'(\bdata-status\s*=\s*)([\x27"])(.*?)\2',
+                      lambda m: m.group(1) + m.group(2) + html.escape(state, quote=True) + m.group(2),
+                      status.opening, count=1, flags=re.DOTALL)
+                  if count != 1:
+                      raise ValueError('Missing data-status attribute')
+                  status.attrs['data-status'] = state
+          
+                  def texts(node):
+                      for child in node.children:
+                          if child.tag is None and child.raw.strip():
+                              yield child
+                          elif child.tag is not None:
+                              yield from texts(child)
+          
+                  text_nodes = list(texts(status))
+                  if len(text_nodes) != 1:
+                      raise ValueError('Expected exactly one status display text node')
+                  text_nodes[0].raw = html.escape(display, quote=False)
+                  changed.append({'control': control, 'checked': value, 'state': state, 'display': display})
+              result = current_root.decode()
+              if not changed and result != current_body:
+                  raise ValueError('Unchanged body round-trip mismatch')
+              return result, changed
+          
+          
+          def github_issue(repo, number, token, method='GET', body=None):
+              url = f'https://api.github.com/repos/{repo}/issues/{number}'
+              payload = None if body is None else json.dumps({'body': body}).encode('utf-8')
+              request = Request(url, data=payload, method=method,
+                                headers={'Accept': 'application/vnd.github+json',
+                                         'Authorization': f'Bearer {token}',
+                                         'X-GitHub-Api-Version': '2022-11-28',
+                                         'Content-Type': 'application/json'})
+              with urlopen(request, timeout=30) as response:
+                  return json.load(response)
+          
+          
+          def main():
+              with open(os.environ['GITHUB_EVENT_PATH'], encoding='utf-8') as f:
+                  event = json.load(f)
+              assert event['issue']['number'] == 2
+              assert 'pull_request' not in event['issue']
+              previous_body = event['changes']['body']['from']
+              current_body = event['issue']['body']
+              candidate, changed = updates(previous_body, current_body)
+              if not changed:
+                  print(json.dumps({'action': 'unchanged'}))
+                  return
+              repo = event['repository']['full_name']
+              token = os.environ['GH_TOKEN']
+              latest = github_issue(repo, 2, token)['body']
+              latest_inputs = by_control(scoped(IssueTree().parse(latest)), 'input')
+              for change in changed:
+                  if checkbox(latest_inputs[change['control']]) != change['checked']:
+                      print(json.dumps({'action': 'stale-event-skipped'}))
+                      return
+              result, _ = updates(previous_body, latest)
+              if result == latest:
+                  print(json.dumps({'action': 'already-synchronized'}))
+                  return
+              written = github_issue(repo, 2, token, 'PATCH', result)
+              if written['body'] != result or github_issue(repo, 2, token)['body'] != result:
+                  raise RuntimeError('GitHub write/read-back verification failed')
+              print(json.dumps({'action': 'updated-and-verified', 'updates': changed}))
+          
+          
+          if __name__ == '__main__':
+              main()
+          PYTHON

@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:git rev-parse --show-prefix | cat; printf 'prefix-tested\\n'",
+  "outputThat": [
+    "",
+    "prefix-tested"
+  ]
+}

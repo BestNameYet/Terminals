@@ -119,8 +119,20 @@ function verifyAttestation(a,receipt,dir,files,head){
     assert.equal(row.sha256,sha256(files[name]),"attestation digest "+name);
   }
   check(seen.size===NAMES.length,"attestation incomplete");
-  try{execFileSync("git",["merge-base","--is-ancestor",a.published_commit_sha,head]);}
-  catch{throw Error("published commit is not ancestor of checked out HEAD");}
+  // checkout@v4 normally gives a shallow clone, so an older published commit
+  // may be absent locally. Confirm ancestry through the remote compare API.
+  let ancestor=false;
+  try{
+    execFileSync("git",["merge-base","--is-ancestor",a.published_commit_sha,head],
+      {stdio:"ignore"});
+    ancestor=true;
+  }catch{
+    const comparison=JSON.parse(execFileSync("gh",[
+      "api","repos/BestNameYet/Terminals/compare/"+a.published_commit_sha+"..."+head
+    ],{encoding:"utf8",maxBuffer:8*1024*1024}));
+    ancestor=comparison.status==="ahead"||comparison.status==="identical";
+  }
+  check(ancestor,"published commit is not ancestor of checked out HEAD");
   return a.published_commit_sha;
 }
 function main(){

@@ -1,4 +1,4 @@
-name: Manual dispatch
+name: ChatGPT shared chat extractor
 
 on:
   workflow_dispatch:

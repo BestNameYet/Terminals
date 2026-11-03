@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf '\\n'",
+  "outputThat": [
+    ""
+  ]
+}

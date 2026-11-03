@@ -1,8 +1,16 @@
 name: Issue 10 RuntimeConfig Node.js execution
 
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      event_payload:
+        description: Original issue_comment event JSON routed for RuntimeConfig execution
+        required: true
+        type: string
+      nonce:
+        description: Optional routing nonce
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -14,13 +22,10 @@ concurrency:
 
 jobs:
   execute:
-    # Non-owner, edited and non-Issue-10 comments never reach checkout.
+    # Only owner or trusted Actions-router dispatches enter; original comment ownership is rechecked below.
     if: >-
-      ${{ github.event.action == 'created' &&
-          github.event.repository.owner.type == 'User' &&
-          github.event.sender.type == 'User' &&
-          github.event.sender.id == github.event.repository.owner.id &&
-          github.event.comment.user.id == github.event.repository.owner.id }}
+      ${{ github.event.repository.owner.type == 'User' &&
+          (github.actor == github.repository_owner || github.actor == 'github-actions[bot]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -29,14 +34,38 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate and materialize original issue event
+        env:
+          ORIGINAL_EVENT: ${{ inputs.event_payload }}
+        run: |
+          node <<'NODE'
+          "use strict";
+          const fs=require("node:fs"),path=require("node:path");
+          const event=JSON.parse(process.env.ORIGINAL_EVENT);
+          const owner=event.repository?.owner;
+          const comment=event.comment;
+          if (event.action!=="created" || event.issue?.pull_request ||
+              !Number.isSafeInteger(event.issue?.number) || event.issue.number<1 ||
+              !Number.isSafeInteger(comment?.id) || comment.id<1 ||
+              !Number.isFinite(Date.parse(comment.created_at)) ||
+              event.repository?.full_name!==process.env.GITHUB_REPOSITORY ||
+              owner?.type!=="User" || comment.user?.id!==owner.id ||
+              owner.login?.toLowerCase()!==comment.user?.login?.toLowerCase()) {
+            throw Error("Invalid or unauthorized original issue comment event");
+          }
+          const file=path.join(process.env.RUNNER_TEMP,"runtimeconfig-source-event.json");
+          fs.writeFileSync(file,JSON.stringify(event));
+          fs.appendFileSync(process.env.GITHUB_ENV,"SOURCE_COMMENT_ID="+comment.id+"\n");
+          NODE
+
       - name: Verify original issue comment author
-        run: node workspaces/RuntimeConfig/verify-owner.js
+        run: GITHUB_EVENT_PATH="$RUNNER_TEMP/runtimeconfig-source-event.json" node workspaces/RuntimeConfig/verify-owner.js
 
       - name: Run RuntimeConfig regression tests
         run: node --test workspaces/RuntimeConfig/prepare-runtrigger.test.js
 
       - name: Validate exact set and create runtrigger clone
-        run: node workspaces/RuntimeConfig/prepare-runtrigger.js
+        run: GITHUB_EVENT_PATH="$RUNNER_TEMP/runtimeconfig-source-event.json" node workspaces/RuntimeConfig/prepare-runtrigger.js
 
       - name: Commit runtrigger BEFORE executing program and verify remote bytes
         shell: bash
@@ -52,7 +81,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- "$RUNTRIGGER_PATH"
           git diff --cached --quiet && { echo 'Generated trigger not staged' >&2; exit 1; }
-          git commit -m "Persist RuntimeConfig Issue 10 trigger ${{ github.event.comment.id }}"
+          git commit -m "Persist RuntimeConfig Issue 10 trigger ${SOURCE_COMMENT_ID}"
           for attempt in 1 2 3; do
             if git push origin HEAD:"${{ github.event.repository.default_branch }}"; then break; fi
             if [ "$attempt" -eq 3 ]; then echo 'Trigger publication failed' >&2; exit 1; fi
@@ -76,7 +105,7 @@ jobs:
           node workspaces/RuntimeConfig/runner.js "$RUNTRIGGER_PATH" > "$BASE/execution.log" 2>&1
           code=$?
           cat "$BASE/execution.log"
-          node - "$BASE" "$code" "$RUNTRIGGER_PATH" "${{ github.event.comment.id }}" <<'NODE'
+          node - "$BASE" "$code" "$RUNTRIGGER_PATH" "$SOURCE_COMMENT_ID" <<'NODE'
           'use strict';
           const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
           const [base,rawCode,trigger,source]=process.argv.slice(2);
@@ -100,7 +129,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: runtimeconfig-issue10-${{ github.event.comment.id }}-${{ github.run_attempt }}
+          name: runtimeconfig-issue10-${{ env.SOURCE_COMMENT_ID }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/runtimeconfig-issue10/
           retention-days: 30
           if-no-files-found: warn

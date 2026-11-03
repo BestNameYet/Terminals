@@ -32,9 +32,6 @@ jobs:
             if (error instanceof SyntaxError) throw new Error("Issue comment must contain valid JSON: " + error.message);
             throw error;
           }
-          if (comment === null || typeof comment !== "object" || Array.isArray(comment)) {
-            throw new Error("Issue comment must contain a JSON object");
-          }
           const registry = JSON.parse(fs.readFileSync(".github/issue-workflow-registry.json", "utf8"));
           if (!Array.isArray(registry)) throw new Error("Registry must be an array");
           const seen = new Set();
@@ -78,13 +75,12 @@ jobs:
             if (error instanceof SyntaxError) throw new Error("Issue comment must contain valid JSON: " + error.message);
             throw error;
           }
-          if (command === null || typeof command !== "object" || Array.isArray(command)) {
-            throw new Error("Issue comment must contain a JSON object");
-          }
-          if (typeof command.forWhom !== "string" || !/^[A-Za-z0-9_-]{1,128}$/.test(command.forWhom)) {
-            throw new Error("Issue comment must specify a valid forWhom nonce");
-          }
-          const nonce = command.forWhom;
+          const nonce = command && !Array.isArray(command) &&
+            typeof command === "object" &&
+            typeof command.forWhom === "string" &&
+            /^[A-Za-z0-9_-]{1,128}$/.test(command.forWhom)
+              ? command.forWhom
+              : "comment-" + String(event.comment?.id ?? "unknown");
           const payload = JSON.stringify(event);
           if (payload.length > 65535) throw new Error("Original event exceeds workflow_dispatch input limit of 65535 characters");
           const repo = event.repository?.full_name;

@@ -44,19 +44,47 @@ function htmlText(html, limits) {
   try { return new TextDecoder("utf-8", { fatal:true }).decode(bytes); }
   catch { fail("INVALID_UTF8", "HTML response is not valid UTF-8"); }
 }
+// Scan large enqueue string literals iteratively; never run a regex over a multi-MB literal.
+function enqueueStringLiterals(script) {
+  const marker = "window.__reactRouterContext.streamController.enqueue";
+  const literals = [];
+  let from = 0;
+  while (from < script.length) {
+    const at = script.indexOf(marker, from);
+    if (at < 0) break;
+    let i = at + marker.length;
+    while (i < script.length && /\s/.test(script[i])) i++;
+    if (script[i] !== "(") { from = i + 1; continue; }
+    i++;
+    while (i < script.length && /\s/.test(script[i])) i++;
+    if (script[i] !== '"') { from = i + 1; continue; }
+    const begin = i++;
+    let escaped = false, closed = false;
+    for (; i < script.length; i++) {
+      const c = script[i];
+      if (escaped) { escaped = false; continue; }
+      if (c === "\\") { escaped = true; continue; }
+      if (c === '"') { closed = true; i++; break; }
+    }
+    if (!closed) { from = begin + 1; continue; }
+    const end = i;
+    while (i < script.length && /\s/.test(script[i])) i++;
+    if (script[i] !== ")") { from = i + 1; continue; }
+    literals.push(script.slice(begin, end));
+    from = i + 1;
+  }
+  return literals;
+}
 function tablesFromHtml(html, limits) {
   const scripts = /<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi;
-  const calls = /window\.__reactRouterContext\.streamController\.enqueue\(\s*("(?:\\.|[^"\\])*")\s*\)/g;
   let script, tableCandidates = [], scriptCandidates = 0, matchingCalls = 0;
   while ((script = scripts.exec(html)) !== null) {
     if (!script[1].includes("window.__reactRouterContext.streamController.enqueue")) continue;
     scriptCandidates++;
-    calls.lastIndex = 0;
-    let call;
-    while ((call = calls.exec(script[1])) !== null) {
+    for (const literal of enqueueStringLiterals(script[1])) {
       matchingCalls++;
       let decoded;
-      try { decoded = JSON.parse(call[1]); }
+      try { decoded = JSON.parse(literal); }
       catch { fail("INVALID_ENQUEUE", "enqueue argument is not a JSON string literal"); }
       if (typeof decoded !== "string" || !decoded.trimStart().startsWith("[")) continue;
       let table;

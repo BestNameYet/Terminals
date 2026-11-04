@@ -19,7 +19,8 @@ The following is the generic selection template, not an instantiated program men
 {
   "comment": {
     "version": "0.1.0",
-    "createdAt": "2026-11-04T03:54:52-08:00"
+    "createdAt": "2026-11-04T03:54:52-08:00",
+    "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
   },
   "selection": {
     "menu": {
@@ -53,6 +54,7 @@ The root `comment` object is metadata and is not part of the `selection` element
 | --- | --- |
 | `comment.version` | Version of the published template artifact. |
 | `comment.createdAt` | Creation date and time of that artifact, in an ISO 8601 representation. |
+| `comment.spec` | URL of the specification document defining this template. |
 | `selection.menu.shortTitle` | Short menu title to be provided when the template is instantiated. |
 | `selection.menu.title` | Menu title to be provided when instantiated. |
 | `selection.menu.options` | Ordered array of selectable option objects. |

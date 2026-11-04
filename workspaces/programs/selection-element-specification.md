@@ -23,21 +23,19 @@ The following is the generic selection template, not an instantiated program men
     "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
   },
   "selection": {
-    "menu": {
-      "shortTitle": "shortTitle",
-      "title": "title",
-      "options": [
-        {"id": 0, "option": "option"},
-        {"id": 1, "option": "option"}
-      ]
-    },
+    "shortTitle": "shortTitle",
+    "title": "title",
+    "options": [
+      {"id": 0, "option": "option"},
+      {"id": 1, "option": "option"}
+    ],
     "instruction": {
       "SELECT": {
         "by": "id",
         "use": "single-select",
         "as": "id",
         "where": [
-          "menu.options"
+          "options"
         ]
       },
       "RETURN": "options[id].id"
@@ -55,21 +53,21 @@ The root `comment` object is metadata and is not part of the `selection` element
 | `comment.version` | Version of the published template artifact. |
 | `comment.createdAt` | Creation date and time of that artifact, in an ISO 8601 representation. |
 | `comment.spec` | URL of the specification document defining this template. |
-| `selection.menu.shortTitle` | Short menu title to be provided when the template is instantiated. |
-| `selection.menu.title` | Menu title to be provided when instantiated. |
-| `selection.menu.options` | Ordered array of selectable option objects. |
-| `selection.menu.options[].id` | Explicit integer selection identifier. |
-| `selection.menu.options[].option` | Descriptive text for the selectable alternative. |
+| `selection.shortTitle` | Short menu title to be provided when the template is instantiated. |
+| `selection.title` | Menu title to be provided when instantiated. |
+| `selection.options` | Ordered array of selectable option objects. |
+| `selection.options[].id` | Explicit integer selection identifier. |
+| `selection.options[].option` | Descriptive text for the selectable alternative. |
 | `selection.instruction.SELECT` | Structured selection operation, not explanatory prose. |
 | `selection.instruction.SELECT.by` | Property by which an option is selected; currently `id`. |
 | `selection.instruction.SELECT.use` | Selection mode; currently `single-select`. |
 | `selection.instruction.SELECT.as` | Local binding name for the selection; currently `id`. |
-| `selection.instruction.SELECT.where` | Array of expressions specifying the selection collection; currently `menu.options`. |
+| `selection.instruction.SELECT.where` | Array of expressions specifying the selection collection; currently `options`. |
 | `selection.instruction.RETURN` | Expression evaluated for the return value; currently `options[id].id`. |
 
 ## Semantics and invariants
 
-1. The menu belongs to a `selection` element. The `instruction` follows the `menu`.
+1. The `shortTitle`, `title`, and `options` fields belong directly to the `selection` element. The `instruction` follows these fields.
 2. Every option has an explicitly labeled integer `id`. The current convention is zero-based, consecutive IDs aligned with the array indexes; menu meaning is determined by the actual option objects.
 3. `SELECT` operates on the options specified by `where`, using the property specified by `by`. The `as` binding is local to the instruction.
 4. `RETURN: "options[id].id"` retrieves the `id` member value from the selected option under the current index-aligned convention. The expression is a Programs instruction expression, not JSON syntax; JSON itself defines neither property access nor evaluation.

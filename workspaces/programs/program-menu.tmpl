@@ -1,0 +1,19 @@
+{
+  "comment": {
+    "version": "0.2.0",
+    "createdAt": <utc_timestamp>,
+    "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
+  },
+  "selection": {
+    "shortTitle": "Programs",
+    "title": "Available programs",
+    "options": [
+      {"id": 0, "option": <application_name_and_description>}
+    ],
+    "instruction": {
+      "SELECT": {"by": "id", "use": "single-select", "as": $id},
+      "RETURN": $options[$id].id
+    }
+  }
+}
+

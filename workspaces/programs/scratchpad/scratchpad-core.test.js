@@ -15,3 +15,17 @@ test("termination also releases slot; release is idempotent",()=>{const a=c.rese
 test("old instance cannot terminate new instance",()=>{const a=c.reserve(c.emptyState(),{comment_id:123,instance_id:"A",now});const b=c.release(a.state,{control_comment_id:123,instance_id:"A",generation:1,reason:"completed",now});const z=c.reserve(b.state,{comment_id:123,instance_id:"B",now});assert.throws(()=>c.release(z.state,{control_comment_id:123,instance_id:"A",generation:1,reason:"terminated",now}),{code:"STALE_INSTANCE"});});
 test("stale lease and duplicate busy cannot reserve",()=>{const a=c.reserve(c.emptyState(),{comment_id:123,instance_id:"A",now});assert.throws(()=>c.reserve(a.state,{comment_id:123,instance_id:"B",now}),{code:"LEASE_BUSY"});});
 
+
+test("entry_count persists and updates through create append edit and merge",()=>{
+ const d=create();assert.equal(d.header.entry_count,1);
+ const a=c.append(d,{work:"New",now});assert.equal(a.header.entry_count,2);
+ const e=c.append(a,{work:"Edit",now,replace_index:0});assert.equal(e.header.entry_count,3);
+ const p=c.patchDoc(e,{document:{header:{...e.header},entries:[{work:"Added"}]}},now);
+ assert.equal(p.header.entry_count,4);assert.equal(p.entries.length,4);assert.equal(d.header.entry_count,1);
+});
+test("invalid entry_count fails and legacy comments are upgraded on edit",()=>{
+ const d=create();d.header.entry_count=9;assert.throws(()=>c.validateDoc(d),{code:"INVALID_ENTRY_COUNT"});
+ delete d.header.entry_count;assert.equal(c.validateDoc(d),d);
+ const next=c.append(d,{work:"Legacy upgraded",now});assert.equal(next.header.entry_count,2);
+ assert.throws(()=>c.patchDoc(next,{document:{header:{entry_count:999},entries:[{work:"Added"}]}},now),{code:"INVALID_ENTRY_COUNT"});
+});

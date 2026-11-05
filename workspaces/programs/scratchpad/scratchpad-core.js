@@ -18,6 +18,7 @@ function validateDoc(doc){
  if(!isObject(doc)||!isObject(doc.header)||!Array.isArray(doc.entries)||!doc.entries.length)problem("INVALID_DOCUMENT","Scratchpad must have header and nonempty entries");
  if(Object.keys(doc).some(k=>!["header","entries"].includes(k)))problem("INVALID_DOCUMENT","Unexpected top-level keys");
  const h=doc.header;
+ if(h.entry_count!==undefined&&(!Number.isSafeInteger(h.entry_count)||h.entry_count!==doc.entries.length))problem("INVALID_ENTRY_COUNT","Header entry_count must equal entries.length");
  if(h.schema!==SCHEMA||h.version!=="1.0.0"||h.repository!=="BestNameYet/Terminals"||![4,5].includes(h.issue_number)||!nonempty(h.task_id)||!nonempty(h.topic)||!nonempty(h.agent_nonce)||!positive(h.revision)||!nonempty(h.created_at)||!nonempty(h.updated_at))problem("INVALID_HEADER","Invalid scratchpad header");
  const seen=new Set();
  for(let i=0;i<doc.entries.length;i++){
@@ -30,7 +31,7 @@ function validateDoc(doc){
 }
 function makeDoc({issue,task_id,topic,agent_nonce,caption={},work,now}){
  if(![4,5].includes(issue)||!nonempty(task_id)||!nonempty(topic)||!nonempty(agent_nonce)||!nonempty(work)||!nonempty(now))problem("INVALID_INPUT","Missing task-start metadata");
- return validateDoc({header:{schema:SCHEMA,version:"1.0.0",repository:"BestNameYet/Terminals",issue_number:issue,comment_id:null,task_id,topic,created_at:now,updated_at:now,agent_nonce,revision:1},
+ return validateDoc({header:{schema:SCHEMA,version:"1.0.0",repository:"BestNameYet/Terminals",issue_number:issue,comment_id:null,task_id,topic,created_at:now,updated_at:now,agent_nonce,revision:1,entry_count:1},
  entries:[{caption:{entry_id:task_id+".1",index:0,event:"task_start",subject_id:nonempty(caption.subject_id)?caption.subject_id:"intake",timestamp_utc:now,revision:1,status:"active"},work}]});
 }
 function append(doc,{caption={},work,now,replace_index=null}){
@@ -43,7 +44,7 @@ function append(doc,{caption={},work,now,replace_index=null}){
  if(replace_index!==null)c.replaces_index=replace_index;
  if(Array.isArray(caption.references))c.references=caption.references.filter(nonempty);
  next.entries.push({caption:c,work});
- next.header.revision=revision;next.header.updated_at=now;
+ next.header.revision=revision;next.header.updated_at=now;next.header.entry_count=next.entries.length;
  return validateDoc(next);
 }
 function patchDoc(doc,input,now){
@@ -54,6 +55,7 @@ function patchDoc(doc,input,now){
   for(const [key,value] of Object.entries(patch.header)){
    if(key==="topic"){if(!nonempty(value))problem("INVALID_INPUT","Empty topic");if(next.header.topic!==value){next.header.topic=value;changed=true;}}
    else if(key==="comment_id"&&next.header.comment_id===null&&positive(value)){next.header.comment_id=value;changed=true;}
+   else if(key==="entry_count"){if(!Number.isSafeInteger(value)||value!==doc.entries.length)problem("INVALID_ENTRY_COUNT","Supplied entry_count must match the source comment; it is managed by the application");}
    else if(JSON.stringify(next.header[key])!==JSON.stringify(value))problem("IMMUTABLE_HEADER","Cannot change header field: "+key);
   }
  }

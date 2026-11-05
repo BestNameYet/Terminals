@@ -76,7 +76,11 @@ function menu(){
 }
 function entryMenu(id,doc){
  const labels=["New entry",...doc.entries.map((e,i)=>"Edit entry "+i+" · "+e.caption.subject_id+" · revision "+e.caption.revision)];
- return {schema:"terminals.scratchpad.entry-menu.v1",data_comment_id:id,expected_revision:doc.header.revision,menu:c.menu("Scratchpad entries",labels)};
+ const screen=c.menu("Scratchpad entries",labels);
+ screen.comment.version="0.3.0";
+ screen.comment.entry_count=doc.entries.length;
+ screen.selection.goto=[{"main-menu":[["Main"],["Back"]]}];
+ return {schema:"terminals.scratchpad.entry-menu.v1",data_comment_id:id,expected_revision:doc.header.revision,menu:screen};
 }
 function handle(input){
  const operation=input.operation||"menu";

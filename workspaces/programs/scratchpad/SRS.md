@@ -1,6 +1,6 @@
 # Terminals program mode and scratchpad application — SRS
 
-**Specification:** TP-SRS-001, v1.0.0  
+**Specification:** TP-SRS-001, v1.1.0  
 **Relationship to implementation:** prospective primary specification  
 **Machine projection:** [SRS.agent.json](SRS.agent.json)  
 **Template syntax:** [Selection Element Specification v0.2.0](../selection-element-specification.md)  
@@ -27,6 +27,26 @@
 - **SEC-01:** Mutations SHALL be confined to Issues #4 and #5 of BestNameYet/Terminals and owner-authorized invocation through Issue #3.
 - **TEST-01:** Node.js unit tests SHALL cover menu generation, program registry restrictions, scratchpad creation, entry append, revision edits, partial/full JSON merging, schema validation and unsafe target rejection.
 - **TEST-02:** An end-to-end test SHALL confirm that \`@\` mode can list programs and run the scratchpad application, with verified terminalruns results.
+
+## Reusable program-control comment lifecycle
+
+- **PC-01:** A program instance SHALL own its designated **control-comment ID** exclusively while active. This SHALL be distinct from permanent **scratchpad data-comment IDs**.
+- **PC-02:** Allocation SHALL bind a control-comment ID to a unique instance ID and monotonically increasing generation in durable program-session state.
+- **PC-03:** On completion or termination, the program SHALL release the control-comment binding and mark the comment available for another instance.
+- **PC-04:** A new instance SHALL be able to acquire a released comment ID with a new instance ID and incremented generation.
+- **PC-05:** Every session-scoped operation SHALL verify control-comment ID, instance ID and generation; stale instance commands SHALL be rejected.
+- **PC-06:** Release SHALL be idempotent for the same already-ended instance and SHALL NOT affect a newer owner.
+- **PC-07:** The durable lease state SHALL use an optimistic compare-and-swap update to prevent simultaneous allocation of a single control comment. Lease state SHALL be authoritative if UI rendering becomes stale.
+- **PC-08:** Completing or terminating a program SHALL NOT delete, truncate, recycle or rewrite its persistent scratchpad data comments.
+- **PC-09:** A program instance SHALL remain active across separate commands and workflow runs until completed, terminated or explicitly recovered. Finishing one command SHALL NOT automatically end the instance.
+- **PC-10:** Start, status and release responses SHALL identify the control-comment ID, instance ID, generation and current status.
+- **PC-11:** Abandoned sessions SHALL support a documented owner-authorized recovery operation, after which stale instance commands SHALL fail.
+
+The lifecycle is: available → active → completed/terminated → available → active (new instance, new generation). The numeric control-comment ID is reusable; its ownership is not.
+
+The program SHALL distinguish **control** comments used for menus and transient interaction from **data** comments carrying permanent scratchpad entries. The control-comment registry SHALL be persisted at workspaces/programs/sessions/state.json. The concrete release API SHALL use programInput operations complete and terminate with the current control_comment_id, instance_id, and generation. An explicit recover operation SHALL require the current generation and a reason.
+
+**Example:** Instance A acquires control comment 123 (generation 4), then completes. Instance B subsequently acquires comment 123 (generation 5). A subsequent request carrying A's instance ID or generation 4 SHALL be rejected as STALE_INSTANCE. A's scratchpad data-comment ID remains unchanged.
 
 ## Input contracts
 

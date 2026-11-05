@@ -1,0 +1,143 @@
+{
+  "schema": "terminals.srs.agent.v1",
+  "version": "1.0.0",
+  "source": {
+    "path": "workspaces/programs/scratchpad/SRS.md",
+    "specification": "TP-SRS-001",
+    "revision": "1.0.0",
+    "mode": "prospective_primary_to_implementation"
+  },
+  "architecture": {
+    "interface": "Terminals Issue #3",
+    "mode": "@",
+    "commands": [
+      "programs",
+      "run <application name>"
+    ],
+    "application_registry": "workspaces/programs/applications.json",
+    "entrypoint": "workspaces/programs/scratchpad/scratchpad.js",
+    "output": "workspaces/terminalruns/**"
+  },
+  "requirements": [
+    {
+      "id": "PM-01",
+      "behavior": "Preserve $ and gh modes"
+    },
+    {
+      "id": "PM-02",
+      "behavior": "Accept @ programs and @ run name"
+    },
+    {
+      "id": "PM-03",
+      "behavior": "Catalog registered named applications"
+    },
+    {
+      "id": "PM-04",
+      "behavior": "No dynamic executable paths from user input"
+    },
+    {
+      "id": "PM-05",
+      "behavior": "Pass serialized programInput object as single Node.js arg"
+    },
+    {
+      "id": "PM-06",
+      "behavior": "Persist stdout and inspect job outcome"
+    },
+    {
+      "id": "SP-01",
+      "behavior": "Scratchpad new and edit"
+    },
+    {
+      "id": "SP-02",
+      "behavior": "Select lesser issue count 4 or 5; tie 4"
+    },
+    {
+      "id": "SP-03",
+      "behavior": "Create header/entries comment and return ID"
+    },
+    {
+      "id": "SP-04",
+      "behavior": "Edit menu for existing entries and new entry"
+    },
+    {
+      "id": "SP-05",
+      "behavior": "New entries append with captions"
+    },
+    {
+      "id": "SP-06",
+      "behavior": "Edits append revision referencing old index"
+    },
+    {
+      "id": "SP-07",
+      "behavior": "Accept full and partial JSON; merge non-destructively"
+    },
+    {
+      "id": "SP-08",
+      "behavior": "Validate target/revision/readback"
+    },
+    {
+      "id": "SP-09",
+      "behavior": "Caption every change"
+    },
+    {
+      "id": "SP-10",
+      "behavior": "Menu access to operations"
+    },
+    {
+      "id": "SEC-01",
+      "behavior": "Confine to Issues 4/5 and owner author"
+    },
+    {
+      "id": "TEST-01",
+      "behavior": "Unit tests for security and operations"
+    },
+    {
+      "id": "TEST-02",
+      "behavior": "End-to-end @ commands and terminal output"
+    }
+  ],
+  "data": {
+    "comment": {
+      "header": {
+        "schema": "terminals.scratchpad.comment.v1",
+        "issue_number": "4|5",
+        "task_id": "string",
+        "revision": "positive_integer"
+      },
+      "entries": [
+        {
+          "caption": {
+            "entry_id": "string",
+            "index": "integer",
+            "event": "string",
+            "subject_id": "string",
+            "revision": "integer",
+            "timestamp_utc": "ISO8601",
+            "status": "string",
+            "replaces_index": "optional_integer"
+          },
+          "work": "string"
+        }
+      ]
+    },
+    "mutation": {
+      "mode": "append-only revision events",
+      "precondition": "expected_revision=current.header.revision",
+      "verification": "fetch written comment; compare canonical JSON"
+    }
+  },
+  "constraints": {
+    "no_shell_interpolation": true,
+    "program_registry_only": true,
+    "no_secret_logging": true,
+    "non_atomic_revision_note": true
+  },
+  "acceptance": [
+    "program listing works from @",
+    "run scratchpad returns menu",
+    "new yields persisted template and id",
+    "edit menus and entry operations work",
+    "full and partial JSON supported",
+    "tests and readback verified"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "terminals.requirements.v1",
+  "version": "1.0.0",
+  "repository": "BestNameYet/Terminals",
+  "purpose": "Repository-level requirements for terminal operation contracts, software requirements specifications, and agent-oriented semantic projections.",
+  "normative_terms": {
+    "SHALL": "Mandatory requirement; implementation and verification must satisfy it.",
+    "SHOULD": "Recommended procedure, subordinate to the mandatory requirements."
+  },
+  "requirements": [
+    {
+      "id": "TERM-001",
+      "shall": "The Terminals repository SHALL maintain an AGENTS.md that defines the mandatory rules and the procedures for operating every supported terminal surface.",
+      "verification": "AGENTS.md exists and covers the available terminal surfaces, their entry points, operation constraints, and verification."
+    },
+    {
+      "id": "TERM-002",
+      "shall": "AGENTS.md SHALL keep mandatory imperatives separate from procedural instructions, express rules using SHALL, and organize procedures independently using SHOULD and actionable examples.",
+      "verification": "Mandatory rules and independently organized procedures are distinguishable, and procedure material does not weaken or replace a rule."
+    },
+    {
+      "id": "TERM-003",
+      "shall": "The procedures in AGENTS.md SHALL collectively provide sufficient information to carry out every applicable imperative in their domain.",
+      "verification": "Each imperative can be executed through one or more documented procedures with required inputs, steps, outputs, and verification guidance."
+    },
+    {
+      "id": "SRS-001",
+      "shall": "Every substantive application in scope SHALL have a Software Requirements Specification (SRS).",
+      "verification": "Each substantive application has an identifiable SRS artifact."
+    },
+    {
+      "id": "SRS-002",
+      "shall": "An application's SRS SHALL be produced either as the primary specification before implementation or retrospectively after implementation; a retrospective SRS SHALL describe the as-implemented behavior and constraints.",
+      "verification": "The SRS identifies whether its relationship to implementation is prospective or retrospective, and its contents correspond to the relevant intended or implemented behavior."
+    },
+    {
+      "id": "PROJ-001",
+      "shall": "Every Markdown SRS SHALL be projected into an associated machine-readable specification intended for semantic agent consumption.",
+      "verification": "An associated machine-readable specification exists and identifies its Markdown source."
+    },
+    {
+      "id": "PROJ-002",
+      "shall": "The SRS projection SHALL transform source material into a semantics-first structure rather than perform a line-by-line mapping, preserve Markdown section order as an obligation, or merely serialize Markdown text.",
+      "verification": "Projection records are grouped and structured by semantic function and can be interpreted without reconstructing the Markdown document."
+    },
+    {
+      "id": "PROJ-003",
+      "shall": "The SRS projection SHALL preserve all source-supported information necessary for agents to understand, implement, operate, test, and verify the specified application.",
+      "verification": "All applicable requirements, contracts, actors, preconditions, inputs, outputs, invariants, state transitions, constraints, error behavior, dependencies, and acceptance criteria remain recoverable; absent concepts are not invented."
+    },
+    {
+      "id": "PROJ-004",
+      "shall": "The SRS projection SHALL use atomic and unambiguous requirements, stable identifiers, explicit relationships, consistent terms, typed structures, and task-oriented semantic grouping according to best practices for agent consumption.",
+      "verification": "Agents can identify actionable obligations, their subjects, dependencies, verification criteria, and associated contracts without relying on prose layout."
+    },
+    {
+      "id": "PROJ-005",
+      "shall": "The SRS projection SHALL preserve source intent and distinguish sourced facts, derived structure, interpretations, assumptions, and unresolved ambiguities without fabricating source requirements.",
+      "verification": "The projection identifies provenance and marks unresolved ambiguity explicitly instead of presenting an inference as a source requirement."
+    },
+    {
+      "id": "PROJ-006",
+      "shall": "Each SRS projection SHALL record source identity and revision, projection schema/version, and sufficient provenance for semantic traceability, and SHALL be revised when the source SRS changes materially.",
+      "verification": "Source and projection revisions can be identified, and material source changes produce an updated compatible projection or an explicit out-of-sync status."
+    }
+  ],
+  "interpretation": {
+    "substantive_application": "An application with meaningful behavior, interfaces, data handling, execution semantics, state, or failure modes; its classification is independent of whether implementation preceded specification.",
+    "srs_timing": [
+      "prospective_primary_to_implementation",
+      "retrospective_after_implementation"
+    ],
+    "human_readable_documents": {
+      "priority": "secondary",
+      "role": "Human explanation, review, and provenance; not the preferred operational representation for agent consumption."
+    },
+    "machine_readable_documents": {
+      "priority": "primary_for_agents",
+      "role": "Normalized, structured, actionable semantic representations that make application requirements and operational contracts directly consumable."
+    },
+    "semantic_projection": {
+      "source": "Markdown SRS",
+      "target": "Machine-readable specification; JSON is the default representation unless a documented application contract specifies another machine-readable format.",
+      "equivalence": "Preserve implementation- and verification-relevant meaning, not the source document's physical lines, section sequence, typography, or prose phrasing.",
+      "transformation": "Extract and normalize semantic units; classify requirements and relationships; make conditions, types, boundaries, constraints, and verification explicit where supported; group by agent task and domain responsibility.",
+      "preferred_semantic_units": [
+        "actors_and_responsibilities",
+        "functional_requirements",
+        "nonfunctional_constraints",
+        "input_output_contracts",
+        "state_and_transition_rules",
+        "validation_and_error_behavior",
+        "dependencies_and_preconditions",
+        "invariants",
+        "acceptance_and_test_oracles",
+        "provenance_and_unresolved_questions"
+      ],
+      "fidelity": "No substantive loss, silent scope reduction, unsupported requirement invention, or presentation-only copy masquerading as semantic projection."
+    }
+  }
+}

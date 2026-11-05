@@ -1,0 +1,9 @@
+{
+  "schema": "chatgpt.extractor.execution.v1",
+  "request_id": "share-6aec3b14-octane-fix-20261105",
+  "run_id": "41994534799",
+  "run_attempt": 1,
+  "stage": "OUTPUTS_VALIDATED",
+  "precommit_status": "ready_for_publication",
+  "errors": []
+}

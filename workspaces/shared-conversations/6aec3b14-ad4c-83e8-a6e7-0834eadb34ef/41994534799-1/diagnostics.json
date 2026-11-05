@@ -1,0 +1,28 @@
+{
+  "schema": "chatgpt.extractor.diagnostics.v1",
+  "decoder": {
+    "name": "react-router-indexed",
+    "version": "candidate-1"
+  },
+  "discovery": {
+    "script_candidates": 2,
+    "payload_candidates": 1,
+    "matching_calls": 2,
+    "conversation_candidates": 1
+  },
+  "counts": {
+    "serialization_slots": 14827,
+    "decoded_slots": 14525,
+    "linear_nodes": 661,
+    "linear_messages": 660,
+    "ancestry_nodes": 661,
+    "selected_visible_messages": 59
+  },
+  "duplicate_ids": [],
+  "linear_vs_selected": {
+    "comparison_available": true,
+    "linear_only_ids": [],
+    "selected_only_ids": [],
+    "order_difference": false
+  }
+}

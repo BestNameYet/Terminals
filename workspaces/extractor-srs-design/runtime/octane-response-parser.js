@@ -63,7 +63,6 @@ function parseOctaneHtml(html,validated,limits,ErrorType){
       text=htmlToText(raw.renderedHtml);
       origin="renderedHtml_text_projection";
     }
-    if(!text.trim())fail(ErrorType,"OCTANE_EMPTY_MESSAGE","Unrecoverable message at index "+index);
     const channel=raw.role==="assistant"?"final":null;
     const item={role:raw.role,channel,text,text_origin:origin,source_id:raw.id};
     messages.push(item);
@@ -80,7 +79,7 @@ function parseOctaneHtml(html,validated,limits,ErrorType){
   const coverage="selected-visible-only";
   return {
     schema:"chatgpt.html-response-parser.candidate.v1",
-    decoder:{name:"octane-visible",version:"1.0.0"},
+    decoder:{name:"octane-visible",version:"1.0.1"},
     coverage,source_linear_available:false,
     conversation:conv,
     linear:{records,source_node_count:records.length,message_count:records.length,duplicate_ids:[],

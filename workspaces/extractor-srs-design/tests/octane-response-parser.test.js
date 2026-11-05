@@ -30,11 +30,30 @@ test("Octane malformed JSON and schema fail rather than fallback to legacy",()=>
  assert.throws(()=>parseHtmlResponse('<script id="__WEB_MOBILE_DATA__">{x}</script>',validated),e=>e.code==="INVALID_OCTANE_JSON");
  assert.throws(()=>parseHtmlResponse('<script id="__WEB_MOBILE_DATA__">{"conversation":{}}</script>',validated),e=>e.code==="INVALID_OCTANE_SCHEMA");
 });
-test("Octane rejects absent assistant, duplicate IDs and unrecoverable display content",()=>{
+test("Octane rejects absent assistant, duplicate IDs and non-string content",()=>{
  const u=[{id:"u",role:"user",content:"Hi"}];
  assert.throws(()=>parseHtmlResponse(html(u),validated),e=>e.code==="INCOMPLETE_OCTANE");
  assert.throws(()=>parseHtmlResponse(html([{id:"a",role:"user",content:"x"},{id:"a",role:"assistant",content:"y"}]),validated),e=>e.code==="INVALID_OCTANE_MESSAGE");
- assert.throws(()=>parseHtmlResponse(html([{id:"a",role:"user",content:"x"},{id:"b",role:"assistant",content:""}]),validated),e=>e.code==="OCTANE_EMPTY_MESSAGE");
+ for(const bad of [null,0,{},[]]){
+   assert.throws(()=>parseHtmlResponse(html([{id:"u",role:"user",content:"Hi"},{id:"a",role:"assistant",content:bad}]),validated),e=>e.code==="INVALID_OCTANE_CONTENT");
+ }
+});
+test("Octane preserves empty and whitespace-only content without inventing text",()=>{
+ const source=[
+  {id:"u1",role:"user",content:"Hi"},
+  {id:"a1",role:"assistant",content:"",reasoningSummary:"Worked for 6m 10s",hideActions:true,renderedHtml:""},
+  {id:"a2",role:"assistant",content:"   ",reasoningSummary:"Processing",renderedHtml:""},
+  {id:"u2",role:"user",content:""},
+  {id:"a3",role:"assistant",content:"",renderedHtml:""}
+ ];
+ const parsed=parseHtmlResponse(html(source),validated);
+ assert.deepEqual(parsed.selected.counts,{user:2,commentary:0,final:3});
+ assert.deepEqual(parsed.selected.messages.map(m=>m.text),["Hi","","   ","",""]);
+ assert.deepEqual(parsed.selected.messages.map(m=>m.text_origin),["content","content","content","content","content"]);
+ assert.deepEqual(parsed.linear.records.map(r=>r.derived_text),["Hi","","   ","",""]);
+ assert.deepEqual(parsed.linear.records[1].raw_node,source[1]);
+ assert.deepEqual(parsed.linear.records[2].raw_node,source[2]);
+ assert.equal(parsed.linear.source_node_count,5);
 });
 test("Octane source scripts are data, not executed",()=>{
  delete globalThis.__octaneProbe;

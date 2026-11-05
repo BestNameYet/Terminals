@@ -1,0 +1,6 @@
+{
+  "inputThis": "@:run scratchpad",
+  "outputThat": [
+    "{\"schema\":\"terminals.scratchpad.program-menu.v1\",\"menu\":{\"schema\":\"terminals.selection.compiled-tags.v1\",\"comment\":{\"version\":\"0.2.0\",\"createdAt\":\"2026-11-05T07:20:01.398Z\",\"spec\":\"https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md\"},\"selection\":{\"shortTitle\":\"Scratchpad\",\"title\":\"Scratchpad\",\"options\":[{\"id\":0,\"option\":\"Start program instance\"},{\"id\":1,\"option\":\"Inspect existing scratchpad\"},{\"id\":2,\"option\":\"Enter full/partial JSON\"},{\"id\":3,\"option\":\"Complete/terminate active instance\"}],\"instruction\":{\"SELECT\":{\"by\":\"id\",\"use\":\"single-select\",\"as\":{\"kind\":\"runtime-variable\",\"expression\":\"$id\"}},\"RETURN\":{\"kind\":\"runtime-expression\",\"expression\":\"$options[$id].id\"}}}},\"operations\":[\"start\",\"edit\",\"new\",\"new_entry\",\"edit_entry\",\"submit_json\",\"status\",\"complete\",\"terminate\",\"recover\"]}"
+  ]
+}

@@ -1,10 +1,10 @@
 {
   "schema": "terminals.srs.agent.v1",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "source": {
     "path": "workspaces/programs/scratchpad/SRS.md",
     "specification": "TP-SRS-001",
-    "revision": "1.2.0",
+    "revision": "1.3.0",
     "mode": "prospective_primary_to_implementation"
   },
   "architecture": {
@@ -159,6 +159,14 @@
     {
       "id": "SP-18",
       "behavior": "The introductory application selection interface is a valid JSON file discovered by role in the application workspace; its filename is exactly selection.shortTitle + .json, and shortTitle ends with the interface type suffix -selection. The menu is loaded and validated at runtime, not hardcoded."
+    },
+    {
+      "id": "SP-19",
+      "behavior": "Maintain persisted derived header.entry_count equal to full entries.length after each mutation, while allowing legacy documents lacking count until changed"
+    },
+    {
+      "id": "SP-20",
+      "behavior": "Keep N+1 entry operation IDs in options and navigation separately in goto, with main-menu label groups Main and Back"
     }
   ],
   "data": {
@@ -167,7 +175,8 @@
         "schema": "terminals.scratchpad.comment.v1",
         "issue_number": "4|5",
         "task_id": "string",
-        "revision": "positive_integer"
+        "revision": "positive_integer",
+        "entry_count": "derived_integer_equals_entries.length"
       },
       "entries": [
         {
@@ -202,6 +211,23 @@
       "filename_rule": "<selection.shortTitle>.json",
       "short_title_type_suffix": "-selection",
       "schema": "terminals.scratchpad.operation-menu.v1"
+    },
+    "entry_selection": {
+      "operation_ids": "0=new, 1..N=edit",
+      "options_count": "N+1",
+      "goto": [
+        {
+          "main-menu": [
+            [
+              "Main"
+            ],
+            [
+              "Back"
+            ]
+          ]
+        }
+      ],
+      "navigation_rule": "only current declared symbolic destinations"
     }
   },
   "constraints": {

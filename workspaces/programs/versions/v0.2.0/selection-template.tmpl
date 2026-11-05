@@ -1,0 +1,29 @@
+{
+  "comment": {
+    "version": "0.2.0",
+    "createdAt": "2026-11-04T10:24:33-08:00",
+    "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
+  },
+  "selection": {
+    "shortTitle": <shortTitle>,
+    "title": <title>,
+    "options": [
+      {
+        "id": 0,
+        "option": <option>
+      },
+      {
+        "id": 1,
+        "option": <option>
+      }
+    ],
+    "instruction": {
+      "SELECT": {
+        "by": "id",
+        "use": "single-select",
+        "as": $id
+      },
+      "RETURN": $options[$id].id
+    }
+  }
+}

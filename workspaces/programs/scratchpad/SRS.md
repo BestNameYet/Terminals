@@ -1,9 +1,9 @@
 # Terminals program mode and scratchpad application — SRS
 
-**Specification:** TP-SRS-001, v1.2.0  
+**Specification:** TP-SRS-001, v1.3.0
 **Relationship to implementation:** prospective primary specification  
 **Machine projection:** [SRS.agent.json](SRS.agent.json)  
-**Template syntax:** [Selection Element Specification v0.2.0](../selection-element-specification.md)  
+**Template syntax:** [Selection Element Specification v0.3.0](../selection-element-specification.md)
 **Scope:** program invocation through Issue #3 and scratchpad create/edit operations in Issues #4 and #5.
 
 ## Functional requirements
@@ -25,6 +25,8 @@
 - **SP-09:** Each create/edit or subject transition SHALL have a versioned caption; work text SHALL reside in the entry's work member.
 - **SP-10:** The application SHALL provide a task-start and edit-selection menu without requiring any manually constructed GitHub REST command.
 - **SP-18:** The Scratchpad introductory selection interface SHALL be maintained as a valid JSON artifact in the application workspace, with a filename derived from selection.shortTitle and a suffix identifying the interface type (currently \`-selection\`). The application SHALL dynamically discover the introductory interface by role, validate its filename against shortTitle, and render the JSON-defined menu rather than hard-coded JavaScript options. Renaming shortTitle and the matching file SHALL not require modifying the application logic.
+- **SP-19:** Every created or edited scratchpad data comment SHALL persist derived header.entry_count equal to the full entries.length, including historical revisions. Legacy comments without the field may be read and gain it on the next mutation. Present mismatched counts are invalid.
+- **SP-20:** The entry menu SHALL place operation choices only in selection.options (0 New entry; 1..N Edit entry), and SHALL place navigation in the separate selection.goto array, including main-menu with label groups [["Main"],["Back"]]. Navigation is not an operation option or permission for an unlisted execution route.
 - **SEC-01:** Mutations SHALL be confined to Issues #4 and #5 of BestNameYet/Terminals and owner-authorized invocation through Issue #3.
 - **TEST-01:** Node.js unit tests SHALL cover menu generation, program registry restrictions, scratchpad creation, entry append, revision edits, partial/full JSON merging, schema validation and unsafe target rejection.
 - **TEST-02:** An end-to-end test SHALL confirm that \`@\` mode can list programs and run the scratchpad application, with verified terminalruns results.

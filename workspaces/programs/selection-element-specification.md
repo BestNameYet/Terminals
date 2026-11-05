@@ -1,8 +1,8 @@
 # Programs — Selection Element Specification
 
 **Status:** Working draft; not an approved implementation contract.  
-**Specification version:** 0.2.0  
-**Version created:** 2026-11-04T10:24:33-08:00  
+**Specification version:** 0.3.0
+**Version created:** 2026-11-05T09:57:09Z
 **Scope:** The reusable, agent-facing selection interaction element for the Programs subsystem.
 
 ## Purpose
@@ -18,7 +18,7 @@ The following is the generic selection **source** template, not an instantiated 
 ```text
 {
   "comment": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "createdAt": "2026-11-04T10:24:33-08:00",
     "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
   },
@@ -35,6 +35,7 @@ The following is the generic selection **source** template, not an instantiated 
         "option": <option>
       }
     ],
+    "goto": <goto>,
     "instruction": {
       "SELECT": {
         "by": "id",
@@ -49,7 +50,7 @@ The following is the generic selection **source** template, not an instantiated 
 
 The root `comment` object is metadata and is not part of the `selection` element. The unquoted `<shortTitle>`, `<title>` and `<option>` tokens are typed template placeholders, not string literals. Each occurrence must be resolved in its own template location. The number of `options` is not fixed by the example.
 
-## Template language and compilation (v0.2.0)
+## Template language and compilation (v0.3.0)
 
 | Source syntax | Meaning | Resolution stage |
 | --- | --- | --- |
@@ -70,6 +71,7 @@ The root `comment` object is metadata and is not part of the `selection` element
 
 - **Active source:** [`selection-template.tmpl`](selection-template.tmpl) and [`selection-element-specification.md`](selection-element-specification.md).
 - **Superseded releases:** store both artifacts in `versions/vX.Y.Z/` with their original bytes and original file extensions.
+- **v0.2.0 archive:** [template](versions/v0.2.0/selection-template.tmpl) and [specification](versions/v0.2.0/selection-element-specification.md).
 - **v0.1.0 archive:** [template](versions/v0.1.0/selection-template.json) and [specification](versions/v0.1.0/selection-element-specification.md).
 - Previous versions remain reachable through Git history as well.
 - The v0.1.0 archive intentionally preserves the historical mismatch: its specification had been flattened to `selection.options`, while its standalone JSON source still included `selection.menu`. Neither file is silently rewritten to harmonize them.
@@ -85,6 +87,7 @@ The root `comment` object is metadata and is not part of the `selection` element
 | `selection.title` | Menu title to be provided when instantiated. |
 | `selection.options` | Ordered array of selectable option objects. |
 | `selection.options[].id` | Explicit integer selection identifier. |
+| `selection.goto` | Optional array of symbolic navigation destinations and nested label groups. |
 | `selection.options[].option` | Descriptive text for the selectable alternative. |
 | `selection.instruction.SELECT` | Structured selection operation, not explanatory prose. |
 | `selection.instruction.SELECT.by` | Property by which an option is selected; currently `id`. |
@@ -113,3 +116,16 @@ The root `comment` object is metadata and is not part of the `selection` element
 ## Scope of this specification
 
 This document defines the current **selection** template only. It does not implement the interaction controller, workflow trigger, JavaScript executor, state-persistence mechanism, or a complete Programs SRS.
+
+## Navigation destinations (v0.3.0)
+
+The optional selection.goto field is a separate array, not part of selection.options. Each item is a single-property object whose symbolic destination key maps to an array of arrays of presentation labels. The concrete example below preserves the navigation label grouping:
+
+    "goto": [
+      {"main-menu": [["Main"], ["Back"]]},
+      {"somewhere-else": []}
+    ]
+
+An empty label array is permitted but presents no navigation labels. The second destination is a structural example only, not a declared Scratchpad route. An application must render only destinations supported by its current interface and validate a requested navigation destination against those entries. No arbitrary code execution or unregistered route is permitted.
+
+Scratchpad entry menus contain N+1 operation options when N data entries are present: option 0 New entry and 1..N Edit entry. Navigation to main-menu appears exclusively in selection.goto with label groups Main and Back, and is not assigned an option ID. The navigation response transport must be established in the pending selection-controller implementation; this template alone does not create executable navigation transitions.

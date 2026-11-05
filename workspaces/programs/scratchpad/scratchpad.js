@@ -1,5 +1,7 @@
 "use strict";
 const {spawnSync}=require("node:child_process");
+const fs=require("node:fs");
+const path=require("node:path");
 const c=require("./scratchpad-core.js");
 const REPO="BestNameYet/Terminals",API="repos/"+REPO;
 function fail(code,message){c.problem(code,message);}
@@ -36,7 +38,41 @@ function patchComment(id,doc){
  readBack(id,doc);
 }
 function menu(){
- return {schema:"terminals.scratchpad.operation-menu.v1",menu:c.menu("Scratchpad",["New scratchpad","Edit scratchpad","Submit complete or partial JSON","Complete program","Terminate program"]),operations:["new","edit","new_entry","edit_entry","submit_json"]};
+ const candidates=fs.readdirSync(__dirname,{withFileTypes:true})
+  .filter(entry=>entry.isFile()&&entry.name.endsWith("-selection.json"));
+ const intros=[];
+ for(const file of candidates){
+  let document;
+  try{document=JSON.parse(fs.readFileSync(path.join(__dirname,file.name),"utf8"));}
+  catch(e){fail("INVALID_INTERFACE","Invalid JSON interface: "+file.name);}
+  if(document?.role==="intro")intros.push({filename:file.name,document});
+ }
+ if(intros.length!==1)fail("INVALID_INTERFACE","Expected exactly one introductory selection JSON interface");
+ const {filename,document}=intros[0];
+ const screen=document.menu;
+ const meta=screen?.comment,selection=screen?.selection;
+ if(document.schema!=="terminals.scratchpad.operation-menu.v1"||document.version!=="1.0.0"||
+    screen?.schema!=="terminals.selection.compiled-tags.v1"||
+    meta?.version!=="0.2.0"||typeof meta.createdAt!=="string"||typeof meta.spec!=="string"||
+    !c.isObject(selection)||!c.nonempty(selection.shortTitle)||!c.nonempty(selection.title)||
+    !selection.shortTitle.endsWith("-selection")||filename!==selection.shortTitle+".json"||
+    !Array.isArray(selection.options)||!selection.options.length)
+  fail("INVALID_INTERFACE","Introductory interface metadata or shortTitle filename invalid");
+ for(const [index,option] of selection.options.entries()){
+  if(!c.isObject(option)||option.id!==index||!c.nonempty(option.option))
+   fail("INVALID_INTERFACE","Selection options must have consecutive numeric IDs and text");
+ }
+ const instruction=selection.instruction;
+ if(instruction?.SELECT?.by!=="id"||instruction.SELECT.use!=="single-select"||
+    instruction.SELECT.as?.kind!=="runtime-variable"||instruction.SELECT.as.expression!=="$id"||
+    instruction.RETURN?.kind!=="runtime-expression"||
+    instruction.RETURN.expression!=="$options[$id].id")
+  fail("INVALID_INTERFACE","Selection binding contract does not match v0.2.0 compiled format");
+ if(!Array.isArray(document.operations)||!document.operations.length||
+    document.operations.some(x=>!c.nonempty(x))||
+    new Set(document.operations).size!==document.operations.length)
+  fail("INVALID_INTERFACE","Introductory interface operations invalid");
+ return {schema:document.schema,menu:document.menu,operations:document.operations};
 }
 function entryMenu(id,doc){
  const labels=["New entry",...doc.entries.map((e,i)=>"Edit entry "+i+" · "+e.caption.subject_id+" · revision "+e.caption.revision)];

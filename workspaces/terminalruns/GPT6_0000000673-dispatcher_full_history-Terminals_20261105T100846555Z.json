@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\necho \"SHALLOW $(git rev-parse --is-shallow-repository)\"\nif [ \"$(git rev-parse --is-shallow-repository)\" = true ]; then git fetch --unshallow origin main >/dev/null 2>&1; fi\necho '=== WORKFLOW HISTORY ==='\ngit log --follow --date=iso-strict --format='%H|%aI|%cI|%an|%s' -- .github/workflows/issue-comment-listener.yml\necho '=== FIRST JSON PARSE INSERTIONS ==='\ngit log --follow -S 'Issue comment must contain valid JSON' --date=iso-strict --format='MATCH %H|%aI|%cI|%s' -- .github/workflows/issue-comment-listener.yml\necho '=== DISPATCHER CREATION ==='\ngit log --follow --diff-filter=A --date=iso-strict --format='ADDED %H|%aI|%cI|%s' -- .github/workflows/issue-comment-listener.yml\necho '=== FILE HISTORY SUMMARY ==='\ngit log --follow --stat --format='DATE %aI COMMIT %H %s' -- .github/workflows/issue-comment-listener.yml",
+  "outputThat": [
+    "SHALLOW true"
+  ]
+}

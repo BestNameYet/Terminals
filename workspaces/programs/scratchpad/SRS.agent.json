@@ -1,10 +1,10 @@
 {
   "schema": "terminals.srs.agent.v1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "source": {
     "path": "workspaces/programs/scratchpad/SRS.md",
     "specification": "TP-SRS-001",
-    "revision": "1.0.0",
+    "revision": "1.1.0",
     "mode": "prospective_primary_to_implementation"
   },
   "architecture": {
@@ -16,7 +16,24 @@
     ],
     "application_registry": "workspaces/programs/applications.json",
     "entrypoint": "workspaces/programs/scratchpad/scratchpad.js",
-    "output": "workspaces/terminalruns/**"
+    "output": "workspaces/terminalruns/**",
+    "control_comment_lease": {
+      "state_path": "workspaces/programs/sessions/state.json",
+      "issue_number": 5,
+      "release_on": [
+        "complete",
+        "terminate",
+        "recover"
+      ],
+      "mode": "reusable",
+      "scope": "program-control comment only",
+      "lease_fields": [
+        "instance_id",
+        "generation",
+        "status"
+      ],
+      "data_comments": "independent persistent scratchpad data"
+    }
   },
   "requirements": [
     {
@@ -94,6 +111,50 @@
     {
       "id": "TEST-02",
       "behavior": "End-to-end @ commands and terminal output"
+    },
+    {
+      "id": "PC-01",
+      "behavior": "Exclusive control-comment ownership during active instance; separate from permanent scratchpad data comments"
+    },
+    {
+      "id": "PC-02",
+      "behavior": "Durable binding with unique instance ID and increasing generation"
+    },
+    {
+      "id": "PC-03",
+      "behavior": "Complete/terminate release the control comment for reuse"
+    },
+    {
+      "id": "PC-04",
+      "behavior": "Next instance can reuse numeric comment ID with new instance ID and generation"
+    },
+    {
+      "id": "PC-05",
+      "behavior": "Reject stale commands by validating control comment, instance identity, and generation"
+    },
+    {
+      "id": "PC-06",
+      "behavior": "Idempotent release cannot free a different owner's active lease"
+    },
+    {
+      "id": "PC-07",
+      "behavior": "Optimistic CAS lease state is authoritative over transient UI"
+    },
+    {
+      "id": "PC-08",
+      "behavior": "Ending program preserves all scratchpad data comments"
+    },
+    {
+      "id": "PC-09",
+      "behavior": "Instance remains active between separate terminal commands until explicitly ended"
+    },
+    {
+      "id": "PC-10",
+      "behavior": "Return control comment, instance, generation, status"
+    },
+    {
+      "id": "PC-11",
+      "behavior": "Owner-authorized recovery of abandoned instances, rejecting stale commands"
     }
   ],
   "data": {
@@ -124,6 +185,12 @@
       "mode": "append-only revision events",
       "precondition": "expected_revision=current.header.revision",
       "verification": "fetch written comment; compare canonical JSON"
+    },
+    "program_control": {
+      "control_comment_id": "positive integer",
+      "instance_id": "unique string",
+      "generation": "integer",
+      "status": "active | available"
     }
   },
   "constraints": {
@@ -138,6 +205,11 @@
     "new yields persisted template and id",
     "edit menus and entry operations work",
     "full and partial JSON supported",
-    "tests and readback verified"
+    "tests and readback verified",
+    "complete and terminate release a reusable control comment",
+    "next instance can acquire same numeric comment ID with a different instance and generation",
+    "stale commands fail after reassignment",
+    "scratchpad data survive instance end",
+    "recovery safely releases abandoned sessions"
   ]
 }

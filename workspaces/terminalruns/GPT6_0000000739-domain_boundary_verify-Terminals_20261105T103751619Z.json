@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail\necho \"READBACK_HEAD $(git rev-parse HEAD)\"\npython3 - <<'PY'\nfrom pathlib import Path\nrt=Path('workspaces/programs/runtime/program-mode.js').read_text()\napp=Path('workspaces/programs/scratchpad/scratchpad.js').read_text()\nassert 'invoke(app.entrypoint,{runtime_event:\"bootstrap\"})' in rt\nassert 'const ended=session.end(commandId,app.name,input,control.reason);' in rt\nassert 'if(operation===\"complete\"||operation===\"terminate\")' not in rt\nassert 'if(result.runtime_control!==undefined)' in rt\nassert 'if(operation===\"complete\"||operation===\"terminate\")' in app\nassert 'if(input.runtime_event===\"bootstrap\")return menu();' in app\nprint('READBACK_RUNTIME_BOUNDARY_OK')\nPY\ngit show --format='%H %s' --no-patch 7841acceb43be0da2fd4ed209dcb768683fc78d5\ngit status --short",
+  "outputThat": [
+    "READBACK_HEAD 8553dd77f0064c9d4668d829af1276a8d376a9f7",
+    "READBACK_RUNTIME_BOUNDARY_OK"
+  ]
+}

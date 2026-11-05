@@ -1,0 +1,295 @@
+{
+  "schema": "terminals.programs.screen-event-fsm.srs-agent.v1",
+  "id": "PROG-FSM-SRS-001",
+  "version": "0.1.0",
+  "status": "design-draft-unimplemented",
+  "title": "Application-agnostic screen/event function-reference matrix",
+  "source_markdown": "workspaces/programs-srs-design/SCREEN-EVENT-FSM-SRS.md",
+  "companion_programs_srs": "workspaces/programs-srs-design/SRS.md",
+  "provenance": {
+    "conversation": "workspaces/shared-conversations/6aec655e-b21c-83e8-84ee-03b5972aee52/42019837848-1/conversation.md",
+    "extraction_run_id": 42019837848,
+    "governing_user_messages": [
+      265,
+      270
+    ],
+    "verified_extraction": true
+  },
+  "intent": "Model application UI transitions as a rectangular 2D array of callable functions; row is current rendered screen or its alias, column is event; pass one context object holding all mutable variables into the selected function.",
+  "boundaries": {
+    "included": [
+      "matrix registry",
+      "row and column resolution",
+      "alias canonicalization",
+      "handler invocation",
+      "context contract",
+      "render acknowledgements",
+      "state persistence",
+      "concurrency/replay",
+      "errors",
+      "verification"
+    ],
+    "excluded": [
+      "Scratchpad-specific logic",
+      "application-specific screens/events",
+      "Issue-number routing",
+      "GitHub workflow trigger semantics",
+      "claim of existing implementation"
+    ],
+    "relationship": "Inner application controller; outer Programs dispatch/runtime contract remains PROG-SRS-001."
+  },
+  "topology": {
+    "screen_axis": {
+      "kind": "ordered canonical screen IDs",
+      "source": "application definition",
+      "lookup": "screenIndex[resolveScreen(context.renderedScreen)]"
+    },
+    "event_axis": {
+      "kind": "ordered event IDs",
+      "source": "application definition",
+      "lookup": "eventIndex[context.event.id]"
+    },
+    "matrix": {
+      "representation": "row-major rectangular array of callable function references or unsupported marker",
+      "cell": "transitionMatrix[row][column]",
+      "call": "handler(context)",
+      "invalid_cell": "reject without invocation"
+    },
+    "aliases": {
+      "target": "exactly one canonical screen",
+      "canonical_self_resolution": true,
+      "duplicate_rows": false,
+      "cycles": "reject",
+      "ambiguous": "reject"
+    },
+    "function_reference_policy": "authorized callable loaded from code; never eval untrusted strings; persisted symbolic IDs are resolved during initialization",
+    "definition_lifecycle": "validated, versioned and immutable while loaded"
+  },
+  "context_contract": {
+    "schema": "terminals.programs.screen-event-context.v1",
+    "required": [
+      "schema",
+      "applicationId",
+      "instanceId",
+      "definitionVersion",
+      "revision",
+      "renderedScreen",
+      "event",
+      "application",
+      "runtime",
+      "transition"
+    ],
+    "event_required": [
+      "id",
+      "input",
+      "correlationId"
+    ],
+    "mutable_state_home": "the per-instance context only",
+    "namespaces": {
+      "application": "domain variables owned by an application",
+      "runtime": "generic lifecycle and delivery state",
+      "transition": "pending transition data and outcomes"
+    },
+    "handler_arguments": 1,
+    "handler_signature": "transition(context) -> transitionResult",
+    "mutation_convention": "one explicit versioned choice: isolated in-place working context or returned revised context",
+    "cross_instance_leakage": "forbidden",
+    "revision_control": "monotonic revision or equivalent optimistic compare-and-set",
+    "rendered_screen_semantics": "last confirmed rendered/published screen, not merely a requested next screen"
+  },
+  "processing": [
+    {
+      "step": "validate_input",
+      "require": "authenticated normalized event, correctly associated instance and context revision"
+    },
+    {
+      "step": "resolve_row",
+      "require": "canonicalize context.renderedScreen, find row"
+    },
+    {
+      "step": "resolve_column",
+      "require": "find column for context.event.id"
+    },
+    {
+      "step": "select",
+      "require": "validate cell callable or explicitly unsupported"
+    },
+    {
+      "step": "invoke",
+      "require": "call exactly selected handler with one context object"
+    },
+    {
+      "step": "validate_result",
+      "require": "validate state, next screen, effects and result classification"
+    },
+    {
+      "step": "orchestrate",
+      "require": "authorized effects and rendering with receipt/correlation"
+    },
+    {
+      "step": "confirm_rendered_screen",
+      "require": "update renderedScreen only after acknowledged render/publication criterion"
+    },
+    {
+      "step": "persist_report",
+      "require": "commit checked context revision; distinguish success, partial outcome and failure"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "FSM-AXIS-001",
+      "rule": "matrix dimensions exactly equal declared screen/event axes"
+    },
+    {
+      "id": "FSM-AXIS-002",
+      "rule": "every cell callable or explicit unsupported, no ragged rows"
+    },
+    {
+      "id": "FSM-AXIS-003",
+      "rule": "alias resolves uniquely to canonical screen without extra row"
+    },
+    {
+      "id": "FSM-AXIS-004",
+      "rule": "row from renderedScreen; column from event.id"
+    },
+    {
+      "id": "FSM-AXIS-005",
+      "rule": "exactly one handler, one context argument"
+    },
+    {
+      "id": "FSM-CTX-001",
+      "rule": "all mutable application state in context"
+    },
+    {
+      "id": "FSM-CTX-002",
+      "rule": "context contains current screen, event, identity, version and revision"
+    },
+    {
+      "id": "FSM-CTX-003",
+      "rule": "isolated context and checked commit"
+    },
+    {
+      "id": "FSM-CTX-004",
+      "rule": "no cross-instance leakage"
+    },
+    {
+      "id": "FSM-TRN-001",
+      "rule": "unknown screen/event reject without handler"
+    },
+    {
+      "id": "FSM-TRN-002",
+      "rule": "unsupported cell rejects without fallback unless explicitly defined"
+    },
+    {
+      "id": "FSM-TRN-003",
+      "rule": "application decisions belong in application handlers, not dispatcher"
+    },
+    {
+      "id": "FSM-TRN-004",
+      "rule": "handler result is validated"
+    },
+    {
+      "id": "FSM-TRN-005",
+      "rule": "renderedScreen reflects confirmed display"
+    },
+    {
+      "id": "FSM-TRN-006",
+      "rule": "errors differentiated by stage"
+    },
+    {
+      "id": "FSM-TRN-007",
+      "rule": "per-instance event concurrency policy is explicit"
+    },
+    {
+      "id": "FSM-TRN-008",
+      "rule": "deduplication/idempotency protects effects"
+    },
+    {
+      "id": "FSM-INT-001",
+      "rule": "new apps register definitions without modifying generic dispatcher"
+    },
+    {
+      "id": "FSM-INT-002",
+      "rule": "renderer/persistence/authorization/transport replaceable"
+    }
+  ],
+  "failure_taxonomy": {
+    "initialization": [
+      "invalid axes",
+      "ragged matrix",
+      "invalid function binding",
+      "alias collision/cycle"
+    ],
+    "dispatch_rejection": [
+      "unknown screen",
+      "unknown alias",
+      "unknown event",
+      "unsupported cell",
+      "stale revision",
+      "invalid source"
+    ],
+    "handler_failure": [
+      "thrown exception",
+      "invalid transition result"
+    ],
+    "downstream_failure": [
+      "rendering not confirmed",
+      "effect execution failed or uncertain",
+      "persistence failed"
+    ],
+    "reporting_rule": "always report handler-invoked flag, possible external side effect and last-confirmed renderedScreen"
+  },
+  "verification": {
+    "required_cases": [
+      "all matrix cells",
+      "all aliases by event",
+      "unregistered screen/event",
+      "malformed definition",
+      "single-argument context",
+      "instance isolation",
+      "concurrency conflict",
+      "handler failure",
+      "render failure",
+      "persistence failure",
+      "idempotent redelivery",
+      "second unrelated application",
+      "no domain branches in runtime",
+      "version migration",
+      "untrusted pointer injection"
+    ],
+    "minimum_acceptance": "Executable table-driven tests and verified receipts; document creation alone is not conformance.",
+    "test_ids": [
+      "FSM-T01",
+      "FSM-T02",
+      "FSM-T03",
+      "FSM-T04",
+      "FSM-T05",
+      "FSM-T06",
+      "FSM-T07",
+      "FSM-T08",
+      "FSM-T09",
+      "FSM-T10",
+      "FSM-T11",
+      "FSM-T12",
+      "FSM-T13",
+      "FSM-T14"
+    ]
+  },
+  "open_decisions": [
+    "handler mutation versus return convention",
+    "sync/async execution",
+    "render/commit boundary",
+    "unsupported-cell fallback",
+    "non-JSON context values and service references",
+    "definition migration",
+    "ordering/deduplication policy",
+    "storage/retention"
+  ],
+  "prohibited_assumptions": [
+    "fixed Scratchpad rows/columns",
+    "predefined application navigation",
+    "application completion semantics in generic dispatcher",
+    "interpreting symbolic handler text as code",
+    "claiming existing runtime compliance"
+  ]
+}

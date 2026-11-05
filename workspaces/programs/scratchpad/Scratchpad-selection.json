@@ -1,0 +1,60 @@
+{
+  "schema": "terminals.scratchpad.operation-menu.v1",
+  "version": "1.0.0",
+  "role": "intro",
+  "menu": {
+    "schema": "terminals.selection.compiled-tags.v1",
+    "comment": {
+      "version": "0.2.0",
+      "createdAt": "2026-11-05T07:55:00Z",
+      "spec": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md"
+    },
+    "selection": {
+      "shortTitle": "Scratchpad-selection",
+      "title": "Scratchpad",
+      "options": [
+        {
+          "id": 0,
+          "option": "New scratchpad"
+        },
+        {
+          "id": 1,
+          "option": "Edit scratchpad"
+        },
+        {
+          "id": 2,
+          "option": "Submit complete or partial JSON"
+        },
+        {
+          "id": 3,
+          "option": "Complete program"
+        },
+        {
+          "id": 4,
+          "option": "Terminate program"
+        }
+      ],
+      "instruction": {
+        "SELECT": {
+          "by": "id",
+          "use": "single-select",
+          "as": {
+            "kind": "runtime-variable",
+            "expression": "$id"
+          }
+        },
+        "RETURN": {
+          "kind": "runtime-expression",
+          "expression": "$options[$id].id"
+        }
+      }
+    }
+  },
+  "operations": [
+    "new",
+    "edit",
+    "new_entry",
+    "edit_entry",
+    "submit_json"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "inputThis": "@:run scratchpad",
+  "outputThat": [
+    "{\"schema\":\"terminals.program.response.v1\",\"ok\":true,\"operation\":\"complete\",\"status\":\"available\",\"last_instance_id\":\"instance_166310cf-29d3-4f1d-a351-c906ada9acb7\",\"terminal_comment_id\":6652532924,\"generation\":2,\"nonce\":\"GPT6_0000000607-transition_handoff-Terminals\",\"application\":\"scratchpad\",\"command_comment_id\":6653246122,\"terminal_url\":\"https://github.com/BestNameYet/Terminals/issues/3#issuecomment-6652532924\",\"idempotent\":false}"
+  ]
+}

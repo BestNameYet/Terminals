@@ -78,13 +78,21 @@ jobs:
             if (raw !== "programs" && !/^run [a-z][a-z0-9-]{0,63}$/.test(raw)) {
               throw new Error('Program mode accepts "programs" or "run <application name>"');
             }
+            const commandCommentId = event.comment?.id;
+            if (!Number.isSafeInteger(commandCommentId) || commandCommentId <= 0) {
+              throw new Error("Program mode requires a valid originating Issue #3 comment ID");
+            }
             execution = spawnSync(process.execPath, [
               "workspaces/programs/runtime/program-mode.js",
               raw,
               JSON.stringify(input.programInput ?? {})
             ], {
               cwd: process.env.GITHUB_WORKSPACE,
-              env: process.env,
+              env: {
+                ...process.env,
+                TERMINALS_COMMAND_COMMENT_ID: String(commandCommentId),
+                TERMINALS_AGENT_NONCE: nonce
+              },
               encoding: "utf8",
               timeout: 300000,
               maxBuffer: 64 * 1024 * 1024

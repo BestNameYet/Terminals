@@ -27,13 +27,6 @@ jobs:
           "use strict";
           const fs = require("node:fs");
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
-          let comment;
-          try {
-            comment = JSON.parse(event.comment?.body ?? "");
-          } catch (error) {
-            if (error instanceof SyntaxError) throw new Error("Issue comment must contain valid JSON: " + error.message);
-            throw error;
-          }
           const registry = JSON.parse(fs.readFileSync(".github/issue-workflow-registry.json", "utf8"));
           if (!Array.isArray(registry)) throw new Error("Registry must be an array");
           const seen = new Set();
@@ -70,19 +63,7 @@ jobs:
           const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
           const workflows = JSON.parse(process.env.REGISTERED_WORKFLOWS);
           if (!Array.isArray(workflows)) throw new Error("Registered workflows must be an array");
-          let command;
-          try {
-            command = JSON.parse(event.comment?.body ?? "");
-          } catch (error) {
-            if (error instanceof SyntaxError) throw new Error("Issue comment must contain valid JSON: " + error.message);
-            throw error;
-          }
-          const nonce = command && !Array.isArray(command) &&
-            typeof command === "object" &&
-            typeof command.forWhom === "string" &&
-            /^[A-Za-z0-9_-]{1,128}$/.test(command.forWhom)
-              ? command.forWhom
-              : "comment-" + String(event.comment?.id ?? "unknown");
+          const nonce = "comment-" + String(event.comment?.id ?? "unknown");
           const payload = JSON.stringify(event);
           if (payload.length > 65535) throw new Error("Original event exceeds workflow_dispatch input limit of 65535 characters");
           const repo = event.repository?.full_name;

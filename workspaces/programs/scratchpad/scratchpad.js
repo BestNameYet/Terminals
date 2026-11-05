@@ -83,7 +83,9 @@ function entryMenu(id,doc){
  return {schema:"terminals.scratchpad.entry-menu.v1",data_comment_id:id,expected_revision:doc.header.revision,menu:screen};
 }
 function handle(input){
+ if(input.runtime_event==="bootstrap")return menu();
  const operation=input.operation||"menu";
+ if(operation==="complete"||operation==="terminate")return {ok:true,operation,runtime_control:{action:"release",reason:operation==="complete"?"completed":"terminated"}};
  if(operation==="menu")return menu();
  if(operation==="new"){
   const count4=gh("GET","issues/4").comments,count5=gh("GET","issues/5").comments;

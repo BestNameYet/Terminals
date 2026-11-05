@@ -51,16 +51,10 @@ function run(){
   const assigned=session.start(commandId,app.name,nonce);
   const slot=assigned.slot;
   let rendered;
-  try{rendered=invoke(app.entrypoint,{operation:"menu"});}
+  try{rendered=invoke(app.entrypoint,{runtime_event:"bootstrap"});}
   catch(e){rendered={ok:false,code:e.code||"APP_ERROR",error:e.message};}
   const ui=session.render(slot,rendered);
   return {schema:"terminals.program.response.v1",ok:rendered.ok!==false,operation:"start",application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,status:"active",nonce:slot.nonce,reused:assigned.reused,terminal_url:ui.terminal_url,render:rendered};
- }
- if(operation==="complete"||operation==="terminate"){
-  const ended=session.end(commandId,app.name,input,operation==="complete"?"completed":"terminated");
-  const payload={ok:true,operation,status:"available",last_instance_id:input.instance_id,terminal_comment_id:input.terminal_comment_id,generation:input.generation,nonce:ended.slot.last_release?.nonce??null};
-  const ui=session.render(ended.slot,payload,"available");
-  return {schema:"terminals.program.response.v1",...payload,application:app.name,command_comment_id:commandId,terminal_url:ui.terminal_url,idempotent:ended.idempotent};
  }
  const slot=session.active(commandId,app.name,input);
  let result;
@@ -69,6 +63,17 @@ function run(){
   const errorResult={ok:false,operation,code:e.code||"APP_ERROR",error:e.message};
   const view=session.render(slot,errorResult);
   return {schema:"terminals.program.response.v1",...errorResult,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,nonce:slot.nonce,terminal_url:view.terminal_url};
+ }
+ if(!obj(result))fail("INVALID_PROGRAM_RESULT","Application must return a JSON-object result");
+ if(result.runtime_control!==undefined){
+  const control=result.runtime_control;
+  if(!obj(control)||control.action!=="release"||!["completed","terminated"].includes(control.reason)||result.ok===false)
+   fail("INVALID_RUNTIME_CONTROL","Application requested an invalid session control action");
+  const ended=session.end(commandId,app.name,input,control.reason);
+  const display={...result};delete display.runtime_control;
+  const payload={...display,status:"available",last_instance_id:input.instance_id,terminal_comment_id:input.terminal_comment_id,generation:input.generation,nonce:ended.slot.last_release?.nonce??null};
+  const ui=session.render(ended.slot,payload,"available");
+  return {schema:"terminals.program.response.v1",...payload,application:app.name,command_comment_id:commandId,terminal_url:ui.terminal_url,idempotent:ended.idempotent};
  }
  const ui=session.render(slot,result);
  return {schema:"terminals.program.response.v1",ok:result.ok!==false,operation,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,nonce:slot.nonce,status:"active",terminal_url:ui.terminal_url,render:result};

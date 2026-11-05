@@ -1,6 +1,6 @@
 # Terminals program mode and scratchpad application — SRS
 
-**Specification:** TP-SRS-001, v1.3.0
+**Specification:** TP-SRS-001, v1.3.1
 **Relationship to implementation:** prospective primary specification  
 **Machine projection:** [SRS.agent.json](SRS.agent.json)  
 **Template syntax:** [Selection Element Specification v0.3.0](../selection-element-specification.md)
@@ -43,7 +43,7 @@
 - **PC-08:** Completing or terminating a program SHALL NOT delete, truncate, recycle or rewrite its persistent scratchpad data comments.
 - **PC-09:** A program instance SHALL remain active across separate commands and workflow runs until completed, terminated or explicitly recovered. Finishing one command SHALL NOT automatically end the instance.
 - **PC-10:** Start, status and release responses SHALL identify the control-comment ID, instance ID, generation and current status.
-- **PC-11:** Abandoned sessions SHALL support a documented owner-authorized recovery operation, after which stale instance commands SHALL fail.
+- **PC-12:** The generic Programs runtime SHALL issue a bootstrap event to the application and delegate all application-domain operation decisions to that application. The runtime SHALL only execute a lease release after the application returns an explicitly validated runtime_control release request; generic start/status, lease ownership and rendering remain runtime responsibilities.\n- **PC-11:** Abandoned sessions SHALL support a documented owner-authorized recovery operation, after which stale instance commands SHALL fail.
 
 The lifecycle is: available → active → completed/terminated → available → active (new instance, new generation). The numeric control-comment ID is reusable; its ownership is not.
 

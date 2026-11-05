@@ -1,10 +1,10 @@
 {
   "schema": "terminals.srs.agent.v1",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "source": {
     "path": "workspaces/programs/scratchpad/SRS.md",
     "specification": "TP-SRS-001",
-    "revision": "1.3.0",
+    "revision": "1.3.1",
     "mode": "prospective_primary_to_implementation"
   },
   "architecture": {
@@ -167,6 +167,10 @@
     {
       "id": "SP-20",
       "behavior": "Keep N+1 entry operation IDs in options and navigation separately in goto, with main-menu label groups Main and Back"
+    },
+    {
+      "id": "PC-12",
+      "behavior": "Programs runtime handles generic start/status and lease ownership; application selects its own menus and domain transitions and requests release through a validated runtime_control action"
     }
   ],
   "data": {

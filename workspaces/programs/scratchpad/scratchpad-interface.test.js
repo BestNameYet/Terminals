@@ -36,3 +36,9 @@ test("entry options exclude goto and navigation labels are destination grouped",
  assert.deepEqual(second.selection.options.map(x=>x.id),[0,1,2]);
  assert.equal(second.selection.options.some(x=>/return|main|back/i.test(x.option)),false);
 });
+
+test("Scratchpad controls its own bootstrap and lifecycle choices",()=>{
+ assert.deepEqual(app.handle({runtime_event:"bootstrap"}),app.menu());
+ assert.deepEqual(app.handle({operation:"complete"}),{ok:true,operation:"complete",runtime_control:{action:"release",reason:"completed"}});
+ assert.deepEqual(app.handle({operation:"terminate"}),{ok:true,operation:"terminate",runtime_control:{action:"release",reason:"terminated"}});
+});

@@ -1,0 +1,6 @@
+{
+  "inputThis": "@:programs",
+  "outputThat": [
+    "{\"schema\":\"terminals.programs.catalog.v1\",\"menu\":{\"schema\":\"terminals.selection.compiled-tags.v1\",\"comment\":{\"version\":\"0.2.0\",\"createdAt\":\"2026-11-05T07:19:58.042Z\",\"spec\":\"https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md\"},\"selection\":{\"shortTitle\":\"Programs\",\"title\":\"Programs\",\"options\":[{\"id\":0,\"option\":\"scratchpad — Create and edit JSON scratchpads in the less populated of Terminals Issues #4 and #5\"}],\"instruction\":{\"SELECT\":{\"by\":\"id\",\"use\":\"single-select\",\"as\":{\"kind\":\"runtime-variable\",\"expression\":\"$id\"}},\"RETURN\":{\"kind\":\"runtime-expression\",\"expression\":\"$options[$id].id\"}}}},\"applications\":[{\"name\":\"scratchpad\",\"description\":\"Create and edit JSON scratchpads in the less populated of Terminals Issues #4 and #5\",\"command\":\"run scratchpad\"}]}"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\npython3 - <<'PY'\nimport json,subprocess,sys\ntarget=6657091896\nraw=subprocess.run(['gh','api',f'repos/BestNameYet/Terminals/issues/comments/{target}'],capture_output=True,text=True,check=True).stdout\ncomment=json.loads(raw)\nassert comment['id']==target\nassert comment['user']['login']=='BestNameYet'\nassert comment['created_at']==comment['updated_at']\nentry=json.loads(comment['body'])\nassert entry['runOn']=='$' and entry['forWhom']=='GPT6_0000000857-fsm_srs_commit-Terminals'\ncode=entry['whatPrompt']\nassert len(code)==32566\nassert \"workspaces/programs-srs-design/SCREEN-EVENT-FSM-SRS.md\" in code\nassert \"workspaces/programs-srs-design/SCREEN-EVENT-FSM-SRS.agent.json\" in code\nassert code.startswith(\"set -euo pipefail\")\nprint('VERIFIED_ISSUE_COMMAND_SOURCE',target,flush=True)\ndone=subprocess.run(['bash','-o','pipefail','-c',code])\nsys.exit(done.returncode)\nPY",
+  "outputThat": [
+    "VERIFIED_ISSUE_COMMAND_SOURCE 6657091896"
+  ]
+}

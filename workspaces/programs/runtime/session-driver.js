@@ -36,8 +36,8 @@ function outputPlaceholder(){
  if(!Number.isSafeInteger(v.id))fail("COMMENT_CREATE","Output comment create response lacks ID");
  comment(v.id);return v.id;
 }
-function start(command_comment_id,application){
- if(!Number.isSafeInteger(command_comment_id)||command_comment_id<1||typeof application!=="string")fail("INVALID_INPUT","Invalid command comment or application");
+function start(command_comment_id,application,nonce){
+ if(!Number.isSafeInteger(command_comment_id)||command_comment_id<1||typeof application!=="string"||typeof nonce!=="string"||!nonce.trim())fail("INVALID_INPUT","Invalid command comment or application");
  comment(command_comment_id);
  let reservedOutput=null;
  for(let attempts=0;attempts<8;attempts++){
@@ -49,7 +49,7 @@ function start(command_comment_id,application){
   }
   const free=state.slots.filter(s=>s.status==="available").sort((a,b)=>a.terminal_comment_id-b.terminal_comment_id)[0];
   const terminal_comment_id=free?.terminal_comment_id||(reservedOutput??(reservedOutput=outputPlaceholder()));
-  const result=core.allocate(state,{command_comment_id,terminal_comment_id,instance_id:"instance_"+crypto.randomUUID(),application,now:new Date().toISOString()});
+  const result=core.allocate(state,{command_comment_id,terminal_comment_id,instance_id:"instance_"+crypto.randomUUID(),application,nonce,now:new Date().toISOString()});
   try{stateWrite(result.state,sha);return {slot:result.slot,reused:false};}
   catch(e){if(e.code==="CONFLICT"||e.code==="STATE_READBACK")continue;throw e;}
  }
@@ -70,7 +70,7 @@ function end(command_comment_id,application,input,reason){
  fail("LEASE_CONFLICT","Cannot release after retries");
 }
 function render(slot,result,status=slot.status){
- const data={schema:"terminals.program.terminal.v1",version:"1.0.0",command_comment_id:slot.command_comment_id??slot.last_release?.command_comment_id??null,terminal_comment_id:slot.terminal_comment_id,application:slot.application??slot.last_release?.application??null,instance_id:slot.instance_id??slot.last_release?.instance_id??null,generation:slot.generation,status,updated_at:new Date().toISOString(),render:result};
+ const data={schema:"terminals.program.terminal.v1",version:"1.0.0",command_comment_id:slot.command_comment_id??slot.last_release?.command_comment_id??null,terminal_comment_id:slot.terminal_comment_id,application:slot.application??slot.last_release?.application??null,instance_id:slot.instance_id??slot.last_release?.instance_id??null,generation:slot.generation,nonce:slot.nonce??slot.last_release?.nonce??null,status,updated_at:new Date().toISOString(),render:result};
  const body=JSON.stringify(data,null,2);
  const target=comment(slot.terminal_comment_id);
  if(!target||target.id===data.command_comment_id)fail("SAME_COMMENT","Input/output comments must be distinct");
@@ -79,5 +79,17 @@ function render(slot,result,status=slot.status){
  if(JSON.stringify(JSON.parse(check.body))!==JSON.stringify(data))fail("TERMINAL_READBACK","Rendered output comment did not verify");
  return {terminal_comment_id:slot.terminal_comment_id,terminal_url:"https://github.com/"+REPO+"/issues/3#issuecomment-"+slot.terminal_comment_id};
 }
-module.exports={start,active,end,render,stateRead,comment};
+function list(){
+ const {state}=stateRead();
+ return state.slots.map(slot=>({
+  command_comment_id:slot.command_comment_id,
+  terminal_comment_id:slot.terminal_comment_id,
+  nonce:slot.nonce??null,
+  instance_id:slot.instance_id,
+  application:slot.application,
+  generation:slot.generation,
+  status:slot.status
+ }));
+}
+module.exports={start,active,end,render,list,stateRead,comment};
 

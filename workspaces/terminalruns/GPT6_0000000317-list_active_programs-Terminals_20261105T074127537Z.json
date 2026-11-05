@@ -1,0 +1,6 @@
+{
+  "inputThis": "@:programs",
+  "outputThat": [
+    "{\"schema\":\"terminals.programs.catalog.v1\",\"menu\":{\"schema\":\"terminals.selection.compiled-tags.v1\",\"comment\":{\"version\":\"0.2.0\",\"createdAt\":\"2026-11-05T07:41:27.582Z\",\"spec\":\"https://github.com/BestNameYet/Terminals/blob/main/workspaces/programs/selection-element-specification.md\"},\"selection\":{\"shortTitle\":\"Programs\",\"title\":\"Programs\",\"options\":[{\"id\":0,\"option\":\"scratchpad — Create and edit JSON scratchpads in the less populated of Terminals Issues #4 and #5\"}],\"instruction\":{\"SELECT\":{\"by\":\"id\",\"use\":\"single-select\",\"as\":{\"kind\":\"runtime-variable\",\"expression\":\"$id\"}},\"RETURN\":{\"kind\":\"runtime-expression\",\"expression\":\"$options[$id].id\"}}}},\"applications\":[{\"name\":\"scratchpad\",\"description\":\"Create and edit JSON scratchpads in the less populated of Terminals Issues #4 and #5\",\"command\":\"run scratchpad\"}],\"sessions\":[{\"command_comment_id\":6652526265,\"terminal_comment_id\":6652532924,\"nonce\":\"GPT6_0000000313-program_pair_e2e-Terminals\",\"instance_id\":\"instance_cbbdd9fa-53c5-47ae-bced-e660d922f651\",\"application\":\"scratchpad\",\"generation\":1,\"status\":\"active\"}]}"
+  ]
+}

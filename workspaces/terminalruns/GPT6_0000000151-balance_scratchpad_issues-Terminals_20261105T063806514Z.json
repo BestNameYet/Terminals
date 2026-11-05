@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -euo pipefail\nprintf 'issue4='; gh api repos/BestNameYet/Terminals/issues/4 --jq .comments\nprintf 'issue5='; gh api repos/BestNameYet/Terminals/issues/5 --jq .comments\nprintf 'issue4title='; gh api repos/BestNameYet/Terminals/issues/4 --jq .title\nprintf 'issue5title='; gh api repos/BestNameYet/Terminals/issues/5 --jq .title",
+  "outputThat": [
+    "issue4=19",
+    "issue5=0",
+    "issue4title=Reserved Slot 04 — Unassigned",
+    "issue5title=Reserved Slot 05 — Unassigned"
+  ]
+}

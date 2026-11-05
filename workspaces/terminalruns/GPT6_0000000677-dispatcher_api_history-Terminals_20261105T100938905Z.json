@@ -1,0 +1,20 @@
+{
+  "inputThis": "$:set -euo pipefail\necho '=== DISPATCHER COMMITS ==='\ngh api 'repos/BestNameYet/Terminals/commits?path=.github/workflows/issue-comment-listener.yml&per_page=100' --jq '.[] | [.sha, .commit.author.date, .commit.committer.date, (.commit.message | split(\"\\n\")[0])] | @tsv'\necho '=== LAST COMMIT PATCH FOR DISPATCHER ==='\ngh api 'repos/BestNameYet/Terminals/commits?path=.github/workflows/issue-comment-listener.yml&per_page=1' --jq '.[0].sha' | xargs -I{} gh api 'repos/BestNameYet/Terminals/commits/{}' --jq '.files[] | select(.filename==\".github/workflows/issue-comment-listener.yml\") | {filename,status,changes,patch}'",
+  "outputThat": [
+    "=== DISPATCHER COMMITS ===",
+    "c7ab60db4abe897f2dc081cf4a4e33817dd8b403\t2026-11-03T14:43:56Z\t2026-11-03T14:43:56Z\tIgnore Issue 10 bot output in generic issue dispatcher",
+    "323576c94bc18a8a6877201a1dc386f22b539d69\t2026-11-03T09:17:02Z\t2026-11-03T09:17:02Z\tAllow any valid JSON while falling back to comment ID when nonce is absent",
+    "2a3a703af268931da15577df8ee0d4fbca946a22\t2026-11-03T09:16:49Z\t2026-11-03T09:16:49Z\tReject malformed or non-object JSON issue comments before dispatch",
+    "b7de82a3a7bcebc85804d5d390920e8781081d65\t2026-11-03T09:15:18Z\t2026-11-03T09:15:18Z\tForward command nonce to named workflow dispatch runs",
+    "6b9d5b94d7af47ab69f5bb90e488b7fe41ee1369\t2026-11-03T09:13:09Z\t2026-11-03T09:13:09Z\tQuote GitHub Actions run-name to preserve issue/comment identifiers",
+    "de5ec7273d70424763bc8bd8962d55166d15354e\t2026-11-03T09:09:22Z\t2026-11-03T09:09:22Z\tLabel workflow runs with source issue comment identity",
+    "8ffc04324237ce7142a463c5f9f2f0e73acce2f7\t2026-11-03T08:59:54Z\t2026-11-03T08:59:54Z\tDispatch each registered issue workflow with original comment event",
+    "1af1054cf5b0fe11436c07fb264b39f4424db984\t2026-11-03T08:57:26Z\t2026-11-03T08:57:26Z\tRead issue/workflows array in comment registry dispatcher",
+    "4469eaa08d4ce1b4b9151c0ea08a7840aa92cd56\t2026-11-03T08:56:12Z\t2026-11-03T08:56:12Z\tLook up workflow registry directly by issue number key",
+    "71b2e279b5bd76b3f5931edf14fea8f94def0c98\t2026-11-03T08:52:57Z\t2026-11-03T08:52:57Z\tMatch issue comment registry entries by key and resolve value workflow array",
+    "24a9ab1fa89ada45950814b05f68251a41c1bf61\t2026-11-03T08:51:27Z\t2026-11-03T08:51:27Z\tParse issue-workflow registry and recover matching issue index",
+    "cb1f2c97eeabf1149396bb71310032b162e2cb3c\t2026-11-03T08:43:36Z\t2026-11-03T08:43:36Z\tCreate repository-wide issue comment creation and edit listener",
+    "=== LAST COMMIT PATCH FOR DISPATCHER ===",
+    "{\"changes\":2,\"filename\":\".github/workflows/issue-comment-listener.yml\",\"patch\":\"@@ -12,6 +12,8 @@ permissions:\\n \\n jobs:\\n   listen:\\n+    # Issue 10 executes in its dedicated owner-gated workflow. Ignore its bot output.\\n+    if: ${{ github.event.issue.number != 10 || github.event.sender.type != 'Bot' }}\\n     runs-on: ubuntu-latest\\n     steps:\\n       - name: Check out repository\",\"status\":\"modified\"}"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "inputThis": "$:set -euo pipefail\necho \"HEAD $(git rev-parse HEAD)\"\necho '=== SOURCE COMMITS ==='\ngit log -5 --format='%h %s' | head -5\necho '=== FILES AND ARCHIVE ==='\nfor file in workspaces/programs/scratchpad/scratchpad-core.js workspaces/programs/scratchpad/scratchpad.js workspaces/programs/scratchpad/SRS.md workspaces/programs/scratchpad/SRS.agent.json workspaces/programs/selection-template.tmpl workspaces/programs/selection-element-specification.md workspaces/programs/versions/v0.2.0/selection-template.tmpl workspaces/programs/versions/v0.2.0/selection-element-specification.md; do test -f \"$file\" || exit 1; echo \"PRESENT $file\"; done\necho '=== EXECUTABLE ASSERTIONS ==='\nnode - <<'NODE'\nconst assert=require('node:assert/strict');\nconst c=require('./workspaces/programs/scratchpad/scratchpad-core.js');\nconst app=require('./workspaces/programs/scratchpad/scratchpad.js');\nconst d=c.makeDoc({issue:4,task_id:'verification',topic:'Test',agent_nonce:'verify',work:'initial',now:'2026-11-05T10:00:00Z'});\nconst out=app.entryMenu(123,d);\nassert.equal(d.header.entry_count,1);\nassert.equal(out.menu.comment.entry_count,1);\nassert.equal(out.menu.selection.options.length,2);\nassert.deepEqual(out.menu.selection.goto,[{'main-menu':[['Main'],['Back']]}]);\nassert.equal(c.append(d,{work:'next',now:'2026-11-05T10:00:01Z'}).header.entry_count,2);\nconsole.log('VERIFIED DATA COUNT AND GOTO');\nNODE\npython3 - <<'PY'\nimport json\nfrom pathlib import Path\nx=json.loads(Path('workspaces/programs/scratchpad/SRS.agent.json').read_text())\nassert x['version']=='1.3.0'\nassert {'SP-19','SP-20'}<= {r['id'] for r in x['requirements']}\nt=Path('workspaces/programs/selection-template.tmpl').read_text()\nassert '\"goto\": <goto>' in t\nassert '\"version\": \"0.3.0\"' in t\nprint('VERIFIED SPEC PROJECTION AND TEMPLATE')\nPY",
+  "outputThat": [
+    "HEAD 5f5632010cd4a95157768363c0dd255560c90b23",
+    "=== SOURCE COMMITS ===",
+    "5f56320 Save Issue #3 terminal stdout GPT6_0000000643-goto_count_spec_whitespace-Terminals (created)",
+    "=== FILES AND ARCHIVE ===",
+    "PRESENT workspaces/programs/scratchpad/scratchpad-core.js",
+    "PRESENT workspaces/programs/scratchpad/scratchpad.js",
+    "PRESENT workspaces/programs/scratchpad/SRS.md",
+    "PRESENT workspaces/programs/scratchpad/SRS.agent.json",
+    "PRESENT workspaces/programs/selection-template.tmpl",
+    "PRESENT workspaces/programs/selection-element-specification.md",
+    "PRESENT workspaces/programs/versions/v0.2.0/selection-template.tmpl",
+    "PRESENT workspaces/programs/versions/v0.2.0/selection-element-specification.md",
+    "=== EXECUTABLE ASSERTIONS ===",
+    "VERIFIED DATA COUNT AND GOTO",
+    "VERIFIED SPEC PROJECTION AND TEMPLATE"
+  ]
+}

@@ -1,18 +1,28 @@
 {
   "schema": "terminals.program.session-state.v2",
   "version": "2.0.0",
-  "revision": 1,
+  "revision": 2,
   "slots": [
     {
       "terminal_comment_id": 6652532924,
       "issue_number": 3,
-      "status": "active",
+      "status": "available",
       "generation": 1,
-      "command_comment_id": 6652526265,
-      "instance_id": "instance_cbbdd9fa-53c5-47ae-bced-e660d922f651",
-      "application": "scratchpad",
-      "nonce": "GPT6_0000000313-program_pair_e2e-Terminals",
-      "started_at": "2026-11-05T07:40:29.790Z"
+      "command_comment_id": null,
+      "instance_id": null,
+      "application": null,
+      "nonce": null,
+      "started_at": "2026-11-05T07:40:29.790Z",
+      "last_release": {
+        "command_comment_id": 6652526265,
+        "instance_id": "instance_cbbdd9fa-53c5-47ae-bced-e660d922f651",
+        "application": "scratchpad",
+        "nonce": "GPT6_0000000313-program_pair_e2e-Terminals",
+        "generation": 1,
+        "reason": "completed",
+        "ended_at": "2026-11-05T07:42:19.842Z"
+      },
+      "ended_at": "2026-11-05T07:42:19.842Z"
     }
   ]
 }

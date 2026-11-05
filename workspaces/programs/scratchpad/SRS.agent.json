@@ -1,10 +1,10 @@
 {
   "schema": "terminals.srs.agent.v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "source": {
     "path": "workspaces/programs/scratchpad/SRS.md",
     "specification": "TP-SRS-001",
-    "revision": "1.1.0",
+    "revision": "1.2.0",
     "mode": "prospective_primary_to_implementation"
   },
   "architecture": {
@@ -155,6 +155,10 @@
     {
       "id": "PC-11",
       "behavior": "Owner-authorized recovery of abandoned instances, rejecting stale commands"
+    },
+    {
+      "id": "SP-18",
+      "behavior": "The introductory application selection interface is a valid JSON file discovered by role in the application workspace; its filename is exactly selection.shortTitle + .json, and shortTitle ends with the interface type suffix -selection. The menu is loaded and validated at runtime, not hardcoded."
     }
   ],
   "data": {
@@ -191,6 +195,13 @@
       "instance_id": "unique string",
       "generation": "integer",
       "status": "active | available"
+    },
+    "intro_interface": {
+      "directory": "workspaces/programs/scratchpad",
+      "role": "intro",
+      "filename_rule": "<selection.shortTitle>.json",
+      "short_title_type_suffix": "-selection",
+      "schema": "terminals.scratchpad.operation-menu.v1"
     }
   },
   "constraints": {

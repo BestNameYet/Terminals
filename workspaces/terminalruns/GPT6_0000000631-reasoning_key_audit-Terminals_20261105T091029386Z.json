@@ -1,0 +1,33 @@
+{
+  "inputThis": "$:set -euo pipefail; grep -n -C 5 -E 'reasoningSummary|hideActions|raw_node|selected-visible-only' workspaces/extractor-srs-design/runtime/octane-response-parser.js workspaces/extractor-srs-design/runtime/capture-and-parse.js | head -240",
+  "outputThat": [
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-16-    }",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-17-    return Object.prototype.hasOwnProperty.call(named,key)?named[key]:raw;",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-18-  });",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-19-}",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-20-function htmlToText(value){",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js:21:  // Only convert embedded display HTML to text; preserve the original bytes in raw_node.",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-22-  return entityDecode(value",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-23-    .replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script\\s*>/gi,\"\")",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-24-    .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style\\s*>/gi,\"\")",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-25-    .replace(/<br\\b[^>]*\\/?>/gi,\"\\n\")",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-26-    .replace(/<\\/(?:p|div|li|tr|h[1-6]|blockquote|pre)>/gi,\"\\n\")",
+    "--",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-70-    counts[raw.role===\"user\"?\"user\":\"final\"]++;",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-71-    records.push({",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-72-      index,node_id:raw.id,parent:null,record_kind:\"message\",role:raw.role,",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-73-      author_name:null,channel,recipient:null,create_time:null,update_time:null,",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-74-      content_type:origin,status:null,end_turn:null,model_slug:null,",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js:75:      derived_text:text,record_origin:CAPTURE,raw_node:raw",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-76-    });",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-77-  }",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-78-  if(!counts.user||!counts.final)",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-79-    fail(ErrorType,\"INCOMPLETE_OCTANE\",\"Octane transcript requires user and assistant content\");",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js:80:  const coverage=\"selected-visible-only\";",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-81-  return {",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-82-    schema:\"chatgpt.html-response-parser.candidate.v1\",",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-83-    decoder:{name:\"octane-visible\",version:\"1.0.0\"},",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-84-    coverage,source_linear_available:false,",
+    "workspaces/extractor-srs-design/runtime/octane-response-parser.js-85-    conversation:conv,"
+  ]
+}

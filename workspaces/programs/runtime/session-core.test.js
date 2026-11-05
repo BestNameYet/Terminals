@@ -1,7 +1,7 @@
 "use strict";
 const t=require("node:test"),a=require("node:assert/strict"),s=require("./session-core.js");
 const now="2026-11-05T07:00:00Z";
-const alloc=(state={},input=111,output=222,instance="a",app="scratchpad")=>s.allocate(state.schema?state:s.newState(),{command_comment_id:input,terminal_comment_id:output,instance_id:instance,application:app,now});
+const alloc=(state={},input=111,output=222,instance="a",app="scratchpad")=>s.allocate(state.schema?state:s.newState(),{command_comment_id:input,terminal_comment_id:output,instance_id:instance,application:app,nonce:"GPT6_0000000307-session_test-Terminals",now});
 const data=(input=111,output=222,instance="a",generation=1,application="scratchpad")=>({command_comment_id:input,terminal_comment_id:output,instance_id:instance,generation,application});
 t("new state is valid",()=>a.equal(s.validate(s.newState()).slots.length,0));
 t("two distinct Issue #3 comments reserved per instance",()=>{const r=alloc();a.equal(r.slot.issue_number,3);a.equal(r.slot.command_comment_id,111);a.equal(r.slot.terminal_comment_id,222);a.equal(r.slot.status,"active");});
@@ -16,3 +16,23 @@ t("stale release cannot release a newer owner",()=>{const r=alloc(),v=s.release(
 t("wrong input ID or application rejected",()=>{const r=alloc();a.throws(()=>s.authorize(r.state,data(999)),{code:"STALE_INSTANCE"});a.throws(()=>s.authorize(r.state,data(111,222,"a",1,"other")),{code:"STALE_INSTANCE"});});
 t("duplicate output slot and input slot invalidate state",()=>{const r=alloc(),v=structuredClone(r.state);v.slots.push(structuredClone(v.slots[0]));a.throws(()=>s.validate(v),{code:"INVALID_STATE"});});
 
+
+t("session listing values keep input, output, and nonce in one lease",()=>{
+ const r=alloc();
+ a.equal(r.slot.command_comment_id,111);
+ a.equal(r.slot.terminal_comment_id,222);
+ a.equal(r.slot.nonce,"GPT6_0000000307-session_test-Terminals");
+ a.equal(r.slot.status,"active");
+});
+t("nonce is released and audited; new owner gets a new nonce",()=>{
+ const first=alloc();
+ const released=s.release(first.state,{...data(),reason:"completed",now});
+ a.equal(released.slot.nonce,null);
+ a.equal(released.slot.last_release.nonce,"GPT6_0000000307-session_test-Terminals");
+ const second=s.allocate(released.state,{command_comment_id:444,terminal_comment_id:222,instance_id:"new",application:"scratchpad",nonce:"GPT6_0000000311-new_session-Terminals",now});
+ a.equal(second.slot.nonce,"GPT6_0000000311-new_session-Terminals");
+ a.equal(second.slot.generation,2);
+});
+t("reject missing nonce on allocation",()=>{
+ a.throws(()=>s.allocate(s.newState(),{command_comment_id:111,terminal_comment_id:222,instance_id:"test",application:"scratchpad",now}),{code:"INVALID_INPUT"});
+});

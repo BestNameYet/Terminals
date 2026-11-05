@@ -58,8 +58,12 @@ jobs:
               throw new Error("Missing or invalid required field: " + key);
             }
           }
-          if (!["$", "gh"].includes(input.runOn)) {
-            throw new Error('runOn must be "$" or "gh"');
+          if (!["$", "gh", "@"].includes(input.runOn)) {
+            throw new Error('runOn must be "$", "gh", or "@"');
+          }
+          if (input.runOn === "@" && input.programInput !== undefined &&
+              (input.programInput === null || typeof input.programInput !== "object" || Array.isArray(input.programInput))) {
+            throw new Error("programInput must be a JSON object");
           }
           if (!/^[A-Za-z0-9_-]{1,128}$/.test(input.forWhom)) {
             throw new Error("forWhom must be a safe nonce (1–128 letters, numbers, _ or -)");
@@ -69,16 +73,34 @@ jobs:
           const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
           const resultPath = "workspaces/terminalruns/" + nonce + "_" + timestamp + ".json";
           const raw = input.whatPrompt.trim();
-          const command = input.runOn === "$" ? input.whatPrompt : (
-            /^gh(?:\s|$)/.test(raw) ? raw : "gh " + raw
-          );
-          const execution = spawnSync("bash", ["-o", "pipefail", "-c", command], {
-            cwd: process.env.GITHUB_WORKSPACE,
-            env: process.env,
-            encoding: "utf8",
-            timeout: 300000,
-            maxBuffer: 64 * 1024 * 1024
-          });
+          let execution;
+          if (input.runOn === "@") {
+            if (raw !== "programs" && !/^run [a-z][a-z0-9-]{0,63}$/.test(raw)) {
+              throw new Error('Program mode accepts "programs" or "run <application name>"');
+            }
+            execution = spawnSync(process.execPath, [
+              "workspaces/programs/runtime/program-mode.js",
+              raw,
+              JSON.stringify(input.programInput ?? {})
+            ], {
+              cwd: process.env.GITHUB_WORKSPACE,
+              env: process.env,
+              encoding: "utf8",
+              timeout: 300000,
+              maxBuffer: 64 * 1024 * 1024
+            });
+          } else {
+            const command = input.runOn === "$" ? input.whatPrompt : (
+              /^gh(?:\s|$)/.test(raw) ? raw : "gh " + raw
+            );
+            execution = spawnSync("bash", ["-o", "pipefail", "-c", command], {
+              cwd: process.env.GITHUB_WORKSPACE,
+              env: process.env,
+              encoding: "utf8",
+              timeout: 300000,
+              maxBuffer: 64 * 1024 * 1024
+            });
+          }
           const stdout = execution.stdout || "";
           const lines = stdout === "" ? [] : stdout.split(/\r?\n/);
           if (lines.length && lines[lines.length - 1] === "") lines.pop();

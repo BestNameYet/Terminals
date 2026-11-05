@@ -1,0 +1,21 @@
+{
+  "inputThis": "$:set -euo pipefail\nprintf 'STATE_CONTENT\\n'; cat workspaces/programs/sessions/state.json\nprintf '\\nSTATE_SHA\\n'; gh api repos/BestNameYet/Terminals/contents/workspaces/programs/sessions/state.json --jq .sha\nprintf '\\nCORE_PRESENT\\n'; test -f workspaces/programs/runtime/session-core.js && echo yes\nprintf '\\nCURRENT_MAIN\\n'; git rev-parse HEAD",
+  "outputThat": [
+    "STATE_CONTENT",
+    "{",
+    "  \"schema\": \"terminals.program.sessions.v1\",",
+    "  \"version\": \"1.0.0\",",
+    "  \"revision\": 0,",
+    "  \"slots\": []",
+    "}",
+    "",
+    "STATE_SHA",
+    "ef54c0281885eb4828ec1abb694116b030798b11",
+    "",
+    "CORE_PRESENT",
+    "yes",
+    "",
+    "CURRENT_MAIN",
+    "7f899e2d8e9a2f83d7879fa57e6ff115aa8f0493"
+  ]
+}

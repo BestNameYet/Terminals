@@ -4,11 +4,11 @@ const fs=require('node:fs');const path=require('node:path');const crypto=require
 const {parseHtmlResponse}=require('./html-response-parser.js');
 const {validateUrl}=require('./dispatch-validator.js');
 const MAX=25*1024*1024;const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-async function capture(url){
+async function captureSingle(url){
  let next=url;
  for(let i=0;i<5;i++){
   next=validateUrl(next).target_url;
-  const r=await fetch(next,{redirect:'manual',signal:AbortSignal.timeout(45000),headers:{accept:'text/html,application/xhtml+xml'}});
+  const r=await fetch(next,{redirect:'manual',signal:AbortSignal.timeout(45000),headers:{accept:'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8','accept-language':'en-US,en;q=0.9','user-agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36','sec-fetch-dest':'document','sec-fetch-mode':'navigate','sec-fetch-site':'none','upgrade-insecure-requests':'1'}});
   if([301,302,303,307,308].includes(r.status)){
    const loc=r.headers.get('location');if(!loc)throw Error('HTTP_REDIRECT_MISSING_LOCATION');
    next=validateUrl(new URL(loc,next).href).target_url;continue;
@@ -23,17 +23,35 @@ async function capture(url){
  }
  throw Error('HTTP_REDIRECT_LIMIT');
 }
+async function capture(url){
+ let lastError;
+ for(let attempt=1;attempt<=5;attempt++){
+  let captured;
+  try{captured=await captureSingle(url);}
+  catch(e){
+   lastError=e;
+   if(attempt<5 && /^HTTP_STATUS_(?:429|502|503|504)$/.test(e.message))continue;
+   throw e;
+  }
+  const html=captured.html.toString('utf8');
+  if(html.includes('window.__reactRouterContext.streamController.enqueue') ||
+     /<script\b[^>]*\bid\s*=\s*["']__WEB_MOBILE_DATA__["']/i.test(html))
+    return {...captured,capture_attempts:attempt};
+  if(attempt===5)throw Error('HTML_NO_RECOGNIZED_CONVERSATION_DATA');
+ }
+ throw lastError || Error('HTML_CAPTURE_EXHAUSTED');
+}
 function quote(t){return t.split('\n').map(line=>line.length?'> '+line:'>').join('\n');}
 function markdown(messages){let blocks=[],active=[];for(const m of messages){if(m.role==='user'&&active.length){blocks.push(active.join('\n\n'));active=[];}active.push(m.role==='user'?'**You**\n\n'+quote(m.text):m.channel==='commentary'?'**Assistant · Commentary**\n\n'+quote(m.text):'**Assistant**\n\n'+m.text);}if(active.length)blocks.push(active.join('\n\n'));return '# Conversation\n\n'+blocks.join('\n\n---\n\n')+'\n';}
 function createFiles(validated,captured,parsed){
  const source_url=validated.target_url;
- const raw={schema:'chatgpt.shared-conversation.raw.v1',source_url,decoder:parsed.decoder,conversation:parsed.conversation};
- const linear={schema:'chatgpt.linear-conversation.v1',source_url,conversation_id:parsed.conversation.conversation_id,title:parsed.conversation.title??null,source_node_count:parsed.linear.source_node_count,message_count:parsed.linear.message_count,records:parsed.linear.records};
- const visible={schema:'chatgpt.shared-conversation.visible.v1',source_url,counts:parsed.selected.counts,messages:parsed.selected.messages};
+ const raw={schema:'chatgpt.shared-conversation.raw.v1',source_url,decoder:parsed.decoder,coverage:parsed.coverage||'full-source-linear',source_linear_available:parsed.source_linear_available!==false,conversation:parsed.conversation};
+ const linear={schema:'chatgpt.linear-conversation.v1',source_url,conversation_id:parsed.conversation.conversation_id,title:parsed.conversation.title??null,source_node_count:parsed.linear.source_node_count,message_count:parsed.linear.message_count,records:parsed.linear.records,coverage:parsed.coverage||'full-source-linear',source_linear_available:parsed.source_linear_available!==false};
+ const visible={schema:'chatgpt.shared-conversation.visible.v1',source_url,counts:parsed.selected.counts,messages:parsed.selected.messages,coverage:parsed.coverage||'full-source-linear',source_linear_available:parsed.source_linear_available!==false};
  const diagnostic={schema:'chatgpt.extractor.diagnostics.v1',decoder:parsed.decoder,...parsed.diagnostics};
  const j=x=>Buffer.from(JSON.stringify(x,null,2)+'\n');
  const files={'response.html':captured.html,'conversation-raw.json':j(raw),'linear-conversation.json':j(linear),'conversation.json':j(visible),'conversation.md':Buffer.from(markdown(visible.messages)),'diagnostics.json':j(diagnostic)};
- const receipt={schema:'chatgpt.extractor.receipt.v1',source_revision:process.env.GITHUB_SHA??null,decoder_version:parsed.decoder?.version??null,request_id:validated.request_id,run_id:validated.run_id,run_attempt:validated.run_attempt,source_url,final_url:captured.final_url,share_uuid:validated.share_uuid,http_status:captured.http_status,redirects:captured.redirects,methods:['source-linear-v1','selected-parent-chain-v1'],write_path:validated.write_path,counts:{linear_nodes:parsed.linear.source_node_count,selected_visible_messages:parsed.selected.messages.length},files:Object.fromEntries(Object.entries(files).map(([name,b])=>[name,{bytes:b.length,sha256:sha(b)}]))};
+ const receipt={schema:'chatgpt.extractor.receipt.v1',coverage:parsed.coverage||'full-source-linear',source_linear_available:parsed.source_linear_available!==false,capture_attempts:captured.capture_attempts??1,source_revision:process.env.GITHUB_SHA??null,decoder_version:parsed.decoder?.version??null,request_id:validated.request_id,run_id:validated.run_id,run_attempt:validated.run_attempt,source_url,final_url:captured.final_url,share_uuid:validated.share_uuid,http_status:captured.http_status,redirects:captured.redirects,methods:parsed.source_linear_available===false?['octane-visible-messages-v1']:['source-linear-v1','selected-parent-chain-v1'],write_path:validated.write_path,counts:{linear_nodes:parsed.linear.source_node_count,selected_visible_messages:parsed.selected.messages.length},files:Object.fromEntries(Object.entries(files).map(([name,b])=>[name,{bytes:b.length,sha256:sha(b)}]))};
  files['receipt.json']=j(receipt);
  files['execution.json']=j({schema:'chatgpt.extractor.execution.v1',request_id:validated.request_id,run_id:validated.run_id,run_attempt:validated.run_attempt,stage:'OUTPUTS_VALIDATED',precommit_status:'ready_for_publication',errors:[]});
  return files;

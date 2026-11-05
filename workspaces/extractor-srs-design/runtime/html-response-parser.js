@@ -9,6 +9,7 @@
  * This module is intentionally NOT an end-to-end export or verification receipt.
  */
 const { TextDecoder } = require("node:util");
+const { parseOctaneHtml } = require("./octane-response-parser.js");
 
 const LIMITS = Object.freeze({
   htmlBytes: 25 * 1024 * 1024,
@@ -253,6 +254,7 @@ function parseHtmlResponse(html, validated, options = {}) {
     fail("INPUT_NOT_VALIDATED", "expected normalized validated.target_url from preceding admission step");
   const limits = limitOptions(options);
   const text = htmlText(html, limits);
+  if (/<script\b[^>]*\bid\s*=\s*[\"']__WEB_MOBILE_DATA__[\"']/i.test(text)) return parseOctaneHtml(text, validated, limits, ParseError);
   const streams = tablesFromHtml(text, limits);
   const candidates = [];
   for (const table of streams.tables) {

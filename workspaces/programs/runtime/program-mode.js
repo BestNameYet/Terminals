@@ -36,7 +36,7 @@ function run(){
  const catalog=apps();
  if(command==="programs"){
   if(Object.keys(input).length)fail("INVALID_INPUT","programs takes no programInput fields");
-  return {schema:"terminals.programs.catalog.v1",menu:menu("Programs",catalog.map(x=>x.name+" — "+x.description)),applications:catalog.map(x=>({name:x.name,description:x.description,command:"run "+x.name}))};
+  return {schema:"terminals.programs.catalog.v1",menu:menu("Programs",catalog.map(x=>x.name+" — "+x.description)),applications:catalog.map(x=>({name:x.name,description:x.description,command:"run "+x.name})),sessions:session.list()};
  }
  const match=/^run ([a-z][a-z0-9-]{0,63})$/.exec(command);
  if(!match)fail("INVALID_COMMAND","Use programs or run <application name>");
@@ -44,19 +44,21 @@ function run(){
  if(!app)fail("UNKNOWN_APPLICATION","Unknown application: "+match[1]);
  const commandId=Number(process.env.TERMINALS_COMMAND_COMMENT_ID);
  if(!validNumber(commandId))fail("NO_ISSUE3_COMMAND_COMMENT","Application requires owner-submitted Issue #3 command comment context");
+ const nonce=process.env.TERMINALS_AGENT_NONCE;
+ if(typeof nonce!=="string"||!/^[A-Za-z0-9_-]{1,128}$/.test(nonce))fail("NO_SESSION_NONCE","Application requires the validated Issue #3 forWhom nonce");
  const operation=input.operation??"start";
  if(operation==="start"){
-  const assigned=session.start(commandId,app.name);
+  const assigned=session.start(commandId,app.name,nonce);
   const slot=assigned.slot;
   let rendered;
   try{rendered=invoke(app.entrypoint,{operation:"menu"});}
   catch(e){rendered={ok:false,code:e.code||"APP_ERROR",error:e.message};}
   const ui=session.render(slot,rendered);
-  return {schema:"terminals.program.response.v1",ok:rendered.ok!==false,operation:"start",application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,status:"active",reused:assigned.reused,terminal_url:ui.terminal_url,render:rendered};
+  return {schema:"terminals.program.response.v1",ok:rendered.ok!==false,operation:"start",application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,status:"active",nonce:slot.nonce,reused:assigned.reused,terminal_url:ui.terminal_url,render:rendered};
  }
  if(operation==="complete"||operation==="terminate"){
   const ended=session.end(commandId,app.name,input,operation==="complete"?"completed":"terminated");
-  const payload={ok:true,operation,status:"available",last_instance_id:input.instance_id,terminal_comment_id:input.terminal_comment_id,generation:input.generation};
+  const payload={ok:true,operation,status:"available",last_instance_id:input.instance_id,terminal_comment_id:input.terminal_comment_id,generation:input.generation,nonce:ended.slot.last_release?.nonce??null};
   const ui=session.render(ended.slot,payload,"available");
   return {schema:"terminals.program.response.v1",...payload,application:app.name,command_comment_id:commandId,terminal_url:ui.terminal_url,idempotent:ended.idempotent};
  }
@@ -66,10 +68,10 @@ function run(){
  catch(e){
   const errorResult={ok:false,operation,code:e.code||"APP_ERROR",error:e.message};
   const view=session.render(slot,errorResult);
-  return {schema:"terminals.program.response.v1",...errorResult,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,terminal_url:view.terminal_url};
+  return {schema:"terminals.program.response.v1",...errorResult,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,nonce:slot.nonce,terminal_url:view.terminal_url};
  }
  const ui=session.render(slot,result);
- return {schema:"terminals.program.response.v1",ok:result.ok!==false,operation,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,status:"active",terminal_url:ui.terminal_url,render:result};
+ return {schema:"terminals.program.response.v1",ok:result.ok!==false,operation,application:app.name,command_comment_id:commandId,terminal_comment_id:slot.terminal_comment_id,instance_id:slot.instance_id,generation:slot.generation,nonce:slot.nonce,status:"active",terminal_url:ui.terminal_url,render:result};
 }
 try{const result=run();process.stdout.write(JSON.stringify(result)+"\n");if(result.ok===false)process.exitCode=1;}
 catch(e){process.stderr.write(JSON.stringify({ok:false,code:e.code||"PROGRAM_MODE_FAILURE",error:e.message})+"\n");process.exitCode=1;}

@@ -1,0 +1,11 @@
+{
+  "schema": "terminals.programs.registry.v1",
+  "version": "1.0.0",
+  "applications": [
+    {
+      "name": "scratchpad",
+      "description": "Create and edit JSON scratchpads in the less populated of Terminals Issues #4 and #5",
+      "entrypoint": "workspaces/programs/scratchpad/scratchpad.js"
+    }
+  ]
+}

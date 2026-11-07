@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'GitHub MCP Server direct write test 2026-11-07\\n'",
+  "outputThat": [
+    "GitHub MCP Server direct write test 2026-11-07"
+  ]
+}

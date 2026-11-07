@@ -1,0 +1,561 @@
+{
+  "schema": "terminals.local-terminals.agent-return-wrapper.v1",
+  "version": "1.0.0",
+  "type": "declarative_json_wrapper",
+  "status": "design_only",
+  "path": "workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-return-wrapper.json",
+  "source_schema": "agent-command-return.schema.json",
+  "compatibility": {
+    "source_schema_id": "urn:terminals:local-terminals:agent-command-return:v1",
+    "source_schema_version": "1.0.0",
+    "template_catalog": "agent-command-templates.json"
+  },
+  "envelope": {
+    "wrapper_schema": "terminals.local-terminals.agent-return-wrapper.v1",
+    "source_schema": "urn:terminals:local-terminals:agent-command-return:v1",
+    "source_sha256": "<RFC8785_sha256_of_source>",
+    "source": "<original_agent_return_object>",
+    "derived": "<deterministically_computed_fields>"
+  },
+  "constraints": {
+    "preserve_source": "Copy the complete original return without mutation, data loss, transformation, or stream redaction.",
+    "source_fidelity": "No agent interpretation, summarization, additional execution, GitHub queries, or runtime investigation during enrichment.",
+    "deterministic_derivations": "Only calculate from fields actually present in the original return. No heuristic workflow discovery, speculative causality, or inferred success.",
+    "missing_inputs": "Omit derived keys whose prerequisites cannot be satisfied. Never replace missing collections with empty arrays or missing facts with null.",
+    "empty_collections": "Derived zero counts are allowed for an explicitly observed empty collection; they do not prove observation completeness.",
+    "validation": "Validate input against source JSON Schema Draft 2020-12, validate typed inputs for every derivation, and reject contradictory or unparseable data.",
+    "streams": "Original verbatim base64 stream captures remain in source. Wrapper computes integrity, counts, and sizes; no stream truncation or text normalization.",
+    "workflow_identity": "Treat each (repository, run_id, run_attempt) combination as distinct. Reattempts are separate records; never promote an intermediate outcome to a final one.",
+    "coverage": "A declared-complete flag summarizes declared scopes only; it does not prove unreported processes, workflow runs, or file operations never existed.",
+    "canonicalization": "Source digest uses RFC 8785 canonical JSON; SHA-256 is encoded as lowercase hexadecimal.",
+    "authorization": "This file documents enrichment only; it grants no execution, modification, or workflow authority."
+  },
+  "derivations": [
+    {
+      "id": "DER-001",
+      "output_pointer": "/derived/execution_duration_ms",
+      "operation": "timestamp_difference_ms",
+      "inputs": [
+        "/source/timestamps/started_at",
+        "/source/timestamps/ended_at"
+      ],
+      "when": "both_timestamps_present_and_valid_and_end_not_before_start",
+      "expression": "end_ms - start_ms",
+      "type": "integer",
+      "minimum": 0
+    },
+    {
+      "id": "DER-002",
+      "output_pointer": "/derived/queue_delay_ms",
+      "operation": "timestamp_difference_ms",
+      "inputs": [
+        "/source/timestamps/received_at",
+        "/source/timestamps/started_at"
+      ],
+      "when": "both_timestamps_present_and_valid_and_end_not_before_start",
+      "expression": "started_at_ms - received_at_ms",
+      "type": "integer",
+      "minimum": 0
+    },
+    {
+      "id": "DER-003",
+      "output_pointer": "/derived/process_durations",
+      "operation": "map_timestamp_difference_ms",
+      "inputs": [
+        "/source/processes"
+      ],
+      "when": "processes_present_and_entries_have_both_timestamps",
+      "start_field": "started_at",
+      "end_field": "ended_at",
+      "identity_field": "process_record_id",
+      "exclude_entries_missing_either_endpoint": true,
+      "output_item_keys": [
+        "process_record_id",
+        "duration_ms"
+      ]
+    },
+    {
+      "id": "DER-004",
+      "output_pointer": "/derived/job_durations",
+      "operation": "map_timestamp_difference_ms",
+      "inputs": [
+        "/source/jobs"
+      ],
+      "when": "jobs_present_and_entries_have_both_timestamps",
+      "start_field": "started_at",
+      "end_field": "completed_at",
+      "identity_field": "job_id",
+      "output_item_keys": [
+        "run_id",
+        "run_attempt",
+        "job_id",
+        "duration_ms"
+      ],
+      "exclude_entries_missing_either_endpoint": true
+    },
+    {
+      "id": "DER-005",
+      "output_pointer": "/derived/step_durations",
+      "operation": "map_timestamp_difference_ms",
+      "inputs": [
+        "/source/steps"
+      ],
+      "when": "steps_present_and_entries_have_both_timestamps",
+      "start_field": "started_at",
+      "end_field": "completed_at",
+      "identity_field": "number",
+      "output_item_keys": [
+        "run_id",
+        "run_attempt",
+        "job_id",
+        "number",
+        "duration_ms"
+      ],
+      "exclude_entries_missing_either_endpoint": true
+    },
+    {
+      "id": "DER-006",
+      "output_pointer": "/derived/record_counts",
+      "operation": "present_collection_lengths",
+      "inputs": [
+        "/source/streams",
+        "/source/stream_chunks",
+        "/source/processes",
+        "/source/workflows",
+        "/source/jobs",
+        "/source/steps",
+        "/source/files",
+        "/source/artifacts",
+        "/source/causal_edges",
+        "/source/receipts",
+        "/source/faults"
+      ],
+      "when": "each_individual_collection_present",
+      "missing_collection": "omit_that_count",
+      "empty_collection": "count_zero_when_present",
+      "output_item_name": "input_property_name"
+    },
+    {
+      "id": "DER-007",
+      "output_pointer": "/derived/workflow_run_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/workflows/*/run_id"
+      ],
+      "when": "workflows_present",
+      "sort": "numeric_ascending",
+      "deduplication": "numeric_run_id"
+    },
+    {
+      "id": "DER-008",
+      "output_pointer": "/derived/workflow_attempts",
+      "operation": "project_fields_sorted",
+      "inputs": [
+        "/source/workflows"
+      ],
+      "when": "workflows_present",
+      "fields": [
+        "repository",
+        "run_id",
+        "run_attempt"
+      ],
+      "sort": [
+        "repository_ascending",
+        "run_id_ascending",
+        "run_attempt_ascending"
+      ],
+      "deduplication": "none; duplicate identity is an error"
+    },
+    {
+      "id": "DER-009",
+      "output_pointer": "/derived/job_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/jobs/*/job_id"
+      ],
+      "when": "jobs_present",
+      "sort": "numeric_ascending"
+    },
+    {
+      "id": "DER-010",
+      "output_pointer": "/derived/artifact_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/artifacts/*/artifact_id"
+      ],
+      "when": "artifacts_present",
+      "sort": "numeric_ascending"
+    },
+    {
+      "id": "DER-011",
+      "output_pointer": "/derived/process_record_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/processes/*/process_record_id"
+      ],
+      "when": "processes_present",
+      "sort": "lexicographic_ascending"
+    },
+    {
+      "id": "DER-012",
+      "output_pointer": "/derived/stream_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/streams/*/stream_id"
+      ],
+      "when": "streams_present",
+      "sort": "lexicographic_ascending"
+    },
+    {
+      "id": "DER-013",
+      "output_pointer": "/derived/file_record_ids",
+      "operation": "distinct_sorted_values",
+      "inputs": [
+        "/source/files/*/file_record_id"
+      ],
+      "when": "files_present",
+      "sort": "lexicographic_ascending"
+    },
+    {
+      "id": "DER-014",
+      "output_pointer": "/derived/workflow_status_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/workflows/*/status"
+      ],
+      "when": "workflows_present",
+      "group_by": "status",
+      "zero_categories": "omit",
+      "count": "observed_run_attempt_records"
+    },
+    {
+      "id": "DER-015",
+      "output_pointer": "/derived/workflow_conclusion_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/workflows/*/conclusion"
+      ],
+      "when": "workflows_present",
+      "group_by": "conclusion",
+      "missing_value": "exclude_from_distribution",
+      "zero_categories": "omit"
+    },
+    {
+      "id": "DER-016",
+      "output_pointer": "/derived/workflow_conclusion_missing_count",
+      "operation": "count_items_missing_field",
+      "inputs": [
+        "/source/workflows"
+      ],
+      "when": "workflows_present",
+      "field": "conclusion"
+    },
+    {
+      "id": "DER-017",
+      "output_pointer": "/derived/job_status_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/jobs/*/status"
+      ],
+      "when": "jobs_present",
+      "group_by": "status",
+      "missing_value": "exclude_from_distribution"
+    },
+    {
+      "id": "DER-018",
+      "output_pointer": "/derived/job_conclusion_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/jobs/*/conclusion"
+      ],
+      "when": "jobs_present",
+      "group_by": "conclusion",
+      "missing_value": "exclude_from_distribution"
+    },
+    {
+      "id": "DER-019",
+      "output_pointer": "/derived/step_status_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/steps/*/status"
+      ],
+      "when": "steps_present",
+      "group_by": "status",
+      "missing_value": "exclude_from_distribution"
+    },
+    {
+      "id": "DER-020",
+      "output_pointer": "/derived/step_conclusion_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/steps/*/conclusion"
+      ],
+      "when": "steps_present",
+      "group_by": "conclusion",
+      "missing_value": "exclude_from_distribution"
+    },
+    {
+      "id": "DER-021",
+      "output_pointer": "/derived/file_operation_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/files/*/operation"
+      ],
+      "when": "files_present",
+      "group_by": "operation"
+    },
+    {
+      "id": "DER-022",
+      "output_pointer": "/derived/file_size_deltas",
+      "operation": "map_arithmetic_difference",
+      "inputs": [
+        "/source/files"
+      ],
+      "when": "files_present_and_entries_have_before_and_after_size",
+      "before": "before_size_bytes",
+      "after": "after_size_bytes",
+      "identity": "file_record_id",
+      "expression": "after_size_bytes - before_size_bytes",
+      "exclude_entries_missing_either_size": true
+    },
+    {
+      "id": "DER-023",
+      "output_pointer": "/derived/stream_byte_totals",
+      "operation": "sum_numeric_by_group",
+      "inputs": [
+        "/source/streams"
+      ],
+      "when": "streams_present",
+      "field": "byte_length",
+      "group_field": "kind",
+      "include": "total_byte_length_and_by_kind",
+      "note": "Counts supplied captured bytes, not hypothetical original bytes"
+    },
+    {
+      "id": "DER-024",
+      "output_pointer": "/derived/stream_integrity_checks",
+      "operation": "verify_base64_byte_count_sha256",
+      "inputs": [
+        "/source/streams"
+      ],
+      "when": "streams_present",
+      "bytes": "strict_RFC4648_base64_decode",
+      "size_field": "byte_length",
+      "digest_field": "sha256",
+      "digest_algorithm": "SHA-256",
+      "mismatch": "fail_enrichment",
+      "output_per_stream": [
+        "stream_id",
+        "verified",
+        "actual_byte_length",
+        "computed_sha256"
+      ],
+      "note": "No stream content duplication; verbatim data remains only in source.streams"
+    },
+    {
+      "id": "DER-025",
+      "output_pointer": "/derived/stream_completeness_counts",
+      "operation": "boolean_frequency",
+      "inputs": [
+        "/source/streams/*/complete"
+      ],
+      "when": "streams_present",
+      "true_label": "complete",
+      "false_label": "incomplete",
+      "missing": "reject_invalid_record"
+    },
+    {
+      "id": "DER-026",
+      "output_pointer": "/derived/stream_truncation_counts",
+      "operation": "boolean_frequency",
+      "inputs": [
+        "/source/streams/*/truncated"
+      ],
+      "when": "streams_present",
+      "true_label": "truncated",
+      "false_label": "not_truncated",
+      "missing": "exclude_unknown"
+    },
+    {
+      "id": "DER-027",
+      "output_pointer": "/derived/chunk_byte_totals",
+      "operation": "sum_numeric_by_group",
+      "inputs": [
+        "/source/stream_chunks"
+      ],
+      "when": "stream_chunks_present",
+      "field": "byte_length",
+      "group_field": "stream_id",
+      "include": "total_byte_length_and_by_stream_id"
+    },
+    {
+      "id": "DER-028",
+      "output_pointer": "/derived/chunk_integrity_checks",
+      "operation": "verify_base64_byte_count_sha256",
+      "inputs": [
+        "/source/stream_chunks"
+      ],
+      "when": "stream_chunks_present",
+      "bytes": "strict_RFC4648_base64_decode",
+      "size_field": "byte_length",
+      "digest_field": "sha256",
+      "digest_algorithm": "SHA-256",
+      "mismatch": "fail_enrichment",
+      "output_per_chunk": [
+        "stream_id",
+        "sequence",
+        "verified",
+        "actual_byte_length",
+        "computed_sha256"
+      ]
+    },
+    {
+      "id": "DER-029",
+      "output_pointer": "/derived/causal_relation_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/causal_edges/*/relation"
+      ],
+      "when": "causal_edges_present",
+      "group_by": "relation",
+      "rule": "count_explicit_edges_only"
+    },
+    {
+      "id": "DER-030",
+      "output_pointer": "/derived/receipt_kind_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/receipts/*/kind"
+      ],
+      "when": "receipts_present",
+      "group_by": "kind"
+    },
+    {
+      "id": "DER-031",
+      "output_pointer": "/derived/fault_stage_counts",
+      "operation": "frequency_by_value",
+      "inputs": [
+        "/source/faults/*/stage"
+      ],
+      "when": "faults_present",
+      "group_by": "stage"
+    },
+    {
+      "id": "DER-032",
+      "output_pointer": "/derived/artifact_total_bytes",
+      "operation": "sum_numeric",
+      "inputs": [
+        "/source/artifacts/*/size_in_bytes"
+      ],
+      "when": "artifacts_present",
+      "missing_size": "exclude_and_report_record_count",
+      "output_fields": [
+        "observed_size_sum",
+        "artifacts_missing_size_count"
+      ]
+    },
+    {
+      "id": "DER-033",
+      "output_pointer": "/derived/coverage_by_category",
+      "operation": "group_coverage_records",
+      "inputs": [
+        "/source/coverage"
+      ],
+      "when": "coverage_present",
+      "group_by": "category",
+      "include": [
+        "scope",
+        "status",
+        "method"
+      ],
+      "sort": [
+        "category",
+        "scope"
+      ],
+      "rule": "summarize_only_observed_declarations"
+    },
+    {
+      "id": "DER-034",
+      "output_pointer": "/derived/declared_coverage_complete",
+      "operation": "boolean_all_complete",
+      "inputs": [
+        "/source/result/observation_closed",
+        "/source/coverage/*/status"
+      ],
+      "when": "result_and_coverage_present",
+      "expression": "observation_closed === true AND coverage.length > 0 AND every status is complete or not_applicable",
+      "warning": "This is not a proof that the observer declared every possible observation scope"
+    },
+    {
+      "id": "DER-035",
+      "output_pointer": "/source_sha256",
+      "operation": "canonical_json_sha256",
+      "inputs": [
+        "/source"
+      ],
+      "when": "source_present",
+      "canonicalization": "RFC8785_JSON_Canonicalization_Scheme_JCS",
+      "digest_algorithm": "SHA-256",
+      "note": "Use standards-compliant JCS; do not hash ordinary uncanonicalized serialization"
+    },
+    {
+      "id": "DER-036",
+      "output_pointer": "/derived/terminal_identity",
+      "operation": "copy_existing_fields",
+      "inputs": [
+        "/source/terminal"
+      ],
+      "when": "terminal_present",
+      "fields": [
+        "terminal_id",
+        "terminal_type",
+        "interface_id",
+        "run_on",
+        "executable",
+        "cwd",
+        "runner_name",
+        "host_id",
+        "container_id"
+      ],
+      "missing_fields": "omit",
+      "note": "No host/process identity invention"
+    },
+    {
+      "id": "DER-037",
+      "output_pointer": "/derived/execution_exit_summary",
+      "operation": "copy_existing_fields",
+      "inputs": [
+        "/source/result",
+        "/source/termination"
+      ],
+      "when": "result_present",
+      "fields": [
+        "current_status",
+        "exit_code",
+        "signal",
+        "observation_closed"
+      ],
+      "termination_fields": [
+        "status",
+        "exit_code",
+        "signal"
+      ],
+      "missing_fields": "omit",
+      "note": "Do not equate command outcome to workflow outcomes"
+    }
+  ],
+  "verification": {
+    "required_checks": [
+      "JSON parses and version references the current agent-command-return.schema.json",
+      "All operation names are defined by a downstream deterministic evaluator before use; this JSON file is not an interpreter",
+      "Every derived key has a source pointer and a condition",
+      "Unresolved source facts never produce guessed output",
+      "Byte comparisons use decoded raw bytes and SHA-256",
+      "No additional processes, jobs, workflows, or files are invented",
+      "Source return is retained verbatim at the JSON-value level",
+      "All 37 derivations have unique IDs and output locations"
+    ],
+    "scope": "schema_and_declarative_template_only_not_runtime",
+    "source_revision": "1.0.0"
+  }
+}

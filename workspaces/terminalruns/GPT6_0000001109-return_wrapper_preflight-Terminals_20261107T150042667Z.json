@@ -1,0 +1,13 @@
+{
+  "inputThis": "$:set -euo pipefail\nnode <<'NODE'\nconst fs=require('fs');\nfor(const p of ['AGENTS.md','terminals_requirements.json','workspaces/codespace-mcp-srs-design/README.md','workspaces/codespace-mcp-srs-design/AGENTS.md','workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-command-templates.json']) {\n  let t=fs.readFileSync(p,'utf8');\n  let obj=p.endsWith('.json')||p.endsWith('/AGENTS.md')?JSON.parse(t):null;\n  console.log(JSON.stringify({path:p,exists:true,bytes:Buffer.byteLength(t),version:obj?.version,schema:obj?.schema}));\n}\nconst p='workspaces/codespace-mcp-srs-design/local-terminals/templates';\nconsole.log('files',JSON.stringify(fs.readdirSync(p)));\nconsole.log('root instructions flags',fs.readFileSync('AGENTS.md','utf8').includes('INTEGRATION-01'),fs.readFileSync('AGENTS.md','utf8').includes('DISCOVERY-04'));\nconsole.log('metadata',fs.existsSync('config/file-metadata.json'));\nNODE",
+  "outputThat": [
+    "{\"path\":\"AGENTS.md\",\"exists\":true,\"bytes\":23046}",
+    "{\"path\":\"terminals_requirements.json\",\"exists\":true,\"bytes\":6874,\"version\":\"1.0.0\",\"schema\":\"terminals.requirements.v1\"}",
+    "{\"path\":\"workspaces/codespace-mcp-srs-design/README.md\",\"exists\":true,\"bytes\":3109}",
+    "{\"path\":\"workspaces/codespace-mcp-srs-design/AGENTS.md\",\"exists\":true,\"bytes\":7610,\"version\":\"2.0.0\",\"schema\":\"terminals.codespace-mcp.design-bootstrap.v1\"}",
+    "{\"path\":\"workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-command-templates.json\",\"exists\":true,\"bytes\":10947,\"version\":\"1.0.0\",\"schema\":\"terminals.local-terminals.agent-command-templates.v1\"}",
+    "files [\"agent-command-templates.json\"]",
+    "root instructions flags true true",
+    "metadata false"
+  ]
+}

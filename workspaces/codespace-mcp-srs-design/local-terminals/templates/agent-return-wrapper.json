@@ -1,6 +1,6 @@
 {
   "schema": "terminals.local-terminals.agent-return-wrapper.v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "declarative_json_wrapper",
   "status": "design_only",
   "path": "workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-return-wrapper.json",
@@ -20,13 +20,13 @@
   "constraints": {
     "preserve_source": "Copy the complete original return without mutation, data loss, transformation, or stream redaction.",
     "source_fidelity": "No agent interpretation, summarization, additional execution, GitHub queries, or runtime investigation during enrichment.",
-    "deterministic_derivations": "Every retained operation is a pure function of explicitly supplied, schema-valid source values; derived entries with absent preconditions are omitted. In particular, evidence of absent events is not inferred from an unpopulated collection.",
-    "missing_inputs": "For each optional input, evaluate the stated prerequisites without interpretation. If missing, omit the corresponding derived field or entry. Never replace missing values or unobserved collections with zeros, nulls, false, or empty arrays.",
+    "deterministic_derivations": "A derived field is allowed only with an identified programmatically retrievable source and a reproducible script algorithm. Declaring a field in source JSON Schema is not proof that the data exists. If no collector can provide the required value, omit the key; do not guess or substitute a narrative.",
+    "missing_inputs": "Unobserved facts are not set to null, zero, false, or empty collections; an output is omitted when its required source cannot be populated by an actual collection mechanism.",
     "empty_collections": "Derived zero counts are allowed for an explicitly observed empty collection; they do not prove observation completeness.",
     "validation": "Validate input against source JSON Schema Draft 2020-12, validate typed inputs for every derivation, and reject contradictory or unparseable data.",
     "streams": "Original verbatim base64 stream captures remain in source. Wrapper computes integrity, counts, and sizes; no stream truncation or text normalization.",
     "workflow_identity": "Treat each (repository, run_id, run_attempt) combination as distinct. Reattempts are separate records; never promote an intermediate outcome to a final one.",
-    "coverage": "Coverage may be copied or grouped exclusively as reported in the source. The wrapper must not calculate a global completeness or success guarantee from declared coverage.",
+    "coverage": "Unverified completeness declarations and counts of speculative causal relationships are excluded. Record source coverage only, without generating coverage summaries or inferred complete flags.",
     "canonicalization": "Source digest uses RFC 8785 canonical JSON; SHA-256 is encoded as lowercase hexadecimal.",
     "authorization": "This file documents enrichment only; it grants no execution, modification, or workflow authority."
   },
@@ -42,7 +42,13 @@
       "when": "both_timestamps_present_and_valid_and_end_not_before_start",
       "expression": "end_ms - start_ms",
       "type": "integer",
-      "minimum": 0
+      "minimum": 0,
+      "deterministic_population": {
+        "source": "source.timestamps.started_at and ended_at, measured by the terminal execution recorder",
+        "script_algorithm": "Node.js: Date.parse(end) - Date.parse(start), after validating complete UTC-offset timestamps.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-002",
@@ -55,7 +61,13 @@
       "when": "both_timestamps_present_and_valid_and_end_not_before_start",
       "expression": "started_at_ms - received_at_ms",
       "type": "integer",
-      "minimum": 0
+      "minimum": 0,
+      "deterministic_population": {
+        "source": "source.timestamps.received_at and started_at, measured by the terminal execution recorder",
+        "script_algorithm": "Node.js: Date.parse(end) - Date.parse(start), after validating complete UTC-offset timestamps.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-003",
@@ -72,7 +84,13 @@
       "output_item_keys": [
         "process_record_id",
         "duration_ms"
-      ]
+      ],
+      "deterministic_population": {
+        "source": "source.processes captured from instrumented process launches (not inferred from a post-run process list)",
+        "script_algorithm": "Node.js: Array.filter(item => start and end exist).map(item => Date.parse(end)-Date.parse(start)); reject negative deltas.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-004",
@@ -91,7 +109,13 @@
         "job_id",
         "duration_ms"
       ],
-      "exclude_entries_missing_either_endpoint": true
+      "exclude_entries_missing_either_endpoint": true,
+      "deterministic_population": {
+        "source": "source.jobs populated by GitHub Actions jobs API using recorded run_id and run_attempt",
+        "script_algorithm": "Node.js: Array.filter(item => start and end exist).map(item => Date.parse(end)-Date.parse(start)); reject negative deltas.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-005",
@@ -111,7 +135,13 @@
         "number",
         "duration_ms"
       ],
-      "exclude_entries_missing_either_endpoint": true
+      "exclude_entries_missing_either_endpoint": true,
+      "deterministic_population": {
+        "source": "source.steps populated by GitHub Actions jobs API job.steps records",
+        "script_algorithm": "Node.js: Array.filter(item => start and end exist).map(item => Date.parse(end)-Date.parse(start)); reject negative deltas.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-006",
@@ -133,7 +163,13 @@
       "when": "each_individual_collection_present",
       "missing_collection": "omit_that_count",
       "empty_collection": "count_zero_when_present",
-      "output_item_name": "input_property_name"
+      "output_item_name": "input_property_name",
+      "deterministic_population": {
+        "source": "named source arrays populated by recorder/API collector; only present arrays are counted",
+        "script_algorithm": "Node.js: Object.hasOwn(source,key) && Array.isArray(source[key]) ? source[key].length : omit.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-007",
@@ -144,7 +180,13 @@
       ],
       "when": "workflows_present",
       "sort": "numeric_ascending",
-      "deduplication": "numeric_run_id"
+      "deduplication": "numeric_run_id",
+      "deterministic_population": {
+        "source": "source.workflows run_id from GitHub Actions run API, linked by observed event/dispatch evidence",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-008",
@@ -164,7 +206,13 @@
         "run_id_ascending",
         "run_attempt_ascending"
       ],
-      "deduplication": "none; duplicate identity is an error"
+      "deduplication": "none; duplicate identity is an error",
+      "deterministic_population": {
+        "source": "source.workflows run_id, run_attempt, repository from GitHub Actions run API",
+        "script_algorithm": "Node.js: records.map(record=>Object.fromEntries(fields.map(k=>[k,record[k]]))).sort(by specified fields); reject duplicate identities.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-009",
@@ -174,7 +222,13 @@
         "/source/jobs/*/job_id"
       ],
       "when": "jobs_present",
-      "sort": "numeric_ascending"
+      "sort": "numeric_ascending",
+      "deterministic_population": {
+        "source": "source.jobs job_id from GitHub Actions jobs API",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-010",
@@ -184,7 +238,13 @@
         "/source/artifacts/*/artifact_id"
       ],
       "when": "artifacts_present",
-      "sort": "numeric_ascending"
+      "sort": "numeric_ascending",
+      "deterministic_population": {
+        "source": "source.artifacts artifact_id from GitHub Actions run artifacts API",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-011",
@@ -194,7 +254,13 @@
         "/source/processes/*/process_record_id"
       ],
       "when": "processes_present",
-      "sort": "lexicographic_ascending"
+      "sort": "lexicographic_ascending",
+      "deterministic_population": {
+        "source": "source.processes process_record_id assigned by the instrumented runner",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-012",
@@ -204,7 +270,13 @@
         "/source/streams/*/stream_id"
       ],
       "when": "streams_present",
-      "sort": "lexicographic_ascending"
+      "sort": "lexicographic_ascending",
+      "deterministic_population": {
+        "source": "source.streams stream_id assigned by pipe/PTY capture",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-013",
@@ -214,7 +286,13 @@
         "/source/files/*/file_record_id"
       ],
       "when": "files_present",
-      "sort": "lexicographic_ascending"
+      "sort": "lexicographic_ascending",
+      "deterministic_population": {
+        "source": "source.files file_record_id from observed filesystem operations or verified Git tree comparisons",
+        "script_algorithm": "Node.js: Array.from(new Set(records.map(item=>item[field]))).sort(numeric_or_lexicographic).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-014",
@@ -226,7 +304,13 @@
       "when": "workflows_present",
       "group_by": "status",
       "zero_categories": "omit",
-      "count": "observed_run_attempt_records"
+      "count": "observed_run_attempt_records",
+      "deterministic_population": {
+        "source": "source.workflows status returned by GitHub Actions run API",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-015",
@@ -238,7 +322,13 @@
       "when": "workflows_present",
       "group_by": "conclusion",
       "missing_value": "exclude_from_distribution",
-      "zero_categories": "omit"
+      "zero_categories": "omit",
+      "deterministic_population": {
+        "source": "source.workflows conclusion returned by GitHub Actions run API",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-016",
@@ -248,7 +338,13 @@
         "/source/workflows"
       ],
       "when": "workflows_present",
-      "field": "conclusion"
+      "field": "conclusion",
+      "deterministic_population": {
+        "source": "source.workflows conclusion optional member returned by GitHub Actions run API",
+        "script_algorithm": "Node.js: records.filter(item => !Object.hasOwn(item,field)).length.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-017",
@@ -259,7 +355,13 @@
       ],
       "when": "jobs_present",
       "group_by": "status",
-      "missing_value": "exclude_from_distribution"
+      "missing_value": "exclude_from_distribution",
+      "deterministic_population": {
+        "source": "source.jobs status returned by GitHub Actions jobs API",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-018",
@@ -270,7 +372,13 @@
       ],
       "when": "jobs_present",
       "group_by": "conclusion",
-      "missing_value": "exclude_from_distribution"
+      "missing_value": "exclude_from_distribution",
+      "deterministic_population": {
+        "source": "source.jobs conclusion returned by GitHub Actions jobs API",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-019",
@@ -281,7 +389,13 @@
       ],
       "when": "steps_present",
       "group_by": "status",
-      "missing_value": "exclude_from_distribution"
+      "missing_value": "exclude_from_distribution",
+      "deterministic_population": {
+        "source": "source.steps status returned in GitHub Actions job steps",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-020",
@@ -292,7 +406,13 @@
       ],
       "when": "steps_present",
       "group_by": "conclusion",
-      "missing_value": "exclude_from_distribution"
+      "missing_value": "exclude_from_distribution",
+      "deterministic_population": {
+        "source": "source.steps conclusion returned in GitHub Actions job steps",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-021",
@@ -302,7 +422,13 @@
         "/source/files/*/operation"
       ],
       "when": "files_present",
-      "group_by": "operation"
+      "group_by": "operation",
+      "deterministic_population": {
+        "source": "source.files operation classified by instrumented filesystem event or before/after Git tree comparison",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-022",
@@ -316,7 +442,13 @@
       "after": "after_size_bytes",
       "identity": "file_record_id",
       "expression": "after_size_bytes - before_size_bytes",
-      "exclude_entries_missing_either_size": true
+      "exclude_entries_missing_either_size": true,
+      "deterministic_population": {
+        "source": "source.files before_size_bytes and after_size_bytes captured or read from verified file versions",
+        "script_algorithm": "Node.js: records.filter(has before and after).map(record=> after_size_bytes-before_size_bytes).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-023",
@@ -329,7 +461,13 @@
       "field": "byte_length",
       "group_field": "kind",
       "include": "total_byte_length_and_by_kind",
-      "note": "Counts supplied captured bytes, not hypothetical original bytes"
+      "note": "Counts supplied captured bytes, not hypothetical original bytes",
+      "deterministic_population": {
+        "source": "source.streams kind and byte_length from byte capture pipes",
+        "script_algorithm": "Node.js: validate safe integer byte_length; reduce into sum and per-kind/per-stream totals.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-024",
@@ -350,7 +488,13 @@
         "actual_byte_length",
         "computed_sha256"
       ],
-      "note": "No stream content duplication; verbatim data remains only in source.streams"
+      "note": "No stream content duplication; verbatim data remains only in source.streams",
+      "deterministic_population": {
+        "source": "source.streams data_base64, byte_length and sha256 from byte capture pipes",
+        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex').",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-025",
@@ -362,7 +506,13 @@
       "when": "streams_present",
       "true_label": "complete",
       "false_label": "incomplete",
-      "missing": "reject_invalid_record"
+      "missing": "reject_invalid_record",
+      "deterministic_population": {
+        "source": "source.streams complete from capture termination and truncation receipt",
+        "script_algorithm": "Node.js: count records whose boolean field is true and false; do not count absent fields.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-026",
@@ -374,7 +524,13 @@
       "when": "streams_present",
       "true_label": "truncated",
       "false_label": "not_truncated",
-      "missing": "exclude_unknown"
+      "missing": "exclude_unknown",
+      "deterministic_population": {
+        "source": "source.streams truncated recorded by capture writer",
+        "script_algorithm": "Node.js: count records whose boolean field is true and false; do not count absent fields.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-027",
@@ -386,7 +542,13 @@
       "when": "stream_chunks_present",
       "field": "byte_length",
       "group_field": "stream_id",
-      "include": "total_byte_length_and_by_stream_id"
+      "include": "total_byte_length_and_by_stream_id",
+      "deterministic_population": {
+        "source": "source.stream_chunks byte_length and stream_id from byte capture writer",
+        "script_algorithm": "Node.js: validate safe integer byte_length; reduce into sum and per-kind/per-stream totals.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-028",
@@ -407,18 +569,13 @@
         "verified",
         "actual_byte_length",
         "computed_sha256"
-      ]
-    },
-    {
-      "id": "DER-029",
-      "output_pointer": "/derived/causal_relation_counts",
-      "operation": "frequency_by_value",
-      "inputs": [
-        "/source/causal_edges/*/relation"
       ],
-      "when": "causal_edges_present",
-      "group_by": "relation",
-      "rule": "count_explicit_edges_only"
+      "deterministic_population": {
+        "source": "source.stream_chunks data_base64/byte_length/sha256 from byte capture writer",
+        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex').",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-030",
@@ -428,7 +585,13 @@
         "/source/receipts/*/kind"
       ],
       "when": "receipts_present",
-      "group_by": "kind"
+      "group_by": "kind",
+      "deterministic_population": {
+        "source": "source.receipts kind from machine-generated command/commit/dispatch/readback receipts",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-031",
@@ -438,7 +601,13 @@
         "/source/faults/*/stage"
       ],
       "when": "faults_present",
-      "group_by": "stage"
+      "group_by": "stage",
+      "deterministic_population": {
+        "source": "source.faults stage from machine-generated error records",
+        "script_algorithm": "Node.js: records.reduce((counts,item)=> increment counts[item[field]] only when present,{}).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-032",
@@ -452,27 +621,13 @@
       "output_fields": [
         "observed_size_sum",
         "artifacts_missing_size_count"
-      ]
-    },
-    {
-      "id": "DER-033",
-      "output_pointer": "/derived/coverage_by_category",
-      "operation": "group_coverage_records",
-      "inputs": [
-        "/source/coverage"
       ],
-      "when": "coverage_present",
-      "group_by": "category",
-      "include": [
-        "scope",
-        "status",
-        "method"
-      ],
-      "sort": [
-        "category",
-        "scope"
-      ],
-      "rule": "summarize_only_observed_declarations"
+      "deterministic_population": {
+        "source": "source.artifacts size_in_bytes from GitHub Actions artifacts API",
+        "script_algorithm": "Node.js: reduce present, validated numeric sizes; count records where size is absent.",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-035",
@@ -484,7 +639,13 @@
       "when": "source_present",
       "canonicalization": "RFC8785_JSON_Canonicalization_Scheme_JCS",
       "digest_algorithm": "SHA-256",
-      "note": "Use standards-compliant JCS; do not hash ordinary uncanonicalized serialization"
+      "note": "Use standards-compliant JCS; do not hash ordinary uncanonicalized serialization",
+      "deterministic_population": {
+        "source": "the exact original JSON source supplied as input to the wrapper",
+        "script_algorithm": "Node.js: implement RFC8785/JCS canonicalization followed by crypto.createHash('sha256').update(canonicalUTF8).digest('hex').",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-036",
@@ -506,7 +667,13 @@
         "container_id"
       ],
       "missing_fields": "omit",
-      "note": "No host/process identity invention"
+      "note": "No host/process identity invention",
+      "deterministic_population": {
+        "source": "source.terminal identity recorded by the terminal launch environment (not inferred from textual output)",
+        "script_algorithm": "Node.js: Object.fromEntries(allowlistedFields.filter(k=>Object.hasOwn(sourceObject,k)).map(k=>[k,sourceObject[k]])).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     },
     {
       "id": "DER-037",
@@ -529,7 +696,13 @@
         "signal"
       ],
       "missing_fields": "omit",
-      "note": "Do not equate command outcome to workflow outcomes"
+      "note": "Do not equate command outcome to workflow outcomes",
+      "deterministic_population": {
+        "source": "source.result and source.termination from child process termination and runner receipt",
+        "script_algorithm": "Node.js: Object.fromEntries(allowlistedFields.filter(k=>Object.hasOwn(sourceObject,k)).map(k=>[k,sourceObject[k]])).",
+        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
+        "execution": "Only after source schema validation"
+      }
     }
   ],
   "verification": {
@@ -541,8 +714,10 @@
       "Byte comparisons use decoded raw bytes and SHA-256",
       "No additional processes, jobs, workflows, or files are invented",
       "Source return is retained verbatim at the JSON-value level",
-      "All 36 retained derivations have unique IDs and output locations",
-      "No derived global completeness claim is emitted. Coverage observations remain source declarations only."
+      "All 34 retained derivations have unique IDs and output locations",
+      "No derived global completeness claim is emitted. Coverage observations remain source declarations only.",
+      "Each retained derivation includes a deterministic_population.source and a deterministic_population.script_algorithm specifying programmatic collection and computation.",
+      "Remove any output whose collector is not actually available at execution time; do not take the existence of source schema members as proof of observability."
     ],
     "scope": "schema_and_declarative_template_only_not_runtime",
     "source_revision": "1.0.0"
@@ -554,6 +729,14 @@
         "DER-034"
       ],
       "reason": "Declared coverage statuses alone cannot establish global observational completeness; retain only source-supported deterministic enrichment."
+    },
+    {
+      "version": "1.2.0",
+      "removed": [
+        "DER-029",
+        "DER-033"
+      ],
+      "reason": "Remove unsupported causal/coverage summarization and require an explicit scriptable source and computation for every remaining derived key."
     }
   ]
 }

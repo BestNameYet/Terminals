@@ -34,8 +34,11 @@ These files are **planned**, not yet created:
 - `SRS.agent.json` — independently useful, semantics-first, machine-readable SRS projection.
 - `ARCHITECTURE.md` — components, trust boundaries, lifecycle, deployment, and data flows.
 - `INTERFACES.md` — MCP resources/tools, request/response contracts, errors and authentication.
-- `DECISIONS-AND-RISKS.md` — alternatives, assumptions, unresolved questions and constraints.
 - `VERIFICATION-PLAN.md` — requirement-linked tests, acceptance criteria and evidence.
+
+## Design procedure
+
+The five-stage bootstrap procedure in `AGENTS.md` covers: (1) authority and material constraints, (2) requirements and semantic projection, (3) architecture and interfaces including decisions and risks, (4) verification, and (5) one consistency/readiness check. There is no separate inventory, feasibility report, risk register, or handoff report. These subjects remain addressed where relevant in the required artifacts.
 
 ## Working rules
 

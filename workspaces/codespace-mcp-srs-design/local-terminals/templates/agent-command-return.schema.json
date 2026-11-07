@@ -1,0 +1,1407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:terminals:local-terminals:agent-command-return:v1",
+  "title": "Observational terminal execution return",
+  "description": "Design-only machine-verifiable return contract for a wrapper that observes commands, scripts, streams, filesystem operations and attributable GitHub Actions. Every emitted value must be an observed value or a deterministic derivation. Unknown facts are omitted, not invented. Empty arrays signify observed absence only when the corresponding coverage status is complete. No runtime, wrapper, or workflow is installed by this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "execution_id",
+    "terminal",
+    "result",
+    "coverage"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "execution_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_execution_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "terminal": {
+      "$ref": "#/$defs/terminal"
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requested": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "working_directory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      },
+      "required": []
+    },
+    "timestamps": {
+      "$ref": "#/$defs/timing"
+    },
+    "result": {
+      "$ref": "#/$defs/summary"
+    },
+    "termination": {
+      "$ref": "#/$defs/termination"
+    },
+    "streams": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capture"
+      }
+    },
+    "stream_chunks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/chunk"
+      }
+    },
+    "processes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/invocation"
+      }
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/workflow"
+      }
+    },
+    "jobs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/job"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/file_change"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "causal_edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/receipt"
+      }
+    },
+    "faults": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fault"
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coverage"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "runner_receipt",
+            "process_trace",
+            "stream_capture",
+            "filesystem_trace",
+            "git_diff",
+            "git_api_response",
+            "github_event",
+            "github_actions_api",
+            "github_actions_log",
+            "github_artifact",
+            "explicit_propagated_id",
+            "readback"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "record_id"
+      ],
+      "description": "Direct evidence identity. Do not substitute timing proximity or model inference."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "comment_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "comment_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_delivery_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_nonce": {
+          "type": "string",
+          "minLength": 1
+        },
+        "received_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "repository",
+        "request_nonce"
+      ],
+      "description": "Only source identifiers actually exposed by the trigger or command."
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "terminal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "terminal_type": {
+          "type": "string",
+          "enum": [
+            "github_actions_shell",
+            "github_cli",
+            "bash",
+            "node_process",
+            "pty",
+            "other"
+          ]
+        },
+        "interface_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_on": {
+          "type": "string",
+          "enum": [
+            "$",
+            "gh"
+          ]
+        },
+        "executable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argv": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cwd": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runner_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runner_os": {
+          "type": "string",
+          "minLength": 1
+        },
+        "process_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "container_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "terminal_id",
+        "terminal_type"
+      ],
+      "description": "Actual terminal/host identity rather than agent-assigned characterization."
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "received_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "elapsed_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": []
+    },
+    "termination": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "exited",
+            "signaled",
+            "timed_out",
+            "cancelled",
+            "failed_to_start"
+          ]
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stream_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr",
+            "pty",
+            "combined",
+            "workflow_log",
+            "job_log",
+            "step_log"
+          ]
+        },
+        "data_base64": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Base64 of exact captured bytes, not a normalized line array; hash and length apply to decoded bytes."
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "first_byte_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_byte_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "encoding": {
+          "type": "string",
+          "enum": [
+            "base64"
+          ]
+        },
+        "capture_method": {
+          "type": "string",
+          "enum": [
+            "pipe",
+            "pty",
+            "file",
+            "api_download",
+            "api_text",
+            "other"
+          ]
+        },
+        "origin_artifact": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "stream_id",
+        "owner_id",
+        "kind",
+        "data_base64",
+        "byte_length",
+        "sha256",
+        "complete",
+        "encoding",
+        "capture_method"
+      ],
+      "description": "Data is verbatim byte evidence. api_text or processed GitHub logs must not claim lossless original process streams."
+    },
+    "chunk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stream_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "offset_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "data_base64": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Base64 of exact captured bytes, not a normalized line array; hash and length apply to decoded bytes."
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "stream_id",
+        "sequence",
+        "offset_bytes",
+        "data_base64",
+        "byte_length",
+        "sha256"
+      ]
+    },
+    "invocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "process_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_pid": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pid": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ppid": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "executable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argv": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cwd": {
+          "type": "string",
+          "minLength": 1
+        },
+        "script_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "termination": {
+          "$ref": "#/$defs/termination"
+        },
+        "stream_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "trace_source": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "process_record_id",
+        "executable",
+        "started_at"
+      ],
+      "description": "Each process or script must be directly observed within the wrapper's process observation boundary."
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "workflow_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "triggering_actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "run_started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "in_progress",
+            "completed",
+            "pending",
+            "waiting",
+            "requested",
+            "unknown"
+          ]
+        },
+        "conclusion": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure",
+            "cancelled",
+            "skipped",
+            "timed_out",
+            "action_required",
+            "neutral",
+            "stale",
+            "startup_failure"
+          ]
+        },
+        "html_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "logs_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_execution_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "job_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "stream_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "repository",
+        "run_id",
+        "run_attempt",
+        "status",
+        "evidence"
+      ],
+      "description": "A separate record per workflow run attempt; terminal status is read from the service rather than inferred."
+    },
+    "job": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "job_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runner_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runner_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "runner_group_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "in_progress",
+            "completed",
+            "pending",
+            "waiting",
+            "requested",
+            "unknown"
+          ]
+        },
+        "conclusion": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure",
+            "cancelled",
+            "skipped",
+            "timed_out",
+            "action_required",
+            "neutral",
+            "stale",
+            "startup_failure"
+          ]
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "html_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "step_numbers": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "stream_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "run_id",
+        "run_attempt",
+        "job_id",
+        "status",
+        "evidence"
+      ]
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "job_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "in_progress",
+            "completed",
+            "pending",
+            "waiting",
+            "requested",
+            "unknown"
+          ]
+        },
+        "conclusion": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure",
+            "cancelled",
+            "skipped",
+            "timed_out",
+            "action_required",
+            "neutral",
+            "stale",
+            "startup_failure"
+          ]
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "stream_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "process_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "run_id",
+        "run_attempt",
+        "job_id",
+        "number",
+        "status",
+        "evidence"
+      ]
+    },
+    "file_change": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "file_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "repository",
+            "runner_filesystem",
+            "artifact_store",
+            "other"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "created",
+            "modified",
+            "deleted",
+            "renamed",
+            "copied"
+          ]
+        },
+        "previous_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "before_commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "after_commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "before_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "after_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "before_size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "after_size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_base64": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Base64 of exact captured bytes, not a normalized line array; hash and length apply to decoded bytes."
+        },
+        "content_complete": {
+          "type": "boolean"
+        },
+        "git_blob_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "producer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verification": {
+          "type": "string",
+          "enum": [
+            "independent_readback",
+            "filesystem_observation",
+            "git_tree_comparison",
+            "receipt_only"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "file_record_id",
+        "location",
+        "path",
+        "operation",
+        "verification",
+        "evidence"
+      ],
+      "description": "Net-state Git diffs are not interchangeable with an exhaustive filesystem operation trace."
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "size_in_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "archive_download_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file_records": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "artifact_id",
+        "run_id",
+        "name",
+        "evidence"
+      ]
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "from_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "invoked",
+            "spawned",
+            "dispatched",
+            "triggered",
+            "ran_job",
+            "ran_step",
+            "produced_stream",
+            "created_file",
+            "modified_file",
+            "deleted_file",
+            "uploaded_artifact",
+            "published_result"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "from_id",
+        "to_id",
+        "relation",
+        "evidence"
+      ],
+      "description": "Causal edge requires explicit recorded linkage; temporal proximity is not causation."
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "terminal",
+            "processes",
+            "streams",
+            "workflow_discovery",
+            "workflow_attempts",
+            "jobs",
+            "steps",
+            "filesystem",
+            "artifacts",
+            "causal_links"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable",
+            "not_applicable"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "cutoff_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "category",
+        "scope",
+        "status",
+        "method"
+      ],
+      "description": "A complete claim requires an actually complete observation boundary and collection procedure."
+    },
+    "fault": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stderr_stream_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "code",
+        "source",
+        "stage"
+      ],
+      "description": "Diagnostic fields are machine-observed; no speculative diagnosis."
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "submission",
+            "dispatch",
+            "command",
+            "git_commit",
+            "artifact_upload",
+            "publication",
+            "readback"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "github_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "github_run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "github_job_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "receipt_id",
+        "kind",
+        "source"
+      ],
+      "description": "Receipt is not evidence of a downstream successful outcome unless explicitly verified."
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "current_status": {
+          "type": "string",
+          "enum": [
+            "accepted",
+            "running",
+            "completed",
+            "failed",
+            "cancelled",
+            "timed_out",
+            "incomplete"
+          ]
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result_finalized_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observation_closed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "current_status",
+        "observation_closed"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "description": "An observation_closed=true return must have explicit coverage declarations for every claimed complete observation category; completeness of nested collections requires producer-side validation beyond JSON Schema."
+    }
+  ],
+  "x-terminals-contract": {
+    "version": "1.0.0",
+    "intended_path": "workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-command-return.schema.json",
+    "source_template_catalog": "workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-command-templates.json",
+    "phase": "design_only",
+    "capture_boundary": "all_commands_executed_inside_observational_wrapper",
+    "deterministic_rules": [
+      "Never infer scripts, workflow runs, jobs, steps, file changes, or causality from timestamps or human interpretation.",
+      "Carry original GitHub run_id, run_attempt, job_id, step number, commit SHA, source event identity and process IDs when observed.",
+      "Capture verbatim stream bytes as base64; report exact decoded byte count, SHA256 and completeness. Text log APIs are not equivalent to raw process bytes.",
+      "Record workflow status and conclusion independently; conclusion is present only when observed from the workflow API.",
+      "Use observed causal edges with concrete evidence; an issued dispatch is not proof that a workflow ran.",
+      "A returned empty array is permitted only if the corresponding observation scope was conclusively empty; otherwise omit the array and mark coverage partial or unavailable.",
+      "If any observed content is redacted or intentionally omitted, do not mark its capture complete.",
+      "Workflow runs that continue after the root command must be collected separately until completed or the observation scope is explicitly closed as partial.",
+      "Do not replace command outcome with workflow outcome, or a GitHub Actions job success with independently verified file effects.",
+      "For all files, retain source path and revisions; only include content bytes when observed, captured, and permitted by security policy.",
+      "For all process chains, exhaustive subprocess lists require tracing or controlled child execution; otherwise process coverage is partial.",
+      "JSON Schema validates shape; a separate deterministic semantic validator must check counts, hashes, linkage, chronological consistency, and coverage truthfulness."
+    ]
+  }
+}

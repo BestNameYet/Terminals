@@ -12,14 +12,14 @@
     "repository_agents": "AGENTS.md",
     "repository_requirements": "terminals_requirements.json",
     "workspace_context": "workspaces/codespace-mcp-srs-design/README.md",
-    "self": "workspaces/codespace-mcp-srs-design/agents.md",
+    "self": "workspaces/codespace-mcp-srs-design/AGENTS.md",
     "precedence": "repository_AGENTS_md_and_higher_priority_instructions_control",
     "on_conflict": "stop_and_report_without_override",
     "entrypoint_order": [
       "AGENTS.md",
       "terminals_requirements.json",
       "workspaces/codespace-mcp-srs-design/README.md",
-      "workspaces/codespace-mcp-srs-design/agents.md",
+      "workspaces/codespace-mcp-srs-design/AGENTS.md",
       "applicable_current_interface_contracts"
     ],
     "case_sensitive_filename": true,

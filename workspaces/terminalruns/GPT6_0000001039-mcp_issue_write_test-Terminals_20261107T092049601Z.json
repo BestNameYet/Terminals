@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:printf 'GitHub MCP issue-comment write verification: persistent test\\n'",
+  "outputThat": [
+    "GitHub MCP issue-comment write verification: persistent test"
+  ]
+}

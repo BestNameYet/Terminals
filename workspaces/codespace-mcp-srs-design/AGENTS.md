@@ -1,6 +1,6 @@
 {
   "schema": "terminals.codespace-mcp.design-bootstrap.v1",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "format": "json-in-md",
   "type": "agent_bootstrap",
   "repository": "BestNameYet/Terminals",
@@ -67,373 +67,129 @@
     ]
   },
   "workflow": {
-    "ordering": "strict_sequential",
+    "ordering": "sequential_with_targeted_rework_only",
     "task_status_values": [
       "pending",
       "in_progress",
       "blocked",
       "verified"
     ],
-    "advance_when": "all_exit_checks_verified",
-    "on_block": "record_evidence_and_stop_without_skipping",
-    "on_revision": "revalidate_downstream_artifacts_and_traceability",
-    "required_evidence": [
-      "source_identity",
-      "source_revision",
-      "decision_provenance",
-      "requirement_ids",
-      "verification_criteria",
-      "unresolved_items"
-    ]
+    "advance_when": "stage_exit_checks_verified",
+    "on_block": "record_material_blocker_in_relevant_document",
+    "on_revision": "recheck_only_affected_requirements_contracts_tests_and_projection",
+    "evidence": "source_revision_and_rationale_for_material_claims",
+    "optimization": "no_separate_inventory_feasibility_report_risk_register_duplicate_review_or_handoff_report"
   },
   "tasks": [
     {
-      "id": "DES-001",
+      "id": "DES-01",
       "order": 1,
       "depends_on": [],
-      "action": "read_governing_docs_and_check_workspace",
+      "action": "confirm_authority_and_material_constraints",
+      "scope": [
+        "read_governing_instructions_and_verify_workspace",
+        "inspect_existing_components_only_where_reused",
+        "verify_external_constraints_only_where_decision_critical"
+      ],
       "outputs": [
-        "governing_baseline"
+        "material_constraints_in_SRS_or_ARCHITECTURE"
       ],
       "exit": [
-        "instruction_precedence_recorded",
-        "workspace_and_current_contracts_verified"
+        "authority_known",
+        "critical_assumptions_recorded"
       ]
     },
     {
-      "id": "DES-002",
+      "id": "DES-02",
       "order": 2,
       "depends_on": [
-        "DES-001"
+        "DES-01"
       ],
-      "action": "inventory_relevant_existing_repositories_workflows_tools_and_procedures",
-      "targets": [
-        "Terminals",
-        "CommandLine",
-        "StateMachines",
-        "IssueStack-",
-        "IssueScratch",
-        "Canonical-Skills-Location"
-      ],
-      "outputs": [
-        "source_inventory"
-      ],
-      "exit": [
-        "current_vs_legacy_and_proposed_distinguished",
-        "existing_authority_boundaries_recorded"
-      ]
-    },
-    {
-      "id": "DES-003",
-      "order": 3,
-      "depends_on": [
-        "DES-002"
-      ],
-      "action": "verify_external_technical_capabilities_and_constraints",
-      "topics": [
-        "MCP_protocol_and_SDK",
-        "ChatGPT_MCP_tool_and_resource_support",
-        "Codespaces_API_devcontainers_port_forwarding_idle_stop_restart_limits",
-        "GitHub_Actions_schedule_and_token_permissions",
-        "GitHub_hosting_usage_terms_cost_and_security"
+      "action": "specify_requirements_and_semantic_projection",
+      "scope": [
+        "system_boundary_and_operating_modes",
+        "functional_and_nonfunctional_requirements",
+        "authorization_and_security",
+        "state_ordering_nonces_receipts_and_recovery",
+        "atomic_acceptance_conditions",
+        "semantics_first_machine_projection_with_provenance"
       ],
       "outputs": [
-        "feasibility_evidence",
-        "unresolved_constraints"
-      ],
-      "exit": [
-        "claims_have_source_dates",
-        "unsupported_assumptions_flagged"
-      ]
-    },
-    {
-      "id": "DES-004",
-      "order": 4,
-      "depends_on": [
-        "DES-003"
-      ],
-      "action": "define_stakeholders_goals_scope_non_goals_system_boundaries_and_operating_modes",
-      "outputs": [
-        "SRS.md"
-      ],
-      "exit": [
-        "design_only_boundary_explicit",
-        "acceptance_objectives_enumerated"
-      ]
-    },
-    {
-      "id": "DES-005",
-      "order": 5,
-      "depends_on": [
-        "DES-004"
-      ],
-      "action": "specify_functional_and_nonfunctional_requirements_with_stable_ids",
-      "topics": [
-        "Codespace_provisioning",
-        "MCP_server",
-        "MCP_resources",
-        "MCP_tools",
-        "terminal_and_pty",
-        "coding_and_git",
-        "workspace_persistence",
-        "restart_recovery",
-        "agent_rules_delivery",
-        "authorization",
-        "task_state_nonces_ordering",
-        "receipts_and_observability"
-      ],
-      "outputs": [
-        "SRS.md"
-      ],
-      "exit": [
-        "each_requirement_is_atomic",
-        "preconditions_invariants_errors_and_acceptance_named"
-      ]
-    },
-    {
-      "id": "DES-006",
-      "order": 6,
-      "depends_on": [
-        "DES-005"
-      ],
-      "action": "project_SRS_into_agent_oriented_semantic_JSON",
-      "outputs": [
+        "SRS.md",
         "SRS.agent.json"
       ],
       "exit": [
-        "machine_projection_valid",
-        "no_line_by_line_mapping",
-        "requirements_and_source_revision_traceable",
-        "facts_inferences_assumptions_separated"
+        "requirements_testable_and_cover_stated_system",
+        "projection_preserves_source_meaning_and_revision"
       ]
     },
     {
-      "id": "DES-007",
-      "order": 7,
+      "id": "DES-03",
+      "order": 3,
       "depends_on": [
-        "DES-006"
+        "DES-02"
       ],
-      "action": "design_component_topology_trust_boundaries_and_dataflows",
-      "topics": [
-        "Codespace",
-        "devcontainer",
-        "Node_MCP_server",
-        "GitHub_APIs",
-        "ChatGPT_client",
-        "filesystem",
-        "process_manager",
-        "monitoring_and_watchdog",
-        "agent_execution_governance"
-      ],
-      "outputs": [
-        "ARCHITECTURE.md"
-      ],
-      "exit": [
-        "component_ownership_and_calls_defined",
-        "external_dependencies_explicit"
-      ]
-    },
-    {
-      "id": "DES-008",
-      "order": 8,
-      "depends_on": [
-        "DES-007"
-      ],
-      "action": "specify_MCP_interfaces_and_resource_semantics",
-      "topics": [
-        "transport",
-        "authentication",
-        "tools/list",
-        "tools/call",
-        "resources/list",
-        "resources/read",
-        "embedded_resources",
-        "prompts_optional",
-        "URI_mapping",
-        "revision_and_cache_behavior",
-        "capability_negotiation"
-      ],
-      "outputs": [
-        "INTERFACES.md"
-      ],
-      "exit": [
-        "typed_requests_responses_and_errors_defined",
-        "host_support_assumptions_flagged"
-      ]
-    },
-    {
-      "id": "DES-009",
-      "order": 9,
-      "depends_on": [
-        "DES-008"
-      ],
-      "action": "specify_terminal_coding_and_process_session_contracts",
-      "topics": [
-        "exec",
-        "pty",
-        "stdin_stdout_stderr",
-        "timeouts_and_signals",
-        "interrupt",
-        "concurrency",
-        "working_directory",
-        "repository_identity",
-        "filesystem_access",
-        "commit_and_test_lifecycle"
-      ],
-      "outputs": [
-        "INTERFACES.md",
-        "ARCHITECTURE.md"
-      ],
-      "exit": [
-        "authorization_and_path_safety_rules_defined",
-        "completion_vs_process_exit_distinguished"
-      ]
-    },
-    {
-      "id": "DES-010",
-      "order": 10,
-      "depends_on": [
-        "DES-009"
-      ],
-      "action": "design_lifecycle_durability_and_failure_recovery",
-      "topics": [
-        "create_start_stop_rebuild",
-        "startup_service",
-        "MCP_endpoint_reachability",
-        "watchdog_health_checks",
-        "disconnections",
-        "restart_idempotency",
-        "task_checkpoint",
-        "durable_vs_ephemeral_data",
-        "replay_and_queue_recovery"
+      "action": "design_architecture_and_interface_contracts",
+      "scope": [
+        "Codespaces_and_Node_MCP_components",
+        "MCP_transport_tools_resources_and_authentication",
+        "terminal_PTY_filesystem_and_Git",
+        "lifecycle_start_stop_reconnect_and_failure_recovery",
+        "workspace_isolation_and_secrets",
+        "decisions_alternatives_and_material_risks_within_ARCHITECTURE"
       ],
       "outputs": [
         "ARCHITECTURE.md",
         "INTERFACES.md"
       ],
       "exit": [
-        "state_restoration_conditions_defined",
-        "unavailable_service_behavior_defined"
+        "components_and_flows_defined",
+        "typed_inputs_outputs_errors_permissions_and_trust_boundaries_defined",
+        "material_tradeoffs_recorded"
       ]
     },
     {
-      "id": "DES-011",
-      "order": 11,
+      "id": "DES-04",
+      "order": 4,
       "depends_on": [
-        "DES-010"
+        "DES-03"
       ],
-      "action": "design_security_and_instruction_delivery_governance",
-      "topics": [
-        "principals",
-        "least_privilege",
-        "token_and_secret_storage",
-        "public_port_exposure",
-        "sandbox_and_workspace_isolation",
-        "path_traversal",
-        "agent_rule_preflight",
-        "resource_provenance_hashing",
-        "fail_closed_approval",
-        "audit_receipts"
-      ],
-      "outputs": [
-        "ARCHITECTURE.md",
-        "INTERFACES.md",
-        "SRS.md"
-      ],
-      "exit": [
-        "trust_boundaries_and_enforcement_points_documented",
-        "procedure_exposure_not_conflated_with_compliance"
-      ]
-    },
-    {
-      "id": "DES-012",
-      "order": 12,
-      "depends_on": [
-        "DES-011"
-      ],
-      "action": "analyze_alternatives_tradeoffs_risks_and_open_decisions",
-      "topics": [
-        "Codespaces_vs_dedicated_host",
-        "watchdog_reliability",
-        "rate_limits_and_cost",
-        "host_permissions",
-        "workflow_migration",
-        "existing_contract_conflicts",
-        "operational_security",
-        "service_terms"
-      ],
-      "outputs": [
-        "DECISIONS-AND-RISKS.md"
-      ],
-      "exit": [
-        "decisions_have_evidence_and_status",
-        "unresolved_questions_not_silently_settled"
-      ]
-    },
-    {
-      "id": "DES-013",
-      "order": 13,
-      "depends_on": [
-        "DES-012"
-      ],
-      "action": "define_unit_component_integration_security_and_end_to_end_acceptance_tests",
-      "topics": [
-        "MCP_resource_visibility",
-        "rule_preflight_enforcement",
-        "tool_authorization",
-        "terminal_IO",
-        "filesystem_persistence",
-        "stopped_codespace",
-        "restart_recovery",
-        "watchdog_missed_runs",
-        "GitHub_permissions",
-        "receipt_consistency",
-        "full_task_postconditions"
+      "action": "define_acceptance_and_verification",
+      "scope": [
+        "requirements_to_test_mapping",
+        "MCP_and_terminal_IO",
+        "authorization_isolation_and_security",
+        "persistence_restart_recovery_idempotency",
+        "execution_receipts_and_independent_postcondition_readback"
       ],
       "outputs": [
         "VERIFICATION-PLAN.md"
       ],
       "exit": [
-        "requirements_trace_to_tests",
-        "success_requires_independent_state_readback",
-        "not_run_distinct_from_pass"
+        "critical_requirements_have_test_oracles",
+        "pass_fail_blocked_not_run_distinct"
       ]
     },
     {
-      "id": "DES-014",
-      "order": 14,
+      "id": "DES-05",
+      "order": 5,
       "depends_on": [
-        "DES-013"
+        "DES-04"
       ],
-      "action": "cross_check_all_design_documents_and_refresh_semantic_projection",
+      "action": "perform_single_consistency_and_readiness_check",
+      "scope": [
+        "validate_JSON_and_document_links",
+        "trace_requirements_contracts_and_tests",
+        "record_unresolved_blockers_in_existing_documents",
+        "confirm_implementation_requires_separate_authorization"
+      ],
       "outputs": [
-        "SRS.md",
-        "SRS.agent.json",
-        "ARCHITECTURE.md",
-        "INTERFACES.md",
-        "DECISIONS-AND-RISKS.md",
-        "VERIFICATION-PLAN.md"
+        "validated_design_baseline_no_separate_handoff_report"
       ],
       "exit": [
-        "all_requirements_and_interfaces_consistent",
-        "source_and_projection_versions_match",
-        "unresolved_and_unverified_items_visible"
-      ]
-    },
-    {
-      "id": "DES-015",
-      "order": 15,
-      "depends_on": [
-        "DES-014"
-      ],
-      "action": "produce_design_phase_completion_record_and_implementation_handoff_gate",
-      "outputs": [
-        "design_acceptance_record"
-      ],
-      "exit": [
-        "artifact_exists_and_versions_verified",
-        "design_only_status_preserved",
-        "implementation_requires_separate_authorization"
+        "versions_and_cross_references_consistent",
+        "design_ready_or_specific_blockers_recorded",
+        "no_implementation_executed"
       ]
     }
   ],
@@ -443,11 +199,19 @@
       "SRS.agent.json",
       "ARCHITECTURE.md",
       "INTERFACES.md",
-      "DECISIONS-AND-RISKS.md",
       "VERIFICATION-PLAN.md"
     ],
     "status": "not_yet_created",
     "directory": "workspaces/codespace-mcp-srs-design/",
-    "acceptance": "complete_consistent_versioned_verified_and_explicitly_separated_from_implementation"
-  }
+    "acceptance": "testable_traceable_consistent_with_explicit_blockers_and_separate_implementation_authorization"
+  },
+  "change_log": [
+    {
+      "version": "2.0.0",
+      "replaces": "1.0.0",
+      "reason": "consolidate_15_stages_into_5_high_value_outcome_stages",
+      "risk_decision_location": "ARCHITECTURE.md",
+      "acceptance_evidence_location": "VERIFICATION-PLAN.md"
+    }
+  ]
 }

@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:set -euo pipefail\nprintf 'HEAD=%s\\n' \"$(git rev-parse HEAD)\"\nfor f in workspaces/AGENTS.md workspaces/codespace-mcp-srs-design/AGENTS.md workspaces/codespace-mcp-srs-design/README.md; do if test -f \"$f\"; then printf '\\nFOUND %s\\n' \"$f\"; cat \"$f\"; elif test -e \"$f\"; then printf '\\nEXISTS_NONFILE %s\\n' \"$f\"; else printf '\\nABSENT %s\\n' \"$f\"; fi; done\nif test -d workspaces; then printf '\\nWORKSPACES_DIR=present\\n'; else printf '\\nWORKSPACES_DIR=missing\\n'; exit 3; fi",
+  "outputThat": [
+    "HEAD=3e7c053bc1f79216e771ef30db01cf93287bf076",
+    "",
+    "ABSENT workspaces/AGENTS.md",
+    "",
+    "ABSENT workspaces/codespace-mcp-srs-design/AGENTS.md",
+    "",
+    "ABSENT workspaces/codespace-mcp-srs-design/README.md",
+    "",
+    "WORKSPACES_DIR=present"
+  ]
+}

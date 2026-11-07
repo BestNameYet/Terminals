@@ -1,6 +1,6 @@
 {
   "schema": "terminals.local-terminals.agent-return-wrapper.v1",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "declarative_json_wrapper",
   "status": "design_only",
   "path": "workspaces/codespace-mcp-srs-design/local-terminals/templates/agent-return-wrapper.json",
@@ -13,13 +13,13 @@
   "envelope": {
     "wrapper_schema": "terminals.local-terminals.agent-return-wrapper.v1",
     "source_schema": "urn:terminals:local-terminals:agent-command-return:v1",
+    "source_execution_id": "<source.execution_id>",
     "source_sha256": "<RFC8785_sha256_of_source>",
-    "source": "<original_agent_return_object>",
-    "derived": "<deterministically_computed_fields>"
+    "derived": "<new_deterministically_computed_fields_only>"
   },
   "constraints": {
-    "preserve_source": "Copy the complete original return without mutation, data loss, transformation, or stream redaction.",
-    "source_fidelity": "No agent interpretation, summarization, additional execution, GitHub queries, or runtime investigation during enrichment.",
+    "preserve_source": "Do not embed, echo, or copy the source return into the wrapper. Keep the original output separately; source_execution_id and source_sha256 link the wrapper to that specific output.",
+    "source_fidelity": "Original source is immutable and referenced by source_execution_id and canonical source_sha256; no source data is repeated in the wrapper except necessary correlation keys.",
     "deterministic_derivations": "A derived field is allowed only with an identified programmatically retrievable source and a reproducible script algorithm. Declaring a field in source JSON Schema is not proof that the data exists. If no collector can provide the required value, omit the key; do not guess or substitute a narrative.",
     "missing_inputs": "Unobserved facts are not set to null, zero, false, or empty collections; an output is omitted when its required source cannot be populated by an actual collection mechanism.",
     "empty_collections": "Derived zero counts are allowed for an explicitly observed empty collection; they do not prove observation completeness.",
@@ -28,28 +28,10 @@
     "workflow_identity": "Treat each (repository, run_id, run_attempt) combination as distinct. Reattempts are separate records; never promote an intermediate outcome to a final one.",
     "coverage": "Unverified completeness declarations and counts of speculative causal relationships are excluded. Record source coverage only, without generating coverage summaries or inferred complete flags.",
     "canonicalization": "Source digest uses RFC 8785 canonical JSON; SHA-256 is encoded as lowercase hexadecimal.",
-    "authorization": "This file documents enrichment only; it grants no execution, modification, or workflow authority."
+    "authorization": "This file documents enrichment only; it grants no execution, modification, or workflow authority.",
+    "non_duplication": "A wrapper output field must be a new deterministic calculation or validation result absent from the source return. The sole exception is a source identifier necessary for correlating input and output, such as execution_id, run_id, run_attempt, job_id, process_record_id, stream_id, or record ID. Do not copy source values merely for convenience."
   },
   "derivations": [
-    {
-      "id": "DER-001",
-      "output_pointer": "/derived/execution_duration_ms",
-      "operation": "timestamp_difference_ms",
-      "inputs": [
-        "/source/timestamps/started_at",
-        "/source/timestamps/ended_at"
-      ],
-      "when": "both_timestamps_present_and_valid_and_end_not_before_start",
-      "expression": "end_ms - start_ms",
-      "type": "integer",
-      "minimum": 0,
-      "deterministic_population": {
-        "source": "source.timestamps.started_at and ended_at, measured by the terminal execution recorder",
-        "script_algorithm": "Node.js: Date.parse(end) - Date.parse(start), after validating complete UTC-offset timestamps.",
-        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
-        "execution": "Only after source schema validation"
-      }
-    },
     {
       "id": "DER-002",
       "output_pointer": "/derived/queue_delay_ms",
@@ -484,17 +466,19 @@
       "mismatch": "fail_enrichment",
       "output_per_stream": [
         "stream_id",
-        "verified",
-        "actual_byte_length",
-        "computed_sha256"
+        "verified"
       ],
       "note": "No stream content duplication; verbatim data remains only in source.streams",
       "deterministic_population": {
         "source": "source.streams data_base64, byte_length and sha256 from byte capture pipes",
-        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex').",
+        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex'). Return only the boolean comparison result and the source stream/chunk correlation identifiers. Do not copy source byte_length or sha256 into the wrapper.",
         "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
         "execution": "Only after source schema validation"
-      }
+      },
+      "duplicate_source_values_excluded": [
+        "actual_byte_length",
+        "computed_sha256"
+      ]
     },
     {
       "id": "DER-025",
@@ -566,16 +550,18 @@
       "output_per_chunk": [
         "stream_id",
         "sequence",
-        "verified",
-        "actual_byte_length",
-        "computed_sha256"
+        "verified"
       ],
       "deterministic_population": {
         "source": "source.stream_chunks data_base64/byte_length/sha256 from byte capture writer",
-        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex').",
+        "script_algorithm": "Node.js: strict RFC4648 base64 validation; Buffer.from(value,'base64'); compare .length and crypto.createHash('sha256').update(buffer).digest('hex'). Return only the boolean comparison result and the source stream/chunk correlation identifiers. Do not copy source byte_length or sha256 into the wrapper.",
         "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
         "execution": "Only after source schema validation"
-      }
+      },
+      "duplicate_source_values_excluded": [
+        "actual_byte_length",
+        "computed_sha256"
+      ]
     },
     {
       "id": "DER-030",
@@ -646,63 +632,6 @@
         "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
         "execution": "Only after source schema validation"
       }
-    },
-    {
-      "id": "DER-036",
-      "output_pointer": "/derived/terminal_identity",
-      "operation": "copy_existing_fields",
-      "inputs": [
-        "/source/terminal"
-      ],
-      "when": "terminal_present",
-      "fields": [
-        "terminal_id",
-        "terminal_type",
-        "interface_id",
-        "run_on",
-        "executable",
-        "cwd",
-        "runner_name",
-        "host_id",
-        "container_id"
-      ],
-      "missing_fields": "omit",
-      "note": "No host/process identity invention",
-      "deterministic_population": {
-        "source": "source.terminal identity recorded by the terminal launch environment (not inferred from textual output)",
-        "script_algorithm": "Node.js: Object.fromEntries(allowlistedFields.filter(k=>Object.hasOwn(sourceObject,k)).map(k=>[k,sourceObject[k]])).",
-        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
-        "execution": "Only after source schema validation"
-      }
-    },
-    {
-      "id": "DER-037",
-      "output_pointer": "/derived/execution_exit_summary",
-      "operation": "copy_existing_fields",
-      "inputs": [
-        "/source/result",
-        "/source/termination"
-      ],
-      "when": "result_present",
-      "fields": [
-        "current_status",
-        "exit_code",
-        "signal",
-        "observation_closed"
-      ],
-      "termination_fields": [
-        "status",
-        "exit_code",
-        "signal"
-      ],
-      "missing_fields": "omit",
-      "note": "Do not equate command outcome to workflow outcomes",
-      "deterministic_population": {
-        "source": "source.result and source.termination from child process termination and runner receipt",
-        "script_algorithm": "Node.js: Object.fromEntries(allowlistedFields.filter(k=>Object.hasOwn(sourceObject,k)).map(k=>[k,sourceObject[k]])).",
-        "precondition": "Collector supplies the named field with evidence. If unavailable, omit the output; never derive an absent event.",
-        "execution": "Only after source schema validation"
-      }
     }
   ],
   "verification": {
@@ -714,10 +643,12 @@
       "Byte comparisons use decoded raw bytes and SHA-256",
       "No additional processes, jobs, workflows, or files are invented",
       "Source return is retained verbatim at the JSON-value level",
-      "All 34 retained derivations have unique IDs and output locations",
       "No derived global completeness claim is emitted. Coverage observations remain source declarations only.",
       "Each retained derivation includes a deterministic_population.source and a deterministic_population.script_algorithm specifying programmatic collection and computation.",
-      "Remove any output whose collector is not actually available at execution time; do not take the existence of source schema members as proof of observability."
+      "Remove any output whose collector is not actually available at execution time; do not take the existence of source schema members as proof of observability.",
+      "All 31 retained derivations use deterministic scripts and do not duplicate recorded output fields except correlation identifiers.",
+      "Wrapper envelope references the source output by source_execution_id and source_sha256; it does not embed a second copy of the source.",
+      "Integrity outputs include only verified and the minimum source identifiers; original byte_length and sha256 are never repeated."
     ],
     "scope": "schema_and_declarative_template_only_not_runtime",
     "source_revision": "1.0.0"
@@ -737,6 +668,17 @@
         "DER-033"
       ],
       "reason": "Remove unsupported causal/coverage summarization and require an explicit scriptable source and computation for every remaining derived key."
+    },
+    {
+      "version": "1.3.0",
+      "removed": [
+        "DER-001",
+        "DER-036",
+        "DER-037"
+      ],
+      "reason": "Remove duplicate output-schema values while retaining correlation identifiers and new deterministic calculations.",
+      "wrapper_envelope": "reference_original_output_without_embedding",
+      "integrity_outputs": "identifiers_plus_verification_result_only"
     }
   ]
 }

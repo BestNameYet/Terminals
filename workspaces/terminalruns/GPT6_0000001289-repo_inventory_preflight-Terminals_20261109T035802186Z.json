@@ -1,0 +1,15 @@
+{
+  "inputThis": "$:python3 - <<'PY'\nimport json, pathlib, subprocess, datetime, calendar\nroot=pathlib.Path(\".\")\nprint(\"repo_readme_exists\", (root/\"README.md\").is_file())\nfor f in [\"AGENTS.md\",\"Tasks/AGENTS.md\",\"Tasks/User Prompt Task Queue/AGENTS.md\"]:\n  p=root/f\n  print(\"contract\",f,p.is_file())\n  if p.is_file():\n    x=p.read_text()\n    print(\"contract_info\",f,len(x),\"DISCOVERY-04\" in x)\np=root/\"Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json\"\nt=json.loads(p.read_text())\nprint(\"task\",t.get(\"task_type\"),t.get(\"status\"),[s[\"id\"] for s in t[\"task\"][\"ordered_workflow\"]])\nd=datetime.datetime.now(datetime.timezone.utc)\ny=d.year; m=d.month-6\nif m<1: y-=1;m+=12\nfirst=d.replace(year=y,month=m,day=min(d.day,calendar.monthrange(y,m)[1]))\nprint(\"window_utc\",first.isoformat(),d.isoformat())\ndef query(uri):\n  p=subprocess.run([\"gh\",\"api\",uri],capture_output=True,text=True,timeout=50)\n  if p.returncode:\n    print(\"QUERY_ERROR\",uri,p.stderr[:450])\n    return []\n  rows=json.loads(p.stdout)\n  print(\"QUERY\",uri,len(rows),[(v[\"name\"],v[\"private\"],v[\"pushed_at\"]) for v in rows if v.get(\"owner\",{}).get(\"login\",\"\").lower()==\"bestnameyet\"])\n  return rows\nquery(\"users/BestNameYet/repos?type=all&per_page=100&page=1\")\nquery(\"user/repos?affiliation=owner&per_page=100&page=1\")\nPY",
+  "outputThat": [
+    "repo_readme_exists False",
+    "contract AGENTS.md True",
+    "contract_info AGENTS.md 23026 True",
+    "contract Tasks/AGENTS.md False",
+    "contract Tasks/User Prompt Task Queue/AGENTS.md False",
+    "task six_month_active_repository_source_expression_inventory pending ['INV-01', 'INV-02', 'INV-03', 'INV-04']",
+    "window_utc 2026-05-09T03:58:02.297154+00:00 2026-11-09T03:58:02.297154+00:00",
+    "QUERY users/BestNameYet/repos?type=all&per_page=100&page=1 17 [('BatteryStatus', False, '2025-07-13T11:32:17Z'), ('bestnameyet.github.io', False, '2020-05-26T07:56:11Z'), ('Canonical-Skills-Location', False, '2026-08-23T16:54:19Z'), ('carnivalcalculator', False, '2025-07-29T13:29:38Z'), ('CommandLine', False, '2026-10-31T04:48:42Z'), ('Execution-Contract-Controller', False, '2026-08-31T05:10:26Z'), ('IssueScratch', False, '2026-11-03T14:47:08Z'), ('IssueStack-', False, '2026-11-05T12:23:53Z'), ('JuliaSnippets', False, '2021-06-04T06:04:22Z'), ('MCP-Collaborative', False, '2026-10-22T18:19:17Z'), ('MVCMiniMaxTTT', False, '2019-10-29T00:51:42Z'), ('Ocaml', False, '2020-05-07T06:10:39Z'), ('Problems', False, '2019-06-15T13:03:19Z'), ('somepeoplehaveactualproblemstodealwith', False, '2025-07-29T22:05:43Z'), ('StateMachines', False, '2026-11-05T08:18:24Z'), ('Surfaces', False, '2026-11-05T15:15:04Z'), ('wrights-carnival-calculator', False, '2025-07-28T20:55:41Z')]",
+    "QUERY_ERROR user/repos?affiliation=owner&per_page=100&page=1 gh: Resource not accessible by integration (HTTP 403)",
+    ""
+  ]
+}

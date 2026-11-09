@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -f AGENTS.md\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ntest ! -e .devcontainer/devcontainer.json\ntest ! -e config/file-metadata.json\nmkdir -p .devcontainer\ncat > .devcontainer/devcontainer.json <<'USER_REQUESTED_DEVCONTAINER_EOF'\n{\n  \"name\": \"MCP Remote Server Space\",\n  \"features\": {\n    \"ghcr.io/devcontainers/features/node:1\": {\n      \"version\": \"lts\"\n    }\n  },\n  \"forwardPorts\":,\n  \"portsAttributes\": {\n    \"3000\": {\n      \"label\": \"MCP SSE Server\",\n      \"onAutoForward\": \"silent\",\n      \"elevationRequired\": false\n    }\n  },\n  \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",\n  \"waitFor\": \"postCreateCommand\"\n}\nUSER_REQUESTED_DEVCONTAINER_EOF\nprintf 'FILE_BYTES '; wc -c < .devcontainer/devcontainer.json\nprintf 'INVALID_FORWARD_PORTS_ENTRY '; grep -F '\"forwardPorts\":,' .devcontainer/devcontainer.json\ngit add -- .devcontainer/devcontainer.json\ngit diff --cached --check\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\ngit commit -m 'Add user-provided devcontainer configuration verbatim'\npushed=0\nfor i in 1 2 3 4; do\n git fetch origin main -q\n git rebase origin/main -q\n if git push origin HEAD:main; then pushed=1; break; fi\ndone\ntest \"$pushed\" -eq 1\nprintf 'PUBLISHED_COMMIT '; git rev-parse HEAD\ngit show --stat --oneline HEAD",
+  "outputThat": [
+    "FILE_BYTES 418",
+    "INVALID_FORWARD_PORTS_ENTRY   \"forwardPorts\":,",
+    "[main 1e403ff] Add user-provided devcontainer configuration verbatim",
+    " 1 file changed, 18 insertions(+)",
+    " create mode 100644 .devcontainer/devcontainer.json",
+    "PUBLISHED_COMMIT 1e403ff2f68c2c0cb8c5543e3ea0520cc27e3a7c",
+    "1e403ff Add user-provided devcontainer configuration verbatim",
+    " .devcontainer/devcontainer.json | 18 ++++++++++++++++++",
+    " 1 file changed, 18 insertions(+)"
+  ]
+}

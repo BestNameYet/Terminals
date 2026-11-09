@@ -5,12 +5,11 @@
       "version": "lts"
     }
   },
-  "forwardPorts":,
+  "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
       "label": "MCP SSE Server",
-      "onAutoForward": "silent",
-      "elevationRequired": false
+      "onAutoForward": "notify"
     }
   },
   "postCreateCommand": "npm install -g @modelcontextprotocol/server-everything",

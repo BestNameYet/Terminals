@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:set -e\nprintf '=== TRACKED GENERATED DOC SEARCH ===\\n'; git ls-files | grep -E '(^|/)(scope-instruction-compact\\.json|account-custom-instruction-wrapper\\.json|conversation-analytics-end-of-turn-rule\\.json)$' || true\nprintf '=== TASK DIRECTORY STATUS ===\\n'; git ls-files 'Tasks/**' | sort\nprintf '=== LIVE GENERATED FILE SEARCH (EXCLUDING RUN RECEIPTS) ===\\n'; find . -path './.git' -prune -o -path './workspaces/terminalruns' -prune -o -type f \\( -name 'scope-instruction-compact.json' -o -name 'account-custom-instruction-wrapper.json' -o -name 'conversation-analytics-end-of-turn-rule.json' \\) -print",
+  "outputThat": [
+    "=== TRACKED GENERATED DOC SEARCH ===",
+    "=== TASK DIRECTORY STATUS ===",
+    "Tasks/TasksCompleted/.gitkeep",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794191751.json",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794192853.json",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794193447.json",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794193968.json",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+    "=== LIVE GENERATED FILE SEARCH (EXCLUDING RUN RECEIPTS) ==="
+  ]
+}

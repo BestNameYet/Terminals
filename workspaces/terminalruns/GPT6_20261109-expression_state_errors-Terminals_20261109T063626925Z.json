@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -eu\ntmpdir=$(mktemp -d)\ntrap 'rm -rf \"$tmpdir\"' EXIT\ngh run download 42573871895 --repo BestNameYet/Terminals --name codespace-mcp-expression-inventory --dir \"$tmpdir\"\npython3 - \"$tmpdir\" <<'PY'\nimport json,pathlib,collections,sys\nroot=pathlib.Path(sys.argv[1])\nitems=list(root.rglob('manifest.json'))\nprint('manifest_files',len(items))\nfor file in items:\n data=json.loads(file.read_text())\n files=data['files']\n cnt=collections.Counter(x['status'] for x in files)\n print('manifest',file,'total',len(files),'statuses',dict(cnt))\n print('expressions_successful',sum(x.get('expression_count',0) for x in files))\n for r in files:\n  if r['status']=='error': print('ERROR',json.dumps(r,ensure_ascii=False))\nPY\n",
+  "outputThat": [
+    "manifest_files 1",
+    "manifest /tmp/tmp.T0OLbazqY4/manifest.json total 608 statuses {'skipped_non_javascript': 374, 'ok': 232, 'error': 2}",
+    "expressions_successful 201195",
+    "ERROR {\"index\": 75, \"file\": \"ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js\", \"status\": \"error\", \"error\": \"Expecting Unicode escape sequence \\\\uXXXX. (887:11)\"}",
+    "ERROR {\"index\": 273, \"file\": \"source-code-copy/ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js\", \"status\": \"error\", \"error\": \"Expecting Unicode escape sequence \\\\uXXXX. (887:11)\"}"
+  ]
+}

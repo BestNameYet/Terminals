@@ -1,0 +1,76 @@
+{
+  "task_type": "complete_canonical_function_rewrites",
+  "schema_version": "1.0.0",
+  "status": "in_progress",
+  "source_request": "Add your task to terminals tasks and then proceed to complete it",
+  "task": {
+    "objective": "Complete all 210 previously partial original-function-to-MAP/MUTATE rewrites by tracing the pinned codebase, dependencies and primary documentation; update the paired projection with fully explained behavior rather than treating unanalyzed calls as undefined.",
+    "repository": "BestNameYet/Terminals",
+    "workspace": "workspaces/codespace-mcp-srs-design/expression-inventory/remaining-210/",
+    "inputs": [
+      "rewrites.json",
+      "original-canonical-pairs.json",
+      "questions.json",
+      "../function-rewrites-10pct/rewrites.json",
+      "workspaces/repository-file-inventory-20261109/"
+    ],
+    "scope": {
+      "functions": 210,
+      "prior379": "preserve without attributing their work to this agent",
+      "source_revisions": "retain pinned original source; no substitution with current HEAD"
+    },
+    "canonical_forms": {
+      "MAP": {
+        "required": [
+          "target",
+          "mapping_function"
+        ],
+        "semantics": "compute result without observable state mutation"
+      },
+      "MUTATE": {
+        "required": [
+          "target",
+          "new_state"
+        ],
+        "semantics": "apply specified new state to the identified context or external target"
+      }
+    },
+    "requirements": [
+      "Trace referenced source functions and callbacks instead of marking them unresolved at the call site.",
+      "Use implementation and official dependency documentation to resolve host/library behavior.",
+      "Preserve argument, receiver, closure, alias, evaluation-order, control-flow, exception, async and return semantics.",
+      "Treat variable inputs as conditional behavior, not unknown semantics.",
+      "Report actual coding errors specifically; do not label incomplete analysis as undefined behavior.",
+      "No opaque original-function wrapper or unsupported extra action vocabulary presented as a completed canonical rewrite.",
+      "Validate every function identity and pairing; distinguish semantic verification from structural checks."
+    ],
+    "ordered_tasks": [
+      {
+        "id": "CR-01",
+        "action": "Retrieve pinned source and call/dependency closure with source hashes and resolve documented primitive contracts.",
+        "status": "in_progress"
+      },
+      {
+        "id": "CR-02",
+        "action": "Complete MAP/MUTATE rewrites per function and record source-backed resolutions to the prior questions.",
+        "status": "pending"
+      },
+      {
+        "id": "CR-03",
+        "action": "Run meaningful equivalence/contract tests, verify all 210 results and refresh the original/canonical projection.",
+        "status": "pending"
+      },
+      {
+        "id": "CR-04",
+        "action": "Verify remote bytes and commit the completed task with evidence, or record precise remaining work without claiming completion.",
+        "status": "pending"
+      }
+    ],
+    "prohibited": [
+      "source repository/runtime/workflow mutations outside the authorized analysis workspace",
+      "unsupported claims of equivalence",
+      "marking unresolved placeholders complete"
+    ]
+  },
+  "created_at_utc": "2026-11-09T19:07:08.191Z"
+}

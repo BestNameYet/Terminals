@@ -2,19 +2,16 @@
   "schema": "canonical-rewrite-artifacts.v1",
   "files": [
     {
-      "name": "SRS.agent.json",
-      "bytes": 945,
-      "sha256": "1c14745e2e02d298546bd9ca30b0037d41fdfdebe361880399ffc98d8edd26cc"
-    },
-    {
-      "name": "SRS.md",
-      "bytes": 1916,
-      "sha256": "f3110a08d126578186f5fe6b08736e76c2f3950b86a161490894b34f47dfe7da"
-    },
-    {
       "name": "index.json",
       "bytes": 63689,
       "sha256": "b55e21a06ef77edbd00e6ae06e2925b7b2e7055a467232c5267a5da31735fda4"
+    },
+    {
+      "name": "original-canonical-pairs.json",
+      "bytes": 3841034,
+      "sha256": "645e1b97694fd455d042bcb4bdb79678097069c034ed33c18c86767c685424ff",
+      "projection_of": "rewrites.json",
+      "source_sha256": "f3c0b3037eaa59794fef7b4d168e74b24cc512da6b35b2ab653a9e625cceeaaf"
     },
     {
       "name": "questions.json",
@@ -35,6 +32,16 @@
       "name": "rewrites.json",
       "bytes": 5739355,
       "sha256": "f3c0b3037eaa59794fef7b4d168e74b24cc512da6b35b2ab653a9e625cceeaaf"
+    },
+    {
+      "name": "SRS.agent.json",
+      "bytes": 945,
+      "sha256": "1c14745e2e02d298546bd9ca30b0037d41fdfdebe361880399ffc98d8edd26cc"
+    },
+    {
+      "name": "SRS.md",
+      "bytes": 1916,
+      "sha256": "f3110a08d126578186f5fe6b08736e76c2f3950b86a161490894b34f47dfe7da"
     },
     {
       "name": "summary.json",

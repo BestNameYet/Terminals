@@ -1,0 +1,11 @@
+{
+  "inputThis": "$:python3 - <<'PY'\nimport os,subprocess,tempfile,time,json\nstart=time.monotonic()\ndef run(args,timeout=180):\n p=subprocess.run(args,capture_output=True,text=True,timeout=timeout)\n if p.returncode:raise RuntimeError(\"Command failed: \"+str(args[:3])+\" error \"+p.stderr[-1300:])\n return p.stdout.strip()\nwith tempfile.TemporaryDirectory(prefix=\"issuestack-inventory-\") as t:\n repo=os.path.join(t,\"src.git\")\n run([\"git\",\"-c\",\"protocol.version=2\",\"clone\",\"--bare\",\"--filter=blob:none\",\"--no-tags\",\"https://github.com/BestNameYet/IssueStack-.git\",repo],200)\n print(\"CLONE_SECONDS\",round(time.monotonic()-start,2))\n refs=run([\"git\",\"--git-dir\",repo,\"for-each-ref\",\"refs/heads\",\"--format=%(refname:short) %(objectname)\"]).splitlines()\n print(\"BRANCH_COUNT\",len(refs),\"EXAMPLES\",refs[:3])\n ref=next((x.split()[1] for x in refs if x.startswith(\"main \")),None)\n if not ref:raise RuntimeError(\"main not found\")\n for path in [\"src/agent-context-registry.js\",\".github/workflows/commit-workflow-discovery-listener.yml\",\"src/interactive-procedures.js\"]:\n  print(\"LOG\",path,run([\"git\",\"--git-dir\",repo,\"log\",\"-1\",\"--date=iso-strict\",\"--format=%H %cI\",ref,\"--\",path])[:200])\n print(\"TOTAL_SECONDS\",round(time.monotonic()-start,2))\nPY",
+  "outputThat": [
+    "CLONE_SECONDS 0.22",
+    "BRANCH_COUNT 31 EXAMPLES ['candidate/issuescratch-design-conformance-6560092235 6ddab02cc5e2ceba6e92dbccf2da3d60e79a84ec', 'candidate/issuescratch-design-conformance-6560092235-r2 94f63fc8fbc7a20ad8ebc66f473d814e6f8467c7', 'docs/issue-purpose-inventory-6510931041 8df8380aa5bf6d01cd4fecfa04532f89075909b8']",
+    "LOG src/agent-context-registry.js 4a772cce9fdab9fcf6cab4bd8ca5c92a04afcec0 2026-10-27T14:48:41-07:00",
+    "LOG .github/workflows/commit-workflow-discovery-listener.yml 5834470e96645f34df317848b9d1e6c4b45e1a19 2026-11-05T04:22:56-08:00",
+    "LOG src/interactive-procedures.js b5b15d59e8e864a2b85784b74b9271c2dab424ce 2026-10-25T00:45:18-07:00",
+    "TOTAL_SECONDS 0.23"
+  ]
+}

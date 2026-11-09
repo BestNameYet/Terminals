@@ -1,0 +1,25 @@
+{
+  "inputThis": "$:set -euo pipefail\ncd \"$GITHUB_WORKSPACE\"\nORIG='terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png'\ntest -f \"$ORIG\"\npython3 -m venv /tmp/fishfry_5deg_venv\n/tmp/fishfry_5deg_venv/bin/python -m pip -q install Pillow\n/tmp/fishfry_5deg_venv/bin/python - <<'PY'\nfrom PIL import Image\nfrom pathlib import Path\nfrom hashlib import sha256\nsrc = Path('terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png')\nim = Image.open(src).convert('RGB')\nW,H = im.size\nassert (W,H) == (1536,1476), (W,H)\nstrip = im.copy()\ncurrent = im.copy()\nfor i in range(1, 10):\n    current = current.rotate(-5, resample=Image.Resampling.BICUBIC, expand=False, fillcolor='white')\n    next_strip = Image.new('RGB', (W * (i + 1), H), 'white')\n    next_strip.paste(strip, (0,0))\n    next_strip.paste(current, (W*i,0))\n    strip = next_strip\n    target = src.parent / f'pizza_screen_rotations_00_to_{i*5:02d}_step05.png'\n    assert not target.exists(), f'Refusing to overwrite: {target}'\n    strip.save(target, 'PNG', compress_level=6)\n    check = Image.open(target)\n    assert check.size == (W*(i+1),H)\n    print(f'ITERATION={i} ANGLE={i*5} WIDTH={check.width} HEIGHT={check.height} BYTES={target.stat().st_size} SHA256={sha256(target.read_bytes()).hexdigest()} FILE={target.as_posix()}',flush=True)\nPY\ngit add -- terminal/tasks/fishFry/pizza_screen_rotations_00_to_*_step05.png\ntest \"$(git diff --cached --name-only | grep -c '^terminal/tasks/fishFry/pizza_screen_rotations_00_to_')\" -eq 9\ngit -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Generate nine cumulative 5-degree fish fry pizza screen rotations'\ngit push origin HEAD:main\nprintf 'PUBLISHED_COMMIT '; git rev-parse HEAD\nprintf 'PUBLISHED_FILES\\n'; git show --pretty='' --name-only HEAD | grep '^terminal/tasks/fishFry/pizza_screen_rotations_00_to_'\nprintf 'REMOTE_HEAD '; gh api repos/BestNameYet/Terminals/git/ref/heads/main --jq '.object.sha'",
+  "outputThat": [
+    "ITERATION=1 ANGLE=5 WIDTH=3072 HEIGHT=1476 BYTES=4060451 SHA256=54a7047049342d1fea774a845d06c5c97c4865b16951eac7c72c0b0ea0268673 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_05_step05.png",
+    "ITERATION=2 ANGLE=10 WIDTH=4608 HEIGHT=1476 BYTES=6290384 SHA256=b9cb1070f6184f9b9f61b3f35e123e0651767e290101e73221d209fe9471be88 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_10_step05.png",
+    "ITERATION=3 ANGLE=15 WIDTH=6144 HEIGHT=1476 BYTES=8602403 SHA256=d04714c925eac4da4d242126ba39c4ec5183524fb539134b4503d0708a87a4a7 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_15_step05.png",
+    "ITERATION=4 ANGLE=20 WIDTH=7680 HEIGHT=1476 BYTES=10978557 SHA256=a09536de877579dd9937b9bca15b41805b24fdf2faf54f53aeaa6027cb802bb8 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_20_step05.png",
+    "ITERATION=5 ANGLE=25 WIDTH=9216 HEIGHT=1476 BYTES=13410185 SHA256=f6e25ce0d75f5ec1d0c3acdc8cb6d9d3223888909d165964bbecd430f7df2df9 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_25_step05.png",
+    "ITERATION=6 ANGLE=30 WIDTH=10752 HEIGHT=1476 BYTES=15899968 SHA256=759cc6f2683b8275da32345c08206144dc1d89c6b34afaa1d183afd149facdc2 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_30_step05.png",
+    "ITERATION=7 ANGLE=35 WIDTH=12288 HEIGHT=1476 BYTES=18453456 SHA256=2d3905ac68f4731506aabae3c3c3b13d9827644a01be7acdb5c1996ed54f68c1 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_35_step05.png",
+    "ITERATION=8 ANGLE=40 WIDTH=13824 HEIGHT=1476 BYTES=21063035 SHA256=7f21c241a6436f95c9e495d10b21b54212f628be23dbeb88be8cca98aee32ea3 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_40_step05.png",
+    "ITERATION=9 ANGLE=45 WIDTH=15360 HEIGHT=1476 BYTES=23744278 SHA256=9ade1c59b48221ad3c266fe50151c8efe35655b3fddaa197cf8b61d2a2030684 FILE=terminal/tasks/fishFry/pizza_screen_rotations_00_to_45_step05.png",
+    "[main 740ae04] Generate nine cumulative 5-degree fish fry pizza screen rotations",
+    " 9 files changed, 0 insertions(+), 0 deletions(-)",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_05_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_10_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_15_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_20_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_25_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_30_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_35_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_40_step05.png",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_rotations_00_to_45_step05.png"
+  ]
+}

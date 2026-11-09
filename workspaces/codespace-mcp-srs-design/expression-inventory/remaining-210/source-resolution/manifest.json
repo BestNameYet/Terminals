@@ -1,0 +1,3418 @@
+{
+  "schema": "canonical-pinned-source-corpus.v1",
+  "requested": 321,
+  "retrieved": 321,
+  "errors": [],
+  "files": [
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/delete-comment.mjs",
+      "blob_sha": "63ef0dfffc4c4c55f8f8d918fa18cb7678a20cea",
+      "bytes": 210,
+      "sha256": "f8ae5da4620cc4d761a370d921301c828c56654dedbe9595e2d1d909dbeab602"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/execute-js.cjs",
+      "blob_sha": "9c46e6cafc7594c486b03580b0044f79c7884621",
+      "bytes": 4272,
+      "sha256": "4fcc0c578714fc2d4be77d8730dfbb569e5d6b0993ea768b6e446d9cb1fe2c75"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/issue6-commit.cjs",
+      "blob_sha": "49a8b969e56c373102f57b5c51863b622b59e87a",
+      "bytes": 8282,
+      "sha256": "28f481797649dbe3aff43c2a73fdf8a4b32df5a65725c891da37cebc4e4bb16b"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/issue6-gh-command.cjs",
+      "blob_sha": "21a7e7815ca847acd5ddc09eb80f00ea6f646aa9",
+      "bytes": 5629,
+      "sha256": "8707299a65b12fa4312f88b5a5b39ecde0138f83b78c807d434fe13124ad0920"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/issue6-route.cjs",
+      "blob_sha": "f534c5ca9bc80ad12ab6ec48431d2c5c3b295dd2",
+      "bytes": 1412,
+      "sha256": "99fd914b5784c4970998f3e354631550276e90b3af97bc70f5b30f6b87f6c24b"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "runtime/update-issue-manifest.cjs",
+      "blob_sha": "d5aaf682ef4ab293e69fa40118cc0f8ebf29c9f1",
+      "bytes": 8537,
+      "sha256": "833e433c95bbe053286b74e9d03475c03aac378c7e19613f7b4c2453f11a7471"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "tests/issue6-commit.test.cjs",
+      "blob_sha": "6339a272644d21f5e3a02dc0550469caecfd86ff",
+      "bytes": 5297,
+      "sha256": "81fde18e29ff6a47663d77493b098ee319aada1a5df77bb3645ae104269fe0c0"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "tests/issue6-gh-command.test.cjs",
+      "blob_sha": "c1f57d5d7bef76886483bd18999bc9ff6e13ab6e",
+      "bytes": 6307,
+      "sha256": "65a38dd5410e82cd20c4053be5f7908b70adac798821afdd140a4ca7d1562366"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "tests/issue6-route.test.cjs",
+      "blob_sha": "cac1dbe22a733c323e33b329e7b44cfde4e6f3f1",
+      "bytes": 1935,
+      "sha256": "bd9cbf0ad6639cb9210c8158b8bf20d39a179b99ec7a5756f54fc8d6f9bcc015"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/api-to-nodejs/diagnostics/issue-1-comments-2026-10-24-export.cjs",
+      "blob_sha": "228b352e85366fb2b41e9758cc468323975fc82e",
+      "bytes": 1559005,
+      "sha256": "354c526c36ba6431b8a330bf3d8d64409c132aef193b76e0dd87ead05a1f51ad"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/api-to-nodejs/workflow-sha-and.cjs",
+      "blob_sha": "82524f9dc8876fa445150abbe4d6a568f700746b",
+      "bytes": 2821,
+      "sha256": "5365d9b92c3c18dffa810d7d404b96eb84e2ef99a753f3af87dcb29fcb37f5fb"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/meta-instructor/controller.cjs",
+      "blob_sha": "b6e79083bb061df483a5ff26ec1a7e8055190007",
+      "bytes": 13679,
+      "sha256": "c9d69096092dcee49f958b1ae4038a1c563afbb2a5d1a80b7328f68aff6cf01a"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/meta-instructor/controller.test.cjs",
+      "blob_sha": "1010ddcaeefd64c4684bc6ebfad40b4a8287552e",
+      "bytes": 12083,
+      "sha256": "5162130870630e66a399fdddbc64950d18a74f9abcd46b1d1ce1075f78809daa"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/meta-instructor/issue6-adapter.cjs",
+      "blob_sha": "095484da2f22859e95c0aeaeae8077b9ff351e0f",
+      "bytes": 9497,
+      "sha256": "46f5160b29b77d51c534ec4e9e8ee6120e5d29129db47325a15413b0e46d6216"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/meta-instructor/tasks/respiration-six-panels/model.cjs",
+      "blob_sha": "a8bbff576dc6e725c7f9ba90ad63264c7540f253",
+      "bytes": 8817,
+      "sha256": "4534f165d52bc0f3d169014aad21cc0e26143c749c8f0ad73ea89b2d7efeec8c"
+    },
+    {
+      "repository": "CommandLine",
+      "revision": "cb95df66740899dd0be725d0084495bc07e8f281",
+      "file": "workspaces/meta-instructor/tasks/respiration-six-panels/model.test.cjs",
+      "blob_sha": "615ccf585b785d13fa04071df57d535b22181b46",
+      "bytes": 3696,
+      "sha256": "da0039dbef1ca5daa9803680348fd0a1b999074dc1fe892fc8b1bb7efdb82e79"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/agent-context-registry.js",
+      "blob_sha": "fad2f3bfbe6e4d67243bed592cc5169d1c7afb74",
+      "bytes": 15136,
+      "sha256": "f16e4d124269d8ea0839f78afe053d48742b903d1757dc3b1821b1e4f30e2519"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/comment-error-tags.js",
+      "blob_sha": "a7d3b0cf2bdce5d49b75a38168df5dd26052e7b0",
+      "bytes": 1030,
+      "sha256": "7c9119454bbb12dd6c565944eb00fb9aa305283030992235d2c0cd14437279c0"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/interactive-procedures.js",
+      "blob_sha": "91b9ff92eb2f6cad4f400a493ebc748d4ea47011",
+      "bytes": 267,
+      "sha256": "86122ea5c6bf2e373341502538c0e7c4b2934bdc982fb0e5d7cc3a366e1d9717"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/interactive-procedures.test.js",
+      "blob_sha": "65e4d1140195bb266a003b7408cf130f9949fba5",
+      "bytes": 6791,
+      "sha256": "a3776f410181bec13d5c98d634c4aaf342a538863f11ca6857b1e5fa62e048f6"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue-1-intake.js",
+      "blob_sha": "698d819fb9d5aca012a96380b97dce517cb3a70d",
+      "bytes": 11906,
+      "sha256": "fadd147c89d71352334dd154c13c8f012a4dc28e09727fe102ee4bef289df2db"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue-1-intake.test.js",
+      "blob_sha": "888203ca151d896f3cb984350f3cb78eabe6b6a9",
+      "bytes": 8977,
+      "sha256": "8b50340e32bff09e8806c682853137a66bd5c5f1cfee9cce88df14372d69c483"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue-3-scratchpads.js",
+      "blob_sha": "8761db43edfc28adea15f32b67ed382c17a68503",
+      "bytes": 7775,
+      "sha256": "919928a45198e51b503e3d6a8dd958f2f16f9de862fc63f65a7100b97c32ec5f"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-presentation-integration.test.js",
+      "blob_sha": "76216d8bacfa9057792139b31c5ff5cc1ab3fdd6",
+      "bytes": 3831,
+      "sha256": "8ddc9b2df4cd20915c9dde11fcd06b1712b526bf0937daf5294aa1e313b9696a"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-presentation.js",
+      "blob_sha": "e90b35c6a8654d562f514973b2a71744376a85a8",
+      "bytes": 14816,
+      "sha256": "eb4f46d436c14376434f2db9a33db3e8cf98b501b8875008da72b76f3ae45805"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-presentation.test.js",
+      "blob_sha": "1367235045a8f72e4c34528aae01ae6eb488bb45",
+      "bytes": 4062,
+      "sha256": "a31dc3f3025b924464231fc390551260d2b57092d7c3a93fd526925db75f3773"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-projection-workflow.js",
+      "blob_sha": "1ba210c77d481ebca27e115cffb7b2add474f7f7",
+      "bytes": 11141,
+      "sha256": "2e643161dba9b6088d6085886f25bff4093af3df95fcf4c816ae257d724ac0c6"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-projection-workflow.test.js",
+      "blob_sha": "7c4cf67b57598f402aa68d035006d900e10d090d",
+      "bytes": 11212,
+      "sha256": "9a8fc378148f71baf6fb00f11ebec1799778c28f5efc8ce140bf5a9b5256635c"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-projection.js",
+      "blob_sha": "32676cd3dab212ac8655f0aacf7b8d618fdf02a3",
+      "bytes": 14372,
+      "sha256": "d3a48d187d286067ea896b7740be66f0f8bdef6afcd504acfc9161b38296730d"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue5-projection.test.js",
+      "blob_sha": "0bb4ce39f49cc1e401b36a5356fcfe104220b8bb",
+      "bytes": 10069,
+      "sha256": "add13cb8806757e7dc0449dd112bbb3a82470f0217704f03573764214a54f6cf"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue8-context-benchmark.js",
+      "blob_sha": "ac1e669e034e6392434114ffcde9af854f538fcc",
+      "bytes": 6585,
+      "sha256": "55cd80fe1e42513723131162358b2ed900afb77911b69d1c7c09f9443a4d847e"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue8-context-publisher.js",
+      "blob_sha": "a30775ea09369e51d60da0fd713b2933192167f6",
+      "bytes": 4883,
+      "sha256": "38ead04ff9a668dee34ba42301456792a105f1068eb203da363925b975b575a7"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue8-context-reconciler.js",
+      "blob_sha": "bfe312f02904045bbf195e7d4d39763e84e28d23",
+      "bytes": 6878,
+      "sha256": "4ed86bdbb3bd733855616c78ea5d2a88640303f4db31aab19a0555ea10f4bfd4"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/issue8-context-runtime.js",
+      "blob_sha": "d3ab4f46138c0aa84c3ed70d052023c4bac0c007",
+      "bytes": 2278,
+      "sha256": "b594b23067fcd78b51cccd8cdf22026aa28e580872b1b5a87e77e9b6cc0dc3c1"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/procedure-documents.js",
+      "blob_sha": "dd44f5f5431a765ee6cd253848e9233b302abbf8",
+      "bytes": 15128,
+      "sha256": "3f5b65119042897984e2675f9b4e2be77a6a231d8d6971e51449e8fcb2212626"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/record-type-validator.js",
+      "blob_sha": "480c92948e1563918a02b85ec539d2c5414adc83",
+      "bytes": 9781,
+      "sha256": "74bcc1d0128b50bc9dc53fe6dd435ee251bc76f39fcc228d08c7f19ff3432a2b"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "src/semantic-operator-contract.js",
+      "blob_sha": "96292262341f9d8e673932e396631a17b7936643",
+      "bytes": 12838,
+      "sha256": "d38efa88e564e29d8d28fb8b472ebcd2cab64e8def34c8e9084ed4c25bfc8091"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "test/agent-context-registry.test.js",
+      "blob_sha": "4cb82491db741ff170d3330b20e88b1c91d97d50",
+      "bytes": 7278,
+      "sha256": "a839be149440c18678433fec3befa3cb4106de42fa0b72c3efd8b64200bbe845"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "test/issue8-context-reconciler.test.js",
+      "blob_sha": "a83f678ac21cd4ba86fd78bc914cd97866a14723",
+      "bytes": 8706,
+      "sha256": "c4bc5adfc89d2628cf3f0ff99aa01a7515c6f457b80219f2cd6339eab36b3301"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "test/issue8-nonce-registry.test.cjs",
+      "blob_sha": "9ad37ea0d4514108c11a2412a411a2938c8cdb55",
+      "bytes": 6639,
+      "sha256": "f00de7359870a718af95b987e3d0340e7d730cc15d63d7a2cbd714b116b4e737"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "test/semantic-operator-contract.test.js",
+      "blob_sha": "960f89e702624ff3d81990682b589a3968368e32",
+      "bytes": 7320,
+      "sha256": "2e4324156a83404e7f2e71e27e3777f388d8e3b4f500d5c3c479f9007697e20b"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/audio-deception-comparison/public-site/app.js",
+      "blob_sha": "5264447b2d0fba43d40bc17c9ac5b42fa03f3706",
+      "bytes": 6031,
+      "sha256": "3051775a327204f2e58868da2502e5d7c617fb472741d80ddccba0d1f7d6c2de"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/audio-deception-comparison/src/compare.js",
+      "blob_sha": "2b78b679c0bdba9ae88d94a3a79a861600185dc4",
+      "bytes": 2031,
+      "sha256": "14e125baa750a6b47ac9d287ee89ef42115a3203b3b9036e1ba87dc7d2ee5d5f"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/audio-deception-comparison/src/report.js",
+      "blob_sha": "54887b53987a532fd388c3ee0f31b6a28554a897",
+      "bytes": 698,
+      "sha256": "7e08cd2786542fba208c38ba8b7691b502882a0dbf8b052e46d76c90ba878fe2"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/audio-deception-comparison/tests/compare.test.js",
+      "blob_sha": "ae16442457a429a2fb9b79fa2d65c464db274d06",
+      "bytes": 2194,
+      "sha256": "f09df3a1d32c2c7827a479781496d471a69a9425e3f9f5ccf684b76735b2b670"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/chatgpt-share-html-extractor/build-shared-conversation.js",
+      "blob_sha": "1f7c65762cdc83820b536ac6d3fad8a9a444da8c",
+      "bytes": 9914,
+      "sha256": "2022f2a98baae8e1a6fd1f0bb721b5e339913ccc97fa974240188d2996c6fe51"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/chatgpt-share-html-extractor/extract-conversation.js",
+      "blob_sha": "1d88f69171f5a97eb484adcdd7c16b2d7f998ae0",
+      "bytes": 10451,
+      "sha256": "20db9520e986ed6e5e10314a7eab8dd30db2c4a349c5330740f4569bf0dd4acc"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/chatgpt-share-html-extractor/render-chronological-conversation.js",
+      "blob_sha": "f6a0fd803efc5f44d9d1c90388c7aed59aa98456",
+      "bytes": 7940,
+      "sha256": "2e3dfb7efbca0ae182a437158757041f2d8d76c4cb3408915186b703b6685e89"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/issue-comment-input-surface/issue-comment-runtime.js",
+      "blob_sha": "8ebeff43e023a304a5c23a264e33916708d253bb",
+      "bytes": 11084,
+      "sha256": "d569b7a92de98bb543f8f5bc8404e078ebf1cfeb20e405795dfc105615424d40"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/issue-comment-input-surface/tests/fake-github.js",
+      "blob_sha": "92653ba567f0cf49bb536dc441dedf6cc5e826a2",
+      "bytes": 4939,
+      "sha256": "fa0e4c997b3f860e49818665dfce756f1f28941de143e6cc57a220c9a763c579"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/issue-comment-input-surface/tests/routes.test.js",
+      "blob_sha": "72db944f7bed8cd52b40147c2ab3eb3aa673f1c6",
+      "bytes": 6678,
+      "sha256": "e44e77576b0227d88daacf9a59ce0bcd799815239afc11474d777496e0b2cced"
+    },
+    {
+      "repository": "IssueStack-",
+      "revision": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "file": "workspaces/issue-comment-input-surface/tests/runtime.test.js",
+      "blob_sha": "58c13e95ec3bef55a06396644c2a8b3ab4deda04",
+      "bytes": 13833,
+      "sha256": "b03667aba1b62741c64366f06809ed1c2a053edbb70b1f51bc969db464ad93e6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/AudioClipSelector/test.cjs",
+      "blob_sha": "68df11d322cf5c357a75a114f03d2f506d7e3611",
+      "bytes": 19482,
+      "sha256": "e5683d3513b6e6cf86a0bc708c0d61a6ebf1fd15f18e51aead3612c11cf2aabd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/ComprehensionTasks/scripts/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js",
+      "blob_sha": "597a060fa180cba726aa53bd5af5b25cbe1d8a49",
+      "bytes": 12485,
+      "sha256": "91e1b0537d935083a6576337e28e536a2e99e2ed2e8aeadb5bdacc699027c619"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/evaluate-supervisor.js",
+      "blob_sha": "ccf4e456b4795ce89bbda8ce3790f64cc90c830e",
+      "bytes": 25029,
+      "sha256": "917eb6145f062129d9b557812e40a322bd2e20e1a77c7fb7820807f975f23c20"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js",
+      "blob_sha": "d4ee7b9c548a9d15a98bbac056a96698e9c69d12",
+      "bytes": 77180,
+      "sha256": "181aa1516e71b3c462640291263238f3b8b87deb332651f45e55f377a89a391c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js",
+      "blob_sha": "d4f41233feed97d8caadd30d5d2e9efe09472bf5",
+      "bytes": 13556,
+      "sha256": "fa2e2810f746ca6745306ca70d3c8cedf99af4eaabd6a61ae3574e4249f23e48"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js",
+      "blob_sha": "cbeee0144a12fb4e2ec726f2dbbb4ff3a947752a",
+      "bytes": 52178,
+      "sha256": "d77891db6d31c90ba3a5650404a7fae9cd76d26f3729b8b43d7b6efdb2b40430"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js",
+      "blob_sha": "c4b5cc5317e30c143c3a217a7800e04229c1c481",
+      "bytes": 19483,
+      "sha256": "be166ebec10275ca604da10de5546eb42f85a307b2af451ebc7091cc86ce3e35"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js",
+      "blob_sha": "3e60f9a93f23d190cdd3510ce297315e74e16529",
+      "bytes": 32976,
+      "sha256": "8e87eb538b1b77331461ce4e8145a2ef546f7f15b3982a2428daa6dc63936852"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js",
+      "blob_sha": "31ff9cf663867976c07d2d7ac8986bd6f6b87433",
+      "bytes": 8012,
+      "sha256": "7aba5f7d768e7bfe8253919e4fafc7336bd68d06a288efaf1506b2036ca9e232"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js",
+      "blob_sha": "b239099aa2345f5b607dc479ca70cee37b522a98",
+      "bytes": 17808,
+      "sha256": "2161b1c4c93b752f6323d9cd896d641a76c4c6e9724c29d0886fa95a2825abcd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/historical-audit-fresh-worker.js",
+      "blob_sha": "85cda49506a4b3ac309c506ce128c5e3e37aa8c6",
+      "bytes": 10098,
+      "sha256": "7866592f716369190e3397667273e216583c1bb1ceea6237743ded074670ce3e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/historical-audit-process-view.js",
+      "blob_sha": "1521415a1943136a7d7ac68ff39a11cec4657a4f",
+      "bytes": 5476,
+      "sha256": "e5f263aeadca87a516cb9adb7c7d55b6a8667b65e67965837b44bb9fdd707573"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/historical-audit-segmenter.js",
+      "blob_sha": "e735503387fc84c2ba6e58f0c8d1d169b16a626a",
+      "bytes": 6348,
+      "sha256": "afdaf042ad6857ddbf3972d716758475c83f79cfc2d19f947cb6004063b449eb"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js",
+      "blob_sha": "b4e825e349f2ec51551d0a0c1134639f3ff187f1",
+      "bytes": 52177,
+      "sha256": "5df15b1f2e3bd25a468ad94b45892787051826dde66eb4704606c95273f70f8b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js",
+      "blob_sha": "194cc340cdf7d295eb791edf50c8b232e2bdbedf",
+      "bytes": 8794,
+      "sha256": "5dfdaa9473532ad19f6495dfaae466db48fd6edd7e5f17099ce93283c0a945f5"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/generate-step-0-form.js",
+      "blob_sha": "54b2ca719bc11fe1b4ca1d1e2367bcc7e6682daa",
+      "bytes": 6188,
+      "sha256": "84ceda4a49a96d44ef3fe9d756ec03da9f9ca81ca753d8b238ca76330b29c54b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/install-remote-card-deck.js",
+      "blob_sha": "38c318e3c9db87c366696ac74c8b2758321caec3",
+      "bytes": 3894,
+      "sha256": "a1049e4d7ec07a10862ba07042c64123c238122e817ee59a318c2122e0a8c8ef"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js",
+      "blob_sha": "ad4151a52e5280cfb6666a9512586e9abfd45e74",
+      "bytes": 18485,
+      "sha256": "dae05ef67d056393ebbb6829cbcbe74916a5af592fc507ea9957a534bfe46e05"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/remote-card-generator-source.js",
+      "blob_sha": "fd36b8db6f24ff70377f9f80669ac79b2d6af8b6",
+      "bytes": 6248,
+      "sha256": "c2931262bdad746c204e0ae822df00cdc204befb612f63243c5489a835ac9bd2"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js",
+      "blob_sha": "2fc71be76bae3bce3d48af4bd877f69e4f386cd1",
+      "bytes": 9186,
+      "sha256": "c633339d7837a82951986d086873496123bdd936a41c289c32b270c2887c9096"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js",
+      "blob_sha": "389fc695a01d965513d300fc6eae33a9a7a75099",
+      "bytes": 4538,
+      "sha256": "485fe3afad44031269f1841ec671b35f2df8c2c3d6069b9ba24500fea31b443a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js",
+      "blob_sha": "411ab7ca762074e1509a43f024ad10c6d19018c3",
+      "bytes": 15082,
+      "sha256": "c2930d31708916c290b862551c11170acb8957f01d939793f4e209afe8c1c791"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GeminiSupervisor/send-to-gemini.js",
+      "blob_sha": "598320ffeecb7a928ab9549a1703fd8e05a5d926",
+      "bytes": 52178,
+      "sha256": "d17e3b694aea11aa8d0c8b2ba8c00ab033378e76b6cab306b7028c469adfe46b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/GitHubNodeTest/run.js",
+      "blob_sha": "40f195a236ae019c9f15c91f6d8cf68886ece571",
+      "bytes": 888,
+      "sha256": "750d3255c011f7ebffec01593e93b7a6a1055832242fbb2bceb673956234162c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Main Instructions/AGENTS Design/tools/json-to-array.js",
+      "blob_sha": "ab7cd930888cd8eb3cfa5ffb3be6f898c704371c",
+      "bytes": 95941,
+      "sha256": "1554cd3a36c902b88b1d57d1812640f8db3949854d0f53bc6119556df69e39d2"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SBE/sbe-evaluate.js",
+      "blob_sha": "fd9270b17b97974d64c775eda1a5915343983098",
+      "bytes": 10174,
+      "sha256": "257d98b546a75b263b6ad7c2b62460f318dfc8bcfd90d6028030f23f369d699e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SBE/sbe-finalize.js",
+      "blob_sha": "abc26ee766d74754eb19ae5f9f5a27bc51c268ea",
+      "bytes": 3752,
+      "sha256": "caa96d07e69dadb029407bd192a0fd2beb58b293cccd5652a18310a01b124812"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SBE/sbe-pack.js",
+      "blob_sha": "b90ca3de1844050e20cd097af026dc6dc7acc5ab",
+      "bytes": 1323,
+      "sha256": "04820b089d4ab3012d6e009e72c520dff742a61a28c54b914ca37446900e304f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SBE/sbe-validate-evaluator-return.js",
+      "blob_sha": "6f38232896a7880b6d4a33b1f4d3b8b8467db604",
+      "bytes": 2302,
+      "sha256": "ebebaf259812f4ddc40a764c1190a7951e519aaffcef6fd052d55c29f9a7f376"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SeleniumServer/run.cjs",
+      "blob_sha": "743fe841fdf8e82ad279817aead20bf97fc57008",
+      "bytes": 8251,
+      "sha256": "6e7f24d5d4a6b955c4d4d692bf600c98b9ce8e6819718ead2a5a4378b7ccce53"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/SeleniumServer/runner.test.cjs",
+      "blob_sha": "0a9504d22cfc8a70ef57c9d2d1efd11c40e8d188",
+      "bytes": 5239,
+      "sha256": "8d4795baa1f417cbd3c2c1135bda21e398fb57f5c1e2a442b69e8b3c53da17c6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js",
+      "blob_sha": "e439cc359706f447ac92b8a84144cc7cf0b7bd96",
+      "bytes": 3406,
+      "sha256": "3f5a3c1da9be8c5e9248272357e8fd6b61969d56bef1d3aa5660fb03610b9880"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/run-configurable-updates.js",
+      "blob_sha": "d322939c78820287a3ff23f66228ae53ae191c4c",
+      "bytes": 3347,
+      "sha256": "45dad0e76190dd679c1afbe12290efebe3d5065e67ef2fcc4715e7c480bc3608"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-functions/append-to-metadata.js",
+      "blob_sha": "b84c289abba5f8543492a0b30fea03959f828875",
+      "bytes": 4694,
+      "sha256": "9f3d054f5018fd483098169d1759ee6c0cd8641b9b162ff686cf92da28c98f34"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js",
+      "blob_sha": "7b5dd1790bea4444ea2564090fd7d9efa041390e",
+      "bytes": 5338,
+      "sha256": "fe36a5d5b7fc5c8af82ab6ccf8835b22acce95720c6d88a42167cbf92a6d3b1e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/TokenizerCalibration/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/TokenizerCalibration/flatten-projection.js",
+      "blob_sha": "9107357fd28c70058e38fc02cd4926a438ccdb6b",
+      "bytes": 2452,
+      "sha256": "3fba21e998ea19144c45b97f4fdab64d277c676b76ecdfb1410508c3f4241f9b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/TokenizerCalibration/run.js",
+      "blob_sha": "308da52c6884682bfb3eab23be869b20e44690b0",
+      "bytes": 4913,
+      "sha256": "a01a3193615c750fa7c27d2c8a997cf75680921f831aed2313622a6ccae4e3c1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/TokenizerCalibration/stage1-divide.js",
+      "blob_sha": "62900f5e51e58892ea0c5e44abc5e2e536668deb",
+      "bytes": 10884,
+      "sha256": "b768d97ecde26948c8fba26f731800938ec9dd832418c8ad036aa7d2329583b4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/file-commands.js",
+      "blob_sha": "eef73eb0a9590b9e2e86069022f2437e65ad88f1",
+      "bytes": 4107,
+      "sha256": "cd5000073810746cf5227d68e664200459967dfcc26930fc1524b3573c7be338"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/file-commands.test.js",
+      "blob_sha": "038bbd39f9b5cd00192b3b66f6e55c0fed42ce99",
+      "bytes": 4810,
+      "sha256": "09f10ef37051b421aab074b86b131f848402f7bded270b3e248e403c271fc93e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-live-check.js",
+      "blob_sha": "94e36ee009f05cebe16b50876bc7dbce97fae09c",
+      "bytes": 3232,
+      "sha256": "030aee0ac232082985d911e5452c051ae46dbe9dafd8a0da3d16105d26d0fa34"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.js",
+      "blob_sha": "6ddc4eee9a0aacd38dd2f140b761d2ffd5a56923",
+      "bytes": 3154,
+      "sha256": "65a6e99836e0a6967bd31629dd011038038fcd873af51915426f3dd8b8fc2d9d"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js",
+      "blob_sha": "37c03a4c677c8fd96fd365af111fb2ac79e0f2ca",
+      "bytes": 3594,
+      "sha256": "0bcb984a70eb5c736f0fc79dcce9699da44485d756ea22558644b031750507cc"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workers.js",
+      "blob_sha": "9fb334576daee159151c5db81058deb98af62bc9",
+      "bytes": 6967,
+      "sha256": "cf95f844e050e6af13a628279aeb414c5ee3b108793fcced533a6683ea8a6268"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js",
+      "blob_sha": "5606cc5721ee7c6b2f441d446c86b2d7e583296d",
+      "bytes": 21821,
+      "sha256": "c5552324ae61f1bc2d36397efccde90594ea3944d75d88cdb013732699727da4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js",
+      "blob_sha": "5c34d62d1f630613ed67fd03382200c99fa09f71",
+      "bytes": 19226,
+      "sha256": "b9889c50f6b29df03f0a2d3299b060576344bd05d5ab083172225a150b941a63"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface-server.js",
+      "blob_sha": "eee4e4dedb4a9e48ee87a61bc231781e2bbb8d7f",
+      "bytes": 7878,
+      "sha256": "c8a2d8839cc474549c99f1ad2bdffe33743e9875817bc1a760b188275a87e03e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface.test.js",
+      "blob_sha": "c340bd5bbe407a835d1785b2e45aa122fcdca952",
+      "bytes": 6245,
+      "sha256": "2f0fa32eb3bc54f520ebbe3853b3488ed98a07c413f09c5c18fc179cdf59bc3a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.js",
+      "blob_sha": "da7167fab71c5d2306957ae98150a6c5f959eae2",
+      "bytes": 9711,
+      "sha256": "9459fd620e2a2bf531278c4db3e4109577803c9be8e8a7fb03e4ca9abefb0710"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.test.js",
+      "blob_sha": "367da26a37654738e239d7c3e9f0844c23097eee",
+      "bytes": 2195,
+      "sha256": "ffe694ed30ebb38e8ce530718df17221843044327c26a67547f75479daaaec73"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-trigger.js",
+      "blob_sha": "7939f345fe96a6f0d2057d8a6653956ef5ce7375",
+      "bytes": 8713,
+      "sha256": "45375c7534b82c3f0ac0027dfd709ae4fe169366949be791dfcea063b66ca13e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-trigger.test.js",
+      "blob_sha": "e1f56116f8c88755a6aaaa1ebe279e57fbeb83d2",
+      "bytes": 2797,
+      "sha256": "a207395fe6e1f3b8c760ca2b0de8e3d6375956818c0f52da2dbc259402a55cb0"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js",
+      "blob_sha": "b995fb7b3f4f2ed8727a55bfc61c7676c9794813",
+      "bytes": 33340,
+      "sha256": "66972cdadf98e5bd492c09b931682f6ed5cf0e3c62bd52abbec1d2c9ecf07be4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.test.js",
+      "blob_sha": "0dbb9c48ed0f497665f9ae351f2d8afcbff2ec5e",
+      "bytes": 12423,
+      "sha256": "07d695005f95944f7a89e619fef6e0d54c8781cf06cc537fc5595d8d770a47ea"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface-server.js",
+      "blob_sha": "eee4e4dedb4a9e48ee87a61bc231781e2bbb8d7f",
+      "bytes": 7878,
+      "sha256": "c8a2d8839cc474549c99f1ad2bdffe33743e9875817bc1a760b188275a87e03e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js",
+      "blob_sha": "b995fb7b3f4f2ed8727a55bfc61c7676c9794813",
+      "bytes": 33340,
+      "sha256": "66972cdadf98e5bd492c09b931682f6ed5cf0e3c62bd52abbec1d2c9ecf07be4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.js",
+      "blob_sha": "d4c3942b8643714ac0aa6362b7fb4974d3712acc",
+      "bytes": 3797,
+      "sha256": "d28f1496a2b4c3d6e85c0af8675ddb0b187fe408d93c2ab91913839386905067"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js",
+      "blob_sha": "024f3d3f11ef1f4efb456612ac8dd625203512d9",
+      "bytes": 6843,
+      "sha256": "6c12fa08854de9d7764a833390914da838b491f9264691b7560142d288bc3265"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/commit-manifest.js",
+      "blob_sha": "a3b089f770362ee924be07d0da2fad82be196735",
+      "bytes": 9520,
+      "sha256": "b08a17fef17e73717e34437e2e6560bc43b383c7bcd45d3e01436d916f634ddf"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.js",
+      "blob_sha": "7c8b6471ce8e2943d46b18ed30de42881be9aa2e",
+      "bytes": 11073,
+      "sha256": "3f8be81bde96827f7b638bf4e1022d38343ecad2c9cafb8f767c5d3e74a017b9"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-trigger.js",
+      "blob_sha": "7d3ea5e8ec63f0637c2b61b34d2bf03336a0a0cb",
+      "bytes": 9435,
+      "sha256": "4c1202020d4f0b1b6934580bb47fae3083b12858a072e93ccd2b7cd97af83361"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js",
+      "blob_sha": "21d4956247f016e7e4b2c8ef59e2b4bc22aab7a0",
+      "bytes": 38663,
+      "sha256": "466731355d6c5221851d6368f63301792de6a6394829944ceca04614c8cb8218"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/package-commands.js",
+      "blob_sha": "af2040c714e70e9ca04fb6a12c58019eda33eb0f",
+      "bytes": 3356,
+      "sha256": "3ca5748ce81cbc196377119c0dd83a0e49523fc18bb058c9664bacf44c589672"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/package-migration.js",
+      "blob_sha": "590e8269bda0f2a5da5043cc5bf34e347f97e52e",
+      "bytes": 4046,
+      "sha256": "069d659a0daccc322ef47fdd3e502e12a0b00c848d0a02ee5c73f85b1af70d4f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.js",
+      "blob_sha": "2304c23303229f1ec4f05187758465310cef59b0",
+      "bytes": 2277,
+      "sha256": "058c316f0d1d89d9167fd5ce86db0540d688a38cfc684e8561e42c253eb06d8e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js",
+      "blob_sha": "fbbde3a621d64b85cd0f124f8de3e356afcfaf28",
+      "bytes": 10236,
+      "sha256": "fbeb334ed0dcb87d9d19d7040706e4cb5efdafd3e56869989574f42e1aa2394d"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/runtime/runner.js",
+      "blob_sha": "703112109e6eabc400ac9334ba87a3bf9435da7c",
+      "bytes": 3669,
+      "sha256": "edd02a183bbd05d494c73aec05e0ae2ca7f1e336d7f72fb9a2849ac14ba21d7e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/runtime/runner.test.js",
+      "blob_sha": "d040679d0934c30eb694672ab8e8d4f4158d1e3d",
+      "bytes": 2676,
+      "sha256": "961c1edf5fa8432b2dbddff8cd82e7d2e5359778aa6e95bf38d8a95dbe9928c0"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.js",
+      "blob_sha": "7edf4cafcfd9112722c3ab29f443f7e6eaa11f54",
+      "bytes": 7551,
+      "sha256": "184e074f2bf01a63f8c9b6071f785a4817fa575607ebff3251d8ee8d92f062bf"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/lookup-mode.js",
+      "blob_sha": "1c73d93151dca9fa89602d5a0704b2bdea3138e6",
+      "bytes": 431,
+      "sha256": "e685e52b3a319405d0076afb80e2790af9f2397cad0959bbcc481c637ae16b4d"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.js",
+      "blob_sha": "d4c3942b8643714ac0aa6362b7fb4974d3712acc",
+      "bytes": 3797,
+      "sha256": "d28f1496a2b4c3d6e85c0af8675ddb0b187fe408d93c2ab91913839386905067"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js",
+      "blob_sha": "024f3d3f11ef1f4efb456612ac8dd625203512d9",
+      "bytes": 6843,
+      "sha256": "6c12fa08854de9d7764a833390914da838b491f9264691b7560142d288bc3265"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/render-gemini.js",
+      "blob_sha": "c6555a4f595dc1a73f35f8a2d07c042dbcc63d9a",
+      "bytes": 1397,
+      "sha256": "30b12b9cbf34ebd55cac3b2caefa6dcf1b04ecc20a96b43e0ed8352c48182b22"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/render-instructions.js",
+      "blob_sha": "d09e92994a1fcb17bd0806c230e8cf13a29bb705",
+      "bytes": 2116,
+      "sha256": "6db9d6a65263fa75e14e019c4d0bd03d99327cf106a80c527d7b5149abe817c3"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.js",
+      "blob_sha": "9cb661327e96219bb1624ba1bab04a410ac41ebf",
+      "bytes": 2703,
+      "sha256": "4e603cab774f95c95d19a3fc87985a157e0de47159717bdd4eb3e6259aa89f9c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.test.js",
+      "blob_sha": "9dba21f11972c7ff88e071fadca0825652085965",
+      "bytes": 2749,
+      "sha256": "bce6a8fe8a29892fc243722608588416f8e85209f0d4b29438f9edeb50358ce1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.js",
+      "blob_sha": "4fd5bb27262f8366f67eb71cd6631f90a08a6c97",
+      "bytes": 7412,
+      "sha256": "2d741f7c64e35d5a9ed12c76d1e307505c0a698f029628c8712a2e64a21a8de6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js",
+      "blob_sha": "ef8e45769bca6dec65ae6f7391bf8a8da6f7048d",
+      "bytes": 13690,
+      "sha256": "be1da4e134b127dfee5e1750661f8ae4f1678de3297e693faa4cce2736aacf22"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/transitions.js",
+      "blob_sha": "7d02657efdcc715880716a486b6d4370b3675ebf",
+      "bytes": 7569,
+      "sha256": "62e5aa14fd18800a82aef279f5261ab361da83e32cfb6af87c82e2430bfb5bcc"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/transitions.test.js",
+      "blob_sha": "35b8b67edf503d728bdfbdb650e3da503c1d76ce",
+      "bytes": 5655,
+      "sha256": "de913813c530409148dbbbdd42cc7f42a6466cf384793555e025f4a4d6cbdab0"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/validator.js",
+      "blob_sha": "6e4fc3ec5502f8301de6a188690c8617cd98aeff",
+      "bytes": 6129,
+      "sha256": "a58477d32a8d3a61378ef126caee17106147e1f454720d263eea9d430edbf78f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-context.js",
+      "blob_sha": "a98f7ba29258782326880ad4cf092883f49e4482",
+      "bytes": 3591,
+      "sha256": "e1bf524188fdbe17432412d7d6c3337d1ae2a93c57845a75c3e19ca89ddc6324"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-registration.js",
+      "blob_sha": "8d3b05ced040f5296aadcfd78429d73fc7a336ca",
+      "bytes": 3398,
+      "sha256": "e023f12a9d8cd5feeb468006bde834b16fc7ed7fef3a63b02309339ed505a612"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs",
+      "blob_sha": "5d6ac0b4f56cc522b88ae8e123f3d3e0d64622a5",
+      "bytes": 8207,
+      "sha256": "0453444f57888565f3e3038dd9eab8956b108bcb394219c7793cbca719301b0f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/count-non-uuid-keys.mjs",
+      "blob_sha": "2d3b04c4523c74db90fce0fb48ae92c2001857a6",
+      "bytes": 3138,
+      "sha256": "94653a436f9ac20e1808a29dfe5bbcffe21af9396284cff788fd1479a23d0132"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/extract-keys.mjs",
+      "blob_sha": "539141def240024a3785233ab7dedfb6e2b435ec",
+      "bytes": 3821,
+      "sha256": "8b0711d362308108123a8b3d4f4a4d2def6e63725d013d8c3630991ea42c7bde"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/build-catalog.js",
+      "blob_sha": "2f3d0fc960e9349ff818c2768eb41c0843025a13",
+      "bytes": 1843,
+      "sha256": "7dea21fda492f741fd22834fc2ac9484d21245af8b3f5082ff0125bd9164ab25"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/issue-command.js",
+      "blob_sha": "1790110ec5d8f58745a7bc998b23ba0d9aa25dea",
+      "bytes": 13547,
+      "sha256": "24da4cbb0f15797c56a78e09f6c3e727365a7fc28856a24c99d78bd5861e2ee7"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/issue-command.test.js",
+      "blob_sha": "c521380484563f97c7b92b89a3767ba6cc5c7d7e",
+      "bytes": 5493,
+      "sha256": "1e60efdfafd52772a2d85a7bda6a86f7864ffedb6fc3ac9b44ca56d0d33227e6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-read.test.js",
+      "blob_sha": "67bc1534d6bbecfc2722538ba9b463bb3a97b802",
+      "bytes": 1745,
+      "sha256": "e0594db79119a9580ede8ea4a4913a14eb778d8eb413f360e841889f60133a95"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-stat.test.js",
+      "blob_sha": "023079fee471a5f17e148026a2fbe6559ad94c3c",
+      "bytes": 1395,
+      "sha256": "2c7493eccdc8284718f8d240997183e332cd2ac34c7db57894cd02007c1c8d99"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/map-native-operations.js",
+      "blob_sha": "8ce9104a010939ff7491cde1b3ff0c7509e2cf5f",
+      "bytes": 3656,
+      "sha256": "df14452855ff634b9721085c4f68fd6afd679f6224fa594bf6a2f01eed9b6870"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/render-command.js",
+      "blob_sha": "04a27df2bb733cc2495839b6ce54d2d1b8c6dce6",
+      "bytes": 2867,
+      "sha256": "46d56dc63c4db813d0b0a95140cd76cc6c422c61151b39a8d5190b31401f7779"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/render-command.test.js",
+      "blob_sha": "f556d7491317c7a751ef6337100d2f28e693eae4",
+      "bytes": 1327,
+      "sha256": "80d0be20da5f429953730d41b857c19e4d58e3b9179626b30c29e7f0ab1c3e88"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "metaprocedures/procedures/AchiveExtraction/apps-script-source.js",
+      "blob_sha": "db56e9dae021b5c0a274adc2cba45158455f9316",
+      "bytes": 4810,
+      "sha256": "8f18a5ca5fbb6b2d1be6aac1e08767cc7e206349a0a086c71d8f8dd1c69d0c6a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "Project Overview Project/projectfoldermaker.js",
+      "blob_sha": "d88201007facc5745803a1bc2794be7ce15e47e2",
+      "bytes": 2370,
+      "sha256": "0684f03991bca8b337f7f09579a46999757064e3af30b2e3f865387f8f0450ef"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "scripts/chatgpt-share-extract.js",
+      "blob_sha": "1f7c65762cdc83820b536ac6d3fad8a9a444da8c",
+      "bytes": 9914,
+      "sha256": "2022f2a98baae8e1a6fd1f0bb721b5e339913ccc97fa974240188d2996c6fe51"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/AudioClipSelector/test.cjs",
+      "blob_sha": "68df11d322cf5c357a75a114f03d2f506d7e3611",
+      "bytes": 19482,
+      "sha256": "e5683d3513b6e6cf86a0bc708c0d61a6ebf1fd15f18e51aead3612c11cf2aabd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/ComprehensionTasks/scripts/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js",
+      "blob_sha": "597a060fa180cba726aa53bd5af5b25cbe1d8a49",
+      "bytes": 12485,
+      "sha256": "91e1b0537d935083a6576337e28e536a2e99e2ed2e8aeadb5bdacc699027c619"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/evaluate-supervisor.js",
+      "blob_sha": "ccf4e456b4795ce89bbda8ce3790f64cc90c830e",
+      "bytes": 25029,
+      "sha256": "917eb6145f062129d9b557812e40a322bd2e20e1a77c7fb7820807f975f23c20"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js",
+      "blob_sha": "d4ee7b9c548a9d15a98bbac056a96698e9c69d12",
+      "bytes": 77180,
+      "sha256": "181aa1516e71b3c462640291263238f3b8b87deb332651f45e55f377a89a391c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js",
+      "blob_sha": "d4f41233feed97d8caadd30d5d2e9efe09472bf5",
+      "bytes": 13556,
+      "sha256": "fa2e2810f746ca6745306ca70d3c8cedf99af4eaabd6a61ae3574e4249f23e48"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js",
+      "blob_sha": "cbeee0144a12fb4e2ec726f2dbbb4ff3a947752a",
+      "bytes": 52178,
+      "sha256": "d77891db6d31c90ba3a5650404a7fae9cd76d26f3729b8b43d7b6efdb2b40430"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js",
+      "blob_sha": "c4b5cc5317e30c143c3a217a7800e04229c1c481",
+      "bytes": 19483,
+      "sha256": "be166ebec10275ca604da10de5546eb42f85a307b2af451ebc7091cc86ce3e35"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js",
+      "blob_sha": "3e60f9a93f23d190cdd3510ce297315e74e16529",
+      "bytes": 32976,
+      "sha256": "8e87eb538b1b77331461ce4e8145a2ef546f7f15b3982a2428daa6dc63936852"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js",
+      "blob_sha": "31ff9cf663867976c07d2d7ac8986bd6f6b87433",
+      "bytes": 8012,
+      "sha256": "7aba5f7d768e7bfe8253919e4fafc7336bd68d06a288efaf1506b2036ca9e232"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js",
+      "blob_sha": "b239099aa2345f5b607dc479ca70cee37b522a98",
+      "bytes": 17808,
+      "sha256": "2161b1c4c93b752f6323d9cd896d641a76c4c6e9724c29d0886fa95a2825abcd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-fresh-worker.js",
+      "blob_sha": "85cda49506a4b3ac309c506ce128c5e3e37aa8c6",
+      "bytes": 10098,
+      "sha256": "7866592f716369190e3397667273e216583c1bb1ceea6237743ded074670ce3e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-process-view.js",
+      "blob_sha": "1521415a1943136a7d7ac68ff39a11cec4657a4f",
+      "bytes": 5476,
+      "sha256": "e5f263aeadca87a516cb9adb7c7d55b6a8667b65e67965837b44bb9fdd707573"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-segmenter.js",
+      "blob_sha": "e735503387fc84c2ba6e58f0c8d1d169b16a626a",
+      "bytes": 6348,
+      "sha256": "afdaf042ad6857ddbf3972d716758475c83f79cfc2d19f947cb6004063b449eb"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js",
+      "blob_sha": "b4e825e349f2ec51551d0a0c1134639f3ff187f1",
+      "bytes": 52177,
+      "sha256": "5df15b1f2e3bd25a468ad94b45892787051826dde66eb4704606c95273f70f8b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js",
+      "blob_sha": "194cc340cdf7d295eb791edf50c8b232e2bdbedf",
+      "bytes": 8794,
+      "sha256": "5dfdaa9473532ad19f6495dfaae466db48fd6edd7e5f17099ce93283c0a945f5"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/generate-step-0-form.js",
+      "blob_sha": "54b2ca719bc11fe1b4ca1d1e2367bcc7e6682daa",
+      "bytes": 6188,
+      "sha256": "84ceda4a49a96d44ef3fe9d756ec03da9f9ca81ca753d8b238ca76330b29c54b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/install-remote-card-deck.js",
+      "blob_sha": "38c318e3c9db87c366696ac74c8b2758321caec3",
+      "bytes": 3894,
+      "sha256": "a1049e4d7ec07a10862ba07042c64123c238122e817ee59a318c2122e0a8c8ef"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js",
+      "blob_sha": "ad4151a52e5280cfb6666a9512586e9abfd45e74",
+      "bytes": 18485,
+      "sha256": "dae05ef67d056393ebbb6829cbcbe74916a5af592fc507ea9957a534bfe46e05"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/remote-card-generator-source.js",
+      "blob_sha": "fd36b8db6f24ff70377f9f80669ac79b2d6af8b6",
+      "bytes": 6248,
+      "sha256": "c2931262bdad746c204e0ae822df00cdc204befb612f63243c5489a835ac9bd2"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js",
+      "blob_sha": "2fc71be76bae3bce3d48af4bd877f69e4f386cd1",
+      "bytes": 9186,
+      "sha256": "c633339d7837a82951986d086873496123bdd936a41c289c32b270c2887c9096"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js",
+      "blob_sha": "389fc695a01d965513d300fc6eae33a9a7a75099",
+      "bytes": 4538,
+      "sha256": "485fe3afad44031269f1841ec671b35f2df8c2c3d6069b9ba24500fea31b443a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js",
+      "blob_sha": "411ab7ca762074e1509a43f024ad10c6d19018c3",
+      "bytes": 15082,
+      "sha256": "c2930d31708916c290b862551c11170acb8957f01d939793f4e209afe8c1c791"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js",
+      "blob_sha": "598320ffeecb7a928ab9549a1703fd8e05a5d926",
+      "bytes": 52178,
+      "sha256": "d17e3b694aea11aa8d0c8b2ba8c00ab033378e76b6cab306b7028c469adfe46b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/GitHubNodeTest/run.js",
+      "blob_sha": "40f195a236ae019c9f15c91f6d8cf68886ece571",
+      "bytes": 888,
+      "sha256": "750d3255c011f7ebffec01593e93b7a6a1055832242fbb2bceb673956234162c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Main Instructions/AGENTS Design/tools/json-to-array.js",
+      "blob_sha": "ab7cd930888cd8eb3cfa5ffb3be6f898c704371c",
+      "bytes": 95941,
+      "sha256": "1554cd3a36c902b88b1d57d1812640f8db3949854d0f53bc6119556df69e39d2"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SBE/sbe-evaluate.js",
+      "blob_sha": "fd9270b17b97974d64c775eda1a5915343983098",
+      "bytes": 10174,
+      "sha256": "257d98b546a75b263b6ad7c2b62460f318dfc8bcfd90d6028030f23f369d699e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SBE/sbe-finalize.js",
+      "blob_sha": "abc26ee766d74754eb19ae5f9f5a27bc51c268ea",
+      "bytes": 3752,
+      "sha256": "caa96d07e69dadb029407bd192a0fd2beb58b293cccd5652a18310a01b124812"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SBE/sbe-pack.js",
+      "blob_sha": "b90ca3de1844050e20cd097af026dc6dc7acc5ab",
+      "bytes": 1323,
+      "sha256": "04820b089d4ab3012d6e009e72c520dff742a61a28c54b914ca37446900e304f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SBE/sbe-validate-evaluator-return.js",
+      "blob_sha": "6f38232896a7880b6d4a33b1f4d3b8b8467db604",
+      "bytes": 2302,
+      "sha256": "ebebaf259812f4ddc40a764c1190a7951e519aaffcef6fd052d55c29f9a7f376"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SeleniumServer/run.cjs",
+      "blob_sha": "63b78c2f2ad687841feb5683d94c57ba5d2f0c7b",
+      "bytes": 7811,
+      "sha256": "a6d4f502b4f584ca0de99267fdc407aee83e390e5191c685d4d767c614c1127e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/SeleniumServer/runner.test.cjs",
+      "blob_sha": "0a9504d22cfc8a70ef57c9d2d1efd11c40e8d188",
+      "bytes": 5239,
+      "sha256": "8d4795baa1f417cbd3c2c1135bda21e398fb57f5c1e2a442b69e8b3c53da17c6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js",
+      "blob_sha": "e439cc359706f447ac92b8a84144cc7cf0b7bd96",
+      "bytes": 3406,
+      "sha256": "3f5a3c1da9be8c5e9248272357e8fd6b61969d56bef1d3aa5660fb03610b9880"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/run-configurable-updates.js",
+      "blob_sha": "d322939c78820287a3ff23f66228ae53ae191c4c",
+      "bytes": 3347,
+      "sha256": "45dad0e76190dd679c1afbe12290efebe3d5065e67ef2fcc4715e7c480bc3608"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-functions/append-to-metadata.js",
+      "blob_sha": "b84c289abba5f8543492a0b30fea03959f828875",
+      "bytes": 4694,
+      "sha256": "9f3d054f5018fd483098169d1759ee6c0cd8641b9b162ff686cf92da28c98f34"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js",
+      "blob_sha": "7b5dd1790bea4444ea2564090fd7d9efa041390e",
+      "bytes": 5338,
+      "sha256": "fe36a5d5b7fc5c8af82ab6ccf8835b22acce95720c6d88a42167cbf92a6d3b1e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/TokenizerCalibration/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/TokenizerCalibration/flatten-projection.js",
+      "blob_sha": "9107357fd28c70058e38fc02cd4926a438ccdb6b",
+      "bytes": 2452,
+      "sha256": "3fba21e998ea19144c45b97f4fdab64d277c676b76ecdfb1410508c3f4241f9b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/TokenizerCalibration/run.js",
+      "blob_sha": "308da52c6884682bfb3eab23be869b20e44690b0",
+      "bytes": 4913,
+      "sha256": "a01a3193615c750fa7c27d2c8a997cf75680921f831aed2313622a6ccae4e3c1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/TokenizerCalibration/stage1-divide.js",
+      "blob_sha": "62900f5e51e58892ea0c5e44abc5e2e536668deb",
+      "bytes": 10884,
+      "sha256": "b768d97ecde26948c8fba26f731800938ec9dd832418c8ad036aa7d2329583b4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-live-check.js",
+      "blob_sha": "94e36ee009f05cebe16b50876bc7dbce97fae09c",
+      "bytes": 3232,
+      "sha256": "030aee0ac232082985d911e5452c051ae46dbe9dafd8a0da3d16105d26d0fa34"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.js",
+      "blob_sha": "6ddc4eee9a0aacd38dd2f140b761d2ffd5a56923",
+      "bytes": 3154,
+      "sha256": "65a6e99836e0a6967bd31629dd011038038fcd873af51915426f3dd8b8fc2d9d"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js",
+      "blob_sha": "37c03a4c677c8fd96fd365af111fb2ac79e0f2ca",
+      "bytes": 3594,
+      "sha256": "0bcb984a70eb5c736f0fc79dcce9699da44485d756ea22558644b031750507cc"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workers.js",
+      "blob_sha": "9fb334576daee159151c5db81058deb98af62bc9",
+      "bytes": 6967,
+      "sha256": "cf95f844e050e6af13a628279aeb414c5ee3b108793fcced533a6683ea8a6268"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js",
+      "blob_sha": "5eaa8bc8f9a13d0eb52833b6106e7cee8f2e6997",
+      "bytes": 21626,
+      "sha256": "370eb408b60d0d0b6b7d9bcc2848f1b07ae4b1867ddaac2a3941f38e504681a2"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js",
+      "blob_sha": "5a5d69aa8d2c1e32de720d1d3e79b08d34f2b3ad",
+      "bytes": 16635,
+      "sha256": "fc4ba6ff52e6ab6d24a7b7fe2ef0e024cbff725817409342004102f8f2f65b10"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface-server.js",
+      "blob_sha": "d73d23693a028614e3a1e85ea6607915244ff2f4",
+      "bytes": 7278,
+      "sha256": "2524db811cbefae5604d9f455d50ab519076501efc5a30c2d9985b85057a969b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface.test.js",
+      "blob_sha": "c340bd5bbe407a835d1785b2e45aa122fcdca952",
+      "bytes": 6245,
+      "sha256": "2f0fa32eb3bc54f520ebbe3853b3488ed98a07c413f09c5c18fc179cdf59bc3a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.js",
+      "blob_sha": "da7167fab71c5d2306957ae98150a6c5f959eae2",
+      "bytes": 9711,
+      "sha256": "9459fd620e2a2bf531278c4db3e4109577803c9be8e8a7fb03e4ca9abefb0710"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.test.js",
+      "blob_sha": "367da26a37654738e239d7c3e9f0844c23097eee",
+      "bytes": 2195,
+      "sha256": "ffe694ed30ebb38e8ce530718df17221843044327c26a67547f75479daaaec73"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-trigger.js",
+      "blob_sha": "7939f345fe96a6f0d2057d8a6653956ef5ce7375",
+      "bytes": 8713,
+      "sha256": "45375c7534b82c3f0ac0027dfd709ae4fe169366949be791dfcea063b66ca13e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-trigger.test.js",
+      "blob_sha": "e1f56116f8c88755a6aaaa1ebe279e57fbeb83d2",
+      "bytes": 2797,
+      "sha256": "a207395fe6e1f3b8c760ca2b0de8e3d6375956818c0f52da2dbc259402a55cb0"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js",
+      "blob_sha": "1c9d3e5f03fed8272401b352158ae326304cb969",
+      "bytes": 32357,
+      "sha256": "3a062d3d9709689d46e8ebf7bf1f289f40a92b171262f2301b61246536ba78d9"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.test.js",
+      "blob_sha": "ce2a283626d3351ae976a68105b1c59f0fb7be3b",
+      "bytes": 12525,
+      "sha256": "eaaff758ccd317fac74c13e91a25cc5b51ed6e4de8c79a47b012aef13ee36aaa"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/lookup-mode.js",
+      "blob_sha": "1c73d93151dca9fa89602d5a0704b2bdea3138e6",
+      "bytes": 431,
+      "sha256": "e685e52b3a319405d0076afb80e2790af9f2397cad0959bbcc481c637ae16b4d"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/render-gemini.js",
+      "blob_sha": "7ffbe5ebfaa2d7234f2fd597bef10a1ae03a0304",
+      "bytes": 1499,
+      "sha256": "4f9566c6f36247d6931f017a1208ec36d4a67e2250458d95e247b6a2b34228c5"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/render-instructions.js",
+      "blob_sha": "d09e92994a1fcb17bd0806c230e8cf13a29bb705",
+      "bytes": 2116,
+      "sha256": "6db9d6a65263fa75e14e019c4d0bd03d99327cf106a80c527d7b5149abe817c3"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.js",
+      "blob_sha": "9cb661327e96219bb1624ba1bab04a410ac41ebf",
+      "bytes": 2703,
+      "sha256": "4e603cab774f95c95d19a3fc87985a157e0de47159717bdd4eb3e6259aa89f9c"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.test.js",
+      "blob_sha": "9dba21f11972c7ff88e071fadca0825652085965",
+      "bytes": 2749,
+      "sha256": "bce6a8fe8a29892fc243722608588416f8e85209f0d4b29438f9edeb50358ce1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.js",
+      "blob_sha": "4fd5bb27262f8366f67eb71cd6631f90a08a6c97",
+      "bytes": 7412,
+      "sha256": "2d741f7c64e35d5a9ed12c76d1e307505c0a698f029628c8712a2e64a21a8de6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js",
+      "blob_sha": "d35f2b1d76525f033fc69d70afe2250dc4e7fb3d",
+      "bytes": 13669,
+      "sha256": "fa5dcf0b94cd78ebe6db4afe9d4d96a34e20f597292f66ab8ab533317e166cc3"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/transitions.js",
+      "blob_sha": "7d02657efdcc715880716a486b6d4370b3675ebf",
+      "bytes": 7569,
+      "sha256": "62e5aa14fd18800a82aef279f5261ab361da83e32cfb6af87c82e2430bfb5bcc"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/transitions.test.js",
+      "blob_sha": "35b8b67edf503d728bdfbdb650e3da503c1d76ce",
+      "bytes": 5655,
+      "sha256": "de913813c530409148dbbbdd42cc7f42a6466cf384793555e025f4a4d6cbdab0"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/validator.js",
+      "blob_sha": "6e4fc3ec5502f8301de6a188690c8617cd98aeff",
+      "bytes": 6129,
+      "sha256": "a58477d32a8d3a61378ef126caee17106147e1f454720d263eea9d430edbf78f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-context.js",
+      "blob_sha": "a98f7ba29258782326880ad4cf092883f49e4482",
+      "bytes": 3591,
+      "sha256": "e1bf524188fdbe17432412d7d6c3337d1ae2a93c57845a75c3e19ca89ddc6324"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-registration.js",
+      "blob_sha": "8d3b05ced040f5296aadcfd78429d73fc7a336ca",
+      "bytes": 3398,
+      "sha256": "e023f12a9d8cd5feeb468006bde834b16fc7ed7fef3a63b02309339ed505a612"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs",
+      "blob_sha": "5d6ac0b4f56cc522b88ae8e123f3d3e0d64622a5",
+      "bytes": 8207,
+      "sha256": "0453444f57888565f3e3038dd9eab8956b108bcb394219c7793cbca719301b0f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/count-non-uuid-keys.mjs",
+      "blob_sha": "2d3b04c4523c74db90fce0fb48ae92c2001857a6",
+      "bytes": 3138,
+      "sha256": "94653a436f9ac20e1808a29dfe5bbcffe21af9396284cff788fd1479a23d0132"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/extract-keys.mjs",
+      "blob_sha": "539141def240024a3785233ab7dedfb6e2b435ec",
+      "bytes": 3821,
+      "sha256": "8b0711d362308108123a8b3d4f4a4d2def6e63725d013d8c3630991ea42c7bde"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/metaprocedures/procedures/AchiveExtraction/apps-script-source.js",
+      "blob_sha": "db56e9dae021b5c0a274adc2cba45158455f9316",
+      "bytes": 4810,
+      "sha256": "8f18a5ca5fbb6b2d1be6aac1e08767cc7e206349a0a086c71d8f8dd1c69d0c6a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/Project Overview Project/projectfoldermaker.js",
+      "blob_sha": "d88201007facc5745803a1bc2794be7ce15e47e2",
+      "bytes": 2370,
+      "sha256": "0684f03991bca8b337f7f09579a46999757064e3af30b2e3f865387f8f0450ef"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/extract-shared-chat.js",
+      "blob_sha": "b3d768392efad6e8d7453c94a547ea0ceb82bc39",
+      "bytes": 6966,
+      "sha256": "cc4185c2f0f5f0b42325394485323a14aecdb1c6b7675821f1a98949027e2d55"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/flatten-json.js",
+      "blob_sha": "cecb763a1e9e7d1e20a69096345921dad3419c34",
+      "bytes": 7890,
+      "sha256": "80050134bc63502a27614b33885fcd5814525654e53875b108c7f65a6c4475c7"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/Procedures/JS Runner/js-runner.js",
+      "blob_sha": "4bade328f43c526fd7afde105fccf0196cc0d7d2",
+      "bytes": 4140,
+      "sha256": "acba167bc5ca52945a483a824d09820417f640a0d315ebc3c33283aac9e4a567"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/gemini-message-executor.js",
+      "blob_sha": "558490f1425888e3d021b2e40dcb5f44940c94a7",
+      "bytes": 10640,
+      "sha256": "eb1ed64f9eac13bb1d2afa2aed190704219422f6b0aaaf6ed8046eea32e9a75a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js",
+      "blob_sha": "8cdfcc0e981e7e8de1f4da97a755b5794bec481f",
+      "bytes": 6943,
+      "sha256": "cac6f8abdafe7d02785e388d7eafc429e8fe963b581211145362761000ad359a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js",
+      "blob_sha": "597a060fa180cba726aa53bd5af5b25cbe1d8a49",
+      "bytes": 12485,
+      "sha256": "91e1b0537d935083a6576337e28e536a2e99e2ed2e8aeadb5bdacc699027c619"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluate-supervisor.js",
+      "blob_sha": "ccf4e456b4795ce89bbda8ce3790f64cc90c830e",
+      "bytes": 25029,
+      "sha256": "917eb6145f062129d9b557812e40a322bd2e20e1a77c7fb7820807f975f23c20"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js",
+      "blob_sha": "d4f41233feed97d8caadd30d5d2e9efe09472bf5",
+      "bytes": 13556,
+      "sha256": "fa2e2810f746ca6745306ca70d3c8cedf99af4eaabd6a61ae3574e4249f23e48"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js",
+      "blob_sha": "31ff9cf663867976c07d2d7ac8986bd6f6b87433",
+      "bytes": 8012,
+      "sha256": "7aba5f7d768e7bfe8253919e4fafc7336bd68d06a288efaf1506b2036ca9e232"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js",
+      "blob_sha": "b239099aa2345f5b607dc479ca70cee37b522a98",
+      "bytes": 17808,
+      "sha256": "2161b1c4c93b752f6323d9cd896d641a76c4c6e9724c29d0886fa95a2825abcd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-segmenter.js",
+      "blob_sha": "e735503387fc84c2ba6e58f0c8d1d169b16a626a",
+      "bytes": 6348,
+      "sha256": "afdaf042ad6857ddbf3972d716758475c83f79cfc2d19f947cb6004063b449eb"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js",
+      "blob_sha": "194cc340cdf7d295eb791edf50c8b232e2bdbedf",
+      "bytes": 8794,
+      "sha256": "5dfdaa9473532ad19f6495dfaae466db48fd6edd7e5f17099ce93283c0a945f5"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/generate-step-0-form.js",
+      "blob_sha": "54b2ca719bc11fe1b4ca1d1e2367bcc7e6682daa",
+      "bytes": 6188,
+      "sha256": "84ceda4a49a96d44ef3fe9d756ec03da9f9ca81ca753d8b238ca76330b29c54b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js",
+      "blob_sha": "ad4151a52e5280cfb6666a9512586e9abfd45e74",
+      "bytes": 18485,
+      "sha256": "dae05ef67d056393ebbb6829cbcbe74916a5af592fc507ea9957a534bfe46e05"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js",
+      "blob_sha": "2fc71be76bae3bce3d48af4bd877f69e4f386cd1",
+      "bytes": 9186,
+      "sha256": "c633339d7837a82951986d086873496123bdd936a41c289c32b270c2887c9096"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js",
+      "blob_sha": "389fc695a01d965513d300fc6eae33a9a7a75099",
+      "bytes": 4538,
+      "sha256": "485fe3afad44031269f1841ec671b35f2df8c2c3d6069b9ba24500fea31b443a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js",
+      "blob_sha": "411ab7ca762074e1509a43f024ad10c6d19018c3",
+      "bytes": 15082,
+      "sha256": "c2930d31708916c290b862551c11170acb8957f01d939793f4e209afe8c1c791"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js",
+      "blob_sha": "598320ffeecb7a928ab9549a1703fd8e05a5d926",
+      "bytes": 52178,
+      "sha256": "d17e3b694aea11aa8d0c8b2ba8c00ab033378e76b6cab306b7028c469adfe46b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GitHubNodeTest/run.js",
+      "blob_sha": "90bef3354aef358e278cb907999453f3ad18865b",
+      "bytes": 425,
+      "sha256": "abb67f4f5f0fd332c57faeb6e54b26b0534965432e1abd201a2deb49fbb340b6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js",
+      "blob_sha": "e439cc359706f447ac92b8a84144cc7cf0b7bd96",
+      "bytes": 3406,
+      "sha256": "3f5a3c1da9be8c5e9248272357e8fd6b61969d56bef1d3aa5660fb03610b9880"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/run-configurable-updates.js",
+      "blob_sha": "d322939c78820287a3ff23f66228ae53ae191c4c",
+      "bytes": 3347,
+      "sha256": "45dad0e76190dd679c1afbe12290efebe3d5065e67ef2fcc4715e7c480bc3608"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js",
+      "blob_sha": "7b5dd1790bea4444ea2564090fd7d9efa041390e",
+      "bytes": 5338,
+      "sha256": "fe36a5d5b7fc5c8af82ab6ccf8835b22acce95720c6d88a42167cbf92a6d3b1e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js",
+      "blob_sha": "9107357fd28c70058e38fc02cd4926a438ccdb6b",
+      "bytes": 2452,
+      "sha256": "3fba21e998ea19144c45b97f4fdab64d277c676b76ecdfb1410508c3f4241f9b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/run.js",
+      "blob_sha": "308da52c6884682bfb3eab23be869b20e44690b0",
+      "bytes": 4913,
+      "sha256": "a01a3193615c750fa7c27d2c8a997cf75680921f831aed2313622a6ccae4e3c1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js",
+      "blob_sha": "62900f5e51e58892ea0c5e44abc5e2e536668deb",
+      "bytes": 10884,
+      "sha256": "b768d97ecde26948c8fba26f731800938ec9dd832418c8ad036aa7d2329583b4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js",
+      "blob_sha": "fd9270b17b97974d64c775eda1a5915343983098",
+      "bytes": 10174,
+      "sha256": "257d98b546a75b263b6ad7c2b62460f318dfc8bcfd90d6028030f23f369d699e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-finalize.js",
+      "blob_sha": "abc26ee766d74754eb19ae5f9f5a27bc51c268ea",
+      "bytes": 3752,
+      "sha256": "caa96d07e69dadb029407bd192a0fd2beb58b293cccd5652a18310a01b124812"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-pack.js",
+      "blob_sha": "b90ca3de1844050e20cd097af026dc6dc7acc5ab",
+      "bytes": 1323,
+      "sha256": "04820b089d4ab3012d6e009e72c520dff742a61a28c54b914ca37446900e304f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-validate-evaluator-return.js",
+      "blob_sha": "6f38232896a7880b6d4a33b1f4d3b8b8467db604",
+      "bytes": 2302,
+      "sha256": "ebebaf259812f4ddc40a764c1190a7951e519aaffcef6fd052d55c29f9a7f376"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/untrusted AI/extract-shared-chat.js",
+      "blob_sha": "b3d768392efad6e8d7453c94a547ea0ceb82bc39",
+      "bytes": 6966,
+      "sha256": "cc4185c2f0f5f0b42325394485323a14aecdb1c6b7675821f1a98949027e2d55"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "source-code-copy/untrusted AI/meta-procedure/TEMP/untrusted AI/meta-procedure/flatten-json.js",
+      "blob_sha": "cecb763a1e9e7d1e20a69096345921dad3419c34",
+      "bytes": 7890,
+      "sha256": "80050134bc63502a27614b33885fcd5814525654e53875b108c7f65a6c4475c7"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/extract-shared-chat.js",
+      "blob_sha": "b3d768392efad6e8d7453c94a547ea0ceb82bc39",
+      "bytes": 6966,
+      "sha256": "cc4185c2f0f5f0b42325394485323a14aecdb1c6b7675821f1a98949027e2d55"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/flatten-json.js",
+      "blob_sha": "cecb763a1e9e7d1e20a69096345921dad3419c34",
+      "bytes": 7890,
+      "sha256": "80050134bc63502a27614b33885fcd5814525654e53875b108c7f65a6c4475c7"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/Procedures/JS Runner/js-runner.js",
+      "blob_sha": "4bade328f43c526fd7afde105fccf0196cc0d7d2",
+      "bytes": 4140,
+      "sha256": "acba167bc5ca52945a483a824d09820417f640a0d315ebc3c33283aac9e4a567"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/gemini-message-executor.js",
+      "blob_sha": "558490f1425888e3d021b2e40dcb5f44940c94a7",
+      "bytes": 10640,
+      "sha256": "eb1ed64f9eac13bb1d2afa2aed190704219422f6b0aaaf6ed8046eea32e9a75a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js",
+      "blob_sha": "8cdfcc0e981e7e8de1f4da97a755b5794bec481f",
+      "bytes": 6943,
+      "sha256": "cac6f8abdafe7d02785e388d7eafc429e8fe963b581211145362761000ad359a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js",
+      "blob_sha": "597a060fa180cba726aa53bd5af5b25cbe1d8a49",
+      "bytes": 12485,
+      "sha256": "91e1b0537d935083a6576337e28e536a2e99e2ed2e8aeadb5bdacc699027c619"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluate-supervisor.js",
+      "blob_sha": "ccf4e456b4795ce89bbda8ce3790f64cc90c830e",
+      "bytes": 25029,
+      "sha256": "917eb6145f062129d9b557812e40a322bd2e20e1a77c7fb7820807f975f23c20"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js",
+      "blob_sha": "d4f41233feed97d8caadd30d5d2e9efe09472bf5",
+      "bytes": 13556,
+      "sha256": "fa2e2810f746ca6745306ca70d3c8cedf99af4eaabd6a61ae3574e4249f23e48"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js",
+      "blob_sha": "31ff9cf663867976c07d2d7ac8986bd6f6b87433",
+      "bytes": 8012,
+      "sha256": "7aba5f7d768e7bfe8253919e4fafc7336bd68d06a288efaf1506b2036ca9e232"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js",
+      "blob_sha": "b239099aa2345f5b607dc479ca70cee37b522a98",
+      "bytes": 17808,
+      "sha256": "2161b1c4c93b752f6323d9cd896d641a76c4c6e9724c29d0886fa95a2825abcd"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-segmenter.js",
+      "blob_sha": "e735503387fc84c2ba6e58f0c8d1d169b16a626a",
+      "bytes": 6348,
+      "sha256": "afdaf042ad6857ddbf3972d716758475c83f79cfc2d19f947cb6004063b449eb"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js",
+      "blob_sha": "194cc340cdf7d295eb791edf50c8b232e2bdbedf",
+      "bytes": 8794,
+      "sha256": "5dfdaa9473532ad19f6495dfaae466db48fd6edd7e5f17099ce93283c0a945f5"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/generate-step-0-form.js",
+      "blob_sha": "54b2ca719bc11fe1b4ca1d1e2367bcc7e6682daa",
+      "bytes": 6188,
+      "sha256": "84ceda4a49a96d44ef3fe9d756ec03da9f9ca81ca753d8b238ca76330b29c54b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js",
+      "blob_sha": "ad4151a52e5280cfb6666a9512586e9abfd45e74",
+      "bytes": 18485,
+      "sha256": "dae05ef67d056393ebbb6829cbcbe74916a5af592fc507ea9957a534bfe46e05"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js",
+      "blob_sha": "2fc71be76bae3bce3d48af4bd877f69e4f386cd1",
+      "bytes": 9186,
+      "sha256": "c633339d7837a82951986d086873496123bdd936a41c289c32b270c2887c9096"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js",
+      "blob_sha": "389fc695a01d965513d300fc6eae33a9a7a75099",
+      "bytes": 4538,
+      "sha256": "485fe3afad44031269f1841ec671b35f2df8c2c3d6069b9ba24500fea31b443a"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js",
+      "blob_sha": "411ab7ca762074e1509a43f024ad10c6d19018c3",
+      "bytes": 15082,
+      "sha256": "c2930d31708916c290b862551c11170acb8957f01d939793f4e209afe8c1c791"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js",
+      "blob_sha": "598320ffeecb7a928ab9549a1703fd8e05a5d926",
+      "bytes": 52178,
+      "sha256": "d17e3b694aea11aa8d0c8b2ba8c00ab033378e76b6cab306b7028c469adfe46b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/GitHubNodeTest/run.js",
+      "blob_sha": "90bef3354aef358e278cb907999453f3ad18865b",
+      "bytes": 425,
+      "sha256": "abb67f4f5f0fd332c57faeb6e54b26b0534965432e1abd201a2deb49fbb340b6"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js",
+      "blob_sha": "e439cc359706f447ac92b8a84144cc7cf0b7bd96",
+      "bytes": 3406,
+      "sha256": "3f5a3c1da9be8c5e9248272357e8fd6b61969d56bef1d3aa5660fb03610b9880"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/run-configurable-updates.js",
+      "blob_sha": "d322939c78820287a3ff23f66228ae53ae191c4c",
+      "bytes": 3347,
+      "sha256": "45dad0e76190dd679c1afbe12290efebe3d5065e67ef2fcc4715e7c480bc3608"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js",
+      "blob_sha": "7b5dd1790bea4444ea2564090fd7d9efa041390e",
+      "bytes": 5338,
+      "sha256": "fe36a5d5b7fc5c8af82ab6ccf8835b22acce95720c6d88a42167cbf92a6d3b1e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/check-single-child.js",
+      "blob_sha": "f1e12403b3f84368af43d8c64b7483c34d44fa5a",
+      "bytes": 3124,
+      "sha256": "22cd9b70da5cf44d358cda8635fcc180c49302b9514fd969c159d86146b4d75e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js",
+      "blob_sha": "9107357fd28c70058e38fc02cd4926a438ccdb6b",
+      "bytes": 2452,
+      "sha256": "3fba21e998ea19144c45b97f4fdab64d277c676b76ecdfb1410508c3f4241f9b"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/run.js",
+      "blob_sha": "308da52c6884682bfb3eab23be869b20e44690b0",
+      "bytes": 4913,
+      "sha256": "a01a3193615c750fa7c27d2c8a997cf75680921f831aed2313622a6ccae4e3c1"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js",
+      "blob_sha": "62900f5e51e58892ea0c5e44abc5e2e536668deb",
+      "bytes": 10884,
+      "sha256": "b768d97ecde26948c8fba26f731800938ec9dd832418c8ad036aa7d2329583b4"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js",
+      "blob_sha": "fd9270b17b97974d64c775eda1a5915343983098",
+      "bytes": 10174,
+      "sha256": "257d98b546a75b263b6ad7c2b62460f318dfc8bcfd90d6028030f23f369d699e"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-finalize.js",
+      "blob_sha": "abc26ee766d74754eb19ae5f9f5a27bc51c268ea",
+      "bytes": 3752,
+      "sha256": "caa96d07e69dadb029407bd192a0fd2beb58b293cccd5652a18310a01b124812"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-pack.js",
+      "blob_sha": "b90ca3de1844050e20cd097af026dc6dc7acc5ab",
+      "bytes": 1323,
+      "sha256": "04820b089d4ab3012d6e009e72c520dff742a61a28c54b914ca37446900e304f"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-validate-evaluator-return.js",
+      "blob_sha": "6f38232896a7880b6d4a33b1f4d3b8b8467db604",
+      "bytes": 2302,
+      "sha256": "ebebaf259812f4ddc40a764c1190a7951e519aaffcef6fd052d55c29f9a7f376"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/untrusted AI/extract-shared-chat.js",
+      "blob_sha": "b3d768392efad6e8d7453c94a547ea0ceb82bc39",
+      "bytes": 6966,
+      "sha256": "cc4185c2f0f5f0b42325394485323a14aecdb1c6b7675821f1a98949027e2d55"
+    },
+    {
+      "repository": "StateMachines",
+      "revision": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "file": "untrusted AI/meta-procedure/TEMP/untrusted AI/meta-procedure/flatten-json.js",
+      "blob_sha": "cecb763a1e9e7d1e20a69096345921dad3419c34",
+      "bytes": 7890,
+      "sha256": "80050134bc63502a27614b33885fcd5814525654e53875b108c7f65a6c4475c7"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/acceptance/verify-live-export.js",
+      "blob_sha": "3a5919e8714974599ec9ffd91d8d15da4a6f50b8",
+      "bytes": 12430,
+      "sha256": "51f238dd71b49c16c496b1429bb0ac603a436886e51bbfe6a80db00a14594fea"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/input-validator.js",
+      "blob_sha": "80796d00677a4aa9d7fb84f953b29373898d8058",
+      "bytes": 16441,
+      "sha256": "ce13fc6bd799e8a4dc5e2f8c197af133938b4455dcad25389fa4355c84539e12"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/input-validator.test.js",
+      "blob_sha": "d5e61935d012887e7239d2d4b0c348b1dcc5a2ef",
+      "bytes": 21226,
+      "sha256": "94cc88ebcac68c6d22b329fb8a33e34f7c2e1a94dc62581aa894b04a77054d47"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/runtime/capture-and-parse.js",
+      "blob_sha": "5c7941e08e3586bf5a379d6a2776a948efea9059",
+      "bytes": 6778,
+      "sha256": "504845927a6fbbdbccd16322416614d1413ccc0cec01dc8bc1c523219debfa6c"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/runtime/dispatch-validator.js",
+      "blob_sha": "79420dd4d4dfcbd13289562c2ea2d051a0412da5",
+      "bytes": 4772,
+      "sha256": "0e177ea5e3dd63235b475d4f876eecad015a5b5916327d43845eab47a6c5006e"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/runtime/html-response-parser.js",
+      "blob_sha": "e9a8f7d646268c541829bf596c3c1acd439e1093",
+      "bytes": 15426,
+      "sha256": "09ab0fb94194dc75454d757adf0adf41f51d2a8867e0efc37d44e5733211e190"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/runtime/octane-response-parser.js",
+      "blob_sha": "6cc440c7f6b89b9ad03796405c601e222339e1d2",
+      "bytes": 5220,
+      "sha256": "184d608f579df77652fcd81e68706ae7d43f6f56ac1d49fcf0ce2aa750167446"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.js",
+      "blob_sha": "61b6b89b8670989df0465e7f6a23c6ecb176cc2a",
+      "bytes": 9046,
+      "sha256": "287608de394e43a224c6b67a748bf0e6481bcae7eb76e7a95a526a0fb019dc05"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.test.js",
+      "blob_sha": "50c4658b008e5355c7004746b09001c23590ba95",
+      "bytes": 4055,
+      "sha256": "fd9a3eb967a0c2548cf8c19377368305fa181f551ff3bf499aea4bc05f924481"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/script-candidates/input-parser-validator.js",
+      "blob_sha": "c6f320325cccceecab3a5259a48b0ce8acbefdeb",
+      "bytes": 8169,
+      "sha256": "e0d0f70ce3c411c4706720d1563d732d702ce24d3bfaddf881b247c31c24e423"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/script-candidates/input-parser-validator.test.js",
+      "blob_sha": "c7b9d41416d82c583299009d83d4d7b36f19bb4a",
+      "bytes": 5755,
+      "sha256": "d9f1efda3e7648278273cd954a68d59e4f1fc4153a435b5dcb61794acf148780"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/tests/capture-and-parse.test.js",
+      "blob_sha": "7f8ec7af7199fb14d0892dd247f091c604677ce8",
+      "bytes": 1272,
+      "sha256": "d7268d14c0970554c7265724723a6b20ab654a0e2b0994e9288222aec3b093d1"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/tests/dispatch-validator.test.js",
+      "blob_sha": "ebf576a0045699af158bfa4de495aca270b231a2",
+      "bytes": 1786,
+      "sha256": "87ca1eb71615e1d5dea3f69c43637ec601027f7ea89378874e73660ce89b4305"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/tests/html-response-parser.test.js",
+      "blob_sha": "25649f2e5f476a68d8a953744744932da1ad0311",
+      "bytes": 5447,
+      "sha256": "a8397911c46935726a623942ae4f9d57f0ea0ef573ca7444236782a38b119520"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/extractor-srs-design/tests/octane-response-parser.test.js",
+      "blob_sha": "c3df1a36f31f827bd5b92e18b9bf588639ca59ac",
+      "bytes": 4004,
+      "sha256": "d3172d68006cd6f488d032f097b5ebcc363c4eadf9b3a08be07b1c8ab4f09318"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/runtime/program-mode.js",
+      "blob_sha": "02c9a5d8e06e935dcf0620d125b76c2e81883b74",
+      "bytes": 6735,
+      "sha256": "37b2b68a665044170c5c9593fc117612e39b156db822cf345db72418b77ed2c0"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/runtime/program-mode.test.js",
+      "blob_sha": "515a3480bfabe77af3301d34b608145c2cd11d61",
+      "bytes": 3808,
+      "sha256": "c090a668cd61724b2b50c33b7470f69f8804ec30f21a79ef17be34f2ae60810b"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/runtime/session-core.js",
+      "blob_sha": "d49b1a8ef99da2b08d13c343fbf51252ba47d5cf",
+      "bytes": 4616,
+      "sha256": "309b228c869f63202bb887109a0874913f780b2b32731184e9c73879788f7b1b"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/runtime/session-core.test.js",
+      "blob_sha": "292af34be1c54445962dcfca8c4db64f2a89e846",
+      "bytes": 4299,
+      "sha256": "7ef05aa9984f7d22fa0a63024e014a3950ffde2b61b487b67d79a46e1a9753ea"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/runtime/session-driver.js",
+      "blob_sha": "b75eea558d2a7b34e3ddbe84b287a1416ce0293c",
+      "bytes": 5806,
+      "sha256": "21ac71dda7b6950a7f51872236b9a87c72c221092ef2356abd9101c124b10954"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/scratchpad/scratchpad-core.js",
+      "blob_sha": "cf4af6acaf1c127b7a0bacc8f4260e0ca362fb2b",
+      "bytes": 9774,
+      "sha256": "e819b6ecfbc26900597e27495d9dd845f0cf64e97f83e8044b0a0efbc194817c"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/scratchpad/scratchpad-core.test.js",
+      "blob_sha": "5c7325833b4d53753eea60e497736949de4481ad",
+      "bytes": 4739,
+      "sha256": "51f048d7e40cd7d79a875366ffd61cc139ece8e97641b05a7373a77df7a59ada"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/scratchpad/scratchpad-interface.test.js",
+      "blob_sha": "3d59f7cefd88b81dfdf2d7039d1afe47fd2b5f86",
+      "bytes": 2460,
+      "sha256": "96e86b5987f7d70b8b64c0be8eab7097f19c49d0b61d1315329a77486ccb6f17"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/programs/scratchpad/scratchpad.js",
+      "blob_sha": "889147c2f5da6e37671d26e56db009a096c83339",
+      "bytes": 7064,
+      "sha256": "18f21e7a9bc8716d2be333ffbf2d21522037b2f0e0ace6834dd5b05800890ba0"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/issue-body-writer/issue-body-writer.js",
+      "blob_sha": "d502307beddc7d71c3bfc7833fae2b2700bf4101",
+      "bytes": 3337,
+      "sha256": "e19eaf79e21a5595edebac7a8650dce2c03674e7f57cc018c920645141e221a6"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/issue-comment-writer/issue-comment-writer.js",
+      "blob_sha": "1d79837aacca7261cef2f89a4e3fbd9ea8902475",
+      "bytes": 4256,
+      "sha256": "bc756596bb8304f5eae024e22756cc2a24d97549bc26a09f5a18584e3cf40bc6"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/prepare-runtrigger-issue2.js",
+      "blob_sha": "0069cd310b1982e35648505ca223aa1bf18b8fd3",
+      "bytes": 5766,
+      "sha256": "383a909788d0e453e2f90553085e7e8b71a082edd6508845f4778f88c15bcf6b"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/prepare-runtrigger.js",
+      "blob_sha": "55a60251c19e7bf4e691092fcab5f41becfb935b",
+      "bytes": 6232,
+      "sha256": "14f1e6a02c7c554e3d0cc51804f6e15da4de6cd69b9b13dde302c7e0bfee3617"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/prepare-runtrigger.test.js",
+      "blob_sha": "8d2fbdf895adf77a4f7d28481061f5919e2259ef",
+      "bytes": 5434,
+      "sha256": "26ed5e5eb36a55b716d99d69701285e4452c3d134dee8277908cbc31c8178724"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/runner.js",
+      "blob_sha": "1ec5afda1d2c648c531082dd547110e3a481a656",
+      "bytes": 1536,
+      "sha256": "7c6aaaafaf55bb0a7c497e35be8c863b4dfac3194842b97932753f7e43f40654"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/RuntimeConfig/verify-owner.js",
+      "blob_sha": "5ede4a5049434a383ee8964b3a75f0a50d57dbd4",
+      "bytes": 668,
+      "sha256": "8b673c43774c64541336a7534074f138e8e0c124a06025e9f6d60d13cbaff322"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/shared-chat-extractor/html-parser.js",
+      "blob_sha": "eb0c73f390771aa53539cdc3d005d47da9943998",
+      "bytes": 14731,
+      "sha256": "a75ff8af1c00b4483e59dd9a3e87c0f3259460e17ab4014de04eea790c14736e"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/shared-chat-extractor/html-parser.test.js",
+      "blob_sha": "7e97b0794951ab29a5ca2b2c62bd9816d35e181a",
+      "bytes": 5828,
+      "sha256": "e4ec5fe2a8a9271cb59e8f4001200b1f1222bbbe1a0c421ad627c8e6d312d7f7"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/shared-chat-extractor/input-parser-validator.js",
+      "blob_sha": "c6f320325cccceecab3a5259a48b0ce8acbefdeb",
+      "bytes": 8169,
+      "sha256": "e0d0f70ce3c411c4706720d1563d732d702ce24d3bfaddf881b247c31c24e423"
+    },
+    {
+      "repository": "Terminals",
+      "revision": "6cff912c710356965b8373e7b842f202fa915888",
+      "file": "workspaces/shared-chat-extractor/input-parser-validator.test.js",
+      "blob_sha": "c7b9d41416d82c583299009d83d4d7b36f19bb4a",
+      "bytes": 5755,
+      "sha256": "d9f1efda3e7648278273cd954a68d59e4f1fc4153a435b5dcb61794acf148780"
+    }
+  ],
+  "selected_function_checks": [
+    {
+      "id": "CommandLine:runtime/execute-js.cjs:875-1688",
+      "source_matches": true
+    },
+    {
+      "id": "CommandLine:workspaces/meta-instructor/controller.test.cjs:10561-11381",
+      "source_matches": true
+    },
+    {
+      "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.cjs:2292-7761",
+      "source_matches": true
+    },
+    {
+      "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.test.cjs:2676-3040",
+      "source_matches": true
+    },
+    {
+      "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.test.cjs:834-1154",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/agent-context-registry.js:3348-4432",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/interactive-procedures.test.js:1185-1661",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue-1-intake.test.js:7578-7889",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue-3-scratchpads.js:1796-2200",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-presentation.js:10448-12392",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-presentation.js:565-793",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-presentation.test.js:2145-2603",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-projection-workflow.js:2699-3111",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-projection.test.js:5550-5987",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/issue5-projection.test.js:6972-7222",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/procedure-documents.js:8935-9446",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:src/semantic-operator-contract.js:2095-5160",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:test/semantic-operator-contract.test.js:4312-4697",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/audio-deception-comparison/src/compare.js:1255-1871",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/chatgpt-share-html-extractor/build-shared-conversation.js:4031-7721",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/chatgpt-share-html-extractor/build-shared-conversation.js:7839-8422",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/fake-github.js:2540-2676",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:1240-1306",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:1347-1445",
+      "source_matches": true
+    },
+    {
+      "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:4087-4184",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:2263-3366",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:4303-4735",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:6133-8125",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:8209-9801",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:8268-11975",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:15415-18370",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:2724-3121",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:28477-29246",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:51876-53653",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:22990-24024",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:24327-25118",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:3494-4298",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:5370-6485",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:3666-4026",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js:9816-17402",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-process-view.js:685-819",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-segmenter.js:2026-3425",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:13673-14091",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:27516-28026",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:28028-31031",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:40273-42163",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:42165-43377",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:6337-6526",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/install-remote-card-deck.js:3789-3891",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:2023-2666",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:602-779",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:7345-10267",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:12724-13190",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:15945-16352",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:20237-22975",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:36794-37094",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:6337-6526",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/SBE/sbe-evaluate.js:1223-1539",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/SeleniumServer/run.cjs:1329-2548",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/SeleniumServer/run.cjs:5491-8091",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/SeleniumServer/runner.test.cjs:1794-2192",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/SeleniumServer/runner.test.cjs:2336-2375",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/TokenizerCalibration/run.js:4815-4910",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js:381-19165",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface-server.js:2990-3164",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface.test.js:6172-6213",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:2953-3243",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:19207-19424",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:4549-5289",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js:4301-5193",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:5451-6645",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:10192-10233",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:3409-3967",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:4658-10178",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/runtime/runner.test.js:2632-2673",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.js:4673-5177",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.js:889-3730",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js:3632-6842",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.js:1233-2643",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-registration.js:133-1591",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs:7204-7996",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-read.test.js:1004-1175",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-read.test.js:808-976",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/AudioClipSelector/test.cjs:1473-1543",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/check-single-child.js:1665-3114",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:1188-1365",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:1787-2001",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:2434-3369",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluate-supervisor.js:3023-3119",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:6035-7787",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:8280-9342",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:10210-11149",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:73-1631",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:8949-9421",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:20687-21488",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:2813-3079",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-segmenter.js:2026-3425",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:12246-12592",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:15509-15847",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:35669-36791",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:37952-40271",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:40273-42163",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:43575-47221",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:6528-6830",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:9162-16977",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js:6093-8666",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:18373-18483",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:8804-9028",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3337-4545",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3786-4070",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:3277-3644",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:1857-2005",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:27019-27515",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:32016-32591",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:3612-6335",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:36794-37094",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:41182-41820",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:42166-43378",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:6528-6830",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/SeleniumServer/runner.test.cjs:1794-2192",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js:3928-5328",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/TokenizerCalibration/run.js:4815-4910",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/TokenizerCalibration/stage1-divide.js:5817-6641",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js:338-3523",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js:3537-3591",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:20214-21389",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:451-2327",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:7045-8339",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js:4973-5034",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.js:2525-2875",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js:10228-10444",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js:3068-3146",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-context.js:54-1013",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs:3553-4441",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/extract-keys.mjs:923-3276",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/Project Overview Project/projectfoldermaker.js:952-2331",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js:2297-3660",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:2434-3369",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluate-supervisor.js:24966-25026",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js:1498-1655",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js:5553-6589",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:2260-2542",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:3666-4026",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js:5811-6091",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:1353-1501",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:14065-15249",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:17733-17950",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3786-4070",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:904-1448",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:15945-16352",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:2176-2573",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:35670-36792",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:42166-43378",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:6337-6526",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:9020-9160",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js:480-1339",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js:1688-2055",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js:2057-2366",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js:1684-2337",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js:8395-10771",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js:1223-1539",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/gemini-message-executor.js:3536-5392",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js:3689-4131",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:9030-13548",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3016-3335",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js:2152-4391",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:3277-3644",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:27223-27497",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:3612-6335",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:43576-47222",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:8872-9018",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/check-single-child.js:1665-3114",
+      "source_matches": true
+    },
+    {
+      "id": "StateMachines:untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js:9084-10073",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/acceptance/verify-live-export.js:2357-3780",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:13006-13235",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:15719-15790",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:17110-17273",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:18302-18536",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:18793-18959",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:20588-20918",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:3064-3262",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:4631-4756",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:9200-9357",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/runtime/capture-and-parse.js:5482-5693",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/runtime/capture-and-parse.js:6587-6717",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/runtime/html-response-parser.js:10533-12383",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/runtime/html-response-parser.js:8619-10532",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.js:4225-5876",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.test.js:1062-1403",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.test.js:1450-1604",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/script-candidates/input-parser-validator.js:3499-5738",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/script-candidates/input-parser-validator.js:5740-6435",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/tests/html-response-parser.test.js:305-799",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/tests/html-response-parser.test.js:471-769",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/extractor-srs-design/tests/octane-response-parser.test.js:2761-3715",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-core.test.js:1085-1169",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-core.test.js:1244-1513",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-core.test.js:2844-3022",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-core.test.js:3572-4086",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-core.test.js:947-1030",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-driver.js:1399-1805",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-driver.js:329-380",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/runtime/session-driver.js:5419-5739",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.js:578-759",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.test.js:1568-1805",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.test.js:549-662",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/RuntimeConfig/prepare-runtrigger-issue2.js:2188-2929",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/shared-chat-extractor/html-parser.js:4814-6577",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/shared-chat-extractor/html-parser.js:793-878",
+      "source_matches": true
+    },
+    {
+      "id": "Terminals:workspaces/shared-chat-extractor/input-parser-validator.js:1019-1123",
+      "source_matches": true
+    }
+  ]
+}

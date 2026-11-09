@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:python3 -m py_compile workspaces/repository-file-inventory-20261109/scan-one.py && python3 workspaces/repository-file-inventory-20261109/scan-one.py Canonical-Skills-Location",
+  "outputThat": [
+    "DEFAULT_BRANCH_SCAN BestNameYet/Canonical-Skills-Location files 2 head e60ae6707b740cec5383edb9a85180ac2f49f591",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/Canonical-Skills-Location\", \"files\": 2, \"languages\": {\"html\": 0, \"javascript\": 0, \"python\": 1, \"yaml\": 1}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.csv\", \"commit\": \"f341dd3205f8e22ff967d950a62b358ded537428\", \"expression_search_performed\": false}"
+  ]
+}

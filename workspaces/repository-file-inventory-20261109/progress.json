@@ -2,7 +2,7 @@
   "schema": "repository-inventory-progress.v1",
   "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
   "stage_1": "verified_accessible_population_only",
-  "stage_2": "in_progress",
+  "stage_2": "pending_default_branch_rescan",
   "stage_3": "not_started_expression_search_prohibited_until_user_resumes",
   "start_utc": "2026-11-09T04:02:55.438812+00:00",
   "cutoff_utc": "2026-05-09T04:02:55.438812+00:00",
@@ -24,65 +24,52 @@
   ],
   "per_repository": {
     "Canonical-Skills-Location": {
-      "status": "verified",
-      "file_rows": 49,
-      "refs_scanned": 14,
-      "table_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.csv",
-      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.json",
-      "verification_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/verification.json",
-      "verified_at_utc": "2026-11-09T04:07:51.041786+00:00",
-      "source_snapshot_started_utc": "2026-11-09T04:07:41.817821+00:00"
+      "status": "pending",
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "CommandLine": {
-      "status": "verified",
-      "file_rows": 31,
-      "refs_scanned": 1,
-      "table_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv",
-      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/files.json",
-      "verification_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/verification.json",
-      "verified_at_utc": "2026-11-09T04:08:57.047030+00:00",
-      "source_snapshot_started_utc": "2026-11-09T04:08:51.600562+00:00"
+      "status": "pending",
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "Execution-Contract-Controller": {
-      "status": "verified",
-      "file_rows": 126,
-      "refs_scanned": 8,
-      "table_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv",
-      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.json",
-      "verification_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/verification.json",
-      "verified_at_utc": "2026-11-09T04:09:54.546638+00:00",
-      "source_snapshot_started_utc": "2026-11-09T04:09:42.293509+00:00"
+      "status": "pending",
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "IssueScratch": {
-      "status": "verified",
-      "file_rows": 189,
-      "refs_scanned": 6,
-      "table_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv",
-      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.json",
-      "verification_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/verification.json",
-      "verified_at_utc": "2026-11-09T04:11:16.123970+00:00",
-      "source_snapshot_started_utc": "2026-11-09T04:11:01.315739+00:00"
+      "status": "pending",
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "IssueStack-": {
       "status": "pending",
-      "table_path": null
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "MCP-Collaborative": {
       "status": "pending",
-      "table_path": null
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "StateMachines": {
       "status": "pending",
-      "table_path": null
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "Surfaces": {
       "status": "pending",
-      "table_path": null
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     },
     "Terminals": {
       "status": "pending",
-      "table_path": null
+      "table_path": null,
+      "supersedes_previous_all_ref_table": true
     }
   },
-  "expression_tables_created": 0
+  "expression_tables_created": 0,
+  "scope": "default_branch_only",
+  "previous_all_ref_tables_superseded": true
 }

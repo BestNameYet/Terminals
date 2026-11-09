@@ -1,57 +1,30 @@
 {
-  "schema": "terminals.srs.semantic-projection.v1",
-  "version": "1.0.0",
-  "source": "workspaces/repository-file-inventory-20261109/SRS.md",
-  "task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
-  "app": "scan-one.py",
-  "input": {
-    "repository_short_name": "string, member of active census order"
-  },
-  "preconditions": [
-    "Terminals working directory",
-    "GitHub CLI authenticated",
-    "Prior repository in order verified"
+  "schema": "repository-default-branch-inventory.v2",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "execution_scope": "one_default_branch_per_active_repo",
+  "excluded_refs": [
+    "non-default branches",
+    "tags"
   ],
-  "scope": {
-    "languages": [
-      "yaml",
-      "javascript",
-      "html",
-      "python"
-    ],
-    "refs": [
-      "all paginated branches",
-      "all paginated tags"
-    ],
-    "commit_history": "path- and pinned-ref-specific"
-  },
-  "outputs": [
-    "per-repository files.csv",
-    "per-repository files.json",
-    "per-repository verification.json",
-    "updated central progress.json"
+  "languages": [
+    "yaml",
+    "javascript",
+    "html",
+    "python"
   ],
-  "invariants": [
-    "No subsequent repo starts before current repository table verified",
-    "File-specific date and SHA for each matching Git blob/ref",
-    "Truncated trees fully resolved",
-    "Atomic output commit, byte-for-byte readback",
-    "No expression parsing"
+  "file_fields": [
+    "repository",
+    "relative_file_path",
+    "language",
+    "size_bytes",
+    "last_file_commit_at_utc",
+    "last_file_commit_sha",
+    "file_revision_sha",
+    "source_url"
   ],
-  "failures": [
-    "API access",
-    "incomplete pagination",
-    "missing file commit history",
-    "missing size",
-    "push conflict",
-    "verification mismatch"
-  ],
-  "acceptance": "One verified file table per repository with complete path and ref coverage; pause before expression search.",
-  "provenance": {
-    "source_intent": "user task INV-01/INV-02",
-    "limits": [
-      "Installed GitHub App cannot view uninstalled private account repositories"
-    ]
-  }
+  "ordering": "one verified repo before next",
+  "history_source": "local Git log against pinned default branch HEAD",
+  "paused_at": "INV-03_expression_search",
+  "no_expression_parsing": true,
+  "known_access_limitation": "inaccessible private repositories"
 }
-

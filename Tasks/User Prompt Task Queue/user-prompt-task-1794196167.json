@@ -25,7 +25,8 @@
         "archived",
         "activity_evidence",
         "in_scope_decision"
-      ]
+      ],
+      "file_search_scope": "default_branch_only"
     },
     "ordered_workflow": [
       {
@@ -46,18 +47,16 @@
         ],
         "iteration_key": "repository",
         "instructions": [
-          "For exactly one current repository, enumerate all source-file paths matching YAML, JavaScript, HTML, or Python. Do not use an arbitrary maximum-count cap or stop after representative matches.",
-          "Search all accessible current repository branches/refs needed to avoid silently dropping source files; record each ref, deduplicate only with traceable branch coverage, and do not pretend a default-branch-only scan is exhaustive.",
-          "Match extensions case-insensitively, including YAML .yml/.yaml; JavaScript .js/.mjs/.cjs/.jsx and pertinent JavaScript modules; HTML .html/.htm; Python .py/.pyw and pertinent Python source formats. Document additional recognized extensions and any formats that cannot be classified without inspecting their contents.",
-          "For every matching file on its applicable ref, determine repository, branch/ref, full relative path, language, exact byte size, last commit date/time touching that file, and last commit SHA. Last commit date must be file-specific, not merely the repository's latest push date.",
-          "Complete the working repository's file table, validate the inventory against the enumerated source tree, and persist the table with a completion/verification record before beginning the next repository.",
-          "If a repository cannot be inventoried fully, record the exact unresolved coverage and mark that repository blocked/incomplete. Do not falsely mark complete or silently advance as if it were complete."
+          "For exactly one current repository, use only its default branch at a pinned commit. Exclude all non-default branches and tags.",
+          "Find every matching YAML, JavaScript, HTML and Python file, recognizing extension variants; do not sample or cap the results.",
+          "For each source file record its full repository-relative path, byte size, last file-specific commit date and commit SHA, source file revision, and source URL.",
+          "Fully reconcile, persist and verify this repository's separate file table before starting any next repository. A failed/incomplete repository prevents advancement.",
+          "User scope amendment: do not include branches beyond each repository's default branch, and do not create per-branch duplicate file rows."
         ],
-        "gate": "The current repository file inventory and table must be complete, persisted, and verified before the next repository's file search starts.",
+        "gate": "Complete, persist, and verify default-branch-only current repository file table before scanning next repository",
         "output": "one_complete_file_inventory_table_per_repository",
         "file_table_columns": [
           "repository",
-          "branch_or_ref",
           "relative_file_path",
           "language",
           "size_bytes",
@@ -131,11 +130,12 @@
     "acceptance_criteria": [
       "No eligible repository is excluded by an undisclosed selection or API pagination limit.",
       "Every repository inventory is completed and verified before proceeding to the next repository.",
-      "Every matching YAML, JavaScript, HTML and Python source file in the stated repository/ref scope has a path, exact byte size and file-specific last commit timestamp.",
+      "Every matching YAML, JavaScript, HTML and Python source file on each repository's default branch has a path, exact byte size and file-specific last commit timestamp.",
       "Every file inventory row links to a separate comprehensive expression table or explicit no-expression artifact.",
       "Every applicable naked/standalone expression and every expression AST occurrence within function definitions is recorded without sampling, with exact file and source spans.",
       "All parsing failures, inaccessible refs, unsupported expressions, ambiguities and incomplete inventories are explicitly reported.",
-      "An end-to-end reconciliation confirms that repository counts, file table rows and per-file expression tables agree."
+      "An end-to-end reconciliation confirms that repository counts, file table rows and per-file expression tables agree.",
+      "No non-default branch or tag file rows are included in inventory output."
     ]
   },
   "context": {
@@ -144,5 +144,11 @@
     "destination_directory": "Tasks/User Prompt Task Queue/",
     "completion_destination": "Tasks/TasksCompleted/",
     "relationship": "New independent pending task; task creation is not authorization to run the repository scan now."
-  }
+  },
+  "amendments": [
+    {
+      "user_utterance": "Don't include branches",
+      "effect": "Use each active repository's default branch only, excluding other branches and tags; supersede previously generated branch-inclusive file tables; preserve one-repository-at-a-time completion gate."
+    }
+  ]
 }

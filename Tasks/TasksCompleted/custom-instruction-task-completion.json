@@ -4,10 +4,11 @@
   "tasks": [
     {
       "id": "1794192853",
-      "task_path": "Tasks/User Prompt Task Queue/user-prompt-task-1794192853.json",
-      "status": "pending_revision",
-      "kind": "rejected_design_draft",
-      "acceptance": "rejected"
+      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794192853.json",
+      "status": "completed",
+      "kind": "accepted_agent_facing_instruction",
+      "acceptance": "accepted",
+      "deliverable": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
     },
     {
       "id": "1794193447",
@@ -27,13 +28,14 @@
     "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json",
     "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
     "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md",
-    "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json"
+    "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json",
+    "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
   ],
   "verification": {
     "template_id": "terminals.conversation-record",
     "template_version": "1.0.0",
     "template_path": "conversations/conversation-record.template.json",
-    "scope_preserved": "original_instruction_unchanged; rejected_compaction_not_adopted",
+    "scope_preserved": "accepted agent-facing revision retains all substantive scope requirements; original account setting unchanged",
     "nested_final_interpretation_present": "rejected_design_not_accepted",
     "analytics_record_append_contract_specified": true
   },
@@ -58,7 +60,30 @@
     "original_scope_instruction": "untouched",
     "analytics_template": "untouched",
     "analytics_rule": "not_rejected_but_wrapper_integration_blocked",
-    "next_step": "Redesign requires user criteria; no replacement inferred."
+    "next_step": "Redesign requires user criteria; no replacement inferred.",
+    "historical": true,
+    "subsequent_resolution": {
+      "1794192853": "accepted revised agent-facing instruction; archived rejected predecessor remains historical",
+      "1794193447": "remains rejected and pending revision"
+    }
   },
-  "current_disposition": "one_standalone_rule_design_completed; two_custom_instruction_designs_rejected_and_requeued"
+  "current_disposition": "scope_instruction_revision_accepted_and_completed; wrapper_design_rejected_and_pending_revision; analytics_rule_design_completed_with_wrapper_integration_blocked",
+  "updated_at_utc": "2026-11-09T17:57:38.798Z",
+  "scope_instruction_acceptance": {
+    "status": "accepted",
+    "accepted_at_utc": "2026-11-09T17:57:38.798Z",
+    "source": "User explicitly approved the agent-facing preamble and contrastive few-shot design, then requested GitHub publication as an accepted task completion.",
+    "format": "agent-facing Markdown instruction with domain-independent contrastive few-shot examples",
+    "requirements_preserved": {
+      "authoritative_scope": "preamble",
+      "no_unauthorized_reduction": "preamble and E03, E08, E09",
+      "no_partial_sample_substitution": "preamble and E01, E09",
+      "no_replacement_or_extra_output": "preamble and E04, E05, E06",
+      "no_silent_omission": "preamble and E07",
+      "precise_limitation_disclosure": "preamble and E02, E03, E10",
+      "minimal_core_and_nonexhaustive_examples": "concise preamble followed by ten few-shot cases"
+    },
+    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
+    "account_settings_updated": false
+  }
 }

@@ -1,6 +1,6 @@
 {
   "task_type": "custom_instruction_revision",
-  "status": "pending_revision",
+  "status": "completed",
   "created_at_utc": "2026-11-09T02:54:13Z",
   "verbatim_user_utterance": "This is a task to be saved: revise the scope instruction into a minimally verbose machine instruction that is reasonable to expect to cause the same intent as prayed for from the user scope instruction",
   "task": {
@@ -37,6 +37,36 @@
         "Tasks/TasksCompleted/user-prompt-task-1794192853-revision.json"
       ]
     },
-    "accepted": false
+    "accepted": false,
+    "superseded_by_accepted_revision": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
+  },
+  "acceptance": {
+    "status": "accepted",
+    "accepted_at_utc": "2026-11-09T17:57:38.798Z",
+    "source": "User explicitly approved the agent-facing preamble and contrastive few-shot design, then requested GitHub publication as an accepted task completion.",
+    "format": "agent-facing Markdown instruction with domain-independent contrastive few-shot examples",
+    "requirements_preserved": {
+      "authoritative_scope": "preamble",
+      "no_unauthorized_reduction": "preamble and E03, E08, E09",
+      "no_partial_sample_substitution": "preamble and E01, E09",
+      "no_replacement_or_extra_output": "preamble and E04, E05, E06",
+      "no_silent_omission": "preamble and E07",
+      "precise_limitation_disclosure": "preamble and E02, E03, E10",
+      "minimal_core_and_nonexhaustive_examples": "concise preamble followed by ten few-shot cases"
+    },
+    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
+    "account_settings_updated": false
+  },
+  "completed_at_utc": "2026-11-09T17:57:38.798Z",
+  "completion": {
+    "kind": "accepted_agent_facing_instruction",
+    "activation": "not_performed",
+    "files": [
+      "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
+    ],
+    "accepted_by_user": true,
+    "example_count": 10,
+    "instruction_preamble": true,
+    "source_rejected_revision": "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json"
   }
 }

@@ -54,8 +54,14 @@
       "source_snapshot_started_utc": "2026-11-09T04:09:42.293509+00:00"
     },
     "IssueScratch": {
-      "status": "pending",
-      "table_path": null
+      "status": "verified",
+      "file_rows": 189,
+      "refs_scanned": 6,
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/verification.json",
+      "verified_at_utc": "2026-11-09T04:11:16.123970+00:00",
+      "source_snapshot_started_utc": "2026-11-09T04:11:01.315739+00:00"
     },
     "IssueStack-": {
       "status": "pending",

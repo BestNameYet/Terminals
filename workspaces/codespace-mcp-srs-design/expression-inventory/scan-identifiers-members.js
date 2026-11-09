@@ -55,9 +55,9 @@ function put(map, name, entry) {
 function outputGroup(map) {
   const output = {};
   for (const name of Array.from(map.keys()).sort()) {
-    const values = [...new Set(map.get(name).values())];
-    values.sort();
-    output[name] = values;
+    output[name] = [...map.get(name).entries()].map(([signature, expression]) => ({
+      signature, expression
+    })).sort((a, b) => a.signature.localeCompare(b.signature));
   }
   return output;
 }
@@ -134,7 +134,9 @@ function scan(fileList, sourceRoot, partFile, repository, revision) {
     skipped_non_javascript_files: skipped,
     errors: failures,
     identifiers: outputGroup(groups),
-    members_without_identifier_base: [...new Set(unrooted.values())].sort()
+    members_without_identifier_base: [...unrooted.entries()].map(([signature, expression]) => ({
+      signature, expression
+    })).sort((a, b) => a.signature.localeCompare(b.signature))
   };
   fs.mkdirSync(path.dirname(path.resolve(partFile)), { recursive: true });
   fs.writeFileSync(partFile, JSON.stringify(data) + "\n");
@@ -171,7 +173,7 @@ function merge(partsDirectory, progressPath, destination) {
   }
 
   const identifiers = new Map();
-  const rootless = new Set();
+  const rootless = new Map();
   const errors = [];
   const sources = [];
   let totalFiles = 0, javascriptFiles = 0, parsedFiles = 0;
@@ -189,10 +191,15 @@ function merge(partsDirectory, progressPath, destination) {
     sources.push({ repository: fullName, revision: part.revision });
     for (const item of part.errors) errors.push({ repository: fullName, ...item });
     for (const [identifier, members] of Object.entries(part.identifiers)) {
-      if (!identifiers.has(identifier)) identifiers.set(identifier, new Set());
-      for (const member of members) identifiers.get(identifier).add(member);
+      if (!identifiers.has(identifier)) identifiers.set(identifier, new Map());
+      for (const member of members) {
+        const group = identifiers.get(identifier);
+        if (!group.has(member.signature)) group.set(member.signature, member.expression);
+      }
     }
-    for (const member of part.members_without_identifier_base) rootless.add(member);
+    for (const member of part.members_without_identifier_base) {
+      if (!rootless.has(member.signature)) rootless.set(member.signature, member.expression);
+    }
   }
 
   if (totalFiles !== 774 || javascriptFiles !== 321) {
@@ -200,11 +207,11 @@ function merge(partsDirectory, progressPath, destination) {
   }
   const grouped = {};
   for (const identifier of [...identifiers.keys()].sort()) {
-    grouped[identifier] = [...identifiers.get(identifier)].sort();
+    grouped[identifier] = [...new Set(identifiers.get(identifier).values())].sort();
   }
   const combined = {
     identifiers: grouped,
-    member_expressions_without_identifier_base: [...rootless].sort(),
+    member_expressions_without_identifier_base: [...new Set(rootless.values())].sort(),
     parse_errors: errors,
     coverage: {
       repositories: sources,

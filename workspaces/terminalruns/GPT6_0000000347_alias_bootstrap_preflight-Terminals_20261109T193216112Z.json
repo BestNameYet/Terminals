@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail\nif [ -f README.md ]; then cat README.md >/dev/null; else echo NO_ROOT_README; fi\ncat AGENTS.md >/dev/null\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\nprintf 'HEAD ';git rev-parse HEAD\nnode <<'NODE'\nconst fs=require(\"fs\");\nconst paths=[\n \"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-aliased-copy.json\",\n \"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json\",\n \"references/instruction-wrapper-key-aliases.json\"];\nfor(const p of paths){const text=fs.readFileSync(p,\"utf8\");const data=JSON.parse(text);console.log(JSON.stringify({path:p,bytes:Buffer.byteLength(text),keys:Array.isArray(data)?Object.keys(data[0]):Object.keys(data),alias_lookup_path:data.alias_lookup_path,ai:Array.isArray(data)?data[0].ai:undefined,aliases_count:data.alias_to_key?Object.keys(data.alias_to_key).length:undefined,aliases_ai:data.alias_to_key?.ai}));}\nNODE\ngit status --short",
+  "outputThat": [
+    "NO_ROOT_README",
+    "HEAD 45bd24dbfd29845788d21901f72b6d4fcaad836c",
+    "{\"path\":\"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-aliased-copy.json\",\"bytes\":11986,\"keys\":[\"t\",\"a\",\"r\",\"m\",\"g\",\"ai\"],\"ai\":\"references/instruction-wrapper-key-aliases.json\"}",
+    "{\"path\":\"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json\",\"bytes\":18574,\"keys\":[\"title\",\"applicability\",\"rules_template_path\",\"machine_dialect_rules_path\",\"governing_references\"]}",
+    "{\"path\":\"references/instruction-wrapper-key-aliases.json\",\"bytes\":4871,\"keys\":[\"title\",\"applicability\",\"source_template_path\",\"aliased_template_copy_path\",\"alias_lookup_path\",\"mapping_semantics\",\"source_template_sha256\",\"original_key_count\",\"total_key_count_including_lookup\",\"aliases_with_one_character\",\"aliases_with_two_characters\",\"alias_to_key\"],\"alias_lookup_path\":\"references/instruction-wrapper-key-aliases.json\",\"aliases_count\":104,\"aliases_ai\":\"alias_lookup_path\"}"
+  ]
+}

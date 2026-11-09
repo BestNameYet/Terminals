@@ -1,90 +1,22 @@
 {
-  "schema": "terminals.repository-file-inventory.verification.v1",
+  "schema": "terminals.repository-default-branch-file-inventory.v2",
   "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
   "repository": "BestNameYet/IssueScratch",
+  "scope": "default_branch_only",
+  "default_branch": "main",
+  "head_sha": "0cce4f7b833ff120103488de879e7c72f38030f3",
   "status": "verified",
-  "run_started_utc": "2026-11-09T04:11:01.315739+00:00",
-  "run_finished_utc": "2026-11-09T04:11:13.463058+00:00",
-  "ref_count": 6,
-  "branch_count": 6,
-  "tag_count": 0,
-  "row_count": 189,
-  "ref_details": [
-    {
-      "ref_type": "branch",
-      "name": "candidate/false-routing-remediation-6560681262-v1",
-      "sha": "1f81d5ef8d26239ee0e443918555bbaef3a3e0df",
-      "all_git_blobs": 165,
-      "matched_source_files": 41,
-      "resolved_truncated_tree": false
-    },
-    {
-      "ref_type": "branch",
-      "name": "candidate/issuescratch-docs-conformance-6560092235",
-      "sha": "bacb87468d7c92b0abcc9261e35358952eee5d9b",
-      "all_git_blobs": 165,
-      "matched_source_files": 41,
-      "resolved_truncated_tree": false
-    },
-    {
-      "ref_type": "branch",
-      "name": "candidate/issuescratch-renderer-persistence-6557693257",
-      "sha": "fb6f0561809d9d04f595a880d19b354ff18616ad",
-      "all_git_blobs": 164,
-      "matched_source_files": 40,
-      "resolved_truncated_tree": false
-    },
-    {
-      "ref_type": "branch",
-      "name": "candidate/issuescratch-verdict-write-gate-6557693257",
-      "sha": "6e17cf133788ccf0cb9d6ea6e5fd001b55bf713d",
-      "all_git_blobs": 163,
-      "matched_source_files": 39,
-      "resolved_truncated_tree": false
-    },
-    {
-      "ref_type": "branch",
-      "name": "main",
-      "sha": "0cce4f7b833ff120103488de879e7c72f38030f3",
-      "all_git_blobs": 124,
-      "matched_source_files": 0,
-      "resolved_truncated_tree": false
-    },
-    {
-      "ref_type": "branch",
-      "name": "stage/issuescratch-remediation-6560681262-20261103",
-      "sha": "59968a61a83be15fe488ae8fdd40cae7133c0b2b",
-      "all_git_blobs": 153,
-      "matched_source_files": 28,
-      "resolved_truncated_tree": false
-    }
-  ],
-  "language_row_counts": {
-    "javascript": 167,
-    "yaml": 22
+  "matched_file_rows": 0,
+  "git_tree_entries": 173,
+  "languages": {
+    "html": 0,
+    "javascript": 0,
+    "python": 0,
+    "yaml": 0
   },
-  "file_specific_commit_method": "GitHub commits?sha=<pinned-ref-head>&path=<full-relative-file-path>&per_page=1",
-  "tree_completeness": "All paginated branches and tags, exhaustive recursive trees (with fallback)",
-  "source_extensions": {
-    ".yaml": "yaml",
-    ".yml": "yaml",
-    ".js": "javascript",
-    ".mjs": "javascript",
-    ".cjs": "javascript",
-    ".jsx": "javascript",
-    ".jsm": "javascript",
-    ".es6": "javascript",
-    ".html": "html",
-    ".htm": "html",
-    ".xhtml": "html",
-    ".py": "python",
-    ".pyw": "python",
-    ".pyi": "python"
-  },
-  "parser_and_expression_search_executed": false,
-  "limitations": [
-    "One row per matching file per reference; repeated content in distinct refs retained.",
-    "Git blob size reflects the Git object, not the size of any remote Git LFS payload.",
-    "Repositories inaccessible to the account integration are not included."
-  ]
+  "last_commit_date_method": "Local Git history: git log -1 --format=%H%x09%cI <pinned-head> -- <file-path>",
+  "file_size_method": "Git Trees API git blob size, exact bytes",
+  "expression_search_performed": false,
+  "verified_at_utc": "2026-11-09T04:23:22.992146+00:00",
+  "limitation": "Only default branch, as explicitly directed; other branches and tags excluded."
 }

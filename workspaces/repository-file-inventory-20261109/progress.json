@@ -64,9 +64,14 @@
       "verified_at_utc": "2026-11-09T04:23:22.992146+00:00"
     },
     "IssueStack-": {
-      "status": "pending",
-      "table_path": null,
-      "supersedes_previous_all_ref_table": true
+      "status": "verified",
+      "file_rows": 46,
+      "scope": "default_branch_only",
+      "head_sha": "9bb23ec2541004485be4c75d52a847f4465d0b1b",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/IssueStack-/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/IssueStack-/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/IssueStack-/verification.json",
+      "verified_at_utc": "2026-11-09T04:24:20.245385+00:00"
     },
     "MCP-Collaborative": {
       "status": "pending",

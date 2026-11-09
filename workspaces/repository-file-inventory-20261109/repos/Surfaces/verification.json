@@ -1,0 +1,22 @@
+{
+  "schema": "terminals.repository-default-branch-file-inventory.v2",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "repository": "BestNameYet/Surfaces",
+  "scope": "default_branch_only",
+  "default_branch": "main",
+  "head_sha": "9fc66dae0e4ff90395b1674139d5cffd0794a10b",
+  "status": "verified",
+  "matched_file_rows": 0,
+  "git_tree_entries": 0,
+  "languages": {
+    "html": 0,
+    "javascript": 0,
+    "python": 0,
+    "yaml": 0
+  },
+  "last_commit_date_method": "Local Git history: git log -1 --format=%H%x09%cI <pinned-head> -- <file-path>",
+  "file_size_method": "Git Trees API git blob size, exact bytes",
+  "expression_search_performed": false,
+  "verified_at_utc": "2026-11-09T04:29:12.281830+00:00",
+  "limitation": "Only default branch, as explicitly directed; other branches and tags excluded."
+}

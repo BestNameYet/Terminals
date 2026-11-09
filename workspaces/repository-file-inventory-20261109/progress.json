@@ -94,9 +94,14 @@
       "verified_at_utc": "2026-11-09T04:25:26.051264+00:00"
     },
     "Surfaces": {
-      "status": "pending",
-      "table_path": null,
-      "supersedes_previous_all_ref_table": true
+      "status": "verified",
+      "file_rows": 0,
+      "scope": "default_branch_only",
+      "head_sha": "9fc66dae0e4ff90395b1674139d5cffd0794a10b",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Surfaces/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/Surfaces/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/Surfaces/verification.json",
+      "verified_at_utc": "2026-11-09T04:29:12.281830+00:00"
     },
     "Terminals": {
       "status": "pending",

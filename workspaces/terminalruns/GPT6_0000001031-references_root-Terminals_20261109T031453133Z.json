@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\nif gh api repos/BestNameYet/Terminals/contents/references/.gitkeep >/dev/null 2>&1; then echo 'ALREADY_EXISTS'; exit 0; fi\ncontent=$(printf 'Temporary placeholder for references directory.\\n' | base64 -w0)\ngh api --method PUT repos/BestNameYet/Terminals/contents/references/.gitkeep -f message='chore: establish root references directory' -f content=\"$content\" -f branch=main --jq '{path:.content.path,commit_sha:.commit.sha,blob_sha:.content.sha}'",
+  "outputThat": [
+    "{\"blob_sha\":\"bfd5f87e720b6e762d8077cc19170010a9922a72\",\"commit_sha\":\"3786a3b7d2998f9d179002366871f5583ef5acda\",\"path\":\"references/.gitkeep\"}"
+  ]
+}

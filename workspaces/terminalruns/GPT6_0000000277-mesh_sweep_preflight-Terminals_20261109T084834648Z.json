@@ -1,0 +1,17 @@
+{
+  "inputThis": "$:set -euo pipefail\ncd \"$GITHUB_WORKSPACE\"\nprintf 'ROOT_README\\n'; if test -f README.md; then cat README.md; else echo ABSENT; fi\nprintf 'NESTED_DOCUMENTS\\n'; for p in terminal/AGENTS.md terminal/README.md terminal/tasks/AGENTS.md terminal/tasks/README.md terminal/tasks/fishFry/AGENTS.md terminal/tasks/fishFry/README.md; do if test -f \"$p\"; then printf '\\nDOCUMENT %s\\n' \"$p\"; cat \"$p\"; fi; done\nSRC='terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724.png'\nDIR='terminal/tasks/fishFry/mesh_vertical_line_sweep_11_to_15'\nprintf 'SOURCE_FILE\\n'; file \"$SRC\"\nprintf 'SOURCE_SHA256\\n'; sha256sum \"$SRC\"\nprintf 'SOURCE_STAT\\n'; stat -c '%s bytes' \"$SRC\"\nprintf 'TARGET_DIRECTORY '; test -e \"$DIR\" && echo EXISTS || echo ABSENT\nprintf 'PYTHON_PILLOW '; python3 -c 'import PIL; print(PIL.__version__)' || echo UNAVAILABLE\nprintf 'GIT_HEAD ';git rev-parse HEAD",
+  "outputThat": [
+    "ROOT_README",
+    "ABSENT",
+    "NESTED_DOCUMENTS",
+    "SOURCE_FILE",
+    "terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724.png: PNG image data, 724 x 724, 8-bit/color RGB, non-interlaced",
+    "SOURCE_SHA256",
+    "4e6728722184fa091512afdf733ce2e72e822cc17369aeda49a936d923f22c74  terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724.png",
+    "SOURCE_STAT",
+    "591001 bytes",
+    "TARGET_DIRECTORY ABSENT",
+    "PYTHON_PILLOW UNAVAILABLE",
+    "GIT_HEAD f03c27780a5d8308a646490a3086629fcb83f9e9"
+  ]
+}

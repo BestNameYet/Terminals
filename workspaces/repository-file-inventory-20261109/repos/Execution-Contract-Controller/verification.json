@@ -1,0 +1,106 @@
+{
+  "schema": "terminals.repository-file-inventory.verification.v1",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "repository": "BestNameYet/Execution-Contract-Controller",
+  "status": "verified",
+  "run_started_utc": "2026-11-09T04:09:42.293509+00:00",
+  "run_finished_utc": "2026-11-09T04:09:52.369082+00:00",
+  "ref_count": 8,
+  "branch_count": 8,
+  "tag_count": 0,
+  "row_count": 126,
+  "ref_details": [
+    {
+      "ref_type": "branch",
+      "name": "event-recording-sidecar",
+      "sha": "8d7585ac16f12fe854dc75d34c60b5f3a3162c3b",
+      "all_git_blobs": 3,
+      "matched_source_files": 2,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "experimental",
+      "sha": "e579f1c4fc64b1234b67ebc33f03de276ec95c64",
+      "all_git_blobs": 29,
+      "matched_source_files": 12,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "flat-runtime-artifact-workflow-20260828",
+      "sha": "6f0dcdf80398821813b369abf432f3fcd0472a23",
+      "all_git_blobs": 54,
+      "matched_source_files": 27,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "main",
+      "sha": "5d821e93dd25f216d66b2c86d58455aa9208ceab",
+      "all_git_blobs": 56,
+      "matched_source_files": 27,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "minimal-runner-manifest-20260828",
+      "sha": "0f7d9d2080a4088b17b8bd96b4a3fe3d17f26774",
+      "all_git_blobs": 54,
+      "matched_source_files": 27,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "minimal-runner-socket-capability-20260828",
+      "sha": "ed13d83291ab6ea024cf3e1edf2ddf3778ace9be",
+      "all_git_blobs": 54,
+      "matched_source_files": 27,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "project-source-upload-transport-20260821",
+      "sha": "4faa54581d56f5282d7dfd32f05f75e0890ac7e6",
+      "all_git_blobs": 3,
+      "matched_source_files": 2,
+      "resolved_truncated_tree": false
+    },
+    {
+      "ref_type": "branch",
+      "name": "solver-space-formalization",
+      "sha": "4faa54581d56f5282d7dfd32f05f75e0890ac7e6",
+      "all_git_blobs": 3,
+      "matched_source_files": 2,
+      "resolved_truncated_tree": false
+    }
+  ],
+  "language_row_counts": {
+    "python": 114,
+    "yaml": 12
+  },
+  "file_specific_commit_method": "GitHub commits?sha=<pinned-ref-head>&path=<full-relative-file-path>&per_page=1",
+  "tree_completeness": "All paginated branches and tags, exhaustive recursive trees (with fallback)",
+  "source_extensions": {
+    ".yaml": "yaml",
+    ".yml": "yaml",
+    ".js": "javascript",
+    ".mjs": "javascript",
+    ".cjs": "javascript",
+    ".jsx": "javascript",
+    ".jsm": "javascript",
+    ".es6": "javascript",
+    ".html": "html",
+    ".htm": "html",
+    ".xhtml": "html",
+    ".py": "python",
+    ".pyw": "python",
+    ".pyi": "python"
+  },
+  "parser_and_expression_search_executed": false,
+  "limitations": [
+    "One row per matching file per reference; repeated content in distinct refs retained.",
+    "Git blob size reflects the Git object, not the size of any remote Git LFS payload.",
+    "Repositories inaccessible to the account integration are not included."
+  ]
+}

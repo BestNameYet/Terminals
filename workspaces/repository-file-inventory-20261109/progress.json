@@ -44,8 +44,14 @@
       "source_snapshot_started_utc": "2026-11-09T04:08:51.600562+00:00"
     },
     "Execution-Contract-Controller": {
-      "status": "pending",
-      "table_path": null
+      "status": "verified",
+      "file_rows": 126,
+      "refs_scanned": 8,
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/verification.json",
+      "verified_at_utc": "2026-11-09T04:09:54.546638+00:00",
+      "source_snapshot_started_utc": "2026-11-09T04:09:42.293509+00:00"
     },
     "IssueScratch": {
       "status": "pending",

@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail; node <<'NODE'\nconst fs=require('fs'),assert=require('assert'); const read=p=>JSON.parse(fs.readFileSync(p,'utf8')); const ids=['1794192853','1794193447']; for(const id of ids){assert.strictEqual(read('Tasks/User Prompt Task Queue/user-prompt-task-'+id+'.json').status,'pending_revision');assert(!fs.existsSync('Tasks/TasksCompleted/user-prompt-task-'+id+'.json'));} for(const p of ['user-prompt-task-1794192853-revision.json','user-prompt-task-1794193447-wrapper.json','user-prompt-task-1794193447-spec.md'])assert(fs.existsSync('Tasks/TasksRejected/'+p));const x=read('Tasks/TasksCompleted/custom-instruction-task-completion.json');assert.deepStrictEqual(x.tasks.filter(t=>t.status==='pending_revision').map(t=>t.id),ids);assert.strictEqual(x.tasks.find(t=>t.id==='1794193968').status,'completed');assert.strictEqual(read('Tasks/TasksCompleted/user-prompt-task-1794193968.json').completion.wrapper_integration,'blocked_pending_accepted_wrapper');assert(fs.existsSync('conversations/conversation-record.template.json'));console.log('REMOTE_READBACK_PASS');console.log('REVISION_QUEUE_RESTORED');console.log('REJECTED_ARTIFACTS_ARCHIVED');console.log('ANALYTICS_STANDALONE_RETAINED');\nNODE\nprintf 'COMMIT '; git rev-parse HEAD",
+  "outputThat": [
+    "REMOTE_READBACK_PASS",
+    "REVISION_QUEUE_RESTORED",
+    "REJECTED_ARTIFACTS_ARCHIVED",
+    "ANALYTICS_STANDALONE_RETAINED",
+    "COMMIT feab151f4cc91421223333531be3bbc378d37e7a"
+  ]
+}

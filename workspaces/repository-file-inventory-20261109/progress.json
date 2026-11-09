@@ -84,9 +84,14 @@
       "verified_at_utc": "2026-11-09T04:24:27.336191+00:00"
     },
     "StateMachines": {
-      "status": "pending",
-      "table_path": null,
-      "supersedes_previous_all_ref_table": true
+      "status": "verified",
+      "file_rows": 608,
+      "scope": "default_branch_only",
+      "head_sha": "3663931a542fdbaf748a496033146b1dfc5ade96",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/StateMachines/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/StateMachines/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/StateMachines/verification.json",
+      "verified_at_utc": "2026-11-09T04:25:26.051264+00:00"
     },
     "Surfaces": {
       "status": "pending",

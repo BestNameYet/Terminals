@@ -1,0 +1,110 @@
+{
+  "schema": "terminals.default-branch-inventory-summary.v1",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "scope": "default_branch_only",
+  "stage1": "verified_visible_repositories",
+  "stage2": "verified",
+  "stage3": "paused_not_started",
+  "active_visible_repositories": 9,
+  "file_count": 774,
+  "language_counts": {
+    "yaml": 156,
+    "python": 265,
+    "javascript": 321,
+    "html": 32
+  },
+  "by_repository": [
+    {
+      "repository": "Canonical-Skills-Location",
+      "files": 2,
+      "yaml": 1,
+      "javascript": 0,
+      "html": 0,
+      "python": 1,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.csv"
+    },
+    {
+      "repository": "CommandLine",
+      "files": 31,
+      "yaml": 15,
+      "javascript": 16,
+      "html": 0,
+      "python": 0,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv"
+    },
+    {
+      "repository": "Execution-Contract-Controller",
+      "files": 27,
+      "yaml": 2,
+      "javascript": 0,
+      "html": 0,
+      "python": 25,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv"
+    },
+    {
+      "repository": "IssueScratch",
+      "files": 0,
+      "yaml": 0,
+      "javascript": 0,
+      "html": 0,
+      "python": 0,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv"
+    },
+    {
+      "repository": "IssueStack-",
+      "files": 46,
+      "yaml": 1,
+      "javascript": 36,
+      "html": 4,
+      "python": 5,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/IssueStack-/files.csv"
+    },
+    {
+      "repository": "MCP-Collaborative",
+      "files": 11,
+      "yaml": 2,
+      "javascript": 0,
+      "html": 0,
+      "python": 9,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/files.csv"
+    },
+    {
+      "repository": "StateMachines",
+      "files": 608,
+      "yaml": 131,
+      "javascript": 234,
+      "html": 19,
+      "python": 224,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/StateMachines/files.csv"
+    },
+    {
+      "repository": "Surfaces",
+      "files": 0,
+      "yaml": 0,
+      "javascript": 0,
+      "html": 0,
+      "python": 0,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Surfaces/files.csv"
+    },
+    {
+      "repository": "Terminals",
+      "files": 49,
+      "yaml": 4,
+      "javascript": 35,
+      "html": 9,
+      "python": 1,
+      "verification": "verified",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Terminals/files.csv"
+    }
+  ],
+  "census_limitation": "Authenticated account-wide user/repos request returned HTTP 403; uninstalled private repositories are not discoverable with current integration. The nine active repositories are complete only within the union of visible public and installed repositories.",
+  "created_at_utc": "2026-11-09T04:30:58.520962+00:00"
+}

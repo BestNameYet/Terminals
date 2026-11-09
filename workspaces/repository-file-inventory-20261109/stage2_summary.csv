@@ -1,0 +1,10 @@
+repository,files,yaml,javascript,html,python,verification,table_path
+Canonical-Skills-Location,2,1,0,0,1,verified,workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.csv
+CommandLine,31,15,16,0,0,verified,workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv
+Execution-Contract-Controller,27,2,0,0,25,verified,workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv
+IssueScratch,0,0,0,0,0,verified,workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv
+IssueStack-,46,1,36,4,5,verified,workspaces/repository-file-inventory-20261109/repos/IssueStack-/files.csv
+MCP-Collaborative,11,2,0,0,9,verified,workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/files.csv
+StateMachines,608,131,234,19,224,verified,workspaces/repository-file-inventory-20261109/repos/StateMachines/files.csv
+Surfaces,0,0,0,0,0,verified,workspaces/repository-file-inventory-20261109/repos/Surfaces/files.csv
+Terminals,49,4,35,9,1,verified,workspaces/repository-file-inventory-20261109/repos/Terminals/files.csv

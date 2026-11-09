@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:python3 workspaces/repository-file-inventory-20261109/scan-one.py Execution-Contract-Controller",
+  "outputThat": [
+    "SCAN BestNameYet/Execution-Contract-Controller refs 8 file_rows 126",
+    "{\"result\": \"VERIFIED\", \"repository\": \"BestNameYet/Execution-Contract-Controller\", \"refs\": 8, \"branches\": 8, \"tags\": 0, \"file_rows\": 126, \"language_counts\": {\"python\": 114, \"yaml\": 12}, \"table\": \"workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv\", \"verification\": \"workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/verification.json\", \"commit\": \"d7b268157bee5ecbd79dbd7e11d17fd39282ce4e\", \"expression_search_executed\": false}"
+  ]
+}

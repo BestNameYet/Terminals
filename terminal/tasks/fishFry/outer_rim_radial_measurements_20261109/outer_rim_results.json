@@ -1,0 +1,74 @@
+{
+  "origin_px": [
+    0,
+    724
+  ],
+  "nominal_diameter_inches": 12,
+  "reference_arc_angles_deg": [
+    0,
+    89
+  ],
+  "note": "exact 90 degree ray is on excluded y=724 boundary; last direct sample is at 89 degrees",
+  "measured_arc_px": 1100.8839393286116,
+  "measured_arc_inches_approx": 9.322653880252703,
+  "nominal_px_per_inch": 118.08696895424917,
+  "equal_arc_interval_px": 275.2209848321529,
+  "equal_arc_interval_inches_approx": 2.330663470063176,
+  "ideal_full_90_deg_arc_inches": 9.42477796076938,
+  "radius_min_raw_px": 702.2916666666666,
+  "radius_max_raw_px": 717.0,
+  "method": "50-percent outer rim grayscale transition, Gaussian sigma 2.5px and Savitzky-Golay angular smoothing",
+  "note_quality": "near arrow removal image inpainting; flagged measurements less reliable",
+  "samples": [
+    {
+      "point": 1,
+      "angle_deg": 0.0,
+      "x_px": 0.0,
+      "y_px": 19.418,
+      "radius_px": 704.582,
+      "arc_from_previous_px": null,
+      "radius_nominal_in": 5.9666,
+      "flagged_inpaint_or_low_contrast": false
+    },
+    {
+      "point": 2,
+      "angle_deg": 22.415,
+      "x_px": 268.058,
+      "y_px": 74.135,
+      "radius_px": 702.979,
+      "arc_from_previous_px": 275.221,
+      "radius_nominal_in": 5.9531,
+      "flagged_inpaint_or_low_contrast": false
+    },
+    {
+      "point": 3,
+      "angle_deg": 44.75,
+      "x_px": 500.061,
+      "y_px": 219.56,
+      "radius_px": 710.296,
+      "arc_from_previous_px": 275.221,
+      "radius_nominal_in": 6.015,
+      "flagged_inpaint_or_low_contrast": false
+    },
+    {
+      "point": 4,
+      "angle_deg": 66.945,
+      "x_px": 653.918,
+      "y_px": 445.682,
+      "radius_px": 710.683,
+      "arc_from_previous_px": 275.221,
+      "radius_nominal_in": 6.0183,
+      "flagged_inpaint_or_low_contrast": false
+    },
+    {
+      "point": 5,
+      "angle_deg": 89.0,
+      "x_px": 704.819,
+      "y_px": 711.697,
+      "radius_px": 704.926,
+      "arc_from_previous_px": 275.221,
+      "radius_nominal_in": 5.9696,
+      "flagged_inpaint_or_low_contrast": true
+    }
+  ]
+}

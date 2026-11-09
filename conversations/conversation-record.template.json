@@ -1,0 +1,28 @@
+{
+  "template_id": "terminals.conversation-record",
+  "template_version": "1.0.0",
+  "task_type": "user_prompt_and_agent_response_contextual_analysis",
+  "created_at_utc": null,
+  "target_exchange": {
+    "verbatim_utterance": null,
+    "summary_of_adjacent_conversation": {
+      "preceding_user_turn_count": null,
+      "preceding_user_turns_chronological": [],
+      "immediate_preceding_agent_response": null,
+      "sequence_summary": null
+    },
+    "key_context_clues_to_meaning_and_intent": [],
+    "explanation_of_how_utterance_is_embedded_in_conversation": null
+  },
+  "agent_response": {
+    "summary": null,
+    "key_context_clues_to_response_intent": [],
+    "terms_or_explanations_risking_false_impressions": [],
+    "relationship_to_preceding_user_prompt_and_recent_exchanges": {
+      "immediate_user_prompt": null,
+      "immediate_relationship": null,
+      "recent_user_prompts_and_agent_responses": [],
+      "outcome_assessment": null
+    }
+  }
+}

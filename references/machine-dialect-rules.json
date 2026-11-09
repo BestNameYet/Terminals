@@ -1,0 +1,114 @@
+{
+  "title": "Machine-Dialect Writing Rules for Instruction Template Entries",
+  "applicability": "Apply to every explainer, standalone rule, subordinate rule, and nested instructional member or example contained in the account custom-instruction template. These requirements govern the semantic quality of written rules; the separate rules-template reference governs their array structure and insertion.",
+  "writing_requirements": [
+    {
+      "title": "Make applicability explicit",
+      "required_behavior": "Identify the operation, event, data, decision, or situation to which each rule applies, including necessary prerequisites and conditions. Do not assume the agent can infer the domain or scope from a short label."
+    },
+    {
+      "title": "Write operationally meaningful requirements",
+      "required_behavior": "State what the agent must do or avoid, what entities are affected, which constraints govern the action, and what observed outcome establishes success or incompletion where applicable."
+    },
+    {
+      "title": "Prefer descriptive keys and values",
+      "required_behavior": "Use self-describing member names and unambiguous, contextual values rather than unexplained abbreviations, bare booleans, arbitrary identifiers, invented machine commands, or terse token strings that merely resemble formal syntax."
+    },
+    {
+      "title": "Define introduced terms and relationships",
+      "required_behavior": "Explain specialized terms when first introduced and establish relationships between nested objects, parent instructions, applicability boundaries, dependencies, and interpretation overrides whenever these affect behavior."
+    },
+    {
+      "title": "Preserve the entire user-defined instruction",
+      "required_behavior": "Do not compress, omit, subdivide, replace, expand, or alter the original behavioral requirements merely to make a rule shorter or appear more machine-readable. Verbose rules may remain single multi-member objects."
+    },
+    {
+      "title": "Write decision criteria rather than decorative flags",
+      "required_behavior": "When recording a permitted choice, prohibited choice, blocker, or completion classification, specify the conditions that cause the classification and the action that should follow. A field containing true, false, or a label alone is not an adequate behavioral definition."
+    },
+    {
+      "title": "Allow warranted detail and examples",
+      "required_behavior": "Use as many descriptive members, conditions, nested examples, and semantically meaningful sentences as are necessary for reliable interpretation. Eliminate redundancy only when no relevant meaning is lost."
+    },
+    {
+      "title": "Evaluate semantic completeness beyond JSON validity",
+      "required_behavior": "Validate JSON syntax and independently determine whether an agent can recover the intended scope, actions, constraints, evidence requirements, outcome conditions, and interpretation relationships without inventing unstated assumptions."
+    }
+  ],
+  "contrastive_examples": [
+    {
+      "title": "Insertion instructions with explicit array context",
+      "insufficient": {
+        "insert_index": 1,
+        "preserve_order": true
+      },
+      "why_insufficient": "The shorthand does not name the affected array, what is pinned, or whose order is preserved.",
+      "context_complete": {
+        "applicability": "Adding a new standalone rule or group to the outer account custom-instruction array.",
+        "required_behavior": "Insert the complete new entry at outer index 1 immediately after the pinned index-zero explainer. Shift existing entries at index 1 or later forward and preserve their original contents and relative order."
+      }
+    },
+    {
+      "title": "Local interpretation precedence with a defined boundary",
+      "insufficient": {
+        "local_override": true
+      },
+      "why_insufficient": "The flag does not say which instruction overrides which inherited interpretation or how far the override extends.",
+      "context_complete": {
+        "applicability": "Interpreting a grouped-rule array when its own explainer explicitly conflicts with an enclosing explainer.",
+        "required_behavior": "Use the group explainer's explicitly defined alternative only for entries contained in that group. Retain inherited nonconflicting interpretations, and do not change sibling groups or the enclosing array."
+      }
+    },
+    {
+      "title": "Verbose standalone rule remains one entry",
+      "insufficient": {
+        "split": false
+      },
+      "why_insufficient": "The flag leaves undefined what cannot be split, where, and why.",
+      "context_complete": {
+        "applicability": "Placing a standalone rule containing extensive definitions, models, constraints, and examples into the outer instruction array.",
+        "required_behavior": "Keep the entire rule in a single JSON object at one nonzero index. Give it a descriptive title and preserve its existing nested objects and examples as parts of the same rule rather than spreading them across sibling indices."
+      }
+    },
+    {
+      "title": "Verification requirements instead of unsupported success flags",
+      "insufficient": {
+        "completed": true
+      },
+      "why_insufficient": "A bare status does not identify required operations or establish evidence of the required final state.",
+      "context_complete": {
+        "applicability": "Reporting completion of a task that requests transformation, persistent storage, and verification.",
+        "required_behavior": "Compare performed operations to every requested completion condition. Report completion only after all three operations succeed and the persisted state is verified by readback. Otherwise identify precisely which conditions remain incomplete."
+      }
+    },
+    {
+      "title": "Legitimate blocker versus convenience-based reduction",
+      "insufficient": {
+        "blocker": "expensive"
+      },
+      "why_insufficient": "The label does not distinguish an observed inability from an agent preference to reduce work.",
+      "context_complete": {
+        "applicability": "Determining how to continue when exhaustive requested processing has not been completed.",
+        "required_behavior": "Continue independent executable operations. Identify any actual blocking event and its evidence, specify the uncompleted elements, and classify the outcome as incomplete. Do not treat anticipated time, effort, or token consumption as proof that requested coverage is impossible."
+      }
+    },
+    {
+      "title": "Preserving requirements rather than replacing with easier alternatives",
+      "insufficient": {
+        "use": "equivalent output"
+      },
+      "why_insufficient": "An undefined claim of equivalence provides no authority to replace a required operation or deliverable.",
+      "context_complete": {
+        "applicability": "Choosing how to implement a user request with expressly specified deliverable D and qualifying predicate P.",
+        "required_behavior": "Choose any permitted implementation method that preserves P and produces D. Do not replace P or D with a purportedly similar alternative without explicit user authorization. If D cannot be produced, report which requirement is unsatisfied and why."
+      }
+    }
+  ],
+  "validation": [
+    "A reader can identify the governed situation, required action, applicable constraints, and expected outcome without importing undefined assumptions.",
+    "Any abbreviations or special identifiers required for interpretation are defined within an available governing context.",
+    "A nested member has enough context to understand its relationship to its parent and relevant scope.",
+    "The authoring does not silently change the substance of the rule, whether by omission, substitution, addition, or scope reduction.",
+    "The rule is understandable as a machine-oriented instruction and not merely a syntactically valid JSON record."
+  ]
+}

@@ -59,7 +59,7 @@
         "requirement": "Provide an instantiated wrapper draft containing the accepted user scope rule as one outer rule object and a nested conversation-analytics group without falsely asserting activation."
       }
     ],
-    "deliverable": "An account-instruction wrapper draft with accepted scope as a complete standalone rule and a compact Conversation Analytics rule descriptor containing applicability, standalone_rule_path, conversation_template_path, and destination. The detailed analytics rule is maintained in references/conversation-analytics-rule.json.",
+    "deliverable": "Wrapper draft with title, applicability and standalone_rule_path for User-Defined Scope, and analogous referenced Conversation Analytics rule, plus external rule standards and equivalent aliased copy.",
     "open_design_questions": [],
     "acceptance_criteria": [
       "An outer array exists with index-zero explainer referencing both rule-set paths; no self-redefinition of template structure is embedded there.",
@@ -113,6 +113,12 @@
         "user_instruction_summary": "Create a revised Conversation Analytics rule that renames rule to applicability and includes explicit keys for the location of the standalone rule, conversation template path, and destination.",
         "implementation": "In the wrapper, replace outer index 2 with a titled object containing applicability, standalone_rule_path, conversation_template_path, and destination. In the standalone reference, rename the rule member to applicability while preserving its exact value and all remaining members. Refresh the alias copy and dictionary. Preserve the accepted source document as historical.",
         "account_settings_updated": false
+      },
+      {
+        "purpose": "Shorten outer index-one scope instruction without changing the complete standalone rule.",
+        "user_instruction_summary": "Keep title and applicability; remove all other members from the embedded rule and add a path to the standalone scope reference.",
+        "implementation": "Outer index 1 now contains title, applicability, and standalone_rule_path only. The complete model and ten examples remain in references/user-defined-scope-rule.json. The aliased copy and lookup are synchronized.",
+        "status": "pending_user_review"
       }
     ],
     "previous_requirements_before_current_revision": [

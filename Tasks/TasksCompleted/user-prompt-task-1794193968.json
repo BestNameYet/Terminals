@@ -83,8 +83,9 @@
     "kind": "design_deliverable",
     "activation": "not_performed",
     "files": [
-      "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json",
-      "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json"
-    ]
+      "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json"
+    ],
+    "wrapper_integration": "blocked_pending_accepted_wrapper",
+    "note": "Standalone rule specification retained; wrapper compatibility cannot be accepted while the wrapper design is rejected."
   }
 }

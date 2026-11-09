@@ -1,0 +1,25 @@
+{
+  "schema": "terminals.custom-instruction-rejection.v1",
+  "recorded_at_utc": "2026-11-09T17:26:59.083Z",
+  "user_feedback": "the template is rejected and so is the revision of the user scope revision",
+  "interpretation": "Custom-instruction wrapper design and condensed scope-instruction revision are rejected.",
+  "source_commit": "702bc4dbb50d094a834839c97f3bf82b43b4dc22",
+  "rejected_task_ids": [
+    "1794192853",
+    "1794193447"
+  ],
+  "pending_revisions": [
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794192853.json",
+    "Tasks/User Prompt Task Queue/user-prompt-task-1794193447.json"
+  ],
+  "rejected_artifacts": [
+    "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json",
+    "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
+    "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md"
+  ],
+  "unchanged": [
+    "Original account scope instruction",
+    "conversations/conversation-record.template.json"
+  ],
+  "related": "Task 1794193968 is not rejected; compatibility with a replacement wrapper remains unresolved."
+}

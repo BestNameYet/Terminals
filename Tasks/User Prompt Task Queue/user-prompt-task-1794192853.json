@@ -1,6 +1,6 @@
 {
   "task_type": "custom_instruction_revision",
-  "status": "completed",
+  "status": "pending_revision",
   "created_at_utc": "2026-11-09T02:54:13Z",
   "verbatim_user_utterance": "This is a task to be saved: revise the scope instruction into a minimally verbose machine instruction that is reasonable to expect to cause the same intent as prayed for from the user scope instruction",
   "task": {
@@ -24,12 +24,19 @@
     "relationship": "The user is queuing a future task to compress that exact recovered instruction, not directing an immediate modification to account settings.",
     "destination": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
   },
-  "completed_at_utc": "2026-11-09T17:09:18.198Z",
-  "completion": {
-    "kind": "design_deliverable",
-    "activation": "not_performed",
-    "files": [
-      "Tasks/TasksCompleted/user-prompt-task-1794192853-revision.json"
-    ]
+  "rejection": {
+    "acknowledged_at_utc": "2026-11-09T17:26:59.083Z",
+    "reason": "User explicitly rejected the submitted design artifact; no specific replacement criteria supplied.",
+    "original_completed_artifacts": [
+      "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json"
+    ],
+    "prior_completion": {
+      "kind": "design_deliverable",
+      "activation": "not_performed",
+      "files": [
+        "Tasks/TasksCompleted/user-prompt-task-1794192853-revision.json"
+      ]
+    },
+    "accepted": false
   }
 }

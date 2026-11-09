@@ -1,6 +1,6 @@
 {
   "task_type": "account_custom_instruction_wrapper_design",
-  "status": "completed",
+  "status": "pending_revision",
   "created_at_utc": "2026-11-09T03:04:07Z",
   "verbatim_user_utterance": "Next task, devise a wrapper to contain the account custom instruction as either individual rules or group rules on a subject..where the grouped rules a presented in an array, where the first index clarifies the scope of the other indices and one subject is allowed per array. And the ungrouped indices are rules adopted in an adhoc manner and typically appended from newest to oldest and where the last index of the array gives any rules or instructions for interpretation of the array",
   "task": {
@@ -79,13 +79,21 @@
     "relation": "This task specifies a containing structure for account custom instructions and is distinct from editing or activating those instructions.",
     "intended_storage": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
   },
-  "completed_at_utc": "2026-11-09T17:09:18.199Z",
-  "completion": {
-    "kind": "design_deliverable",
-    "activation": "not_performed",
-    "files": [
-      "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json",
-      "Tasks/TasksCompleted/user-prompt-task-1794193447-spec.md"
-    ]
+  "rejection": {
+    "acknowledged_at_utc": "2026-11-09T17:26:59.083Z",
+    "reason": "User explicitly rejected the submitted design artifact; no specific replacement criteria supplied.",
+    "original_completed_artifacts": [
+      "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
+      "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md"
+    ],
+    "prior_completion": {
+      "kind": "design_deliverable",
+      "activation": "not_performed",
+      "files": [
+        "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json",
+        "Tasks/TasksCompleted/user-prompt-task-1794193447-spec.md"
+      ]
+    },
+    "accepted": false
   }
 }

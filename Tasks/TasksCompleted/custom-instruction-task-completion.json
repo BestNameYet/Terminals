@@ -4,15 +4,17 @@
   "tasks": [
     {
       "id": "1794192853",
-      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794192853.json",
-      "status": "completed",
-      "kind": "design_deliverable"
+      "task_path": "Tasks/User Prompt Task Queue/user-prompt-task-1794192853.json",
+      "status": "pending_revision",
+      "kind": "rejected_design_draft",
+      "acceptance": "rejected"
     },
     {
       "id": "1794193447",
-      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794193447.json",
-      "status": "completed",
-      "kind": "design_deliverable"
+      "task_path": "Tasks/User Prompt Task Queue/user-prompt-task-1794193447.json",
+      "status": "pending_revision",
+      "kind": "rejected_design_draft",
+      "acceptance": "rejected"
     },
     {
       "id": "1794193968",
@@ -22,17 +24,17 @@
     }
   ],
   "artifacts": [
-    "Tasks/TasksCompleted/user-prompt-task-1794192853-revision.json",
-    "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json",
-    "Tasks/TasksCompleted/user-prompt-task-1794193447-spec.md",
+    "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json",
+    "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
+    "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md",
     "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json"
   ],
   "verification": {
     "template_id": "terminals.conversation-record",
     "template_version": "1.0.0",
     "template_path": "conversations/conversation-record.template.json",
-    "scope_preserved": true,
-    "nested_final_interpretation_present": true,
+    "scope_preserved": "original_instruction_unchanged; rejected_compaction_not_adopted",
+    "nested_final_interpretation_present": "rejected_design_not_accepted",
     "analytics_record_append_contract_specified": true
   },
   "activation": {
@@ -41,5 +43,22 @@
     "persistent_analytics_appends": "not_started",
     "reason": "The queued deliverables were rule and wrapper designs, not activation of ChatGPT settings or deployment of a runtime callback."
   },
-  "other_queued_tasks": "unchanged"
+  "other_queued_tasks": "unchanged",
+  "user_rejection": {
+    "recorded_at_utc": "2026-11-09T17:26:59.083Z",
+    "rejected_task_ids": [
+      "1794192853",
+      "1794193447"
+    ],
+    "rejected_artifacts": [
+      "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json",
+      "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
+      "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md"
+    ],
+    "original_scope_instruction": "untouched",
+    "analytics_template": "untouched",
+    "analytics_rule": "not_rejected_but_wrapper_integration_blocked",
+    "next_step": "Redesign requires user criteria; no replacement inferred."
+  },
+  "current_disposition": "one_standalone_rule_design_completed; two_custom_instruction_designs_rejected_and_requeued"
 }

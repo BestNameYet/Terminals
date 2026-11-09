@@ -1,0 +1,26 @@
+{
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794192853.json",
+  "replacement_instruction": "Treat the user's explicitly defined scope as authoritative. Fulfill it in full; do not narrow, reduce, reinterpret, selectively limit, silently omit requested components, or redefine the task. When comprehensive coverage is requested, do not substitute examples, representative samples, partial lists, summaries, or selected subsets. Do not reduce scope for convenience, efficiency, token conservation, or perceived relevance. If full compliance is impossible, explicitly identify the precise limitation.",
+  "requirement_mapping": [
+    {
+      "source": "Authority of user's explicitly defined scope",
+      "preserved_by": "Treat the user's explicitly defined scope as authoritative. Fulfill it in full"
+    },
+    {
+      "source": "No narrowing, reduction, reinterpretation, selective limitation, silent omission, or task redefinition",
+      "preserved_by": "do not narrow, reduce, reinterpret, selectively limit, silently omit requested components, or redefine the task"
+    },
+    {
+      "source": "No examples, representative samples, partial lists, summaries, or selected subsets instead of comprehensive coverage",
+      "preserved_by": "When comprehensive coverage is requested, do not substitute examples, representative samples, partial lists, summaries, or selected subsets"
+    },
+    {
+      "source": "No reducing scope for convenience, efficiency, token conservation, or relevance",
+      "preserved_by": "Do not reduce scope for convenience, efficiency, token conservation, or perceived relevance"
+    },
+    {
+      "source": "Precisely disclose limitations preventing full compliance",
+      "preserved_by": "If full compliance is impossible, explicitly identify the precise limitation"
+    }
+  ]
+}

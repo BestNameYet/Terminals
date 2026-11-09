@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:python3 workspaces/repository-file-inventory-20261109/scan-one.py IssueScratch",
+  "outputThat": [
+    "SCAN BestNameYet/IssueScratch refs 6 file_rows 189",
+    "{\"result\": \"VERIFIED\", \"repository\": \"BestNameYet/IssueScratch\", \"refs\": 6, \"branches\": 6, \"tags\": 0, \"file_rows\": 189, \"language_counts\": {\"javascript\": 167, \"yaml\": 22}, \"table\": \"workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv\", \"verification\": \"workspaces/repository-file-inventory-20261109/repos/IssueScratch/verification.json\", \"commit\": \"56c23f849bd258837b52a24f0e6a74c3ebe851c8\", \"expression_search_executed\": false}"
+  ]
+}

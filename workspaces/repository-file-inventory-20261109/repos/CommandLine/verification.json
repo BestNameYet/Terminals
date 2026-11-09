@@ -1,50 +1,22 @@
 {
-  "schema": "terminals.repository-file-inventory.verification.v1",
+  "schema": "terminals.repository-default-branch-file-inventory.v2",
   "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
   "repository": "BestNameYet/CommandLine",
+  "scope": "default_branch_only",
+  "default_branch": "main",
+  "head_sha": "cb95df66740899dd0be725d0084495bc07e8f281",
   "status": "verified",
-  "run_started_utc": "2026-11-09T04:08:51.600562+00:00",
-  "run_finished_utc": "2026-11-09T04:08:54.695313+00:00",
-  "ref_count": 1,
-  "branch_count": 1,
-  "tag_count": 0,
-  "row_count": 31,
-  "ref_details": [
-    {
-      "ref_type": "branch",
-      "name": "main",
-      "sha": "cb95df66740899dd0be725d0084495bc07e8f281",
-      "all_git_blobs": 58,
-      "matched_source_files": 31,
-      "resolved_truncated_tree": false
-    }
-  ],
-  "language_row_counts": {
+  "matched_file_rows": 31,
+  "git_tree_entries": 75,
+  "languages": {
+    "html": 0,
     "javascript": 16,
+    "python": 0,
     "yaml": 15
   },
-  "file_specific_commit_method": "GitHub commits?sha=<pinned-ref-head>&path=<full-relative-file-path>&per_page=1",
-  "tree_completeness": "All paginated branches and tags, exhaustive recursive trees (with fallback)",
-  "source_extensions": {
-    ".yaml": "yaml",
-    ".yml": "yaml",
-    ".js": "javascript",
-    ".mjs": "javascript",
-    ".cjs": "javascript",
-    ".jsx": "javascript",
-    ".jsm": "javascript",
-    ".es6": "javascript",
-    ".html": "html",
-    ".htm": "html",
-    ".xhtml": "html",
-    ".py": "python",
-    ".pyw": "python",
-    ".pyi": "python"
-  },
-  "parser_and_expression_search_executed": false,
-  "limitations": [
-    "One row per matching file per reference; repeated content in distinct refs retained.",
-    "Git blob size reflects the Git object, not the size of any remote Git LFS payload.",
-    "Repositories inaccessible to the account integration are not included."
-  ]
+  "last_commit_date_method": "Local Git history: git log -1 --format=%H%x09%cI <pinned-head> -- <file-path>",
+  "file_size_method": "Git Trees API git blob size, exact bytes",
+  "expression_search_performed": false,
+  "verified_at_utc": "2026-11-09T04:23:09.129580+00:00",
+  "limitation": "Only default branch, as explicitly directed; other branches and tags excluded."
 }

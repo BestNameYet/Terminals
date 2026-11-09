@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:for u in 'https://assets.katomcdn.com/v1637700341/products/080/080-APZS12/080-apzs12.jpg' 'https://assets.katomcdn.com/q_100/v1637700341/products/080/080-APZS12/080-apzs12.jpg' 'https://assets.katomcdn.com/w_2000,q_100/v1637700341/products/080/080-APZS12/080-apzs12.jpg'; do echo \"$u\"; f=$(mktemp --suffix=.jpg); if curl -fLSs --max-time 20 \"$u\" -o \"$f\"; then file \"$f\"; wc -c \"$f\"; else echo DOWNLOAD_FAILED; fi; rm -f \"$f\"; done; command -v convert || command -v magick || true",
+  "outputThat": [
+    "https://assets.katomcdn.com/v1637700341/products/080/080-APZS12/080-apzs12.jpg",
+    "/tmp/tmp.ulTUuzxTF7.jpg: JPEG image data, Exif standard: [TIFF image data, little-endian, direntries=9, manufacturer=SONY, model=ILCE-7RM2, orientation=upper-left, xresolution=137, yresolution=145, resolutionunit=2, software=Adobe Photoshop 23.0 (Macintosh), datetime=2021:11:23 13:33:11], baseline, precision 8, 1000x1041, components 3",
+    "716616 /tmp/tmp.ulTUuzxTF7.jpg",
+    "https://assets.katomcdn.com/q_100/v1637700341/products/080/080-APZS12/080-apzs12.jpg",
+    "/tmp/tmp.lhhSH9UL5x.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, progressive, precision 8, 1000x1041, components 3",
+    "619713 /tmp/tmp.lhhSH9UL5x.jpg",
+    "https://assets.katomcdn.com/w_2000,q_100/v1637700341/products/080/080-APZS12/080-apzs12.jpg",
+    "/tmp/tmp.q488Te8YB9.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, baseline, precision 8, 2000x2082, components 3",
+    "1775467 /tmp/tmp.q488Te8YB9.jpg"
+  ]
+}

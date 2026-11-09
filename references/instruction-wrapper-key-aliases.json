@@ -3,20 +3,19 @@
   "applicability": "This reference defines a lossless, case-sensitive mapping of JSON object-member keys in the editable aliased copy of the account custom-instruction wrapper. It is not a substitute for the separately referenced structural rules or machine-dialect writing rules.",
   "source_template_path": "Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json",
   "aliased_template_copy_path": "Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-aliased-copy.json",
-  "alias_lookup_path": "references/instruction-wrapper-key-aliases.json",
   "mapping_semantics": {
     "keys": "Each distinct object-member key appearing anywhere in the source JSON has exactly one alias, including member keys in nested objects and objects inside arrays. The same original name is always encoded by the same alias.",
     "first_character": "The first character of every alias must equal the exact first character of its original key, preserving capitalization.",
     "allocation": "Assign one-character aliases first, one per distinct first character. For subsequent keys sharing that first character, allocate the shortest available two-character alias using suffixes a-z, then A-Z, then 0-9. Record assignments in depth-first, first-seen order.",
     "data_preservation": "Replace JSON object-member keys only. Preserve all array positions, strings, numbers, booleans, nulls, object relationships, and rule bodies without modification.",
-    "additional_lookup_member": "The editable copy adds alias_lookup_path to its outer index-zero explainer. This new key is represented by alias ai. All 103 previously verified assignments remain unchanged.",
-    "decoding": "For every aliased object member, replace its alias with the matching original key from alias_to_key. Apply recursively through objects and arrays. The result is the source wrapper plus its new alias_lookup_path member."
+    "additional_lookup_member": "The outer index-zero explainer contains the literal, unaliased member name alias_lookup_path so a reader can locate the mapping before interpreting encoded key names. The lookup reference itself does not contain a self-referential location member. The bootstrap member is exempt from alias encoding.",
+    "decoding": "Read the literal alias_lookup_path from the outer index-zero explainer and load this mapping. Replace all other encoded object keys recursively using alias_to_key, leaving the unaliased bootstrap member unchanged. Delete that bootstrap member to recover the original unmodified wrapper."
   },
   "source_template_sha256": "65deb8ca34a54ca5e90933ecf46f69770f1acd193e682a9088d2890cd384446c",
   "original_key_count": 103,
-  "total_key_count_including_lookup": 104,
+  "total_key_count_including_lookup": 103,
   "aliases_with_one_character": 22,
-  "aliases_with_two_characters": 82,
+  "aliases_with_two_characters": 81,
   "alias_to_key": {
     "a": "applicability",
     "aa": "actions",
@@ -27,7 +26,6 @@
     "af": "attribute_extracted",
     "ag": "append",
     "ah": "atomicity",
-    "ai": "alias_lookup_path",
     "b": "blockers",
     "ba": "blocker",
     "c": "classifications",

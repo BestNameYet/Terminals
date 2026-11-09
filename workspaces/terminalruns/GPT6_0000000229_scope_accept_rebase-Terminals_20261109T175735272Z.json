@@ -1,0 +1,26 @@
+{
+  "inputThis": "$:set -euo pipefail\ngh auth setup-git\ngit fetch origin main -q\ngit reset --hard origin/main -q\ntest -f AGENTS.md\ngrep -q 'DISCOVERY-04' AGENTS.md\ngh api repos/BestNameYet/Terminals/issues/comments/6747425919 --jq .body > /tmp/accepted-scope-source.json\nnode <<'NODE'\nconst fs=require('fs'); const v=JSON.parse(fs.readFileSync('/tmp/accepted-scope-source.json','utf8'));\nif(v.runOn!=='$'||v.forWhom!=='GPT6_0000000227_scope_accept_publish-Terminals')throw Error('Source identity mismatch');\nif(!v.whatPrompt.includes('git push origin HEAD:main'))throw Error('Expected publication instruction missing');\nconst command=v.whatPrompt.replace('git push origin HEAD:main','git fetch origin main -q && git rebase origin/main && git push origin HEAD:main');\nfs.writeFileSync('/tmp/scope-accepted-replay.sh',command);\nNODE\nbash -e -o pipefail /tmp/scope-accepted-replay.sh\nprintf 'REMOTE_COMMIT '; git rev-parse HEAD\nprintf '\\nWORKTREE\\n'; git status --short",
+  "outputThat": [
+    "ACCEPTANCE_VALIDATION_PASS",
+    "TEN_CONTRASTIVE_EXAMPLES_VALIDATED",
+    "WRAPPER_REJECTION_PRESERVED",
+    "ANALYTICS_RULE_STATUS_PRESERVED",
+    "ARTIFACT=Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
+    "[main 2eacf34] Accept agent-facing scope instruction with contrastive few-shot examples",
+    " 3 files changed, 156 insertions(+), 10 deletions(-)",
+    " create mode 100644 Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
+    " rename Tasks/{User Prompt Task Queue => TasksCompleted}/user-prompt-task-1794192853.json (68%)",
+    "Current branch main is up to date.",
+    "TASK_COMMIT 2eacf34cae714a3ee6fd75d976a4a28e9356e16d",
+    "",
+    "PUBLISHED_FILES",
+    "2eacf34 Accept agent-facing scope instruction with contrastive few-shot examples",
+    " .../custom-instruction-task-completion.json        | 41 ++++++++--",
+    " ...-prompt-task-1794192853-accepted-instruction.md | 91 ++++++++++++++++++++++",
+    " .../user-prompt-task-1794192853.json               | 34 +++++++-",
+    " 3 files changed, 156 insertions(+), 10 deletions(-)",
+    "REMOTE_COMMIT 2eacf34cae714a3ee6fd75d976a4a28e9356e16d",
+    "",
+    "WORKTREE"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail\ncd \"$GITHUB_WORKSPACE\"\npython3 -m venv /tmp/fishfry-arrow-cv-detect-venv\n/tmp/fishfry-arrow-cv-detect-venv/bin/python -m pip -q install opencv-python-headless\n/tmp/fishfry-arrow-cv-detect-venv/bin/python - <<'PY'\nimport cv2,numpy as np,hashlib\nfrom pathlib import Path\np=Path('terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724.png')\nassert hashlib.sha256(p.read_bytes()).hexdigest()=='4e6728722184fa091512afdf733ce2e72e822cc17369aeda49a936d923f22c74'\na=cv2.imread(str(p),cv2.IMREAD_COLOR)\nassert a is not None and a.shape==(724,724,3)\nprint('OPENCV',cv2.__version__,'SIZE',a.shape)\nfor x,y in [(715,690),(680,485),(710,510),(650,485),(701,715),(640,480),(700,440)]:\n print('PIXEL',x,y,a[y,x].tolist())\nfor threshold in [60,100,140,190]:\n roi=np.zeros((724,724),dtype=np.uint8)\n roi[430:,640:]=(np.max(a[430:,640:],axis=2)<threshold).astype(np.uint8)\n n,l,s,c=cv2.connectedComponentsWithStats(roi,8)\n z=sorted([(int(s[i,cv2.CC_STAT_AREA]),tuple(map(int,s[i,:4]))) for i in range(1,n) if s[i,cv2.CC_STAT_AREA]>=10],reverse=True)\n print('THRESHOLD',threshold,'COMPONENTS',z[:15])\nprint('SOURCE_VALIDATED')\nPY",
+  "outputThat": [
+    "OPENCV 5.0.0 SIZE (724, 724, 3)",
+    "PIXEL 715 690 [253, 253, 253]",
+    "PIXEL 680 485 [11, 11, 11]",
+    "PIXEL 710 510 [253, 253, 253]",
+    "PIXEL 650 485 [146, 144, 143]",
+    "PIXEL 701 715 [166, 166, 166]",
+    "PIXEL 640 480 [146, 144, 143]",
+    "PIXEL 700 440 [255, 255, 255]",
+    "THRESHOLD 60 COMPONENTS [(2302, (668, 475, 43, 249))]",
+    "THRESHOLD 100 COMPONENTS [(2448, (668, 475, 44, 249))]",
+    "THRESHOLD 140 COMPONENTS [(2616, (668, 475, 44, 249)), (2561, (669, 604, 31, 120)), (753, (640, 518, 29, 206)), (49, (642, 556, 3, 24)), (37, (648, 510, 10, 6)), (33, (641, 631, 12, 15)), (31, (643, 489, 11, 5)), (24, (655, 526, 8, 6)), (24, (642, 687, 14, 9)), (23, (642, 658, 13, 9)), (20, (658, 536, 6, 7)), (15, (642, 604, 7, 5)), (13, (640, 668, 6, 7)), (12, (641, 611, 5, 6)), (10, (650, 496, 5, 3))]",
+    "THRESHOLD 190 COMPONENTS [(13628, (640, 430, 72, 294))]",
+    "SOURCE_VALIDATED"
+  ]
+}

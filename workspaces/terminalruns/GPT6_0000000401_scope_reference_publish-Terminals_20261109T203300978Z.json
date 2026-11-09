@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail\nif test -f README.md; then cat README.md >/dev/null; fi\ncat AGENTS.md >/dev/null\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\nnode <<'NODE'\n\"use strict\";\nconst fs=require(\"fs\"),assert=require(\"assert\");\nconst source=\"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json\";\nconst accepted=\"Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json\";\nconst destination=\"references/user-defined-scope-rule.json\";\nassert(!fs.existsSync(destination),\"Destination exists; no overwrite permitted\");\nconst wrapper=JSON.parse(fs.readFileSync(source,\"utf8\"));\nconst original=JSON.parse(fs.readFileSync(accepted,\"utf8\"));\nassert(Array.isArray(wrapper)&&wrapper.length>=2,\"Unexpected wrapper\");\nconst standalone=wrapper[1];\nassert(!Array.isArray(standalone)&&standalone&&typeof standalone===\"object\");\nassert(standalone.title===\"User-Defined Operational Scope\");\nconst {title,...body}=standalone;\nassert.deepStrictEqual(body,original,\"Accepted scope contents do not match the wrapper\");\nassert.strictEqual(standalone.examples.length,10);\nconst content=JSON.stringify(standalone,null,2)+\"\\n\";\nfs.writeFileSync(destination,content,\"utf8\");\nassert.deepStrictEqual(JSON.parse(fs.readFileSync(destination,\"utf8\")),standalone);\nassert.deepStrictEqual(JSON.parse(fs.readFileSync(source,\"utf8\"))[1],standalone);\nconsole.log(\"SAVED\",destination);\nconsole.log(\"RULE_TITLE\",standalone.title);\nconsole.log(\"RETAINED_ACCEPTED_BODY\",true);\nconsole.log(\"RETAINED_TEN_EXAMPLES\",true);\nconsole.log(\"MATCHES_WRAPPER_INDEX_1\",true);\nconsole.log(\"BYTES\",Buffer.byteLength(content));\nNODE\ngit add -- references/user-defined-scope-rule.json\ngit diff --cached --check\ngit commit -m 'Save complete user-defined scope instruction as standalone reference'\nfor i in 1 2 3 4; do git fetch origin main -q; git rebase origin/main -q; if git push origin HEAD:main; then break; fi; test \"$i\" -lt 4; done\nprintf 'PUBLISHED_COMMIT ';git rev-parse HEAD\ngit show --stat --oneline HEAD",
+  "outputThat": [
+    "SAVED references/user-defined-scope-rule.json",
+    "RULE_TITLE User-Defined Operational Scope",
+    "RETAINED_ACCEPTED_BODY true",
+    "RETAINED_TEN_EXAMPLES true",
+    "MATCHES_WRAPPER_INDEX_1 true",
+    "BYTES 12068",
+    "[main 8bd0ac4] Save complete user-defined scope instruction as standalone reference",
+    " 1 file changed, 384 insertions(+)",
+    " create mode 100644 references/user-defined-scope-rule.json",
+    "PUBLISHED_COMMIT 8bd0ac4145fb23460107b191b5a8b963790f4dc7",
+    "8bd0ac4 Save complete user-defined scope instruction as standalone reference",
+    " references/user-defined-scope-rule.json | 384 ++++++++++++++++++++++++++++++++",
+    " 1 file changed, 384 insertions(+)"
+  ]
+}

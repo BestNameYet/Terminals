@@ -1,0 +1,26 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -f AGENTS.md\ncat AGENTS.md >/dev/null\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh auth setup-git\ngh api repos/BestNameYet/Terminals/issues/comments/6747813826 --jq .body > /tmp/previous_scope_publish_comment.json\nnode <<'NODE'\nconst fs=require('fs');\nconst x=JSON.parse(fs.readFileSync('/tmp/previous_scope_publish_comment.json','utf8'));\nif(x.runOn!=='$'||x.forWhom!=='GPT6_0000000247_scope_applicability_publish-Terminals')throw Error('Unexpected original command identity');\nif(!x.whatPrompt.includes(\"ORIGINAL_USER_DRAFT_JSON\")||!x.whatPrompt.includes(\"MODEL_UNCHANGED\"))throw Error('Original command content missing');\nfs.writeFileSync('/tmp/retry_scope_publication.sh',x.whatPrompt,'utf8');\nNODE\nbash -e -o pipefail /tmp/retry_scope_publication.sh\nprintf 'RETRY_REMOTE_COMMIT '; git rev-parse HEAD",
+  "outputThat": [
+    "MODEL_UNCHANGED true",
+    "EXAMPLES_UNCHANGED 10",
+    "KEYS applicability,model,examples",
+    "STATUS completed accepted",
+    "ARTIFACT Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json",
+    "[main 25753bb] Use accepted structured scope examples and applicability front matter",
+    " 4 files changed, 409 insertions(+), 105 deletions(-)",
+    " create mode 100644 Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json",
+    " delete mode 100644 Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
+    "PUBLISHED_COMMIT 25753bbbbc58eae0d6d71f8794a94909273c406a",
+    "",
+    "WORKTREE",
+    "",
+    "CHANGED_FILES",
+    "25753bb Use accepted structured scope examples and applicability front matter",
+    " .../custom-instruction-task-completion.json        |  19 +-",
+    " ...rompt-task-1794192853-accepted-instruction.json | 383 +++++++++++++++++++++",
+    " ...-prompt-task-1794192853-accepted-instruction.md |  91 -----",
+    " .../user-prompt-task-1794192853.json               |  21 +-",
+    " 4 files changed, 409 insertions(+), 105 deletions(-)",
+    "RETRY_REMOTE_COMMIT 25753bbbbc58eae0d6d71f8794a94909273c406a"
+  ]
+}

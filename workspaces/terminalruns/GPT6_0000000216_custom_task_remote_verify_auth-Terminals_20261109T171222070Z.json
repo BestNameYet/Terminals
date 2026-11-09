@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -euo pipefail; gh auth setup-git; git fetch origin main -q; git reset --hard origin/main -q; printf 'HEAD '; git rev-parse HEAD; node <<'NODE'\nconst fs=require('fs'),assert=require('assert'); const base='Tasks/TasksCompleted/'; const ids=['1794192853','1794193447','1794193968']; const m=JSON.parse(fs.readFileSync(base+'custom-instruction-task-completion.json')); assert.strictEqual(m.tasks.length,3); for(const id of ids){const p=base+'user-prompt-task-'+id+'.json';assert.strictEqual(JSON.parse(fs.readFileSync(p)).status,'completed');assert(!fs.existsSync('Tasks/User Prompt Task Queue/user-prompt-task-'+id+'.json'));} const w=JSON.parse(fs.readFileSync(base+'user-prompt-task-1794193447-wrapper.json')); assert.strictEqual(w.length,3); for(const g of w.slice(0,-1)){assert(Array.isArray(g)&&g.length>=3&&typeof g.at(-1)==='string');} const t=JSON.parse(fs.readFileSync('conversations/conversation-record.template.json')); const a=JSON.parse(fs.readFileSync(base+'user-prompt-task-1794193968-rule.json')); assert.strictEqual(a[1].template.template_id,t.template_id); assert.strictEqual(a[1].template.template_version,t.template_version); for(const name of ['1794191751','1794196167','1794214996'])assert(fs.existsSync('Tasks/User Prompt Task Queue/user-prompt-task-'+name+'.json')); console.log('REMOTE_VERIFICATION_PASSED');console.log('COMPLETED_TASKS='+ids.join(','));console.log('OTHER_QUEUED_TASKS_UNCHANGED');\nNODE",
+  "outputThat": [
+    "HEAD 2df34c39ceed9837ccd2d1627cf82854cd9ca080",
+    "REMOTE_VERIFICATION_PASSED",
+    "COMPLETED_TASKS=1794192853,1794193447,1794193968",
+    "OTHER_QUEUED_TASKS_UNCHANGED"
+  ]
+}

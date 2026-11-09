@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest ! -e conversations/README.md\nmkdir -p conversations\ncat > conversations/README.md <<'EOF'\n# Conversations\n\nThis directory temporarily houses conversation records for specification, design, analysis, and related work in this repository.\n\nRecords stored here are working material, not the authoritative long-term conversation archive. Their presence does not imply that a record is complete, verified, or approved for permanent retention.\n\nAs the permanent storage location and retention procedure are defined, records may be reviewed and migrated or removed in accordance with that procedure. Preserve provenance and original content when transferring records.\nEOF\ngit add -- conversations/README.md\ngit -c user.name='GPT-6' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'docs: establish temporary conversations directory'\ngit push origin HEAD:main\ngit rev-parse HEAD\ngit show HEAD:conversations/README.md",
+  "outputThat": [
+    "[main eb3fde8] docs: establish temporary conversations directory",
+    " 1 file changed, 7 insertions(+)",
+    " create mode 100644 conversations/README.md"
+  ]
+}

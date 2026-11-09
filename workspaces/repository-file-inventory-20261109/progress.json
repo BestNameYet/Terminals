@@ -2,7 +2,7 @@
   "schema": "repository-inventory-progress.v1",
   "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
   "stage_1": "verified_accessible_population_only",
-  "stage_2": "not_started",
+  "stage_2": "in_progress",
   "stage_3": "not_started_expression_search_prohibited_until_user_resumes",
   "start_utc": "2026-11-09T04:02:55.438812+00:00",
   "cutoff_utc": "2026-05-09T04:02:55.438812+00:00",
@@ -24,8 +24,14 @@
   ],
   "per_repository": {
     "Canonical-Skills-Location": {
-      "status": "pending",
-      "table_path": null
+      "status": "verified",
+      "file_rows": 49,
+      "refs_scanned": 14,
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/Canonical-Skills-Location/verification.json",
+      "verified_at_utc": "2026-11-09T04:07:51.041786+00:00",
+      "source_snapshot_started_utc": "2026-11-09T04:07:41.817821+00:00"
     },
     "CommandLine": {
       "status": "pending",

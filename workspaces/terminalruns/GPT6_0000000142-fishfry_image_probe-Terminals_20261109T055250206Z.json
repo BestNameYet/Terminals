@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:tmp=$(mktemp); curl -fLsS --max-time 20 'https://assets.katomcdn.com/q_auto%2Cf_auto/v1637700341/products/080/080-APZS12/080-apzs12.jpg' -o \"$tmp\"; file \"$tmp\"; command -v identify && identify \"$tmp\" || true; rm -f \"$tmp\"",
+  "outputThat": [
+    "/tmp/tmp.xZEKruK0zJ: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, progressive, precision 8, 1000x1041, components 3"
+  ]
+}

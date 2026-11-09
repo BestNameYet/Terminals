@@ -1,0 +1,68 @@
+name: Codespace MCP JavaScript Expression Inventory
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Source repository (owner/name)
+        required: true
+        type: string
+        default: BestNameYet/Terminals
+      source_ref:
+        description: Branch or commit containing the source files
+        required: true
+        type: string
+        default: main
+      file_list_path:
+        description: File list path in Terminals repository (JSON, CSV, or text)
+        required: true
+        type: string
+        default: workspaces/repository-file-inventory-20261109/repos/Terminals/files.json
+
+permissions:
+  contents: read
+
+jobs:
+  extract-expressions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out task repository
+        uses: actions/checkout@v4
+        with:
+          path: task
+
+      - name: Check out source repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.source_repository }}
+          ref: ${{ inputs.source_ref }}
+          path: source
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: task/workspaces/codespace-mcp-srs-design/expression-inventory/package-lock.json
+
+      - name: Install Babel dependencies
+        working-directory: task/workspaces/codespace-mcp-srs-design/expression-inventory
+        run: npm ci
+
+      - name: Extract JavaScript AST expression records
+        env:
+          FILE_LIST: ${{ inputs.file_list_path }}
+        run: |
+          node task/workspaces/codespace-mcp-srs-design/expression-inventory/collect-expressions.js \
+            "task/$FILE_LIST" \
+            source \
+            expression-results
+
+      - name: Upload expression tables and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codespace-mcp-expression-inventory
+          path: expression-results/
+          if-no-files-found: warn
+          retention-days: 14

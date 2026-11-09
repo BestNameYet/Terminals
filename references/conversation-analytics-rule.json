@@ -1,6 +1,6 @@
 {
   "title": "End-of-Turn Conversation Analytics Recording",
-  "rule": "At the end of every completed assistant turn, create a complete conversation-analytics record from the active conversation-record template describing the corresponding user utterance, adjacent conversation context, and actual assistant response. Append that record exactly once to the persistent JSON array belonging to the current conversation. Do not change, remove, replace, or reorder existing records. Never claim that an append succeeded without verifying the persisted result.",
+  "applicability": "At the end of every completed assistant turn, create a complete conversation-analytics record from the active conversation-record template describing the corresponding user utterance, adjacent conversation context, and actual assistant response. Append that record exactly once to the persistent JSON array belonging to the current conversation. Do not change, remove, replace, or reorder existing records. Never claim that an append succeeded without verifying the persisted result.",
   "trigger": {
     "event": "end_of_completed_assistant_turn",
     "response_capture": "Use the actual finalized assistant response at the end-of-turn boundary; construct the record only after the response is available. If the runtime cannot access it or cannot execute an end-of-turn callback, report the record as pending or failed rather than asserting completion."

@@ -59,7 +59,7 @@
         "requirement": "Provide an instantiated wrapper draft containing the accepted user scope rule as one outer rule object and a nested conversation-analytics group without falsely asserting activation."
       }
     ],
-    "deliverable": "Two external rule references with examples, plus an instruction-wrapper draft containing the complete accepted scope rule and the complete conversation-analytics rule as separate standalone objects.",
+    "deliverable": "An account-instruction wrapper draft with accepted scope as a complete standalone rule and a compact Conversation Analytics rule descriptor containing applicability, standalone_rule_path, conversation_template_path, and destination. The detailed analytics rule is maintained in references/conversation-analytics-rule.json.",
     "open_design_questions": [],
     "acceptance_criteria": [
       "An outer array exists with index-zero explainer referencing both rule-set paths; no self-redefinition of template structure is embedded there.",
@@ -107,6 +107,12 @@
         "purpose": "Make Conversation Analytics one standalone rule object because the former two-element grouped-rule array added only redundant context.",
         "user_instruction_summary": "Conversation analytics should be an object, not an array. Its former group-explainer at index 0 and the subordinate rule at index 1 were redundant; retain one complete analytics rule object without the superfluous group explainer.",
         "implementation": "Replace outer index 2 with the preexisting complete titled analytics rule object, preserving its original rule body byte-for-byte at the parsed JSON value level. Update the editable aliased copy and its exact-key alias lookup without modifying the separate accepted analytics source."
+      },
+      {
+        "purpose": "Externalize verbose Conversation Analytics details and expose the referenced rule, conversation template, and destination directly on one outer-array entry.",
+        "user_instruction_summary": "Create a revised Conversation Analytics rule that renames rule to applicability and includes explicit keys for the location of the standalone rule, conversation template path, and destination.",
+        "implementation": "In the wrapper, replace outer index 2 with a titled object containing applicability, standalone_rule_path, conversation_template_path, and destination. In the standalone reference, rename the rule member to applicability while preserving its exact value and all remaining members. Refresh the alias copy and dictionary. Preserve the accepted source document as historical.",
+        "account_settings_updated": false
       }
     ],
     "previous_requirements_before_current_revision": [

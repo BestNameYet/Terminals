@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:python3 workspaces/repository-file-inventory-20261109/scan-one.py StateMachines",
+  "outputThat": [
+    "DEFAULT_BRANCH_SCAN BestNameYet/StateMachines files 608 head 3663931a542fdbaf748a496033146b1dfc5ade96",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/StateMachines\", \"files\": 608, \"languages\": {\"html\": 19, \"javascript\": 234, \"python\": 224, \"yaml\": 131}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/StateMachines/files.csv\", \"commit\": \"7d1666e400b3d83d7ebc1b70fbbc6ce248f0fa83\", \"expression_search_performed\": false}"
+  ]
+}

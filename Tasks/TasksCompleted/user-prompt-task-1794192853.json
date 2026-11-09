@@ -43,8 +43,8 @@
   "acceptance": {
     "status": "accepted",
     "accepted_at_utc": "2026-11-09T17:57:38.798Z",
-    "source": "User explicitly approved the agent-facing preamble and contrastive few-shot design, then requested GitHub publication as an accepted task completion.",
-    "format": "agent-facing Markdown instruction with domain-independent contrastive few-shot examples",
+    "source": "User-supplied Pasted text.txt with requested top-level changes",
+    "format": "Original structured JSON draft, with the schema/version fields removed and purpose replaced by applicability.",
     "requirements_preserved": {
       "authoritative_scope": "preamble",
       "no_unauthorized_reduction": "preamble and E03, E08, E09",
@@ -54,19 +54,26 @@
       "precise_limitation_disclosure": "preamble and E02, E03, E10",
       "minimal_core_and_nonexhaustive_examples": "concise preamble followed by ten few-shot cases"
     },
-    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
-    "account_settings_updated": false
+    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json",
+    "account_settings_updated": false,
+    "revised_at_utc": "2026-11-09T18:30:27.448Z",
+    "body_preserved": {
+      "model": true,
+      "examples": true
+    }
   },
   "completed_at_utc": "2026-11-09T17:57:38.798Z",
   "completion": {
     "kind": "accepted_agent_facing_instruction",
     "activation": "not_performed",
     "files": [
-      "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
+      "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json"
     ],
     "accepted_by_user": true,
     "example_count": 10,
-    "instruction_preamble": true,
-    "source_rejected_revision": "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json"
+    "source_rejected_revision": "Tasks/TasksRejected/user-prompt-task-1794192853-revision.json",
+    "introduction": "applicability",
+    "source_example_structure": "original uploaded JSON, unchanged",
+    "superseded_artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
   }
 }

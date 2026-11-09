@@ -8,7 +8,7 @@
       "status": "completed",
       "kind": "accepted_agent_facing_instruction",
       "acceptance": "accepted",
-      "deliverable": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
+      "deliverable": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json"
     },
     {
       "id": "1794193447",
@@ -29,13 +29,13 @@
     "Tasks/TasksRejected/user-prompt-task-1794193447-wrapper.json",
     "Tasks/TasksRejected/user-prompt-task-1794193447-spec.md",
     "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json",
-    "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md"
+    "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json"
   ],
   "verification": {
     "template_id": "terminals.conversation-record",
     "template_version": "1.0.0",
     "template_path": "conversations/conversation-record.template.json",
-    "scope_preserved": "accepted agent-facing revision retains all substantive scope requirements; original account setting unchanged",
+    "scope_preserved": "The uploaded JSON model and E01-E10 examples are preserved unchanged; only schema, version, and purpose top-level fields were replaced by applicability.",
     "nested_final_interpretation_present": "rejected_design_not_accepted",
     "analytics_record_append_contract_specified": true
   },
@@ -68,12 +68,12 @@
     }
   },
   "current_disposition": "scope_instruction_revision_accepted_and_completed; wrapper_design_rejected_and_pending_revision; analytics_rule_design_completed_with_wrapper_integration_blocked",
-  "updated_at_utc": "2026-11-09T17:57:38.798Z",
+  "updated_at_utc": "2026-11-09T18:30:27.448Z",
   "scope_instruction_acceptance": {
     "status": "accepted",
     "accepted_at_utc": "2026-11-09T17:57:38.798Z",
     "source": "User explicitly approved the agent-facing preamble and contrastive few-shot design, then requested GitHub publication as an accepted task completion.",
-    "format": "agent-facing Markdown instruction with domain-independent contrastive few-shot examples",
+    "format": "Original structured JSON draft, with the schema/version fields removed and purpose replaced by applicability.",
     "requirements_preserved": {
       "authoritative_scope": "preamble",
       "no_unauthorized_reduction": "preamble and E03, E08, E09",
@@ -83,7 +83,12 @@
       "precise_limitation_disclosure": "preamble and E02, E03, E10",
       "minimal_core_and_nonexhaustive_examples": "concise preamble followed by ten few-shot cases"
     },
-    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.md",
-    "account_settings_updated": false
+    "artifact": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json",
+    "account_settings_updated": false,
+    "revised_at_utc": "2026-11-09T18:30:27.448Z",
+    "body_preserved": {
+      "model": true,
+      "examples": true
+    }
   }
 }

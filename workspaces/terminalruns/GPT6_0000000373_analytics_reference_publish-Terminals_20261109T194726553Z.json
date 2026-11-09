@@ -1,0 +1,17 @@
+{
+  "inputThis": "$:set -euo pipefail\nif test -f README.md; then cat README.md >/dev/null; fi\ncat AGENTS.md >/dev/null\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\nnode <<'NODE'\n\"use strict\";\nconst fs=require(\"fs\"),assert=require(\"assert\");\nconst original=\"Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json\";\nconst acceptedSource=\"Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json\";\nconst target=\"references/conversation-analytics-rule.json\";\nassert(!fs.existsSync(target),\"Target already exists; refusing overwrite\");\nconst wrapper=JSON.parse(fs.readFileSync(original,\"utf8\"));\nconst reference=JSON.parse(fs.readFileSync(acceptedSource,\"utf8\"));\nassert(Array.isArray(wrapper)&&wrapper.length===3&&!Array.isArray(wrapper[2]));\nconst rule=wrapper[2];\nassert(rule.title===\"End-of-Turn Conversation Analytics Recording\");\nconst {title,...body}=rule;\nassert.deepStrictEqual(body,reference[1],\"Source body mismatch\");\nfs.writeFileSync(target,JSON.stringify(rule,null,2)+\"\\n\",\"utf8\");\nconst readback=JSON.parse(fs.readFileSync(target,\"utf8\"));\nassert.deepStrictEqual(readback,rule,\"Reference copy mismatch\");\nconsole.log(\"PERSISTED\",target);\nconsole.log(\"TITLE\",readback.title);\nconsole.log(\"MATCHES_WRAPPER_OBJECT\",true);\nconsole.log(\"MATCHES_ACCEPTED_ANALYTICS_BODY\",true);\nconsole.log(\"BYTES\",fs.statSync(target).size);\nNODE\ngit add -- references/conversation-analytics-rule.json\ngit diff --cached --check\ngit commit -m 'Add standalone conversation analytics rule to references'\nfor i in 1 2 3 4; do\n  git fetch origin main -q\n  git rebase origin/main -q\n  if git push origin HEAD:main; then break; fi\n  test \"$i\" -lt 4\ndone\nprintf 'PUBLISHED_COMMIT '; git rev-parse HEAD\ngit show --stat --oneline HEAD",
+  "outputThat": [
+    "PERSISTED references/conversation-analytics-rule.json",
+    "TITLE End-of-Turn Conversation Analytics Recording",
+    "MATCHES_WRAPPER_OBJECT true",
+    "MATCHES_ACCEPTED_ANALYTICS_BODY true",
+    "BYTES 4160",
+    "[main 076b6f2] Add standalone conversation analytics rule to references",
+    " 1 file changed, 44 insertions(+)",
+    " create mode 100644 references/conversation-analytics-rule.json",
+    "PUBLISHED_COMMIT 076b6f2dffc3920fd5d5d03ad54f33d0088a456f",
+    "076b6f2 Add standalone conversation analytics rule to references",
+    " references/conversation-analytics-rule.json | 44 +++++++++++++++++++++++++++++",
+    " 1 file changed, 44 insertions(+)"
+  ]
+}

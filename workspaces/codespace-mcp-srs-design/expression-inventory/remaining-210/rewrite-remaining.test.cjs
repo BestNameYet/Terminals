@@ -41,3 +41,6 @@ test('keeps separate aliases for shadowed declarations',()=>{
 test('retains source text and does not claim semantic equivalence',()=>{
  const s='p => { send(p); }',x=convert(s);assert.equal(x.source,s);assert.equal(x.verified_semantic_equivalence,false);assert.equal(x.status,'partial_rewrite_questions_reserved');
 });
+test('rewrites derived constructors without executing super or losing parameters',()=>{
+ const x=convert('constructor(code, message) { super(message); this.code = code; }');assert(x.canonical,'constructor representation missing');assert.equal(x.canonical.signature.kind,'ClassMethod');assert.deepEqual(x.canonical.signature.parameters,['code','message']);assert(x.questions.some(q=>q.kind==='callee_contract'));assert.equal(collect(x,'MUTATE')[0].target,'this.code');
+});

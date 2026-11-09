@@ -3,1468 +3,1470 @@
     "index": 0,
     "id": "CommandLine:runtime/execute-js.cjs:875-1688",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "8276fee2b7af0df6a906db7f93fbcbee53ac5891ca4773d41bae550d4645409c"
   },
   {
     "index": 1,
     "id": "CommandLine:workspaces/meta-instructor/controller.test.cjs:10561-11381",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "2855a5a3217c3cadf6d96da28db02e25318abd00057440a31ac8c58599e98381"
   },
   {
     "index": 2,
     "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.cjs:2292-7761",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 121,
+    "questions": 122,
     "source_sha256": "bed08ce9ab6cca19f2af431622f5f8a503081f8ed13834ae7b4927cd19b66c4f"
   },
   {
     "index": 3,
     "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.test.cjs:2676-3040",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 22,
+    "questions": 23,
     "source_sha256": "6383bcfce7b3592ca13dc1df0aa7921472fd253f2a5cfe9af73d1f75f11145d1"
   },
   {
     "index": 4,
     "id": "CommandLine:workspaces/meta-instructor/tasks/respiration-six-panels/model.test.cjs:834-1154",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "9dbefa1c3ca4999beb0570a49eaf7f3fea6059bded6ff261609eaf82656713a2"
   },
   {
     "index": 5,
     "id": "IssueStack-:src/agent-context-registry.js:3348-4432",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 42,
+    "questions": 43,
     "source_sha256": "f9bf2115910aec966578e399d592d6b9a9a38e7cb4cc2b0ecc85ceee71701cde"
   },
   {
     "index": 6,
     "id": "IssueStack-:src/interactive-procedures.test.js:1185-1661",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "348f41553f269afa680fa216ab15eec7110e232629cf9c8b9998c885a057d277"
   },
   {
     "index": 7,
     "id": "IssueStack-:src/issue-1-intake.test.js:7578-7889",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "36fbf4973c4203dea05dfecf70fd9e3c77736b774c279326dd93234c22ec255b"
   },
   {
     "index": 8,
     "id": "IssueStack-:src/issue-3-scratchpads.js:1796-2200",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "bd8233c68be415042fcf7cfbde814289e0873f7340dc86049d179120a6140a76"
   },
   {
     "index": 9,
     "id": "IssueStack-:src/issue5-presentation.js:10448-12392",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 64,
+    "questions": 65,
     "source_sha256": "34c6a8d65b2378eda42bd00f4406a9d44d8d6c4eea78f4450a30a3b99529a77f"
   },
   {
     "index": 10,
     "id": "IssueStack-:src/issue5-presentation.js:565-793",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "64b689b4c77ba9f8681caa3e5e85ad6ab46bd6452f39b8ff3d35480deccd71b3"
   },
   {
     "index": 11,
     "id": "IssueStack-:src/issue5-presentation.test.js:2145-2603",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "e1acb3c5e135b1320b261bcc2c7c177451310b061f21cebb713b9c0ada38d741"
   },
   {
     "index": 12,
     "id": "IssueStack-:src/issue5-projection-workflow.js:2699-3111",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 2,
+    "questions": 3,
     "source_sha256": "e3739df75fe1b102f2b0985156dd23e4844db6fdf6c9d6f405b92f843bbad5d2"
   },
   {
     "index": 13,
     "id": "IssueStack-:src/issue5-projection.test.js:5550-5987",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "fd6de94a8f4ec72c2b37bfcee9c5157cffdf465d149e449c6aea87c8addc97d2"
   },
   {
     "index": 14,
     "id": "IssueStack-:src/issue5-projection.test.js:6972-7222",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "2ab9d269acc2e8f12338b57455f9f3da0008d1bea811e03b7a2b772b180d75d3"
   },
   {
     "index": 15,
     "id": "IssueStack-:src/procedure-documents.js:8935-9446",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "d4a84d6f0adda7a66ef001064eeaad1aa090adb43a69fe3b7fdd5cf16dc4d872"
   },
   {
     "index": 16,
     "id": "IssueStack-:src/semantic-operator-contract.js:2095-5160",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 83,
+    "questions": 84,
     "source_sha256": "06cc4e715649bd8393b5a095f0ff26f2281f0a2abee11f306927891e5db5e97d"
   },
   {
     "index": 17,
     "id": "IssueStack-:test/semantic-operator-contract.test.js:4312-4697",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 16,
+    "questions": 17,
     "source_sha256": "dc70de64b9f1e7280bfb575d13c0c711b2cffb9178bfed9591fe6276b9d34edd"
   },
   {
     "index": 18,
     "id": "IssueStack-:workspaces/audio-deception-comparison/src/compare.js:1255-1871",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "c9972fda536978535c8eaf9194511f4deb23818f011df4e2ed4d058685ca1a0e"
   },
   {
     "index": 19,
     "id": "IssueStack-:workspaces/chatgpt-share-html-extractor/build-shared-conversation.js:4031-7721",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 61,
+    "questions": 62,
     "source_sha256": "bf4f2c1c9d283baaaba96707dec3fa53d0a8db7a7c5952cdad26dcc03060c6c5"
   },
   {
     "index": 20,
     "id": "IssueStack-:workspaces/chatgpt-share-html-extractor/build-shared-conversation.js:7839-8422",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 15,
+    "questions": 16,
     "source_sha256": "8ed09d31ae227dafb98c1c92ca2129e5c2d2296e261bc611872dca68d6f190fa"
   },
   {
     "index": 21,
     "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/fake-github.js:2540-2676",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "918367a3d7806aee0245a49e603d3659c152db2382205d3a5994fcfce314ad97"
   },
   {
     "index": 22,
     "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:1240-1306",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 3,
+    "questions": 4,
     "source_sha256": "51c799de505d7bdfbadb022a362d03c53f602f42486d85419b1fa831447fc396"
   },
   {
     "index": 23,
     "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:1347-1445",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "1a3c1dde131e4b931042d792aa2381df33dddd8132d6951fb64acc7b5db025ef"
   },
   {
     "index": 24,
     "id": "IssueStack-:workspaces/issue-comment-input-surface/tests/runtime.test.js:4087-4184",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 7,
+    "questions": 8,
     "source_sha256": "c28b09f92487884cf855f0fbf39b7815c3dfb8b6403adfec5f05a09d0baab425"
   },
   {
     "index": 25,
     "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:2263-3366",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "4b4d108631f5340aa085e390ff832b6b7103ba5d525ca350ac6bf11fb5dd16df"
   },
   {
     "index": 26,
     "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:4303-4735",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "4b76b85bb75e8d22a19d938edad53cbdf5e1f9f942c4b4abc37c760b3eb398e4"
   },
   {
     "index": 27,
     "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:6133-8125",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 59,
+    "questions": 60,
     "source_sha256": "75513417b3a567a0ee0fa11ba26b4c39f6c5028de0e0c36564657888b299953e"
   },
   {
     "index": 28,
     "id": "StateMachines:ChatMachines/AudioClipSelector/test.cjs:8209-9801",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 51,
+    "questions": 52,
     "source_sha256": "13b7466af14ff3f119fb512aab57cc6466a6c0f754466d9d11e5e193344fe18d"
   },
   {
     "index": 29,
     "id": "StateMachines:ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:8268-11975",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 45,
+    "questions": 46,
     "source_sha256": "d58a257f06efb40d69797aed97ecdb5924e3978e6a17a9900f39799714599a1d"
   },
   {
     "index": 30,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:15415-18370",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 45,
+    "questions": 46,
     "source_sha256": "7f8947f0d72e2c28e2e05e3ad4ebf930565a7d4ce238db87276cc22ed9b07296"
   },
   {
     "index": 31,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:2724-3121",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "447053d612a86f1e94b2887087e63d5164025754534de7685ce7e3f7eaf8546d"
   },
   {
     "index": 32,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:28477-29246",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "8a9765072adf9cb9668c354ee8fb68b2bd61247c4e435f3fbbe04c0a89bcdedd"
   },
   {
     "index": 33,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:51876-53653",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 45,
+    "questions": 46,
     "source_sha256": "f55f0e741ab887ff650e55fe6a9c1419c709d4ffb65ce3135d9d43d55c7db091"
   },
   {
     "index": 34,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:22990-24024",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 18,
+    "questions": 19,
     "source_sha256": "28a667a78ab7c0d112cb43f09bd0194b2d8dd83a3a73e37846902de07c130801"
   },
   {
     "index": 35,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:24327-25118",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 16,
+    "questions": 17,
     "source_sha256": "9c5b9824d4fe45f6399c50a68056677971eb781d43444d03d338ddbebdef66b4"
   },
   {
     "index": 36,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:3494-4298",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "ae376186dc8bc002e6d38b470e8a501a25685acfc726730185dfabf3ce1f5601"
   },
   {
     "index": 37,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:5370-6485",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "664a0522a0cc3c11bc7afcd411aacdecfe981927a90ba1b47423372b37d7418b"
   },
   {
     "index": 38,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:3666-4026",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "9fa0aa625d70b65b1554d5a537e4e6137753277cebc4489715234ce7dbcc9f76"
   },
   {
     "index": 39,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-flat-evaluator.js:9816-17402",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 89,
+    "questions": 90,
     "source_sha256": "1444381a8f0faa9ec2d20bc99b8be5f18633afb87144ea2f503e44ca4a390caa"
   },
   {
     "index": 40,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-process-view.js:685-819",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "9d6e8ec9e5de00e8a36ca72aaa6247fedb494fd9b80cf7744dfb6f68b85144d1"
   },
   {
     "index": 41,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/historical-audit-segmenter.js:2026-3425",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "d112631ecaceee74a8207aa6c8d03c44e1e2c78927588d46824367c3bce6c156"
   },
   {
     "index": 42,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:13673-14091",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "04f951284bc74240d3b0ce1cdda329cb243ba29335715b3f4d4dfbc63026282c"
   },
   {
     "index": 43,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:27516-28026",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "596a3752adb5edcfe7d6241602afbf4ae66c90a4820eb1c70fc5eb928e08d905"
   },
   {
     "index": 44,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:28028-31031",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "5a3927f1b1f8196d79f543fd96bbf223ff8b119d4464bd3707eb4e5ae9efe252"
   },
   {
     "index": 45,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:40273-42163",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 24,
+    "questions": 25,
     "source_sha256": "5d632c0ce05374c393c8f276ac8ec520fd04fe98348a2b8f9cad96a5fb2d8dff"
   },
   {
     "index": 46,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:42165-43377",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 27,
+    "questions": 28,
     "source_sha256": "b0f91dd9b4caa6e7727c4bd4e0bc5596199502d691e5b2ef016107d643f410ab"
   },
   {
     "index": 47,
     "id": "StateMachines:ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:6337-6526",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "3ccfbc2d886510a390d6071c2801080b7afb68aa3449a52f19ef14b03c4b26f5"
   },
   {
     "index": 48,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/install-remote-card-deck.js:3789-3891",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "258a96ff284170df48a56479f21a8e9094c132f4f8d8f223563ed9937160bdaf"
   },
   {
     "index": 49,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:2023-2666",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "325922f1e5ea56d7315e7868131477320d9697eb62e0e10038123b34b7baaa94"
   },
   {
     "index": 50,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:602-779",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "9b3f03f0c7e8ecc1aa1d19c046ad7d7b62603637ab272b30655475b4452addce"
   },
   {
     "index": 51,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:7345-10267",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 44,
+    "questions": 45,
     "source_sha256": "98cb6c01793ec7453595b229b03951251da676c96e7e5245650a604e22120df6"
   },
   {
     "index": 52,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:12724-13190",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "a68d083b62cac663caf03e1d8ad7b6c12c38733809dd18b95bc6c8f0e3c98196"
   },
   {
     "index": 53,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:15945-16352",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "7a164de36ae60db91a6400c0504a51ee1b302670ae7302add1d11570eed676b0"
   },
   {
     "index": 54,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:20237-22975",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "5933f952c5370a07c69f14bf75fac203b4676c5c39cc62606dcd946f2a793237"
   },
   {
     "index": 55,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:36794-37094",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 15,
+    "questions": 16,
     "source_sha256": "7426f89f6baa0784cba77e1e79890985374afa8b96f358bfb666ecb03127af87"
   },
   {
     "index": 56,
     "id": "StateMachines:ChatMachines/GeminiSupervisor/send-to-gemini.js:6337-6526",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "3ccfbc2d886510a390d6071c2801080b7afb68aa3449a52f19ef14b03c4b26f5"
   },
   {
     "index": 57,
     "id": "StateMachines:ChatMachines/SBE/sbe-evaluate.js:1223-1539",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 15,
+    "questions": 16,
     "source_sha256": "292889e56231b65470147463d509ba669ea48755f3f82a59d5dd2d5fcd4a7025"
   },
   {
     "index": 58,
     "id": "StateMachines:ChatMachines/SeleniumServer/run.cjs:1329-2548",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 22,
+    "questions": 23,
     "source_sha256": "c2c40734c49b9d87d23d1fbee9a527202ebfb5b528e39fe8d1a002033fb25d90"
   },
   {
     "index": 59,
     "id": "StateMachines:ChatMachines/SeleniumServer/run.cjs:5491-8091",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 97,
+    "questions": 98,
     "source_sha256": "d026be55a9ea265c7452a40bc2fa69bf20df746c1ddd57ab029869078cc89fca"
   },
   {
     "index": 60,
     "id": "StateMachines:ChatMachines/SeleniumServer/runner.test.cjs:1794-2192",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "8a2d00c8ec469aae726c246b88c5e86ace14a3e69ecbb87f57794e14fba9cfb5"
   },
   {
     "index": 61,
     "id": "StateMachines:ChatMachines/SeleniumServer/runner.test.cjs:2336-2375",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "25203b7a05b9177dcf7e80a8a30729b1f24a3e7ddff97963848949863b3b2352"
   },
   {
     "index": 62,
     "id": "StateMachines:ChatMachines/TokenizerCalibration/run.js:4815-4910",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "815595adb4e5079adf1dc05776ff48060cac4d665e09fdb7e25f60bdc02327b8"
   },
   {
     "index": 63,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js:381-19165",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 217,
+    "questions": 218,
     "source_sha256": "91a2e7925837884a849bda064b05483289122b80b19fdb5f14cb677a1c33e28c"
   },
   {
     "index": 64,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface-server.js:2990-3164",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 7,
+    "questions": 8,
     "source_sha256": "21acfffa76a3914d616f41d6538b71bf381dc59dc9ca39c130fb27cb474b05cb"
   },
   {
     "index": 65,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/interface.test.js:6172-6213",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "f4750e48c7ea79b8a810de2a6c242dba738bad6976db3361dc406407f5c3335f"
   },
   {
     "index": 66,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:2953-3243",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "b05959c41cb81fac818b5bca4c6c421c0562ccb360ab92a09de11b4dc9dcf99c"
   },
   {
     "index": 67,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:19207-19424",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "db726a835bff6288275aed0b80b931b93acbbdb2874cc68c1c4e04a82a511620"
   },
   {
     "index": 68,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:4549-5289",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 24,
+    "questions": 25,
     "source_sha256": "44a8859d86923af8b2e28fa54e2010c7202312ca689e193c248b142c350f3786"
   },
   {
     "index": 69,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/56/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js:4301-5193",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "bcb853e302ba5d8a4b6a115e2c2e65398a6d4c62b9b505016506146574587504"
   },
   {
     "index": 70,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workflow.js:5451-6645",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 42,
+    "questions": 43,
     "source_sha256": "0d10910f998be91cf384bb160835f6f1da293b6fba6ae86d316752ff746354b8"
   },
   {
     "index": 71,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:10192-10233",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "f4750e48c7ea79b8a810de2a6c242dba738bad6976db3361dc406407f5c3335f"
   },
   {
     "index": 72,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:3409-3967",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 19,
+    "questions": 20,
     "source_sha256": "c4ce1b169883b0bd1937335f6017282c5b3c3a4392eb38451976269f426a8171"
   },
   {
     "index": 73,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/run-package.test.js:4658-10178",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 76,
+    "questions": 77,
     "source_sha256": "16855db522902b22841c0a00d1dff91375c569fa739e613b1ed3575b817474be"
   },
   {
     "index": 74,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/runtime/runner.test.js:2632-2673",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "f4750e48c7ea79b8a810de2a6c242dba738bad6976db3361dc406407f5c3335f"
   },
   {
     "index": 75,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-workspaces/57/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.js:4673-5177",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "46afaa619e518467ea326293ba6038c265d6d8697c50dc492b57654c064546a1"
   },
   {
     "index": 76,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.js:889-3730",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 67,
+    "questions": 68,
     "source_sha256": "f5b2a7b25750fe35c954379c00eef0fb3078255d73d5cf9b29f25faa52f18bcb"
   },
   {
     "index": 77,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/mirror-workflow.test.js:3632-6842",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 48,
+    "questions": 49,
     "source_sha256": "893d2b3477cad7d1bb5f1af972e284cc7cdc9172bc5163d78c4ba0f45ccefc7b"
   },
   {
     "index": 78,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/root-workspace.js:1233-2643",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 22,
+    "questions": 23,
     "source_sha256": "53dd8d873b0078eb56448d85d87576f16972d84866d52327565a2ed30067bef5"
   },
   {
     "index": 79,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-registration.js:133-1591",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "5e8397e62a0c3fea5f87ac42bea67a2ddd736626c47ba95521d6330904402b47"
   },
   {
     "index": 80,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs:7204-7996",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "821d919c642447a0756ee3ea8bbb33d1dca6b0d905c8db528e09d20299b03493"
   },
   {
     "index": 81,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-read.test.js:1004-1175",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "9ed565d58cf6ca0ee4c89f5f61e56420e7f0eda10b7f46aad7f6fcbf470b6e11"
   },
   {
     "index": 82,
     "id": "StateMachines:ChatMachines/Workflow Interactive Procedures/GitHub Command Issue/local-read.test.js:808-976",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "45dcf70eae40bfba0025d13c86a77962f5693114e5f61f1c073cb28ee43939fd"
   },
   {
     "index": 83,
     "id": "StateMachines:source-code-copy/ChatMachines/AudioClipSelector/test.cjs:1473-1543",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "56e09b6ef13ab748598bf17b109c897b2dd79c1b78b9f2efb151f9701eefee56"
   },
   {
     "index": 84,
     "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/check-single-child.js:1665-3114",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "2197b9794d7faee907ea9b211c87446cffcc003561b9c88b066aa9bd36338e31"
   },
   {
     "index": 85,
     "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:1188-1365",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "826afb2ebdb22e132ca511fa3529e0070e64c447523a842285003acb3ca39c43"
   },
   {
     "index": 86,
     "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:1787-2001",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "0c8a84aa702f697443c84bbd47ac8a3d0b07055f16ca633d35ae018936b7b85b"
   },
   {
     "index": 87,
     "id": "StateMachines:source-code-copy/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:2434-3369",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 19,
+    "questions": 20,
     "source_sha256": "65370278962fc18525ca4b80d26966abb70d70935ddcbbf7e89292bbcdf876be"
   },
   {
     "index": 88,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluate-supervisor.js:3023-3119",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "40ddbad2278c0e29563f579871690e66a58f335037d8ad49b3ca910909f4b605"
   },
   {
     "index": 89,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:6035-7787",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 33,
+    "questions": 34,
     "source_sha256": "86d0200fed0d2ff329621bbf0fa89700befc8ca139b15b7367bb36158886b327"
   },
   {
     "index": 90,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/evaluations/live_ground_truth_implementation_revision_20261002_1/outputs/revised-send-to-gemini.js:8280-9342",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 24,
+    "questions": 25,
     "source_sha256": "0438089e6a8f611c7c1d09ca9e13b87987753c9200c968e8337ab60fc1d082db"
   },
   {
     "index": 91,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:10210-11149",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "1bf206bde5d3b9010f239ca1ac049b19f62b5d609ac35abd0a6f6fb1951afe8b"
   },
   {
     "index": 92,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:73-1631",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 30,
+    "questions": 31,
     "source_sha256": "5c21c03aea8b70db2f2e5840b31ddf0f1ea25269e64a4f4b42e485c537fad0c3"
   },
   {
     "index": 93,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime-request/audit-skeleton.js:8949-9421",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "c4a3db27d6e153de19e037806ab777f977d471c87119712455f75648efd7ab95"
   },
   {
     "index": 94,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:20687-21488",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "4355c2070579978ddcebc641678e2101161dab24871404b2fcf0bef81789c227"
   },
   {
     "index": 95,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/hierarchical-runtime/audit.js:2813-3079",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "d0824de19667cdb4400dffb16ab1927451543651d0b96192da9c79921c184cc4"
   },
   {
     "index": 96,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/historical-audit-segmenter.js:2026-3425",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "d112631ecaceee74a8207aa6c8d03c44e1e2c78927588d46824367c3bce6c156"
   },
   {
     "index": 97,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:12246-12592",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "0b076d9468c8f51c518448bef6deba8012412ead41ad99abd42da3713f955b61"
   },
   {
     "index": 98,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:15509-15847",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "b14b2ef6988bba69adc27cfe4d5b237c859cec05d5edffef9f5447a1cd008325"
   },
   {
     "index": 99,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:35669-36791",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 30,
+    "questions": 31,
     "source_sha256": "651191818d5b544c4cfb865dcc77d2d46c2bae8812fb61c3c6bcce80e8dbcbdb"
   },
   {
     "index": 100,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:37952-40271",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 33,
+    "questions": 34,
     "source_sha256": "50ec7336561eb5081f826bee5e3526a443dbe8f23236a12e14a82fc39fd4c7bb"
   },
   {
     "index": 101,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:40273-42163",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 24,
+    "questions": 25,
     "source_sha256": "5d632c0ce05374c393c8f276ac8ec520fd04fe98348a2b8f9cad96a5fb2d8dff"
   },
   {
     "index": 102,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:43575-47221",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 40,
+    "questions": 41,
     "source_sha256": "ae0c22052a8df3bf86b84c6a5b28fc5e4d5b2efc68174fd5d26bb6887ae0e0c6"
   },
   {
     "index": 103,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:6528-6830",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "49252aefa949d0e9dcd01a0ae8f41aca7ef60fa09b80e4eb99dac9c7e176960c"
   },
   {
     "index": 104,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiEvaluation/revision-deliverables/revised-send-to-gemini.js:9162-16977",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 59,
+    "questions": 60,
     "source_sha256": "1667eefb9e59facd2456ecc2950411eabbe4202359c7e51675459a570468216b"
   },
   {
     "index": 105,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js:6093-8666",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 52,
+    "questions": 53,
     "source_sha256": "8d450a206cf62000f54c241e4d7430d713316206984b891a52b5f687b23b57f0"
   },
   {
     "index": 106,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:18373-18483",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "9cf7af92a6e3f1fe1d7c3999bc50211ce045b8e4e2f798088534c237a97e8e70"
   },
   {
     "index": 107,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:8804-9028",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "499a49ec1f6dd1723bb37aa92412f0f352d4cf1d8a709d1bd068d5178a722427"
   },
   {
     "index": 108,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3337-4545",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 31,
+    "questions": 32,
     "source_sha256": "85ebc93fd9d3421260257784fe04e1fc58d3f2d61cbd4c67d1a0cfd46f86c451"
   },
   {
     "index": 109,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3786-4070",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "bd16830a848cfd2a744b083c7ba3e4e129300dd16c4249a6d72b16ebd7f19ace"
   },
   {
     "index": 110,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:3277-3644",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "481bec48874bf63d83982d0cf2b521ec6afe88d914f694007c23b5b2f29f094e"
   },
   {
     "index": 111,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:1857-2005",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "c2e5a30a73029e3a0969af2cd13113dcc5b6766da6b8cb2141a3592b218bb9ae"
   },
   {
     "index": 112,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:27019-27515",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 2,
+    "questions": 3,
     "source_sha256": "8b734f8ddb5508c7466eaafad5b7d508fe8152a81c17434635db963ff8423f9c"
   },
   {
     "index": 113,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:32016-32591",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "89bfa3e1aff5e5be7ed5514e59969a79714c1f853e2e3a4b1b6500467a997105"
   },
   {
     "index": 114,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:3612-6335",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 42,
+    "questions": 43,
     "source_sha256": "b5df19ddd884a591053929cdf26df7cf1bfe96b070c2d62f66229087ff3fc3ff"
   },
   {
     "index": 115,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:36794-37094",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 15,
+    "questions": 16,
     "source_sha256": "7426f89f6baa0784cba77e1e79890985374afa8b96f358bfb666ecb03127af87"
   },
   {
     "index": 116,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:41182-41820",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "a0e25d7f57760c996406ce372b0dc483d26115c36e07dda0f0553d5ed745b65f"
   },
   {
     "index": 117,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:42166-43378",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 27,
+    "questions": 28,
     "source_sha256": "b0f91dd9b4caa6e7727c4bd4e0bc5596199502d691e5b2ef016107d643f410ab"
   },
   {
     "index": 118,
     "id": "StateMachines:source-code-copy/ChatMachines/GeminiSupervisor/send-to-gemini.js:6528-6830",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "49252aefa949d0e9dcd01a0ae8f41aca7ef60fa09b80e4eb99dac9c7e176960c"
   },
   {
     "index": 119,
     "id": "StateMachines:source-code-copy/ChatMachines/SeleniumServer/runner.test.cjs:1794-2192",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "8a2d00c8ec469aae726c246b88c5e86ace14a3e69ecbb87f57794e14fba9cfb5"
   },
   {
     "index": 120,
     "id": "StateMachines:source-code-copy/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/update-manifest.js:3928-5328",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 18,
+    "questions": 19,
     "source_sha256": "a11431145551a02d4dffc954d01912c262554b64818b7058737f34784e2ae4fe"
   },
   {
     "index": 121,
     "id": "StateMachines:source-code-copy/ChatMachines/TokenizerCalibration/run.js:4815-4910",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "815595adb4e5079adf1dc05776ff48060cac4d665e09fdb7e25f60bdc02327b8"
   },
   {
     "index": 122,
     "id": "StateMachines:source-code-copy/ChatMachines/TokenizerCalibration/stage1-divide.js:5817-6641",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 18,
+    "questions": 19,
     "source_sha256": "6a8a5b11f8810aa906811a6e714ea444fe827eb36641ef160cacebb065520f88"
   },
   {
     "index": 123,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js:338-3523",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 52,
+    "questions": 53,
     "source_sha256": "dd4c2528e518ebde7b04a2bf4c98f6798e1838be0d7483dc8e2363ddd674f83e"
   },
   {
     "index": 124,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-screen.test.js:3537-3591",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "fb404a1ebd5ac06b5e03cfaf6562e2ebd2198e240cf916a962a905d793b0730e"
   },
   {
     "index": 125,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:20214-21389",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 24,
+    "questions": 25,
     "source_sha256": "d859bb7d21b42c6e73528402c0d6c89f10c37ddfdf168e1dc91ed97aebb121b5"
   },
   {
     "index": 126,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:451-2327",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "a7fca4c7ee1375a65fe1b88fdfa31cbd281a2fff11a3a804936e223b27d16884"
   },
   {
     "index": 127,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.js:7045-8339",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "a561bafa66239d7ef999b8a02daa06971c69643e44e917e7aec38780d0524b46"
   },
   {
     "index": 128,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/gemini-workflow.test.js:4973-5034",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "80b26800b089f445f9d074359fd2114265a0166af393b93f3a5b5b77adefc795"
   },
   {
     "index": 129,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/issue-run-tool-invocations.js:2525-2875",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "afb28dc26507ae7264f29244e276608b489f0c93f2eb2b2f8d30cfa374ab9d45"
   },
   {
     "index": 130,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js:10228-10444",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "5cf10e749c4a268eb37a2945b76246814728119c36f1b4bb4460ad66b82a3d35"
   },
   {
     "index": 131,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/supervisor-tools.test.js:3068-3146",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "a11a7e05a48a43661c181f5f108b376433fa2e1da084b1859999f2b950779b01"
   },
   {
     "index": 132,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/AGENTS Procedure/worker-context.js:54-1013",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 28,
+    "questions": 29,
     "source_sha256": "210c09ca2d2a090a1dd33d18767324894c743ec6cfa8421c4e3fa0f2071d09f7"
   },
   {
     "index": 133,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/bertopic/extract-dialogues.mjs:3553-4441",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "0f6a29c6e9f50698623448f9e3a0648c855730a0c68683b85a3c2979609a5174"
   },
   {
     "index": 134,
     "id": "StateMachines:source-code-copy/ChatMachines/Workflow Interactive Procedures/Conversation Archive Analysis/key-extraction/extract-keys.mjs:923-3276",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 68,
+    "questions": 69,
     "source_sha256": "8ec4f107fc689edf356807060a34a40725f95b672eb37bd258afd9c266bddf43"
   },
   {
     "index": 135,
     "id": "StateMachines:source-code-copy/Project Overview Project/projectfoldermaker.js:952-2331",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 32,
+    "questions": 33,
     "source_sha256": "54e50fd562c7f1892cf35bed6e16e4e71fde4b8a5a85ae7c6c98f56d49e43fc5"
   },
   {
     "index": 136,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js:2297-3660",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 28,
+    "questions": 29,
     "source_sha256": "232543b48851b16a7748ab98578ab385e4c09181c93b5f4f00b5a48c047ca7ac"
   },
   {
     "index": 137,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/ComprehensionTasks/scripts/comprehension-task-reading-room.js:2434-3369",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 19,
+    "questions": 20,
     "source_sha256": "65370278962fc18525ca4b80d26966abb70d70935ddcbbf7e89292bbcdf876be"
   },
   {
     "index": 138,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluate-supervisor.js:24966-25026",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "149862f256868899882aa43da6726757809e7b01ff908603434ae148492d2581"
   },
   {
     "index": 139,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js:1498-1655",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "8240205bee82a8606298ce563509d22c5d2ca78afdd0ba6000841f9ddebfc001"
   },
   {
     "index": 140,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/evaluations/stage1_current_feature_inventory_20261002_1/run-stage1.js:5553-6589",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 16,
+    "questions": 17,
     "source_sha256": "66896a0824e6ecd8abb67bfc487820fac09b24d69e1fe485208959038430a94f"
   },
   {
     "index": 141,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:2260-2542",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "b39f2cde4b4f4ef36f81d920dcb3788ed5a70e77856c3c91d12f441695fccfc9"
   },
   {
     "index": 142,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiEvaluation/historical-audit-archive-builder.js:3666-4026",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "9fa0aa625d70b65b1554d5a537e4e6137753277cebc4489715234ce7dbcc9f76"
   },
   {
     "index": 143,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/agent-png-reader-test.js:5811-6091",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "caa6541d2838ce0345e5c630864a6898483b82de66a19a480691cb09c5104505"
   },
   {
     "index": 144,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:1353-1501",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "f1772d7e44a3d9c45ea51729e0cf1833391eede531ae115f1bb09c5f5597ff08"
   },
   {
     "index": 145,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:14065-15249",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 28,
+    "questions": 29,
     "source_sha256": "8d6d5855173b5513025ab3c0ff8d3a72ceb2389245f3bdb7f25c18b044e7bd89"
   },
   {
     "index": 146,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:17733-17950",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 7,
+    "questions": 8,
     "source_sha256": "4319fe7432e36f36bd64d230d30ecd95de6a0d3125d8d58281baaa4128f9aa6c"
   },
   {
     "index": 147,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3786-4070",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "bd16830a848cfd2a744b083c7ba3e4e129300dd16c4249a6d72b16ebd7f19ace"
   },
   {
     "index": 148,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:904-1448",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "54541ee287d7ac6f9a27a8c8ef785631a121c06944c2c8580e4653f406f2de61"
   },
   {
     "index": 149,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:15945-16352",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "7a164de36ae60db91a6400c0504a51ee1b302670ae7302add1d11570eed676b0"
   },
   {
     "index": 150,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:2176-2573",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "447053d612a86f1e94b2887087e63d5164025754534de7685ce7e3f7eaf8546d"
   },
   {
     "index": 151,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:35670-36792",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 30,
+    "questions": 31,
     "source_sha256": "651191818d5b544c4cfb865dcc77d2d46c2bae8812fb61c3c6bcce80e8dbcbdb"
   },
   {
     "index": 152,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:42166-43378",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 27,
+    "questions": 28,
     "source_sha256": "b0f91dd9b4caa6e7727c4bd4e0bc5596199502d691e5b2ef016107d643f410ab"
   },
   {
     "index": 153,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:6337-6526",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "3ccfbc2d886510a390d6071c2801080b7afb68aa3449a52f19ef14b03c4b26f5"
   },
   {
     "index": 154,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:9020-9160",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "e3e5153dc834521418f1643cfc594b07e4ffea6089ee31923e2137575da5f5dc"
   },
   {
     "index": 155,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/Special Reports/SBE End-to-End Protocol and State Machine Specification/reserve-metadata-region.js:480-1339",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 16,
+    "questions": 17,
     "source_sha256": "259263b8a4a326d35b5d75197be6d68f70cc9f97aa7e7e06de0b958cf466d9bd"
   },
   {
     "index": 156,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js:1688-2055",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 8,
+    "questions": 9,
     "source_sha256": "cc1e36307cc4906ec39f933005f646d2e6941798ce29dd561e001813a45c7419"
   },
   {
     "index": 157,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/flatten-projection.js:2057-2366",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "06f495976046c66c954bc132a14f5d111a858d28805cc435ab09d8d3d12d6730"
   },
   {
     "index": 158,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js:1684-2337",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "10b5b6d006c2687aa5e8c4543f5372138c7961c84498cbd7eb53a3e100fa4058"
   },
   {
     "index": 159,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/stage1-divide.js:8395-10771",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 47,
+    "questions": 48,
     "source_sha256": "ee993fdfbc50f6fb0239da556cadbc7c476e2ee1fbef799d13cd37a9dac1ff97"
   },
   {
     "index": 160,
     "id": "StateMachines:source-code-copy/untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js:1223-1539",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 15,
+    "questions": 16,
     "source_sha256": "292889e56231b65470147463d509ba669ea48755f3f82a59d5dd2d5fcd4a7025"
   },
   {
     "index": 161,
     "id": "StateMachines:untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/gemini-message-executor.js:3536-5392",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "c6e71a76aa5949a9e5f984c10e051b34f02a4cff09aaf4f176780cca59edd343"
   },
   {
     "index": 162,
     "id": "StateMachines:untrusted AI/meta-procedure/Procedures/PromptGemini/rebuild-hidden-shared-page/validate-rebuild.js:3689-4131",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "3bfcc6fc32a360ea1c6474c64e416ad6880846e4b758601ef813b2d9195b9c7c"
   },
   {
     "index": 163,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/live-ground-truth-reading-room.js:9030-13548",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 53,
+    "questions": 54,
     "source_sha256": "d6d17a1c7af4081224a59b8b11a0c47b94b15b859b823d87f32edecac93506a8"
   },
   {
     "index": 164,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/solve-png-locator.js:3016-3335",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 2,
+    "questions": 3,
     "source_sha256": "3d25549fa8b4639147e17854ffa3b9f9dc0e11d6eae085073a9324e8afb5868d"
   },
   {
     "index": 165,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/sync-stable-readers.js:2152-4391",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 47,
+    "questions": 48,
     "source_sha256": "c7a203b37be7599ee47ac993d41f1919161f8d9a7c94243ffd0740aa44bc8292"
   },
   {
     "index": 166,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/scripts/truth-challenge-engine.js:3277-3644",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "481bec48874bf63d83982d0cf2b521ec6afe88d914f694007c23b5b2f29f094e"
   },
   {
     "index": 167,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:27223-27497",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 10,
+    "questions": 11,
     "source_sha256": "8094b5ddf35a4c356131a782972ecdf840045de3ff2b9d8156fa81dc260b7b2a"
   },
   {
     "index": 168,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:3612-6335",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 42,
+    "questions": 43,
     "source_sha256": "b5df19ddd884a591053929cdf26df7cf1bfe96b070c2d62f66229087ff3fc3ff"
   },
   {
     "index": 169,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:43576-47222",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 40,
+    "questions": 41,
     "source_sha256": "ae0c22052a8df3bf86b84c6a5b28fc5e4d5b2efc68174fd5d26bb6887ae0e0c6"
   },
   {
     "index": 170,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/GeminiSupervisor/send-to-gemini.js:8872-9018",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "4aaa3d650f2c39d5d0d8605eba9e7e4372c501aa9a694e95ae1e5c52977ce432"
   },
   {
     "index": 171,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/ChatMachines/TokenizerCalibration/check-single-child.js:1665-3114",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 29,
+    "questions": 30,
     "source_sha256": "2197b9794d7faee907ea9b211c87446cffcc003561b9c88b066aa9bd36338e31"
   },
   {
     "index": 172,
     "id": "StateMachines:untrusted AI/meta-procedure/TEMP/trusted/ChatMachines/SBE/sbe-evaluate.js:9084-10073",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "552e8479ee47b94c7d5c494f7efed5914337b07920095eabe7000492abbd6a7b"
   },
   {
     "index": 173,
     "id": "Terminals:workspaces/extractor-srs-design/acceptance/verify-live-export.js:2357-3780",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 32,
+    "questions": 33,
     "source_sha256": "be4b09ce9d63f66bfaeb9d9ecdc96fb66edd3e41d7a710c082595014bc76de59"
   },
   {
     "index": 174,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:13006-13235",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "aee1c4ecd5e0ad11d9514a4de98566e7dfc55cd535adb1365c9a75734953d70c"
   },
   {
     "index": 175,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:15719-15790",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 3,
+    "questions": 4,
     "source_sha256": "68fff4282f823a895bc304155bf33646ee20300bd694db90393ad103f1a5b9a1"
   },
   {
     "index": 176,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:17110-17273",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "94dbdb238dc77dd1206e5b2ca1de87d9a2521e8c38283ccfdedd5145a4e3f787"
   },
   {
     "index": 177,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:18302-18536",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 11,
+    "questions": 12,
     "source_sha256": "1245a43cb80c964c73638bbbf354f723f2611215bd874df4206806a84e5c7758"
   },
   {
     "index": 178,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:18793-18959",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "7c7a388cd88463c05af4044187ca1c236edab75b746a9b4ef956187eab255cc0"
   },
   {
     "index": 179,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:20588-20918",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "11ce41d294fbdd8eaa6392316f77b2b9fffd3d24d330887e3a2fa9ad08cdba29"
   },
   {
     "index": 180,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:3064-3262",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 7,
+    "questions": 8,
     "source_sha256": "bfbad43dae2178a2709a786778473b8024ce459f5638eec2caa2a961d0caa8ff"
   },
   {
     "index": 181,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:4631-4756",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "d714ffab000ce356f06340d402ef601667dae2344bf238bfd94ddf74f31e8de2"
   },
   {
     "index": 182,
     "id": "Terminals:workspaces/extractor-srs-design/input-validator.test.js:9200-9357",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 3,
+    "questions": 4,
     "source_sha256": "37f115e47a5489f8ef6d61db51107622e4ce0971912e77b6c39514ba4c8d0bfd"
   },
   {
     "index": 183,
     "id": "Terminals:workspaces/extractor-srs-design/runtime/capture-and-parse.js:5482-5693",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 12,
+    "questions": 13,
     "source_sha256": "71e86151fbf0d08175ddc237543f329e9d499e42c9fc04d6627a63210506f599"
   },
   {
     "index": 184,
     "id": "Terminals:workspaces/extractor-srs-design/runtime/capture-and-parse.js:6587-6717",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "b4c3efb1847c3d1092fd438fff1e3d86ff1f69bb8bb6b78c5b32178983736caa"
   },
   {
     "index": 185,
     "id": "Terminals:workspaces/extractor-srs-design/runtime/html-response-parser.js:10533-12383",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "de7dc98a19a40ccd5bfd2452dcacdd665dd78f6f6ff67bf67930a9b84057f470"
   },
   {
     "index": 186,
     "id": "Terminals:workspaces/extractor-srs-design/runtime/html-response-parser.js:8619-10532",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "bc2304ea0587122bef5c9b34a193986824fc5b3d3f25027c8918c918fa5e52bf"
   },
   {
     "index": 187,
     "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.js:4225-5876",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "92f5a833adb33143272858d21a668093a1f610e9bdb194614a7681024ad43f0b"
   },
   {
     "index": 188,
     "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.test.js:1062-1403",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 7,
+    "questions": 8,
     "source_sha256": "ca4f327b49bbeb14e77e1252863a19caedc518e1349eda9c5799308b81a866c3"
   },
   {
     "index": 189,
     "id": "Terminals:workspaces/extractor-srs-design/script-candidates/chatgpt-linear-input.test.js:1450-1604",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 5,
+    "questions": 6,
     "source_sha256": "6d76b42a00d6fc7cd83148aa4f260c5d66bf966264494def3f1adb69ce9420c9"
   },
   {
     "index": 190,
     "id": "Terminals:workspaces/extractor-srs-design/script-candidates/input-parser-validator.js:3499-5738",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 34,
+    "questions": 35,
     "source_sha256": "89eeb9f3f851080a2823ae67c88305da3b0c0c3549364cf71d06849eda7c02d5"
   },
   {
     "index": 191,
     "id": "Terminals:workspaces/extractor-srs-design/script-candidates/input-parser-validator.js:5740-6435",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 20,
+    "questions": 21,
     "source_sha256": "1ffe132536f2705de92435b7fcdff404ecad20266f443f3fb9581e0ac61695c9"
   },
   {
     "index": 192,
     "id": "Terminals:workspaces/extractor-srs-design/tests/html-response-parser.test.js:305-799",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "68d6dadbba3304b160ee99ae6f9960ee41a743b9db80dbe9c6b6c1b7ea9cd038"
   },
   {
     "index": 193,
     "id": "Terminals:workspaces/extractor-srs-design/tests/html-response-parser.test.js:471-769",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 14,
+    "questions": 15,
     "source_sha256": "3fc0f6a2bc723407ca375b56e6ff9f09ab6adb704ac7733ccdaa7ec46d12be0e"
   },
   {
     "index": 194,
     "id": "Terminals:workspaces/extractor-srs-design/tests/octane-response-parser.test.js:2761-3715",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 23,
+    "questions": 24,
     "source_sha256": "c80a0c6dc9b2017d9d0c9c27ecd40a1cb77dc57348d0942eb049ad629929460f"
   },
   {
     "index": 195,
     "id": "Terminals:workspaces/programs/runtime/session-core.test.js:1085-1169",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "4e26ffbcb90953e4bbb81d4a252224a1ad91daa7918a47bfab93fd5511e1949e"
   },
   {
     "index": 196,
     "id": "Terminals:workspaces/programs/runtime/session-core.test.js:1244-1513",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "72e2876f03bf459ea30be74238de2609d6e1d7cc20c82564c539f5d2274ddbd2"
   },
   {
     "index": 197,
     "id": "Terminals:workspaces/programs/runtime/session-core.test.js:2844-3022",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "ef3e0087aa5d4837151a1fec48f7f550839251f74af420f7566f415f282ba1ed"
   },
   {
     "index": 198,
     "id": "Terminals:workspaces/programs/runtime/session-core.test.js:3572-4086",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 18,
+    "questions": 19,
     "source_sha256": "2731d690e5a0a318c95288de495db2bf981560b6396705e55b5544a9aef24c8d"
   },
   {
     "index": 199,
     "id": "Terminals:workspaces/programs/runtime/session-core.test.js:947-1030",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "addbdfe8ba79bdb12f23bb79d7e4da05820b39fd71d87ebe61a4cf695f5ef27f"
   },
   {
     "index": 200,
     "id": "Terminals:workspaces/programs/runtime/session-driver.js:1399-1805",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "228c90b52d371151a3708574b531122dcc2456963af841d63ef1b98dcfe5fc73"
   },
   {
     "index": 201,
     "id": "Terminals:workspaces/programs/runtime/session-driver.js:329-380",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 3,
+    "questions": 4,
     "source_sha256": "aeb4bc637ee23be080c7388ed45bf009a695118fc603ceb99688f6facad02b71"
   },
   {
     "index": 202,
     "id": "Terminals:workspaces/programs/runtime/session-driver.js:5419-5739",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 6,
+    "questions": 7,
     "source_sha256": "1dc70b37ec8febdaaa8cabb870acad86ad5b40025b1cfb9d1005d307035d8c7f"
   },
   {
     "index": 203,
     "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.js:578-759",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 4,
+    "questions": 5,
     "source_sha256": "849decd56b42ed59c40c5a00e0a1982c18769c1ac95f5f4d77b0053429d962da"
   },
   {
     "index": 204,
     "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.test.js:1568-1805",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 13,
+    "questions": 14,
     "source_sha256": "769f6499d145a13325ecfdcc7f258346efe6bc72a928e2335bd37bce0462f29e"
   },
   {
     "index": 205,
     "id": "Terminals:workspaces/programs/scratchpad/scratchpad-core.test.js:549-662",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 9,
+    "questions": 10,
     "source_sha256": "c3ce28e0b70442c9d33a961bc783fdb252ced8793603666fda5c5bc73a6f6c73"
   },
   {
     "index": 206,
     "id": "Terminals:workspaces/RuntimeConfig/prepare-runtrigger-issue2.js:2188-2929",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 17,
+    "questions": 18,
     "source_sha256": "1fa1533ac9ffed7d71d841a6a5fb5a96812b7f9c9554a9912619589aaffc557e"
   },
   {
     "index": 207,
     "id": "Terminals:workspaces/shared-chat-extractor/html-parser.js:4814-6577",
     "status": "partial_rewrite_questions_reserved",
-    "questions": 39,
+    "questions": 40,
     "source_sha256": "5f12c052def81697c0f8f33846e11c9470865b9ed2ef7d62024945c9ca43367b"
   },
   {
     "index": 208,
     "id": "Terminals:workspaces/shared-chat-extractor/html-parser.js:793-878",
-    "status": "blocked_parse",
-    "questions": 1
+    "status": "partial_rewrite_questions_reserved",
+    "questions": 6,
+    "source_sha256": "9c361c482e9c30e284ba826607e1f2dc34fabf73c95b7225d765d0cf526505b3"
   },
   {
     "index": 209,
     "id": "Terminals:workspaces/shared-chat-extractor/input-parser-validator.js:1019-1123",
-    "status": "blocked_parse",
-    "questions": 1
+    "status": "partial_rewrite_questions_reserved",
+    "questions": 6,
+    "source_sha256": "4bf9b6418b6b598b8571345c29303c70575fe53d2b1e231ee75ea3b8489c7756"
   }
 ]

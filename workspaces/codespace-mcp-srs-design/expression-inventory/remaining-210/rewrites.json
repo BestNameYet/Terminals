@@ -475,7 +475,7 @@
           "end": 813
         }
       },
-      "structural_contract_question": "F001Q013"
+      "structural_contract_question": "F001Q014"
     },
     "questions": [
       {
@@ -636,6 +636,13 @@
       },
       {
         "id": "F001Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F001Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -1113,7 +1120,7 @@
           "end": 820
         }
       },
-      "structural_contract_question": "F002Q020"
+      "structural_contract_question": "F002Q021"
     },
     "questions": [
       {
@@ -1426,6 +1433,13 @@
       },
       {
         "id": "F002Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F002Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -5448,7 +5462,7 @@
           "end": 5469
         }
       },
-      "structural_contract_question": "F003Q121"
+      "structural_contract_question": "F003Q122"
     },
     "questions": [
       {
@@ -7293,6 +7307,13 @@
       },
       {
         "id": "F003Q121",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F003Q122",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -7526,7 +7547,7 @@
           "end": 364
         }
       },
-      "structural_contract_question": "F004Q022"
+      "structural_contract_question": "F004Q023"
     },
     "questions": [
       {
@@ -7851,6 +7872,13 @@
       },
       {
         "id": "F004Q022",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F004Q023",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -8154,7 +8182,7 @@
           "end": 320
         }
       },
-      "structural_contract_question": "F005Q017"
+      "structural_contract_question": "F005Q018"
     },
     "questions": [
       {
@@ -8407,6 +8435,13 @@
       },
       {
         "id": "F005Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F005Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -9281,7 +9316,7 @@
           "end": 1084
         }
       },
-      "structural_contract_question": "F006Q042"
+      "structural_contract_question": "F006Q043"
     },
     "questions": [
       {
@@ -9806,6 +9841,13 @@
       },
       {
         "id": "F006Q042",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F006Q043",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -10213,7 +10255,7 @@
           "end": 476
         }
       },
-      "structural_contract_question": "F007Q014"
+      "structural_contract_question": "F007Q015"
     },
     "questions": [
       {
@@ -10390,6 +10432,13 @@
       },
       {
         "id": "F007Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F007Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -10567,7 +10616,7 @@
           "end": 311
         }
       },
-      "structural_contract_question": "F008Q011"
+      "structural_contract_question": "F008Q012"
     },
     "questions": [
       {
@@ -10696,6 +10745,13 @@
       },
       {
         "id": "F008Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F008Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -11018,7 +11074,7 @@
           "end": 404
         }
       },
-      "structural_contract_question": "F009Q013"
+      "structural_contract_question": "F009Q014"
     },
     "questions": [
       {
@@ -11203,6 +11259,13 @@
       },
       {
         "id": "F009Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F009Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -13060,7 +13123,7 @@
           "end": 1944
         }
       },
-      "structural_contract_question": "F010Q064"
+      "structural_contract_question": "F010Q065"
     },
     "questions": [
       {
@@ -14017,6 +14080,13 @@
       },
       {
         "id": "F010Q064",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F010Q065",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -14242,7 +14312,7 @@
           "end": 228
         }
       },
-      "structural_contract_question": "F011Q010"
+      "structural_contract_question": "F011Q011"
     },
     "questions": [
       {
@@ -14367,6 +14437,13 @@
       },
       {
         "id": "F011Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F011Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -14634,7 +14711,7 @@
           "end": 458
         }
       },
-      "structural_contract_question": "F012Q017"
+      "structural_contract_question": "F012Q018"
     },
     "questions": [
       {
@@ -14867,6 +14944,13 @@
       },
       {
         "id": "F012Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F012Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -14958,7 +15042,7 @@
           "end": 412
         }
       },
-      "structural_contract_question": "F013Q002"
+      "structural_contract_question": "F013Q003"
     },
     "questions": [
       {
@@ -14975,6 +15059,13 @@
       },
       {
         "id": "F013Q002",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F013Q003",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -15323,7 +15414,7 @@
           "end": 437
         }
       },
-      "structural_contract_question": "F014Q008"
+      "structural_contract_question": "F014Q009"
     },
     "questions": [
       {
@@ -15436,6 +15527,13 @@
       },
       {
         "id": "F014Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F014Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -15585,7 +15683,7 @@
           "end": 250
         }
       },
-      "structural_contract_question": "F015Q008"
+      "structural_contract_question": "F015Q009"
     },
     "questions": [
       {
@@ -15678,6 +15776,13 @@
       },
       {
         "id": "F015Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F015Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -16045,7 +16150,7 @@
           "end": 511
         }
       },
-      "structural_contract_question": "F016Q017"
+      "structural_contract_question": "F016Q018"
     },
     "questions": [
       {
@@ -16258,6 +16363,13 @@
       },
       {
         "id": "F016Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F016Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -17734,7 +17846,7 @@
           "end": 3065
         }
       },
-      "structural_contract_question": "F017Q083"
+      "structural_contract_question": "F017Q084"
     },
     "questions": [
       {
@@ -18979,6 +19091,13 @@
       },
       {
         "id": "F017Q083",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F017Q084",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -19204,7 +19323,7 @@
           "end": 385
         }
       },
-      "structural_contract_question": "F018Q016"
+      "structural_contract_question": "F018Q017"
     },
     "questions": [
       {
@@ -19437,6 +19556,13 @@
       },
       {
         "id": "F018Q016",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F018Q017",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -19768,7 +19894,7 @@
           "end": 616
         }
       },
-      "structural_contract_question": "F019Q023"
+      "structural_contract_question": "F019Q024"
     },
     "questions": [
       {
@@ -20061,6 +20187,13 @@
       },
       {
         "id": "F019Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F019Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -22672,7 +22805,7 @@
           "end": 3690
         }
       },
-      "structural_contract_question": "F020Q061"
+      "structural_contract_question": "F020Q062"
     },
     "questions": [
       {
@@ -23593,6 +23726,13 @@
       },
       {
         "id": "F020Q061",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F020Q062",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24003,7 +24143,7 @@
           "end": 583
         }
       },
-      "structural_contract_question": "F021Q015"
+      "structural_contract_question": "F021Q016"
     },
     "questions": [
       {
@@ -24228,6 +24368,13 @@
       },
       {
         "id": "F021Q015",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F021Q016",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24298,7 +24445,7 @@
           "end": 136
         }
       },
-      "structural_contract_question": "F022Q005"
+      "structural_contract_question": "F022Q006"
     },
     "questions": [
       {
@@ -24351,6 +24498,13 @@
       },
       {
         "id": "F022Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F022Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24412,7 +24566,7 @@
           "end": 66
         }
       },
-      "structural_contract_question": "F023Q003"
+      "structural_contract_question": "F023Q004"
     },
     "questions": [
       {
@@ -24441,6 +24595,13 @@
       },
       {
         "id": "F023Q003",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F023Q004",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24505,7 +24666,7 @@
           "end": 98
         }
       },
-      "structural_contract_question": "F024Q006"
+      "structural_contract_question": "F024Q007"
     },
     "questions": [
       {
@@ -24570,6 +24731,13 @@
       },
       {
         "id": "F024Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F024Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24693,7 +24861,7 @@
           "end": 97
         }
       },
-      "structural_contract_question": "F025Q007"
+      "structural_contract_question": "F025Q008"
     },
     "questions": [
       {
@@ -24770,6 +24938,13 @@
       },
       {
         "id": "F025Q007",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F025Q008",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -24954,7 +25129,7 @@
           "end": 1103
         }
       },
-      "structural_contract_question": "F026Q011"
+      "structural_contract_question": "F026Q012"
     },
     "questions": [
       {
@@ -25107,6 +25282,13 @@
       },
       {
         "id": "F026Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F026Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -25473,7 +25655,7 @@
           "end": 432
         }
       },
-      "structural_contract_question": "F027Q023"
+      "structural_contract_question": "F027Q024"
     },
     "questions": [
       {
@@ -25758,6 +25940,13 @@
       },
       {
         "id": "F027Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F027Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -27023,7 +27212,7 @@
           "end": 1992
         }
       },
-      "structural_contract_question": "F028Q059"
+      "structural_contract_question": "F028Q060"
     },
     "questions": [
       {
@@ -28004,6 +28193,13 @@
       },
       {
         "id": "F028Q059",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F028Q060",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -28731,7 +28927,7 @@
           "end": 1592
         }
       },
-      "structural_contract_question": "F029Q051"
+      "structural_contract_question": "F029Q052"
     },
     "questions": [
       {
@@ -29516,6 +29712,13 @@
       },
       {
         "id": "F029Q051",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F029Q052",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -30963,7 +31166,7 @@
           "end": 3707
         }
       },
-      "structural_contract_question": "F030Q045"
+      "structural_contract_question": "F030Q046"
     },
     "questions": [
       {
@@ -31580,6 +31783,13 @@
       },
       {
         "id": "F030Q045",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F030Q046",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -32991,7 +33201,7 @@
           "end": 2955
         }
       },
-      "structural_contract_question": "F031Q045"
+      "structural_contract_question": "F031Q046"
     },
     "questions": [
       {
@@ -33684,6 +33894,13 @@
       },
       {
         "id": "F031Q045",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F031Q046",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -34110,7 +34327,7 @@
           "end": 397
         }
       },
-      "structural_contract_question": "F032Q017"
+      "structural_contract_question": "F032Q018"
     },
     "questions": [
       {
@@ -34307,6 +34524,13 @@
       },
       {
         "id": "F032Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F032Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -34552,7 +34776,7 @@
           "end": 769
         }
       },
-      "structural_contract_question": "F033Q013"
+      "structural_contract_question": "F033Q014"
     },
     "questions": [
       {
@@ -34721,6 +34945,13 @@
       },
       {
         "id": "F033Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F033Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -35661,7 +35892,7 @@
           "end": 1777
         }
       },
-      "structural_contract_question": "F034Q045"
+      "structural_contract_question": "F034Q046"
     },
     "questions": [
       {
@@ -36202,6 +36433,13 @@
       },
       {
         "id": "F034Q045",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F034Q046",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -36919,7 +37157,7 @@
           "end": 1034
         }
       },
-      "structural_contract_question": "F035Q018"
+      "structural_contract_question": "F035Q019"
     },
     "questions": [
       {
@@ -37132,6 +37370,13 @@
       },
       {
         "id": "F035Q018",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F035Q019",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -37491,7 +37736,7 @@
           "end": 791
         }
       },
-      "structural_contract_question": "F036Q016"
+      "structural_contract_question": "F036Q017"
     },
     "questions": [
       {
@@ -37692,6 +37937,13 @@
       },
       {
         "id": "F036Q016",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F036Q017",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -38307,7 +38559,7 @@
           "end": 804
         }
       },
-      "structural_contract_question": "F037Q020"
+      "structural_contract_question": "F037Q021"
     },
     "questions": [
       {
@@ -38540,6 +38792,13 @@
       },
       {
         "id": "F037Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F037Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -39072,7 +39331,7 @@
           "end": 1115
         }
       },
-      "structural_contract_question": "F038Q020"
+      "structural_contract_question": "F038Q021"
     },
     "questions": [
       {
@@ -39313,6 +39572,13 @@
       },
       {
         "id": "F038Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F038Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -39516,7 +39782,7 @@
           "end": 360
         }
       },
-      "structural_contract_question": "F039Q013"
+      "structural_contract_question": "F039Q014"
     },
     "questions": [
       {
@@ -39665,6 +39931,13 @@
       },
       {
         "id": "F039Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F039Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -42535,7 +42808,7 @@
           "end": 7586
         }
       },
-      "structural_contract_question": "F040Q089"
+      "structural_contract_question": "F040Q090"
     },
     "questions": [
       {
@@ -43912,6 +44185,13 @@
       },
       {
         "id": "F040Q089",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F040Q090",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -44044,7 +44324,7 @@
           "end": 134
         }
       },
-      "structural_contract_question": "F041Q005"
+      "structural_contract_question": "F041Q006"
     },
     "questions": [
       {
@@ -44097,6 +44377,13 @@
       },
       {
         "id": "F041Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F041Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -45000,7 +45287,7 @@
           "end": 1399
         }
       },
-      "structural_contract_question": "F042Q017"
+      "structural_contract_question": "F042Q018"
     },
     "questions": [
       {
@@ -45233,6 +45520,13 @@
       },
       {
         "id": "F042Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F042Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -45416,7 +45710,7 @@
           "end": 418
         }
       },
-      "structural_contract_question": "F043Q009"
+      "structural_contract_question": "F043Q010"
     },
     "questions": [
       {
@@ -45537,6 +45831,13 @@
       },
       {
         "id": "F043Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F043Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -45868,7 +46169,7 @@
           "end": 510
         }
       },
-      "structural_contract_question": "F044Q017"
+      "structural_contract_question": "F044Q018"
     },
     "questions": [
       {
@@ -46065,6 +46366,13 @@
       },
       {
         "id": "F044Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F044Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -47101,7 +47409,7 @@
           "end": 3003
         }
       },
-      "structural_contract_question": "F045Q029"
+      "structural_contract_question": "F045Q030"
     },
     "questions": [
       {
@@ -47538,6 +47846,13 @@
       },
       {
         "id": "F045Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F045Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -48070,7 +48385,7 @@
           "end": 1890
         }
       },
-      "structural_contract_question": "F046Q024"
+      "structural_contract_question": "F046Q025"
     },
     "questions": [
       {
@@ -48403,6 +48718,13 @@
       },
       {
         "id": "F046Q024",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F046Q025",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -48934,7 +49256,7 @@
           "end": 1212
         }
       },
-      "structural_contract_question": "F047Q027"
+      "structural_contract_question": "F047Q028"
     },
     "questions": [
       {
@@ -49303,6 +49625,13 @@
       },
       {
         "id": "F047Q027",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F047Q028",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -49458,7 +49787,7 @@
           "end": 189
         }
       },
-      "structural_contract_question": "F048Q008"
+      "structural_contract_question": "F048Q009"
     },
     "questions": [
       {
@@ -49555,6 +49884,13 @@
       },
       {
         "id": "F048Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F048Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -49650,7 +49986,7 @@
           "end": 102
         }
       },
-      "structural_contract_question": "F049Q006"
+      "structural_contract_question": "F049Q007"
     },
     "questions": [
       {
@@ -49715,6 +50051,13 @@
       },
       {
         "id": "F049Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F049Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -50067,7 +50410,7 @@
           "end": 643
         }
       },
-      "structural_contract_question": "F050Q010"
+      "structural_contract_question": "F050Q011"
     },
     "questions": [
       {
@@ -50180,6 +50523,13 @@
       },
       {
         "id": "F050Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F050Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -50303,7 +50653,7 @@
           "end": 177
         }
       },
-      "structural_contract_question": "F051Q009"
+      "structural_contract_question": "F051Q010"
     },
     "questions": [
       {
@@ -50404,6 +50754,13 @@
       },
       {
         "id": "F051Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F051Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -51796,7 +52153,7 @@
           "end": 2922
         }
       },
-      "structural_contract_question": "F052Q044"
+      "structural_contract_question": "F052Q045"
     },
     "questions": [
       {
@@ -52425,6 +52782,13 @@
       },
       {
         "id": "F052Q044",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F052Q045",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -52622,7 +52986,7 @@
           "end": 466
         }
       },
-      "structural_contract_question": "F053Q010"
+      "structural_contract_question": "F053Q011"
     },
     "questions": [
       {
@@ -52743,6 +53107,13 @@
       },
       {
         "id": "F053Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F053Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -52930,7 +53301,7 @@
           "end": 407
         }
       },
-      "structural_contract_question": "F054Q009"
+      "structural_contract_question": "F054Q010"
     },
     "questions": [
       {
@@ -53051,6 +53422,13 @@
       },
       {
         "id": "F054Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F054Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -53942,7 +54320,7 @@
           "end": 2738
         }
       },
-      "structural_contract_question": "F055Q023"
+      "structural_contract_question": "F055Q024"
     },
     "questions": [
       {
@@ -54247,6 +54625,13 @@
       },
       {
         "id": "F055Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F055Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -54522,7 +54907,7 @@
           "end": 300
         }
       },
-      "structural_contract_question": "F056Q015"
+      "structural_contract_question": "F056Q016"
     },
     "questions": [
       {
@@ -54703,6 +55088,13 @@
       },
       {
         "id": "F056Q015",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F056Q016",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -54858,7 +55250,7 @@
           "end": 189
         }
       },
-      "structural_contract_question": "F057Q008"
+      "structural_contract_question": "F057Q009"
     },
     "questions": [
       {
@@ -54955,6 +55347,13 @@
       },
       {
         "id": "F057Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F057Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -55298,7 +55697,7 @@
           "end": 316
         }
       },
-      "structural_contract_question": "F058Q015"
+      "structural_contract_question": "F058Q016"
     },
     "questions": [
       {
@@ -55475,6 +55874,13 @@
       },
       {
         "id": "F058Q015",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F058Q016",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -55912,7 +56318,7 @@
           "end": 1219
         }
       },
-      "structural_contract_question": "F059Q022"
+      "structural_contract_question": "F059Q023"
     },
     "questions": [
       {
@@ -56249,6 +56655,13 @@
       },
       {
         "id": "F059Q022",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F059Q023",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -57527,7 +57940,7 @@
           "end": 2600
         }
       },
-      "structural_contract_question": "F060Q097"
+      "structural_contract_question": "F060Q098"
     },
     "questions": [
       {
@@ -58812,6 +59225,13 @@
       },
       {
         "id": "F060Q097",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F060Q098",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -58994,7 +59414,7 @@
           "end": 398
         }
       },
-      "structural_contract_question": "F061Q010"
+      "structural_contract_question": "F061Q011"
     },
     "questions": [
       {
@@ -59155,6 +59575,13 @@
       },
       {
         "id": "F061Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F061Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -59230,7 +59657,7 @@
           "end": 39
         }
       },
-      "structural_contract_question": "F062Q004"
+      "structural_contract_question": "F062Q005"
     },
     "questions": [
       {
@@ -59271,6 +59698,13 @@
       },
       {
         "id": "F062Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F062Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -59362,7 +59796,7 @@
           "end": 95
         }
       },
-      "structural_contract_question": "F063Q008"
+      "structural_contract_question": "F063Q009"
     },
     "questions": [
       {
@@ -59451,6 +59885,13 @@
       },
       {
         "id": "F063Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F063Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -66175,7 +66616,7 @@
           "end": 18784
         }
       },
-      "structural_contract_question": "F064Q217"
+      "structural_contract_question": "F064Q218"
     },
     "questions": [
       {
@@ -70564,6 +71005,13 @@
       },
       {
         "id": "F064Q217",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F064Q218",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -70781,7 +71229,7 @@
           "end": 174
         }
       },
-      "structural_contract_question": "F065Q007"
+      "structural_contract_question": "F065Q008"
     },
     "questions": [
       {
@@ -70858,6 +71306,13 @@
       },
       {
         "id": "F065Q007",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F065Q008",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -70951,7 +71406,7 @@
           "end": 41
         }
       },
-      "structural_contract_question": "F066Q004"
+      "structural_contract_question": "F066Q005"
     },
     "questions": [
       {
@@ -70992,6 +71447,13 @@
       },
       {
         "id": "F066Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F066Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -71254,7 +71716,7 @@
           "end": 290
         }
       },
-      "structural_contract_question": "F067Q014"
+      "structural_contract_question": "F067Q015"
     },
     "questions": [
       {
@@ -71415,6 +71877,13 @@
       },
       {
         "id": "F067Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F067Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -71576,7 +72045,7 @@
           "end": 217
         }
       },
-      "structural_contract_question": "F068Q010"
+      "structural_contract_question": "F068Q011"
     },
     "questions": [
       {
@@ -71701,6 +72170,13 @@
       },
       {
         "id": "F068Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F068Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -72065,7 +72541,7 @@
           "end": 740
         }
       },
-      "structural_contract_question": "F069Q024"
+      "structural_contract_question": "F069Q025"
     },
     "questions": [
       {
@@ -72374,6 +72850,13 @@
       },
       {
         "id": "F069Q024",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F069Q025",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -72990,7 +73473,7 @@
           "end": 892
         }
       },
-      "structural_contract_question": "F070Q029"
+      "structural_contract_question": "F070Q030"
     },
     "questions": [
       {
@@ -73375,6 +73858,13 @@
       },
       {
         "id": "F070Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F070Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -74059,7 +74549,7 @@
           "end": 1194
         }
       },
-      "structural_contract_question": "F071Q042"
+      "structural_contract_question": "F071Q043"
     },
     "questions": [
       {
@@ -74616,6 +75106,13 @@
       },
       {
         "id": "F071Q042",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F071Q043",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -74709,7 +75206,7 @@
           "end": 41
         }
       },
-      "structural_contract_question": "F072Q004"
+      "structural_contract_question": "F072Q005"
     },
     "questions": [
       {
@@ -74750,6 +75247,13 @@
       },
       {
         "id": "F072Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F072Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -74999,7 +75503,7 @@
           "end": 558
         }
       },
-      "structural_contract_question": "F073Q019"
+      "structural_contract_question": "F073Q020"
     },
     "questions": [
       {
@@ -75236,6 +75740,13 @@
       },
       {
         "id": "F073Q019",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F073Q020",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -77333,7 +77844,7 @@
           "end": 5520
         }
       },
-      "structural_contract_question": "F074Q076"
+      "structural_contract_question": "F074Q077"
     },
     "questions": [
       {
@@ -78582,6 +79093,13 @@
       },
       {
         "id": "F074Q076",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F074Q077",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -78675,7 +79193,7 @@
           "end": 41
         }
       },
-      "structural_contract_question": "F075Q004"
+      "structural_contract_question": "F075Q005"
     },
     "questions": [
       {
@@ -78716,6 +79234,13 @@
       },
       {
         "id": "F075Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F075Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -78917,7 +79442,7 @@
           "end": 504
         }
       },
-      "structural_contract_question": "F076Q023"
+      "structural_contract_question": "F076Q024"
     },
     "questions": [
       {
@@ -79206,6 +79731,13 @@
       },
       {
         "id": "F076Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F076Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -80505,7 +81037,7 @@
           "end": 2841
         }
       },
-      "structural_contract_question": "F077Q067"
+      "structural_contract_question": "F077Q068"
     },
     "questions": [
       {
@@ -81522,6 +82054,13 @@
       },
       {
         "id": "F077Q067",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F077Q068",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -83126,7 +83665,7 @@
           "end": 3210
         }
       },
-      "structural_contract_question": "F078Q048"
+      "structural_contract_question": "F078Q049"
     },
     "questions": [
       {
@@ -83939,6 +84478,13 @@
       },
       {
         "id": "F078Q048",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F078Q049",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -84541,7 +85087,7 @@
           "end": 1410
         }
       },
-      "structural_contract_question": "F079Q022"
+      "structural_contract_question": "F079Q023"
     },
     "questions": [
       {
@@ -84870,6 +85416,13 @@
       },
       {
         "id": "F079Q022",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F079Q023",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -85754,7 +86307,7 @@
           "end": 1458
         }
       },
-      "structural_contract_question": "F080Q020"
+      "structural_contract_question": "F080Q021"
     },
     "questions": [
       {
@@ -86035,6 +86588,13 @@
       },
       {
         "id": "F080Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F080Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -86624,7 +87184,7 @@
           "end": 792
         }
       },
-      "structural_contract_question": "F081Q029"
+      "structural_contract_question": "F081Q030"
     },
     "questions": [
       {
@@ -87001,6 +87561,13 @@
       },
       {
         "id": "F081Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F081Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -87168,7 +87735,7 @@
           "end": 171
         }
       },
-      "structural_contract_question": "F082Q008"
+      "structural_contract_question": "F082Q009"
     },
     "questions": [
       {
@@ -87265,6 +87832,13 @@
       },
       {
         "id": "F082Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F082Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -87415,7 +87989,7 @@
           "end": 168
         }
       },
-      "structural_contract_question": "F083Q005"
+      "structural_contract_question": "F083Q006"
     },
     "questions": [
       {
@@ -87468,6 +88042,13 @@
       },
       {
         "id": "F083Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F083Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -87555,7 +88136,7 @@
           "end": 70
         }
       },
-      "structural_contract_question": "F084Q009"
+      "structural_contract_question": "F084Q010"
     },
     "questions": [
       {
@@ -87656,6 +88237,13 @@
       },
       {
         "id": "F084Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F084Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -88532,7 +89120,7 @@
           "end": 1449
         }
       },
-      "structural_contract_question": "F085Q029"
+      "structural_contract_question": "F085Q030"
     },
     "questions": [
       {
@@ -89001,6 +89589,13 @@
       },
       {
         "id": "F085Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F085Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -89124,7 +89719,7 @@
           "end": 177
         }
       },
-      "structural_contract_question": "F086Q009"
+      "structural_contract_question": "F086Q010"
     },
     "questions": [
       {
@@ -89225,6 +89820,13 @@
       },
       {
         "id": "F086Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F086Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -89398,7 +90000,7 @@
           "end": 214
         }
       },
-      "structural_contract_question": "F087Q012"
+      "structural_contract_question": "F087Q013"
     },
     "questions": [
       {
@@ -89535,6 +90137,13 @@
       },
       {
         "id": "F087Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F087Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -90271,7 +90880,7 @@
           "end": 935
         }
       },
-      "structural_contract_question": "F088Q019"
+      "structural_contract_question": "F088Q020"
     },
     "questions": [
       {
@@ -90500,6 +91109,13 @@
       },
       {
         "id": "F088Q019",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F088Q020",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -90584,7 +91200,7 @@
           "end": 96
         }
       },
-      "structural_contract_question": "F089Q005"
+      "structural_contract_question": "F089Q006"
     },
     "questions": [
       {
@@ -90637,6 +91253,13 @@
       },
       {
         "id": "F089Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F089Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -91439,7 +92062,7 @@
           "end": 1752
         }
       },
-      "structural_contract_question": "F090Q033"
+      "structural_contract_question": "F090Q034"
     },
     "questions": [
       {
@@ -91872,6 +92495,13 @@
       },
       {
         "id": "F090Q033",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F090Q034",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -92350,7 +92980,7 @@
           "end": 1062
         }
       },
-      "structural_contract_question": "F091Q024"
+      "structural_contract_question": "F091Q025"
     },
     "questions": [
       {
@@ -92675,6 +93305,13 @@
       },
       {
         "id": "F091Q024",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F091Q025",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -93137,7 +93774,7 @@
           "end": 939
         }
       },
-      "structural_contract_question": "F092Q014"
+      "structural_contract_question": "F092Q015"
     },
     "questions": [
       {
@@ -93306,6 +93943,13 @@
       },
       {
         "id": "F092Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F092Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -94224,7 +94868,7 @@
           "end": 1558
         }
       },
-      "structural_contract_question": "F093Q030"
+      "structural_contract_question": "F093Q031"
     },
     "questions": [
       {
@@ -94617,6 +95261,13 @@
       },
       {
         "id": "F093Q030",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F093Q031",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -94821,7 +95472,7 @@
           "end": 472
         }
       },
-      "structural_contract_question": "F094Q005"
+      "structural_contract_question": "F094Q006"
     },
     "questions": [
       {
@@ -94878,6 +95529,13 @@
       },
       {
         "id": "F094Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F094Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -95309,7 +95967,7 @@
           "end": 801
         }
       },
-      "structural_contract_question": "F095Q013"
+      "structural_contract_question": "F095Q014"
     },
     "questions": [
       {
@@ -95466,6 +96124,13 @@
       },
       {
         "id": "F095Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F095Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -95681,7 +96346,7 @@
           "end": 266
         }
       },
-      "structural_contract_question": "F096Q006"
+      "structural_contract_question": "F096Q007"
     },
     "questions": [
       {
@@ -95746,6 +96411,13 @@
       },
       {
         "id": "F096Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F096Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -96649,7 +97321,7 @@
           "end": 1399
         }
       },
-      "structural_contract_question": "F097Q017"
+      "structural_contract_question": "F097Q018"
     },
     "questions": [
       {
@@ -96882,6 +97554,13 @@
       },
       {
         "id": "F097Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F097Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -97070,7 +97749,7 @@
           "end": 346
         }
       },
-      "structural_contract_question": "F098Q009"
+      "structural_contract_question": "F098Q010"
     },
     "questions": [
       {
@@ -97179,6 +97858,13 @@
       },
       {
         "id": "F098Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F098Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -97367,7 +98053,7 @@
           "end": 338
         }
       },
-      "structural_contract_question": "F099Q009"
+      "structural_contract_question": "F099Q010"
     },
     "questions": [
       {
@@ -97476,6 +98162,13 @@
       },
       {
         "id": "F099Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F099Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -98014,7 +98707,7 @@
           "end": 1122
         }
       },
-      "structural_contract_question": "F100Q030"
+      "structural_contract_question": "F100Q031"
     },
     "questions": [
       {
@@ -98403,6 +99096,13 @@
       },
       {
         "id": "F100Q030",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F100Q031",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -99230,7 +99930,7 @@
           "end": 2319
         }
       },
-      "structural_contract_question": "F101Q033"
+      "structural_contract_question": "F101Q034"
     },
     "questions": [
       {
@@ -99675,6 +100375,13 @@
       },
       {
         "id": "F101Q033",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F101Q034",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -100207,7 +100914,7 @@
           "end": 1890
         }
       },
-      "structural_contract_question": "F102Q024"
+      "structural_contract_question": "F102Q025"
     },
     "questions": [
       {
@@ -100540,6 +101247,13 @@
       },
       {
         "id": "F102Q024",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F102Q025",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -101780,7 +102494,7 @@
           "end": 3646
         }
       },
-      "structural_contract_question": "F103Q040"
+      "structural_contract_question": "F103Q041"
     },
     "questions": [
       {
@@ -102285,6 +102999,13 @@
       },
       {
         "id": "F103Q040",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F103Q041",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -102516,7 +103237,7 @@
           "end": 302
         }
       },
-      "structural_contract_question": "F104Q012"
+      "structural_contract_question": "F104Q013"
     },
     "questions": [
       {
@@ -102665,6 +103386,13 @@
       },
       {
         "id": "F104Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F104Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -104923,7 +105651,7 @@
           "end": 7815
         }
       },
-      "structural_contract_question": "F105Q059"
+      "structural_contract_question": "F105Q060"
     },
     "questions": [
       {
@@ -105888,6 +106616,13 @@
       },
       {
         "id": "F105Q059",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F105Q060",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -107370,7 +108105,7 @@
           "end": 2573
         }
       },
-      "structural_contract_question": "F106Q052"
+      "structural_contract_question": "F106Q053"
     },
     "questions": [
       {
@@ -108031,6 +108766,13 @@
       },
       {
         "id": "F106Q052",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F106Q053",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -108126,7 +108868,7 @@
           "end": 110
         }
       },
-      "structural_contract_question": "F107Q006"
+      "structural_contract_question": "F107Q007"
     },
     "questions": [
       {
@@ -108191,6 +108933,13 @@
       },
       {
         "id": "F107Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F107Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -108364,7 +109113,7 @@
           "end": 224
         }
       },
-      "structural_contract_question": "F108Q012"
+      "structural_contract_question": "F108Q013"
     },
     "questions": [
       {
@@ -108501,6 +109250,13 @@
       },
       {
         "id": "F108Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F108Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -109411,7 +110167,7 @@
           "end": 1208
         }
       },
-      "structural_contract_question": "F109Q031"
+      "structural_contract_question": "F109Q032"
     },
     "questions": [
       {
@@ -109796,6 +110552,13 @@
       },
       {
         "id": "F109Q031",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F109Q032",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -109972,7 +110735,7 @@
           "end": 284
         }
       },
-      "structural_contract_question": "F110Q014"
+      "structural_contract_question": "F110Q015"
     },
     "questions": [
       {
@@ -110133,6 +110896,13 @@
       },
       {
         "id": "F110Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F110Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -110510,7 +111280,7 @@
           "end": 367
         }
       },
-      "structural_contract_question": "F111Q011"
+      "structural_contract_question": "F111Q012"
     },
     "questions": [
       {
@@ -110635,6 +111405,13 @@
       },
       {
         "id": "F111Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F111Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -110758,7 +111535,7 @@
           "end": 148
         }
       },
-      "structural_contract_question": "F112Q009"
+      "structural_contract_question": "F112Q010"
     },
     "questions": [
       {
@@ -110859,6 +111636,13 @@
       },
       {
         "id": "F112Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F112Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -111095,7 +111879,7 @@
           "end": 496
         }
       },
-      "structural_contract_question": "F113Q002"
+      "structural_contract_question": "F113Q003"
     },
     "questions": [
       {
@@ -111112,6 +111896,13 @@
       },
       {
         "id": "F113Q002",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F113Q003",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -111489,7 +112280,7 @@
           "end": 575
         }
       },
-      "structural_contract_question": "F114Q013"
+      "structural_contract_question": "F114Q014"
     },
     "questions": [
       {
@@ -111642,6 +112433,13 @@
       },
       {
         "id": "F114Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F114Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -112893,7 +113691,7 @@
           "end": 2723
         }
       },
-      "structural_contract_question": "F115Q042"
+      "structural_contract_question": "F115Q043"
     },
     "questions": [
       {
@@ -113542,6 +114340,13 @@
       },
       {
         "id": "F115Q042",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F115Q043",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -113817,7 +114622,7 @@
           "end": 300
         }
       },
-      "structural_contract_question": "F116Q015"
+      "structural_contract_question": "F116Q016"
     },
     "questions": [
       {
@@ -113998,6 +114803,13 @@
       },
       {
         "id": "F116Q015",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F116Q016",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -114281,7 +115093,7 @@
           "end": 638
         }
       },
-      "structural_contract_question": "F117Q017"
+      "structural_contract_question": "F117Q018"
     },
     "questions": [
       {
@@ -114502,6 +115314,13 @@
       },
       {
         "id": "F117Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F117Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -115033,7 +115852,7 @@
           "end": 1212
         }
       },
-      "structural_contract_question": "F118Q027"
+      "structural_contract_question": "F118Q028"
     },
     "questions": [
       {
@@ -115402,6 +116221,13 @@
       },
       {
         "id": "F118Q027",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F118Q028",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -115633,7 +116459,7 @@
           "end": 302
         }
       },
-      "structural_contract_question": "F119Q012"
+      "structural_contract_question": "F119Q013"
     },
     "questions": [
       {
@@ -115782,6 +116608,13 @@
       },
       {
         "id": "F119Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F119Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -115964,7 +116797,7 @@
           "end": 398
         }
       },
-      "structural_contract_question": "F120Q010"
+      "structural_contract_question": "F120Q011"
     },
     "questions": [
       {
@@ -116125,6 +116958,13 @@
       },
       {
         "id": "F120Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F120Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -116470,7 +117310,7 @@
           "end": 1400
         }
       },
-      "structural_contract_question": "F121Q018"
+      "structural_contract_question": "F121Q019"
     },
     "questions": [
       {
@@ -116679,6 +117519,13 @@
       },
       {
         "id": "F121Q018",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F121Q019",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -116770,7 +117617,7 @@
           "end": 95
         }
       },
-      "structural_contract_question": "F122Q008"
+      "structural_contract_question": "F122Q009"
     },
     "questions": [
       {
@@ -116859,6 +117706,13 @@
       },
       {
         "id": "F122Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F122Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -117496,7 +118350,7 @@
           "end": 824
         }
       },
-      "structural_contract_question": "F123Q018"
+      "structural_contract_question": "F123Q019"
     },
     "questions": [
       {
@@ -117753,6 +118607,13 @@
       },
       {
         "id": "F123Q018",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F123Q019",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -119057,7 +119918,7 @@
           "end": 3185
         }
       },
-      "structural_contract_question": "F124Q052"
+      "structural_contract_question": "F124Q053"
     },
     "questions": [
       {
@@ -119910,6 +120771,13 @@
       },
       {
         "id": "F124Q052",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F124Q053",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -120003,7 +120871,7 @@
           "end": 54
         }
       },
-      "structural_contract_question": "F125Q004"
+      "structural_contract_question": "F125Q005"
     },
     "questions": [
       {
@@ -120044,6 +120912,13 @@
       },
       {
         "id": "F125Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F125Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -120622,7 +121497,7 @@
           "end": 1175
         }
       },
-      "structural_contract_question": "F126Q024"
+      "structural_contract_question": "F126Q025"
     },
     "questions": [
       {
@@ -120935,6 +121810,13 @@
       },
       {
         "id": "F126Q024",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F126Q025",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -121727,7 +122609,7 @@
           "end": 1876
         }
       },
-      "structural_contract_question": "F127Q034"
+      "structural_contract_question": "F127Q035"
     },
     "questions": [
       {
@@ -122268,6 +123150,13 @@
       },
       {
         "id": "F127Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F127Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -122828,7 +123717,7 @@
           "end": 1294
         }
       },
-      "structural_contract_question": "F128Q034"
+      "structural_contract_question": "F128Q035"
     },
     "questions": [
       {
@@ -123281,6 +124170,13 @@
       },
       {
         "id": "F128Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F128Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -123355,7 +124251,7 @@
           "end": 61
         }
       },
-      "structural_contract_question": "F129Q004"
+      "structural_contract_question": "F129Q005"
     },
     "questions": [
       {
@@ -123396,6 +124292,13 @@
       },
       {
         "id": "F129Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F129Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -123659,7 +124562,7 @@
           "end": 350
         }
       },
-      "structural_contract_question": "F130Q009"
+      "structural_contract_question": "F130Q010"
     },
     "questions": [
       {
@@ -123760,6 +124663,13 @@
       },
       {
         "id": "F130Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F130Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -123922,7 +124832,7 @@
           "end": 216
         }
       },
-      "structural_contract_question": "F131Q011"
+      "structural_contract_question": "F131Q012"
     },
     "questions": [
       {
@@ -124047,6 +124957,13 @@
       },
       {
         "id": "F131Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F131Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -124151,7 +125068,7 @@
           "end": 78
         }
       },
-      "structural_contract_question": "F132Q006"
+      "structural_contract_question": "F132Q007"
     },
     "questions": [
       {
@@ -124216,6 +125133,13 @@
       },
       {
         "id": "F132Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F132Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -124831,7 +125755,7 @@
           "end": 959
         }
       },
-      "structural_contract_question": "F133Q028"
+      "structural_contract_question": "F133Q029"
     },
     "questions": [
       {
@@ -125228,6 +126152,13 @@
       },
       {
         "id": "F133Q028",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F133Q029",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -125674,7 +126605,7 @@
           "end": 888
         }
       },
-      "structural_contract_question": "F134Q034"
+      "structural_contract_question": "F134Q035"
     },
     "questions": [
       {
@@ -126087,6 +127018,13 @@
       },
       {
         "id": "F134Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F134Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -127374,7 +128312,7 @@
           "end": 2353
         }
       },
-      "structural_contract_question": "F135Q068"
+      "structural_contract_question": "F135Q069"
     },
     "questions": [
       {
@@ -128347,6 +129285,13 @@
       },
       {
         "id": "F135Q068",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F135Q069",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -129236,7 +130181,7 @@
           "end": 1379
         }
       },
-      "structural_contract_question": "F136Q032"
+      "structural_contract_question": "F136Q033"
     },
     "questions": [
       {
@@ -129657,6 +130602,13 @@
       },
       {
         "id": "F136Q032",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F136Q033",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -130751,7 +131703,7 @@
           "end": 1363
         }
       },
-      "structural_contract_question": "F137Q028"
+      "structural_contract_question": "F137Q029"
     },
     "questions": [
       {
@@ -131132,6 +132084,13 @@
       },
       {
         "id": "F137Q028",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F137Q029",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -131868,7 +132827,7 @@
           "end": 935
         }
       },
-      "structural_contract_question": "F138Q019"
+      "structural_contract_question": "F138Q020"
     },
     "questions": [
       {
@@ -132097,6 +133056,13 @@
       },
       {
         "id": "F138Q019",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F138Q020",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -132190,7 +133156,7 @@
           "end": 60
         }
       },
-      "structural_contract_question": "F139Q004"
+      "structural_contract_question": "F139Q005"
     },
     "questions": [
       {
@@ -132231,6 +133197,13 @@
       },
       {
         "id": "F139Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F139Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -132354,7 +133327,7 @@
           "end": 157
         }
       },
-      "structural_contract_question": "F140Q009"
+      "structural_contract_question": "F140Q010"
     },
     "questions": [
       {
@@ -132455,6 +133428,13 @@
       },
       {
         "id": "F140Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F140Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -132934,7 +133914,7 @@
           "end": 1036
         }
       },
-      "structural_contract_question": "F141Q016"
+      "structural_contract_question": "F141Q017"
     },
     "questions": [
       {
@@ -133135,6 +134115,13 @@
       },
       {
         "id": "F141Q016",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F141Q017",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -133349,7 +134336,7 @@
           "end": 282
         }
       },
-      "structural_contract_question": "F142Q010"
+      "structural_contract_question": "F142Q011"
     },
     "questions": [
       {
@@ -133462,6 +134449,13 @@
       },
       {
         "id": "F142Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F142Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -133665,7 +134659,7 @@
           "end": 360
         }
       },
-      "structural_contract_question": "F143Q013"
+      "structural_contract_question": "F143Q014"
     },
     "questions": [
       {
@@ -133814,6 +134808,13 @@
       },
       {
         "id": "F143Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F143Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -134036,7 +135037,7 @@
           "end": 280
         }
       },
-      "structural_contract_question": "F144Q014"
+      "structural_contract_question": "F144Q015"
     },
     "questions": [
       {
@@ -134197,6 +135198,13 @@
       },
       {
         "id": "F144Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F144Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -134319,7 +135327,7 @@
           "end": 148
         }
       },
-      "structural_contract_question": "F145Q008"
+      "structural_contract_question": "F145Q009"
     },
     "questions": [
       {
@@ -134408,6 +135416,13 @@
       },
       {
         "id": "F145Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F145Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -135086,7 +136101,7 @@
           "end": 1184
         }
       },
-      "structural_contract_question": "F146Q028"
+      "structural_contract_question": "F146Q029"
     },
     "questions": [
       {
@@ -135471,6 +136486,13 @@
       },
       {
         "id": "F146Q028",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F146Q029",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -135630,7 +136652,7 @@
           "end": 217
         }
       },
-      "structural_contract_question": "F147Q007"
+      "structural_contract_question": "F147Q008"
     },
     "questions": [
       {
@@ -135707,6 +136729,13 @@
       },
       {
         "id": "F147Q007",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F147Q008",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -135883,7 +136912,7 @@
           "end": 284
         }
       },
-      "structural_contract_question": "F148Q014"
+      "structural_contract_question": "F148Q015"
     },
     "questions": [
       {
@@ -136044,6 +137073,13 @@
       },
       {
         "id": "F148Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F148Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -136515,7 +137551,7 @@
           "end": 544
         }
       },
-      "structural_contract_question": "F149Q005"
+      "structural_contract_question": "F149Q006"
     },
     "questions": [
       {
@@ -136576,6 +137612,13 @@
       },
       {
         "id": "F149Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F149Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -136763,7 +137806,7 @@
           "end": 407
         }
       },
-      "structural_contract_question": "F150Q009"
+      "structural_contract_question": "F150Q010"
     },
     "questions": [
       {
@@ -136884,6 +137927,13 @@
       },
       {
         "id": "F150Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F150Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -137310,7 +138360,7 @@
           "end": 397
         }
       },
-      "structural_contract_question": "F151Q017"
+      "structural_contract_question": "F151Q018"
     },
     "questions": [
       {
@@ -137507,6 +138557,13 @@
       },
       {
         "id": "F151Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F151Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -138045,7 +139102,7 @@
           "end": 1122
         }
       },
-      "structural_contract_question": "F152Q030"
+      "structural_contract_question": "F152Q031"
     },
     "questions": [
       {
@@ -138434,6 +139491,13 @@
       },
       {
         "id": "F152Q030",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F152Q031",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -138965,7 +140029,7 @@
           "end": 1212
         }
       },
-      "structural_contract_question": "F153Q027"
+      "structural_contract_question": "F153Q028"
     },
     "questions": [
       {
@@ -139334,6 +140398,13 @@
       },
       {
         "id": "F153Q027",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F153Q028",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -139489,7 +140560,7 @@
           "end": 189
         }
       },
-      "structural_contract_question": "F154Q008"
+      "structural_contract_question": "F154Q009"
     },
     "questions": [
       {
@@ -139586,6 +140657,13 @@
       },
       {
         "id": "F154Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F154Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -139716,7 +140794,7 @@
           "end": 140
         }
       },
-      "structural_contract_question": "F155Q006"
+      "structural_contract_question": "F155Q007"
     },
     "questions": [
       {
@@ -139781,6 +140859,13 @@
       },
       {
         "id": "F155Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F155Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -140236,7 +141321,7 @@
           "end": 859
         }
       },
-      "structural_contract_question": "F156Q016"
+      "structural_contract_question": "F156Q017"
     },
     "questions": [
       {
@@ -140449,6 +141534,13 @@
       },
       {
         "id": "F156Q016",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F156Q017",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -140790,7 +141882,7 @@
           "end": 367
         }
       },
-      "structural_contract_question": "F157Q008"
+      "structural_contract_question": "F157Q009"
     },
     "questions": [
       {
@@ -140887,6 +141979,13 @@
       },
       {
         "id": "F157Q008",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F157Q009",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -141097,7 +142196,7 @@
           "end": 309
         }
       },
-      "structural_contract_question": "F158Q013"
+      "structural_contract_question": "F158Q014"
     },
     "questions": [
       {
@@ -141254,6 +142353,13 @@
       },
       {
         "id": "F158Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F158Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -141891,7 +142997,7 @@
           "end": 653
         }
       },
-      "structural_contract_question": "F159Q020"
+      "structural_contract_question": "F159Q021"
     },
     "questions": [
       {
@@ -142148,6 +143254,13 @@
       },
       {
         "id": "F159Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F159Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -143036,7 +144149,7 @@
           "end": 2376
         }
       },
-      "structural_contract_question": "F160Q047"
+      "structural_contract_question": "F160Q048"
     },
     "questions": [
       {
@@ -143653,6 +144766,13 @@
       },
       {
         "id": "F160Q047",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F160Q048",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -143996,7 +145116,7 @@
           "end": 316
         }
       },
-      "structural_contract_question": "F161Q015"
+      "structural_contract_question": "F161Q016"
     },
     "questions": [
       {
@@ -144173,6 +145293,13 @@
       },
       {
         "id": "F161Q015",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F161Q016",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -145077,7 +146204,7 @@
           "end": 1856
         }
       },
-      "structural_contract_question": "F162Q029"
+      "structural_contract_question": "F162Q030"
     },
     "questions": [
       {
@@ -145490,6 +146617,13 @@
       },
       {
         "id": "F162Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F162Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -145839,7 +146973,7 @@
           "end": 442
         }
       },
-      "structural_contract_question": "F163Q014"
+      "structural_contract_question": "F163Q015"
     },
     "questions": [
       {
@@ -146008,6 +147142,13 @@
       },
       {
         "id": "F163Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F163Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -147620,7 +148761,7 @@
           "end": 4518
         }
       },
-      "structural_contract_question": "F164Q053"
+      "structural_contract_question": "F164Q054"
     },
     "questions": [
       {
@@ -148353,6 +149494,13 @@
       },
       {
         "id": "F164Q053",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F164Q054",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -148819,7 +149967,7 @@
           "end": 319
         }
       },
-      "structural_contract_question": "F165Q002"
+      "structural_contract_question": "F165Q003"
     },
     "questions": [
       {
@@ -148836,6 +149984,13 @@
       },
       {
         "id": "F165Q002",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F165Q003",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -150229,7 +151384,7 @@
           "end": 2239
         }
       },
-      "structural_contract_question": "F166Q047"
+      "structural_contract_question": "F166Q048"
     },
     "questions": [
       {
@@ -150850,6 +152005,13 @@
       },
       {
         "id": "F166Q047",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F166Q048",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -151227,7 +152389,7 @@
           "end": 367
         }
       },
-      "structural_contract_question": "F167Q011"
+      "structural_contract_question": "F167Q012"
     },
     "questions": [
       {
@@ -151352,6 +152514,13 @@
       },
       {
         "id": "F167Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F167Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -151658,7 +152827,7 @@
           "end": 274
         }
       },
-      "structural_contract_question": "F168Q010"
+      "structural_contract_question": "F168Q011"
     },
     "questions": [
       {
@@ -151771,6 +152940,13 @@
       },
       {
         "id": "F168Q010",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F168Q011",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -153022,7 +154198,7 @@
           "end": 2723
         }
       },
-      "structural_contract_question": "F169Q042"
+      "structural_contract_question": "F169Q043"
     },
     "questions": [
       {
@@ -153671,6 +154847,13 @@
       },
       {
         "id": "F169Q042",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F169Q043",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -154911,7 +156094,7 @@
           "end": 3646
         }
       },
-      "structural_contract_question": "F170Q040"
+      "structural_contract_question": "F170Q041"
     },
     "questions": [
       {
@@ -155416,6 +156599,13 @@
       },
       {
         "id": "F170Q040",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F170Q041",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -155545,7 +156735,7 @@
           "end": 146
         }
       },
-      "structural_contract_question": "F171Q005"
+      "structural_contract_question": "F171Q006"
     },
     "questions": [
       {
@@ -155598,6 +156788,13 @@
       },
       {
         "id": "F171Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F171Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -156474,7 +157671,7 @@
           "end": 1449
         }
       },
-      "structural_contract_question": "F172Q029"
+      "structural_contract_question": "F172Q030"
     },
     "questions": [
       {
@@ -156943,6 +158140,13 @@
       },
       {
         "id": "F172Q029",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F172Q030",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -157423,7 +158627,7 @@
           "end": 989
         }
       },
-      "structural_contract_question": "F173Q012"
+      "structural_contract_question": "F173Q013"
     },
     "questions": [
       {
@@ -157592,6 +158796,13 @@
       },
       {
         "id": "F173Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F173Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -158618,7 +159829,7 @@
           "end": 1423
         }
       },
-      "structural_contract_question": "F174Q032"
+      "structural_contract_question": "F174Q033"
     },
     "questions": [
       {
@@ -159043,6 +160254,13 @@
       },
       {
         "id": "F174Q032",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F174Q033",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -159262,7 +160480,7 @@
           "end": 229
         }
       },
-      "structural_contract_question": "F175Q011"
+      "structural_contract_question": "F175Q012"
     },
     "questions": [
       {
@@ -159395,6 +160613,13 @@
       },
       {
         "id": "F175Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F175Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -159470,7 +160695,7 @@
           "end": 71
         }
       },
-      "structural_contract_question": "F176Q003"
+      "structural_contract_question": "F176Q004"
     },
     "questions": [
       {
@@ -159499,6 +160724,13 @@
       },
       {
         "id": "F176Q003",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F176Q004",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -159646,7 +160878,7 @@
           "end": 163
         }
       },
-      "structural_contract_question": "F177Q009"
+      "structural_contract_question": "F177Q010"
     },
     "questions": [
       {
@@ -159755,6 +160987,13 @@
       },
       {
         "id": "F177Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F177Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -159908,7 +161147,7 @@
           "end": 234
         }
       },
-      "structural_contract_question": "F178Q011"
+      "structural_contract_question": "F178Q012"
     },
     "questions": [
       {
@@ -160049,6 +161288,13 @@
       },
       {
         "id": "F178Q011",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F178Q012",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -160196,7 +161442,7 @@
           "end": 166
         }
       },
-      "structural_contract_question": "F179Q009"
+      "structural_contract_question": "F179Q010"
     },
     "questions": [
       {
@@ -160305,6 +161551,13 @@
       },
       {
         "id": "F179Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F179Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -160595,7 +161848,7 @@
           "end": 330
         }
       },
-      "structural_contract_question": "F180Q012"
+      "structural_contract_question": "F180Q013"
     },
     "questions": [
       {
@@ -160748,6 +162001,13 @@
       },
       {
         "id": "F180Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F180Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -160874,7 +162134,7 @@
           "end": 198
         }
       },
-      "structural_contract_question": "F181Q007"
+      "structural_contract_question": "F181Q008"
     },
     "questions": [
       {
@@ -160951,6 +162211,13 @@
       },
       {
         "id": "F181Q007",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F181Q008",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -161170,7 +162437,7 @@
           "end": 125
         }
       },
-      "structural_contract_question": "F182Q005"
+      "structural_contract_question": "F182Q006"
     },
     "questions": [
       {
@@ -161227,6 +162494,13 @@
       },
       {
         "id": "F182Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F182Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -161317,7 +162591,7 @@
           "end": 157
         }
       },
-      "structural_contract_question": "F183Q003"
+      "structural_contract_question": "F183Q004"
     },
     "questions": [
       {
@@ -161346,6 +162620,13 @@
       },
       {
         "id": "F183Q003",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F183Q004",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -161583,7 +162864,7 @@
           "end": 211
         }
       },
-      "structural_contract_question": "F184Q012"
+      "structural_contract_question": "F184Q013"
     },
     "questions": [
       {
@@ -161720,6 +163001,13 @@
       },
       {
         "id": "F184Q012",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F184Q013",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -161822,7 +163110,7 @@
           "end": 130
         }
       },
-      "structural_contract_question": "F185Q009"
+      "structural_contract_question": "F185Q010"
     },
     "questions": [
       {
@@ -161923,6 +163211,13 @@
       },
       {
         "id": "F185Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F185Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -163183,7 +164478,7 @@
           "end": 1850
         }
       },
-      "structural_contract_question": "F186Q034"
+      "structural_contract_question": "F186Q035"
     },
     "questions": [
       {
@@ -163620,6 +164915,13 @@
       },
       {
         "id": "F186Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F186Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -163972,7 +165274,7 @@
           "end": 1913
         }
       },
-      "structural_contract_question": "F187Q013"
+      "structural_contract_question": "F187Q014"
     },
     "questions": [
       {
@@ -164121,6 +165423,13 @@
       },
       {
         "id": "F187Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F187Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -164678,7 +165987,7 @@
           "end": 1651
         }
       },
-      "structural_contract_question": "F188Q034"
+      "structural_contract_question": "F188Q035"
     },
     "questions": [
       {
@@ -165115,6 +166424,13 @@
       },
       {
         "id": "F188Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F188Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -165256,7 +166572,7 @@
           "end": 341
         }
       },
-      "structural_contract_question": "F189Q007"
+      "structural_contract_question": "F189Q008"
     },
     "questions": [
       {
@@ -165349,6 +166665,13 @@
       },
       {
         "id": "F189Q007",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F189Q008",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -165408,7 +166731,7 @@
           "end": 154
         }
       },
-      "structural_contract_question": "F190Q005"
+      "structural_contract_question": "F190Q006"
     },
     "questions": [
       {
@@ -165461,6 +166784,13 @@
       },
       {
         "id": "F190Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F190Q006",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -166607,7 +167937,7 @@
           "end": 2239
         }
       },
-      "structural_contract_question": "F191Q034"
+      "structural_contract_question": "F191Q035"
     },
     "questions": [
       {
@@ -167112,6 +168442,13 @@
       },
       {
         "id": "F191Q034",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F191Q035",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -167404,7 +168741,7 @@
           "end": 695
         }
       },
-      "structural_contract_question": "F192Q020"
+      "structural_contract_question": "F192Q021"
     },
     "questions": [
       {
@@ -167645,6 +168982,13 @@
       },
       {
         "id": "F192Q020",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F192Q021",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -168325,7 +169669,7 @@
           "end": 494
         }
       },
-      "structural_contract_question": "F193Q023"
+      "structural_contract_question": "F193Q024"
     },
     "questions": [
       {
@@ -168618,6 +169962,13 @@
       },
       {
         "id": "F193Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F193Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -169006,7 +170357,7 @@
           "end": 298
         }
       },
-      "structural_contract_question": "F194Q014"
+      "structural_contract_question": "F194Q015"
     },
     "questions": [
       {
@@ -169175,6 +170526,13 @@
       },
       {
         "id": "F194Q014",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F194Q015",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -169501,7 +170859,7 @@
           "end": 954
         }
       },
-      "structural_contract_question": "F195Q023"
+      "structural_contract_question": "F195Q024"
     },
     "questions": [
       {
@@ -169850,6 +171208,13 @@
       },
       {
         "id": "F195Q023",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F195Q024",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -169954,7 +171319,7 @@
           "end": 84
         }
       },
-      "structural_contract_question": "F196Q004"
+      "structural_contract_question": "F196Q005"
     },
     "questions": [
       {
@@ -169995,6 +171360,13 @@
       },
       {
         "id": "F196Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F196Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -170243,7 +171615,7 @@
           "end": 269
         }
       },
-      "structural_contract_question": "F197Q013"
+      "structural_contract_question": "F197Q014"
     },
     "questions": [
       {
@@ -170420,6 +171792,13 @@
       },
       {
         "id": "F197Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F197Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -170555,7 +171934,7 @@
           "end": 178
         }
       },
-      "structural_contract_question": "F198Q004"
+      "structural_contract_question": "F198Q005"
     },
     "questions": [
       {
@@ -170604,6 +171983,13 @@
       },
       {
         "id": "F198Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F198Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -170879,7 +172265,7 @@
           "end": 514
         }
       },
-      "structural_contract_question": "F199Q018"
+      "structural_contract_question": "F199Q019"
     },
     "questions": [
       {
@@ -171120,6 +172506,13 @@
       },
       {
         "id": "F199Q018",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F199Q019",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -171224,7 +172617,7 @@
           "end": 83
         }
       },
-      "structural_contract_question": "F200Q004"
+      "structural_contract_question": "F200Q005"
     },
     "questions": [
       {
@@ -171265,6 +172658,13 @@
       },
       {
         "id": "F200Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F200Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -171509,7 +172909,7 @@
           "end": 406
         }
       },
-      "structural_contract_question": "F201Q013"
+      "structural_contract_question": "F201Q014"
     },
     "questions": [
       {
@@ -171674,6 +173074,13 @@
       },
       {
         "id": "F201Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F201Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -171766,7 +173173,7 @@
           "end": 51
         }
       },
-      "structural_contract_question": "F202Q003"
+      "structural_contract_question": "F202Q004"
     },
     "questions": [
       {
@@ -171795,6 +173202,13 @@
       },
       {
         "id": "F202Q003",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F202Q004",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -171907,7 +173321,7 @@
           "end": 320
         }
       },
-      "structural_contract_question": "F203Q006"
+      "structural_contract_question": "F203Q007"
     },
     "questions": [
       {
@@ -171972,6 +173386,13 @@
       },
       {
         "id": "F203Q006",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F203Q007",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -172104,7 +173525,7 @@
           "end": 181
         }
       },
-      "structural_contract_question": "F204Q004"
+      "structural_contract_question": "F204Q005"
     },
     "questions": [
       {
@@ -172153,6 +173574,13 @@
       },
       {
         "id": "F204Q004",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F204Q005",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -172331,7 +173759,7 @@
           "end": 237
         }
       },
-      "structural_contract_question": "F205Q013"
+      "structural_contract_question": "F205Q014"
     },
     "questions": [
       {
@@ -172492,6 +173920,13 @@
       },
       {
         "id": "F205Q013",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F205Q014",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -172618,7 +174053,7 @@
           "end": 113
         }
       },
-      "structural_contract_question": "F206Q009"
+      "structural_contract_question": "F206Q010"
     },
     "questions": [
       {
@@ -172735,6 +174170,13 @@
       },
       {
         "id": "F206Q009",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F206Q010",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -173176,7 +174618,7 @@
           "end": 741
         }
       },
-      "structural_contract_question": "F207Q017"
+      "structural_contract_question": "F207Q018"
     },
     "questions": [
       {
@@ -173385,6 +174827,13 @@
       },
       {
         "id": "F207Q017",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F207Q018",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -174521,7 +175970,7 @@
           "end": 1763
         }
       },
-      "structural_contract_question": "F208Q039"
+      "structural_contract_question": "F208Q040"
     },
     "questions": [
       {
@@ -175054,6 +176503,13 @@
       },
       {
         "id": "F208Q039",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F208Q040",
         "kind": "execution_frame_contract",
         "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
@@ -175065,33 +176521,377 @@
   {
     "index": 208,
     "id": "Terminals:workspaces/shared-chat-extractor/html-parser.js:793-878",
-    "status": "blocked_parse",
+    "repository": "Terminals",
+    "file": "workspaces/shared-chat-extractor/html-parser.js",
+    "source_revision": "6cff912c710356965b8373e7b842f202fa915888",
+    "source_span": {
+      "start": 793,
+      "end": 878
+    },
     "source": "constructor(code,message){super(message);this.name=\"ExtractionError\";this.code=code;}",
-    "canonical": null,
+    "source_sha256": "9c361c482e9c30e284ba826607e1f2dc34fabf73c95b7225d765d0cf526505b3",
+    "status": "partial_rewrite_questions_reserved",
+    "canonical": {
+      "signature": {
+        "name": "constructor",
+        "kind": "ClassMethod",
+        "parameters": [
+          "code",
+          "message"
+        ],
+        "async": false,
+        "generator": false
+      },
+      "bindings": [
+        {
+          "alias": "binding_1_code",
+          "name": "code",
+          "kind": "param",
+          "declaration": {
+            "start": 12,
+            "end": 16
+          }
+        },
+        {
+          "alias": "binding_2_message",
+          "name": "message",
+          "kind": "param",
+          "declaration": {
+            "start": 17,
+            "end": 24
+          }
+        }
+      ],
+      "body": {
+        "sequence": [
+          {
+            "unresolved_operation": {
+              "source": "super(message)",
+              "question_refs": [
+                "F209Q001",
+                "F209Q002"
+              ]
+            },
+            "binding_frame": [
+              {
+                "alias": "binding_2_message",
+                "parameter": "message"
+              }
+            ]
+          },
+          {
+            "action": "MUTATE",
+            "target": "this.name",
+            "new_state": {
+              "action": "MAP",
+              "target": "lexical_frame@51",
+              "mapping_function": "() => (\"ExtractionError\")",
+              "argument_bindings": [],
+              "source_span": {
+                "start": 51,
+                "end": 68
+              }
+            },
+            "result_projection": "new",
+            "declaration": null,
+            "evaluation_order": "resolve_reference_then_read_old_value_if_required_then_evaluate_rhs_then_write",
+            "question_refs": [
+              "F209Q003"
+            ],
+            "source_span": {
+              "start": 41,
+              "end": 50
+            }
+          },
+          {
+            "action": "MUTATE",
+            "target": "this.code",
+            "new_state": {
+              "action": "MAP",
+              "target": "lexical_frame@79",
+              "mapping_function": "(code) => (code)",
+              "argument_bindings": [
+                {
+                  "alias": "binding_1_code",
+                  "parameter": "code"
+                }
+              ],
+              "source_span": {
+                "start": 79,
+                "end": 83
+              }
+            },
+            "result_projection": "new",
+            "declaration": null,
+            "evaluation_order": "resolve_reference_then_read_old_value_if_required_then_evaluate_rhs_then_write",
+            "question_refs": [
+              "F209Q004"
+            ],
+            "source_span": {
+              "start": 69,
+              "end": 78
+            }
+          }
+        ],
+        "block_scope": {
+          "start": 25,
+          "end": 85
+        }
+      },
+      "structural_contract_question": "F209Q006"
+    },
     "questions": [
       {
         "id": "F209Q001",
-        "kind": "parse",
-        "question": "How should this function-like source be parsed without changing its syntax?",
+        "kind": "callee_contract",
+        "question": "What target, result and side-effect contract applies to this call before it can be represented as MAP or MUTATE?",
+        "detail": "super",
+        "sites": [
+          {
+            "start": 26,
+            "end": 40
+          }
+        ]
+      },
+      {
+        "id": "F209Q002",
+        "kind": "receiver_binding",
+        "question": "How is the original receiver, super binding or arguments object represented in the canonical context?",
+        "detail": "super",
+        "sites": [
+          {
+            "start": 26,
+            "end": 31
+          }
+        ]
+      },
+      {
+        "id": "F209Q003",
+        "kind": "mutation_target",
+        "question": "How is this object/property target resolved once, with original alias identity, computed-key order and setter/proxy behavior preserved?",
+        "detail": "this.name",
+        "sites": [
+          {
+            "start": 41,
+            "end": 50
+          }
+        ]
+      },
+      {
+        "id": "F209Q004",
+        "kind": "mutation_target",
+        "question": "How is this object/property target resolved once, with original alias identity, computed-key order and setter/proxy behavior preserved?",
+        "detail": "this.code",
+        "sites": [
+          {
+            "start": 69,
+            "end": 78
+          }
+        ]
+      },
+      {
+        "id": "F209Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F209Q006",
+        "kind": "execution_frame_contract",
+        "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
         "sites": []
       }
-    ]
+    ],
+    "verified_semantic_equivalence": false
   },
   {
     "index": 209,
     "id": "Terminals:workspaces/shared-chat-extractor/input-parser-validator.js:1019-1123",
-    "status": "blocked_parse",
+    "repository": "Terminals",
+    "file": "workspaces/shared-chat-extractor/input-parser-validator.js",
+    "source_revision": "6cff912c710356965b8373e7b842f202fa915888",
+    "source_span": {
+      "start": 1019,
+      "end": 1123
+    },
     "source": "constructor(code, message) {\n    super(message);\n    this.name = \"InputError\";\n    this.code = code;\n  }",
-    "canonical": null,
+    "source_sha256": "4bf9b6418b6b598b8571345c29303c70575fe53d2b1e231ee75ea3b8489c7756",
+    "status": "partial_rewrite_questions_reserved",
+    "canonical": {
+      "signature": {
+        "name": "constructor",
+        "kind": "ClassMethod",
+        "parameters": [
+          "code",
+          "message"
+        ],
+        "async": false,
+        "generator": false
+      },
+      "bindings": [
+        {
+          "alias": "binding_1_code",
+          "name": "code",
+          "kind": "param",
+          "declaration": {
+            "start": 12,
+            "end": 16
+          }
+        },
+        {
+          "alias": "binding_2_message",
+          "name": "message",
+          "kind": "param",
+          "declaration": {
+            "start": 18,
+            "end": 25
+          }
+        }
+      ],
+      "body": {
+        "sequence": [
+          {
+            "unresolved_operation": {
+              "source": "super(message)",
+              "question_refs": [
+                "F210Q001",
+                "F210Q002"
+              ]
+            },
+            "binding_frame": [
+              {
+                "alias": "binding_2_message",
+                "parameter": "message"
+              }
+            ]
+          },
+          {
+            "action": "MUTATE",
+            "target": "this.name",
+            "new_state": {
+              "action": "MAP",
+              "target": "lexical_frame@65",
+              "mapping_function": "() => (\"InputError\")",
+              "argument_bindings": [],
+              "source_span": {
+                "start": 65,
+                "end": 77
+              }
+            },
+            "result_projection": "new",
+            "declaration": null,
+            "evaluation_order": "resolve_reference_then_read_old_value_if_required_then_evaluate_rhs_then_write",
+            "question_refs": [
+              "F210Q003"
+            ],
+            "source_span": {
+              "start": 53,
+              "end": 62
+            }
+          },
+          {
+            "action": "MUTATE",
+            "target": "this.code",
+            "new_state": {
+              "action": "MAP",
+              "target": "lexical_frame@95",
+              "mapping_function": "(code) => (code)",
+              "argument_bindings": [
+                {
+                  "alias": "binding_1_code",
+                  "parameter": "code"
+                }
+              ],
+              "source_span": {
+                "start": 95,
+                "end": 99
+              }
+            },
+            "result_projection": "new",
+            "declaration": null,
+            "evaluation_order": "resolve_reference_then_read_old_value_if_required_then_evaluate_rhs_then_write",
+            "question_refs": [
+              "F210Q004"
+            ],
+            "source_span": {
+              "start": 83,
+              "end": 92
+            }
+          }
+        ],
+        "block_scope": {
+          "start": 27,
+          "end": 104
+        }
+      },
+      "structural_contract_question": "F210Q006"
+    },
     "questions": [
       {
         "id": "F210Q001",
-        "kind": "parse",
-        "question": "How should this function-like source be parsed without changing its syntax?",
+        "kind": "callee_contract",
+        "question": "What target, result and side-effect contract applies to this call before it can be represented as MAP or MUTATE?",
+        "detail": "super",
+        "sites": [
+          {
+            "start": 33,
+            "end": 47
+          }
+        ]
+      },
+      {
+        "id": "F210Q002",
+        "kind": "receiver_binding",
+        "question": "How is the original receiver, super binding or arguments object represented in the canonical context?",
+        "detail": "super",
+        "sites": [
+          {
+            "start": 33,
+            "end": 38
+          }
+        ]
+      },
+      {
+        "id": "F210Q003",
+        "kind": "mutation_target",
+        "question": "How is this object/property target resolved once, with original alias identity, computed-key order and setter/proxy behavior preserved?",
+        "detail": "this.name",
+        "sites": [
+          {
+            "start": 53,
+            "end": 62
+          }
+        ]
+      },
+      {
+        "id": "F210Q004",
+        "kind": "mutation_target",
+        "question": "How is this object/property target resolved once, with original alias identity, computed-key order and setter/proxy behavior preserved?",
+        "detail": "this.code",
+        "sites": [
+          {
+            "start": 83,
+            "end": 92
+          }
+        ]
+      },
+      {
+        "id": "F210Q005",
+        "kind": "mapping_input_contract",
+        "question": "What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?",
+        "detail": null,
+        "sites": []
+      },
+      {
+        "id": "F210Q006",
+        "kind": "execution_frame_contract",
+        "question": "Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.",
         "detail": null,
         "sites": []
       }
-    ]
+    ],
+    "verified_semantic_equivalence": false
   }
 ]

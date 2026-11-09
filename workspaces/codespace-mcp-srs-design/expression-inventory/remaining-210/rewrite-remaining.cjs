@@ -9,9 +9,10 @@ function rewrite(record,index=0){
   let q=seen.get(key);if(!q){q={id:'F'+String(index+1).padStart(3,'0')+'Q'+String(questions.length+1).padStart(3,'0'),kind,question:text,detail:detail||null,sites:[]};seen.set(key,q);questions.push(q);}
   if(node)q.sites.push({start:node.start-prefix.length,end:node.end-prefix.length});return q.id;
  }
- for(const mode of ['expression','method']){
-  prefix=mode==='expression'?'const __selected = (':'const __selected = ({';
-  try{ast=parser.parse(prefix+source+(mode==='expression'?');':'});'),{sourceType:'unambiguous',plugins:['jsx']});
+ for(const mode of ['expression','method','derived_class']){
+  prefix=mode==='expression'?'const __selected = (':mode==='method'?'const __selected = ({':'const __selected = class extends Object {';
+  const suffix=mode==='expression'?');':mode==='method'?'});':'};';
+  try{ast=parser.parse(prefix+source+suffix,{sourceType:'unambiguous',plugins:['jsx']});
    traverse(ast,{Function(p){if(!root){root=p;p.stop();}}});if(root)break;
   }catch(e){ast=null;root=null;}
  }
@@ -118,6 +119,7 @@ function rewrite(record,index=0){
  const body=fn.body.type==='BlockStatement'?stmt(fn.body):{completion:'return',value:expr(fn.body)};
  if(fn.async)question('async_completion','How should canonical completion preserve Promise resolution/rejection and async scheduling?',fn,'async function');
  if(fn.generator)question('generator_completion','How should next/throw/return and suspended generator state be represented?',fn,'generator');
+ question('mapping_input_contract','What primitive-value and binding contracts ensure MAP expressions have no hidden coercion effects and preserve live captured binding identity?',null,null);
  const controlQuestion=question('execution_frame_contract','Confirm the context binding frame, declaration lifetime and structural control-flow/completion encoding; these are supporting notation, not new canonical action types.',null,null);
  const canonical={signature,bindings,body,structural_contract_question:controlQuestion};
  // These are candidates, not proofs: getter, coercion, call and executor contracts remain open.

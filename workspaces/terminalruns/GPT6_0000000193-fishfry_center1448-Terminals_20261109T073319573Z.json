@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail\ncd \"$GITHUB_WORKSPACE\"\nSTRIP='terminal/tasks/fishFry/pizza_screen_rotations_minus05_to_plus45_step05.png'\nTARGET='terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png'\ntest -f \"$STRIP\"\ntest ! -e \"$TARGET\"\ntest \"$(sha256sum \"$STRIP\" | awk '{print $1}')\" = 'de2026c20b5bb2f53f137024a9ca3ec34cc742a3bc4fafcd92f7eab56d3f5c34'\npython3 -m venv /tmp/fishfry_center1448_venv\n/tmp/fishfry_center1448_venv/bin/python -m pip -q install Pillow\n/tmp/fishfry_center1448_venv/bin/python - <<'PY'\nfrom pathlib import Path\nfrom hashlib import sha256\nfrom PIL import Image\nroot=Path('terminal/tasks/fishFry')\nstrip=root/'pizza_screen_rotations_minus05_to_plus45_step05.png'\ntarget=root/'pizza_screen_minus01_centered_1448x1448.png'\nwith Image.open(strip) as im:\n    assert im.size==(16896,1476), im.size\n    old_minus05=im.crop((0,0,1536,1476)).convert('RGB')\nminus01=old_minus05.rotate(1,resample=Image.Resampling.BICUBIC,expand=False,fillcolor='white')\n# Pan outer rim center estimated from source at x=777, y=741.\n# Crop [53,1501) x [17,1465) -> rim center at canvas (724,724).\nleft,top=53,17\nsquare=minus01.crop((left,top,left+1448,top+1448))\nassert square.size==(1448,1448), square.size\nassert square.getpixel((0,0))==(255,255,255)\nsquare.save(target,format='PNG',compress_level=6)\nprint('INPUT',strip,'SOURCE_DIMS',(1536,1476),flush=True)\nprint('SELECTED_FRAME','GH old -5 plus 1 degree CCW = new minus01',flush=True)\nprint('PAN_CENTER_SOURCE',(777,741),'CROP_LEFT_TOP',(left,top),'PAN_CENTER_OUTPUT',(724,724),flush=True)\nprint('OUTPUT',target,'SIZE',square.size,'BYTES',target.stat().st_size,'SHA256',sha256(target.read_bytes()).hexdigest(),flush=True)\nPY\ngit add -- \"$TARGET\"\ntest \"$(git diff --cached --name-only | wc -l)\" -eq 1\ngit -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Center minus-one-degree fish fry screen in 1448 square'\ngh auth setup-git\nfor attempt in 1 2 3 4 5 6 7 8; do\n  printf 'PUSH_ATTEMPT %s\\n' \"$attempt\"\n  git fetch --quiet origin main\n  git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' rebase origin/main\n  if git push origin HEAD:main; then\n    printf 'COMMITTED '; git rev-parse HEAD\n    printf 'REMOTE_HEAD '; gh api repos/BestNameYet/Terminals/git/ref/heads/main --jq .object.sha\n    gh api \"repos/BestNameYet/Terminals/contents/$TARGET\" --jq '[.path,.size,.sha] | @tsv'\n    printf 'LOCAL_BLOB '; git hash-object \"$TARGET\"\n    exit 0\n  fi\ndone\necho 'PUBLISH_FAILED_AFTER_RETRIES' >&2\nexit 1",
+  "outputThat": [
+    "INPUT terminal/tasks/fishFry/pizza_screen_rotations_minus05_to_plus45_step05.png SOURCE_DIMS (1536, 1476)",
+    "SELECTED_FRAME GH old -5 plus 1 degree CCW = new minus01",
+    "PAN_CENTER_SOURCE (777, 741) CROP_LEFT_TOP (53, 17) PAN_CENTER_OUTPUT (724, 724)",
+    "OUTPUT terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png SIZE (1448, 1448) BYTES 2246368 SHA256 ae82854dcee417bec13dbfdb305b97239059c0dbd78387f6347c2f60267a5b58",
+    "[main 8ffe62b] Center minus-one-degree fish fry screen in 1448 square",
+    " 1 file changed, 0 insertions(+), 0 deletions(-)",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png",
+    "PUSH_ATTEMPT 1",
+    "Current branch main is up to date.",
+    "COMMITTED 8ffe62bfc79a37fcc64d1b5ac5652f510c1d5c42",
+    "REMOTE_HEAD 8ffe62bfc79a37fcc64d1b5ac5652f510c1d5c42",
+    "terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png\t2246368\tdcf74239fda992fe1fa48fce927aae8d13b6ff62",
+    "LOCAL_BLOB dcf74239fda992fe1fa48fce927aae8d13b6ff62"
+  ]
+}

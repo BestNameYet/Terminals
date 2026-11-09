@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail; gh auth setup-git; git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'; gh api repos/BestNameYet/Terminals/issues/comments/6746250456 --jq .body > /tmp/custom-task-comment.json; node - <<'NODE'\nconst fs=require('fs'); const p=JSON.parse(fs.readFileSync('/tmp/custom-task-comment.json','utf8')); if(p.runOn!=='$'||p.forWhom!=='GPT6_0000000212_custom_task_completion-Terminals'||!p.whatPrompt.startsWith(\"node <<'NODE'\\n\")) throw Error('source mismatch'); fs.writeFileSync('/tmp/custom-task-publish.sh',p.whatPrompt);\nNODE\nbash -e -o pipefail /tmp/custom-task-publish.sh; printf '\\nPOST-PUSH\\n'; git rev-parse HEAD; git status --short",
+  "outputThat": [
+    "CUSTOM_INSTRUCTION_TASKS_COMPLETED 1794192853,1794193447,1794193968",
+    "VALIDATION_PASSED",
+    "NON_ACTIVATION_ASSERTED",
+    "[main 702bc4d] Complete custom-instruction design tasks and reconcile wrapper semantics",
+    " 7 files changed, 145 insertions(+), 29 deletions(-)",
+    " create mode 100644 Tasks/TasksCompleted/custom-instruction-task-completion.json",
+    " rename Tasks/{User Prompt Task Queue => TasksCompleted}/user-prompt-task-1794192853.json (91%)",
+    " rename Tasks/{User Prompt Task Queue => TasksCompleted}/user-prompt-task-1794193447.json (94%)",
+    " rename Tasks/{User Prompt Task Queue => TasksCompleted}/user-prompt-task-1794193968.json (93%)",
+    "702bc4dbb50d094a834839c97f3bf82b43b4dc22",
+    "",
+    "POST-PUSH",
+    "702bc4dbb50d094a834839c97f3bf82b43b4dc22"
+  ]
+}

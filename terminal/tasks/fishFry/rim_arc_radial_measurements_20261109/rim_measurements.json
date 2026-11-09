@@ -1,0 +1,431 @@
+{
+  "origin_quadrant_xy_px": [
+    0.0,
+    724.0
+  ],
+  "origin_original_full_image_xy_px": [
+    724.0,
+    724.0
+  ],
+  "coordinates": "x increases right; y increases down; origin at bottom-left corner of cropped upper-right quadrant",
+  "nominal_physical_screen_diameter_inches": 12.0,
+  "nominal_physical_radius_inches": 6.0,
+  "source_image": "terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724_arrow_removed_opencv_base.png",
+  "sobel_image": "terminal/tasks/fishFry/pizza_screen_upper_right_724x724_arrow_removed_sobel_x.png",
+  "edge_definition": "radial maximum positive gradient at outermost rim-to-white transition in cleaned grayscale image, cross-visualized against saved Sobel-X image",
+  "circle_fit": {
+    "center_x_px": 15.549163032699667,
+    "center_y_px": 723.8630775138712,
+    "radius_px": 698.1427187956996,
+    "rms_radial_residual_px": 1.7794525326874817,
+    "n_control_points": 29,
+    "control_ray_angles_deg": [
+      10.0,
+      80.0,
+      2.5
+    ]
+  },
+  "scale": {
+    "pixels_per_inch_estimate": 116.35711979928327,
+    "inches_per_pixel_estimate": 0.00859423129177661,
+    "calibration_limitation": "Assumes nominal 12-inch screen outer rim is circular and equals measured edge; not an independent physical calibration"
+  },
+  "equal_arc_sampling": {
+    "number_points": 5,
+    "number_equal_intervals": 4,
+    "arc_first_to_last_px": 865.6203207913345,
+    "arc_first_to_last_inches_est": 7.439341247742594,
+    "interval_px": 216.40508019783363,
+    "interval_inches_est": 1.8598353119356485,
+    "fit_center_angle_start_deg": 10.210441959959148,
+    "fit_center_angle_end_deg": 81.25091793549889
+  },
+  "measurements": [
+    {
+      "index": 1,
+      "equal_arc_angle_about_fit_deg": 10.210441959959148,
+      "ray_angle_from_origin_deg": 9.999916858195832,
+      "outer_edge_x_px": 702.9157749082062,
+      "outer_edge_y_px": 600.058035430675,
+      "radius_from_origin_px": 713.7592011288596,
+      "radius_from_origin_inches_est": 6.13421166113512,
+      "arc_distance_from_first_px": 0.0,
+      "arc_distance_from_first_inches_est": 0.0,
+      "circle_edge_residual_px": 0.28447681343141085,
+      "edge_gradient": 18.41904000666898
+    },
+    {
+      "index": 2,
+      "equal_arc_angle_about_fit_deg": 27.970560953844082,
+      "ray_angle_from_origin_deg": 27.393396876425708,
+      "outer_edge_x_px": 631.5341323677369,
+      "outer_edge_y_px": 396.7361308735183,
+      "radius_from_origin_px": 711.2924858179687,
+      "radius_from_origin_inches_est": 6.113012139222357,
+      "arc_distance_from_first_px": 216.40508019783363,
+      "arc_distance_from_first_inches_est": 1.8598353119356485,
+      "circle_edge_residual_px": -0.6833854543734788,
+      "edge_gradient": 18.023939865263372
+    },
+    {
+      "index": 3,
+      "equal_arc_angle_about_fit_deg": 45.730679947729016,
+      "ray_angle_from_origin_deg": 44.838813648896476,
+      "outer_edge_x_px": 503.9197133252078,
+      "outer_edge_y_px": 222.90762683440227,
+      "radius_from_origin_px": 710.6536736853544,
+      "radius_from_origin_inches_est": 6.107522040002677,
+      "arc_distance_from_first_px": 432.81016039566725,
+      "arc_distance_from_first_inches_est": 3.719670623871297,
+      "circle_edge_residual_px": 1.473002839025412,
+      "edge_gradient": 26.107898383762574
+    },
+    {
+      "index": 4,
+      "equal_arc_angle_about_fit_deg": 63.490798941613946,
+      "ray_angle_from_origin_deg": 62.3654095319252,
+      "outer_edge_x_px": 326.53460214499194,
+      "outer_edge_y_px": 100.31428450174485,
+      "radius_from_origin_px": 703.9948281873658,
+      "radius_from_origin_inches_est": 6.050294381656757,
+      "arc_distance_from_first_px": 649.2152405935009,
+      "arc_distance_from_first_inches_est": 5.579505935806946,
+      "circle_edge_residual_px": -1.346449713592051,
+      "edge_gradient": 17.617591896953968
+    },
+    {
+      "index": 5,
+      "equal_arc_angle_about_fit_deg": 81.25091793549889,
+      "ray_angle_from_origin_deg": 79.99606960045502,
+      "outer_edge_x_px": 122.1226529972808,
+      "outer_edge_y_px": 31.68573430108836,
+      "radius_from_origin_px": 703.0028341801458,
+      "radius_from_origin_inches_est": 6.041768955718652,
+      "arc_distance_from_first_px": 865.6203207913345,
+      "arc_distance_from_first_inches_est": 7.439341247742594,
+      "circle_edge_residual_px": 2.1910467906366193,
+      "edge_gradient": 18.9623867195871
+    }
+  ],
+  "control_measurements": [
+    {
+      "ray_angle_deg": 10.0,
+      "radius_from_origin_px": 713.7566020588162,
+      "x_px": 702.9130354711715,
+      "y_px": 600.0574667547462,
+      "outward_edge_gradient": 18.29485985173997,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 12.5,
+      "radius_from_origin_px": 708.7900236601639,
+      "x_px": 691.9888699858611,
+      "y_px": 570.5897609158153,
+      "outward_edge_gradient": 24.052749622532758,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 15.0,
+      "radius_from_origin_px": 713.2422614781976,
+      "x_px": 688.9391207626118,
+      "y_px": 539.3993189574505,
+      "outward_edge_gradient": 24.54491970448933,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 17.5,
+      "radius_from_origin_px": 719.4125371740271,
+      "x_px": 686.1159312836586,
+      "y_px": 507.6684778356866,
+      "outward_edge_gradient": 19.45614762006366,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 20.0,
+      "radius_from_origin_px": 712.7449145890289,
+      "x_px": 669.761136741993,
+      "y_px": 480.22688215761883,
+      "outward_edge_gradient": 22.62220120837941,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 22.5,
+      "radius_from_origin_px": 711.5887713438547,
+      "x_px": 657.4223014094414,
+      "y_px": 451.68676654967663,
+      "outward_edge_gradient": 25.164426210973176,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 25.0,
+      "radius_from_origin_px": 711.3226820687308,
+      "x_px": 644.6772858546859,
+      "y_px": 423.3820445673808,
+      "outward_edge_gradient": 18.69419991484952,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 27.5,
+      "radius_from_origin_px": 711.2916713114856,
+      "x_px": 630.9234180027307,
+      "y_px": 395.56205716629194,
+      "outward_edge_gradient": 16.571647865865998,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 30.0,
+      "radius_from_origin_px": 711.2640381993771,
+      "x_px": 615.972725878966,
+      "y_px": 368.3679809003115,
+      "outward_edge_gradient": 18.40952438349126,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 32.5,
+      "radius_from_origin_px": 711.3913207935929,
+      "x_px": 599.9813545828466,
+      "y_px": 341.7697219562728,
+      "outward_edge_gradient": 20.256241803816124,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 35.0,
+      "radius_from_origin_px": 711.6873478385804,
+      "x_px": 582.980145876584,
+      "y_px": 315.79290723061973,
+      "outward_edge_gradient": 24.914476923631582,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 37.5,
+      "radius_from_origin_px": 711.7697302264856,
+      "x_px": 564.6848929933738,
+      "y_px": 290.702041902173,
+      "outward_edge_gradient": 21.627672723032845,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 40.0,
+      "radius_from_origin_px": 711.2959909521765,
+      "x_px": 544.8843412817216,
+      "y_px": 266.78775019623225,
+      "outward_edge_gradient": 28.26552470763059,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 42.5,
+      "radius_from_origin_px": 711.3476391909138,
+      "x_px": 524.4604929688459,
+      "y_px": 243.4205007521008,
+      "outward_edge_gradient": 28.791291273708964,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 45.0,
+      "radius_from_origin_px": 710.4154245214285,
+      "x_px": 502.339564138622,
+      "y_px": 221.66043586137806,
+      "outward_edge_gradient": 28.964732933885983,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 47.5,
+      "radius_from_origin_px": 710.142531776281,
+      "x_px": 479.76534047944824,
+      "y_px": 200.42800541638462,
+      "outward_edge_gradient": 35.02504578423691,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 50.0,
+      "radius_from_origin_px": 708.562597410737,
+      "x_px": 455.4552583029333,
+      "y_px": 181.2095596515553,
+      "outward_edge_gradient": 24.384823236894874,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 52.5,
+      "radius_from_origin_px": 707.1305095058019,
+      "x_px": 430.4737794624167,
+      "y_px": 162.995648261729,
+      "outward_edge_gradient": 23.746611639716946,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 55.0,
+      "radius_from_origin_px": 706.0029879558199,
+      "x_px": 404.9466778848897,
+      "y_px": 145.67620914185363,
+      "outward_edge_gradient": 22.842908809590085,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 57.5,
+      "radius_from_origin_px": 705.4701931240501,
+      "x_px": 379.0488584659103,
+      "y_px": 129.01247384321175,
+      "outward_edge_gradient": 17.17373923510371,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 60.0,
+      "radius_from_origin_px": 704.3454133148517,
+      "x_px": 352.1727066574259,
+      "y_px": 114.01897903028828,
+      "outward_edge_gradient": 21.4653585878562,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 62.5,
+      "radius_from_origin_px": 704.041990416956,
+      "x_px": 325.09041273426243,
+      "y_px": 99.50712748780234,
+      "outward_edge_gradient": 14.328160982003851,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 65.0,
+      "radius_from_origin_px": 703.6594240628423,
+      "x_px": 297.3793226549001,
+      "y_px": 86.26798455012181,
+      "outward_edge_gradient": 22.075948917188043,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 67.5,
+      "radius_from_origin_px": 702.530191641315,
+      "x_px": 268.8466650774028,
+      "y_px": 74.94673497135716,
+      "outward_edge_gradient": 21.53708164519645,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 70.0,
+      "radius_from_origin_px": 702.6958308930289,
+      "x_px": 240.3361287963837,
+      "y_px": 63.68191305279822,
+      "outward_edge_gradient": 21.673447880303883,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 72.5,
+      "radius_from_origin_px": 703.0788280925019,
+      "x_px": 211.41988111608313,
+      "y_px": 53.46180393598229,
+      "outward_edge_gradient": 17.742788497245044,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 75.0,
+      "radius_from_origin_px": 702.4824793152508,
+      "x_px": 181.81584449762448,
+      "y_px": 45.454030713823045,
+      "outward_edge_gradient": 21.05497400292296,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 77.5,
+      "radius_from_origin_px": 702.6161610406456,
+      "x_px": 152.07397064230926,
+      "y_px": 38.038647438081625,
+      "outward_edge_gradient": 13.96783326236826,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    },
+    {
+      "ray_angle_deg": 80.0,
+      "radius_from_origin_px": 703.012869532462,
+      "x_px": 122.07690367071153,
+      "y_px": 31.667475617071545,
+      "outward_edge_gradient": 19.225182872808602,
+      "radius_search": [
+        695.0,
+        722.0
+      ]
+    }
+  ]
+}

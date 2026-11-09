@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail\ncd \"$GITHUB_WORKSPACE\"\nSRC='terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png'\nDST='terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean.png'\ntest -f \"$SRC\" && test ! -e \"$DST\"\ntest \"$(sha256sum \"$SRC\" | awk '{print $1}')\" = 'ae82854dcee417bec13dbfdb305b97239059c0dbd78387f6347c2f60267a5b58'\npython3 -m venv /tmp/fishfry_cw05_only_venv\n/tmp/fishfry_cw05_only_venv/bin/python -m pip -q install Pillow\n/tmp/fishfry_cw05_only_venv/bin/python - <<'PY'\nfrom PIL import Image, ImageChops\nfrom pathlib import Path\nfrom hashlib import sha256\nsrc=Path('terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png')\ndst=Path('terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean.png')\nwith Image.open(src) as original:\n    source=original.convert('RGB')\nassert source.size==(1448,1448)\nrotated=source.rotate(-0.5,resample=Image.Resampling.BICUBIC,expand=False,fillcolor='white')\nassert rotated.size==(1448,1448)\nassert ImageChops.difference(source,rotated).getbbox() is not None\nrotated.save(dst,format='PNG',compress_level=6)\nwith Image.open(dst) as loaded:\n    assert loaded.size==(1448,1448)\n    assert ImageChops.difference(loaded.convert('RGB'),rotated).getbbox() is None\nprint('SOURCE',src,flush=True)\nprint('TRANSFORM','clockwise 0.5 degrees; BICUBIC; expand=false; white fill; no overlays',flush=True)\nprint('OUTPUT',dst,'DIMENSIONS',rotated.size,'BYTES',dst.stat().st_size,'SHA256',sha256(dst.read_bytes()).hexdigest(),flush=True)\nprint('PNG_READBACK','pixel-identical to in-memory rotated result',flush=True)\nPY\ngit add -- \"$DST\"\ntest \"$(git diff --cached --name-only | wc -l)\" -eq 1\ngit -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Rotate clean centered fish fry image 0.5 degree clockwise'\ngh auth setup-git\nfor attempt in 1 2 3 4 5 6 7 8;do\n  printf 'PUSH_ATTEMPT %s\\n' \"$attempt\"\n  git fetch --quiet origin main\n  git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' rebase origin/main\n  if git push origin HEAD:main;then\n    printf 'COMMITTED ';git rev-parse HEAD\n    printf 'REMOTE_HEAD ';gh api repos/BestNameYet/Terminals/git/ref/heads/main --jq .object.sha\n    gh api \"repos/BestNameYet/Terminals/contents/$DST\" --jq '[.path,.size,.sha] | @tsv'\n    printf 'LOCAL_BLOB ';git hash-object \"$DST\"\n    exit 0\n  fi\ndone\necho 'PUBLISH_FAILED' >&2\nexit 1",
+  "outputThat": [
+    "SOURCE terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448.png",
+    "TRANSFORM clockwise 0.5 degrees; BICUBIC; expand=false; white fill; no overlays",
+    "OUTPUT terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean.png DIMENSIONS (1448, 1448) BYTES 2345289 SHA256 782bd4d8d28512d200abe2b43e854710ba995fbdc15fcbcbf99de8264fa1a709",
+    "PNG_READBACK pixel-identical to in-memory rotated result",
+    "[main 04b5815] Rotate clean centered fish fry image 0.5 degree clockwise",
+    " 1 file changed, 0 insertions(+), 0 deletions(-)",
+    " create mode 100644 terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean.png",
+    "PUSH_ATTEMPT 1",
+    "Current branch main is up to date.",
+    "COMMITTED 04b5815813c9c6a71687ae259b45b778a24d42cf",
+    "REMOTE_HEAD 04b5815813c9c6a71687ae259b45b778a24d42cf",
+    "terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean.png\t2345289\tdcc0e9a2664dc60eea47715068024c37034b2278",
+    "LOCAL_BLOB dcc0e9a2664dc60eea47715068024c37034b2278"
+  ]
+}

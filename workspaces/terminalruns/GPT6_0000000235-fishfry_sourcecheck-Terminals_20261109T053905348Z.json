@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:set -o pipefail; url='https://assets.katomcdn.com/q_auto%2Cf_auto/v1637700341/products/080/080-APZS12/080-apzs12.jpg'; curl -fLSs --max-time 25 \"$url\" -o /tmp/fishfry_screen.jpg; file /tmp/fishfry_screen.jpg; wc -c /tmp/fishfry_screen.jpg; python3 - <<'PY'\ntry:\n from PIL import Image\n im=Image.open('/tmp/fishfry_screen.jpg'); print('DIMENSIONS',im.size)\nexcept Exception as e: print('PIL_ERROR',repr(e))\nPY",
+  "outputThat": [
+    "/tmp/fishfry_screen.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, progressive, precision 8, 1000x1041, components 3",
+    "157163 /tmp/fishfry_screen.jpg",
+    "PIL_ERROR ModuleNotFoundError(\"No module named 'PIL'\")"
+  ]
+}

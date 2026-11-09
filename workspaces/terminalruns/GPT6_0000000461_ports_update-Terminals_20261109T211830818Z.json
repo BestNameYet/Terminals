@@ -1,0 +1,32 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -f AGENTS.md\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ntest -f .devcontainer/devcontainer.json\ntest ! -e config/file-metadata.json\nnode <<'NODE'\n\"use strict\";\nconst fs=require(\"fs\"), assert=require(\"assert\");\nconst p=\".devcontainer/devcontainer.json\";\nconst source=fs.readFileSync(p,\"utf8\");\nconst beforePort='\"forwardPorts\":,';\nconst beforeAttributes='\"onAutoForward\": \"silent\",\\n      \"elevationRequired\": false';\nassert.strictEqual(source.split(beforePort).length,2,\"Unexpected forwardPorts source\");\nassert.strictEqual(source.split(beforeAttributes).length,2,\"Unexpected port attributes source\");\nconst result=source.replace(beforePort,'\"forwardPorts\": [3000],').replace(beforeAttributes,'\"onAutoForward\": \"notify\"');\nconst doc=JSON.parse(result);\nassert.deepStrictEqual(doc.forwardPorts,[3000]);\nassert.deepStrictEqual(doc.portsAttributes,{\"3000\":{label:\"MCP SSE Server\",onAutoForward:\"notify\"}});\nassert.strictEqual(doc.name,\"MCP Remote Server Space\");\nassert.deepStrictEqual(doc.features,{\"ghcr.io/devcontainers/features/node:1\":{version:\"lts\"}});\nassert.strictEqual(doc.postCreateCommand,\"npm install -g @modelcontextprotocol/server-everything\");\nassert.strictEqual(doc.waitFor,\"postCreateCommand\");\nfs.writeFileSync(p,result,\"utf8\");\nassert.deepStrictEqual(JSON.parse(fs.readFileSync(p,\"utf8\")),doc);\nconsole.log(\"JSON_VALID true\");\nconsole.log(\"CONFIG_CHANGE forwardPorts [3000]; onAutoForward notify; elevationRequired removed\");\nNODE\ngit add -- .devcontainer/devcontainer.json\ngit diff --cached --check\nprintf 'STAGED_DIFF\\n'; git diff --cached -- .devcontainer/devcontainer.json\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\ngit commit -m 'Correct Codespaces MCP port forwarding configuration'\npushed=0\nfor i in 1 2 3 4; do\n  git fetch origin main -q\n  git rebase origin/main -q\n  if git push origin HEAD:main; then pushed=1; break; fi\ndone\ntest \"$pushed\" -eq 1\nprintf 'PUBLISHED_COMMIT '; git rev-parse HEAD\nprintf 'VERIFY_REMOTE_BYTES '; cmp .devcontainer/devcontainer.json <(gh api repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json --jq .content | base64 -d) && echo MATCH\nprintf 'VERIFY_REMOTE_JSON '; gh api repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json --jq .content | base64 -d | node -e 'let s=\"\";process.stdin.on(\"data\",x=>s+=x);process.stdin.on(\"end\",()=>{const c=JSON.parse(s);if(c.forwardPorts[0]!==3000||c.portsAttributes[\"3000\"].onAutoForward!==\"notify\"||\"elevationRequired\" in c.portsAttributes[\"3000\"])process.exit(1);console.log(\"VALID\");})'",
+  "outputThat": [
+    "JSON_VALID true",
+    "CONFIG_CHANGE forwardPorts [3000]; onAutoForward notify; elevationRequired removed",
+    "STAGED_DIFF",
+    "diff --git a/.devcontainer/devcontainer.json b/.devcontainer/devcontainer.json",
+    "index 3b5b0a8..66163cb 100644",
+    "--- a/.devcontainer/devcontainer.json",
+    "+++ b/.devcontainer/devcontainer.json",
+    "@@ -5,12 +5,11 @@",
+    "       \"version\": \"lts\"",
+    "     }",
+    "   },",
+    "-  \"forwardPorts\":,",
+    "+  \"forwardPorts\": [3000],",
+    "   \"portsAttributes\": {",
+    "     \"3000\": {",
+    "       \"label\": \"MCP SSE Server\",",
+    "-      \"onAutoForward\": \"silent\",",
+    "-      \"elevationRequired\": false",
+    "+      \"onAutoForward\": \"notify\"",
+    "     }",
+    "   },",
+    "   \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",",
+    "[main 75327bc] Correct Codespaces MCP port forwarding configuration",
+    " 1 file changed, 2 insertions(+), 3 deletions(-)",
+    "PUBLISHED_COMMIT 75327bcce24f94205cf5b38c53a9d1bffbae6c98",
+    "VERIFY_REMOTE_BYTES MATCH",
+    "VERIFY_REMOTE_JSON VALID"
+  ]
+}

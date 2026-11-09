@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail\ncat AGENTS.md >/dev/null\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\nprintf 'HEAD '; git rev-parse HEAD\nprintf 'TARGET '; if test -e .devcontainer/devcontainer.json; then echo PRESENT; else echo ABSENT; fi\nprintf 'METADATA '; if test -e config/file-metadata.json; then echo PRESENT; else echo ABSENT; fi\nprintf 'TRACKED '; git ls-files -- .devcontainer/devcontainer.json\nprintf 'LAST TARGET COMMITS\\n'; git log -4 --format='%h %s' -- .devcontainer/devcontainer.json\nprintf 'STATUS\\n'; git status --short",
+  "outputThat": [
+    "HEAD 05fdc519151003752821c8df8ac64382337ed442",
+    "TARGET ABSENT",
+    "METADATA ABSENT",
+    "TRACKED LAST TARGET COMMITS",
+    "STATUS"
+  ]
+}

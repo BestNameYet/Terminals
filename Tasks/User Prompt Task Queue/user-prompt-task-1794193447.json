@@ -8,6 +8,105 @@
     "requirements": [
       {
         "id": "R1",
+        "requirement": "Represent account custom instructions as one outer JSON array with a permanently pinned explainer object at index 0."
+      },
+      {
+        "id": "R2",
+        "requirement": "Store the structural rules template separately at references/rules-template.json and refer to it through the outer explainer's rules_template_path member, rather than defining the template inside itself."
+      },
+      {
+        "id": "R3",
+        "requirement": "Store machine-dialect writing rules and examples separately at references/machine-dialect-rules.json and refer to them through the outer explainer's machine_dialect_rules_path member."
+      },
+      {
+        "id": "R4",
+        "requirement": "Use self-describing, context-complete machine dialect in every explainer, standalone rule, group rule, and nested instructional member; valid JSON by itself is insufficient."
+      },
+      {
+        "id": "R5",
+        "requirement": "Allow verbose multi-member explainer and rule objects where their context, conditions, and relationships require it; avoid undefined, artificial pseudo-machine brevity."
+      },
+      {
+        "id": "R6",
+        "requirement": "Make each standalone rule one complete object occupying exactly one parent-array index and including a descriptive title, however many nested models, requirements, and examples the rule contains."
+      },
+      {
+        "id": "R7",
+        "requirement": "Represent each subject-specific group as one nested array occupying one index of its parent, containing only one subject and a titled index-zero group explainer."
+      },
+      {
+        "id": "R8",
+        "requirement": "Keep the explainer of every outer and nested array pinned at index 0 throughout changes."
+      },
+      {
+        "id": "R9",
+        "requirement": "Insert newly adopted outer entries at index 1, shifting older entries without changing their contents or relative order."
+      },
+      {
+        "id": "R10",
+        "requirement": "Insert newly adopted entries within an inner group at index 1, preserving its pinned explainer and existing entry order."
+      },
+      {
+        "id": "R11",
+        "requirement": "Apply explicit local interpretation overrides only within the group where defined and preserve all nonconflicting inherited instructions."
+      },
+      {
+        "id": "R12",
+        "requirement": "Preserve substantive rule requirements; when inserting the accepted user scope rule add only its title, leaving its applicability, model, and ten examples identical."
+      },
+      {
+        "id": "R13",
+        "requirement": "Provide an instantiated wrapper draft containing the accepted user scope rule as one outer rule object and a nested conversation-analytics group without falsely asserting activation."
+      }
+    ],
+    "deliverable": "Two detailed JSON reference rule sets in references/, each containing examples, and a JSON wrapper draft in the task queue referencing both documents while preserving the accepted user scope rule and the conversation-analytics rule.",
+    "open_design_questions": [],
+    "acceptance_criteria": [
+      "An outer array exists with index-zero explainer referencing both rule-set paths; no self-redefinition of template structure is embedded there.",
+      "Every nested group has a titled index-zero explainer identifying its single subject.",
+      "Complete standalone rules are represented as whole titled objects occupying one array index.",
+      "New entries are inserted at index 1 while array explainers stay at index 0.",
+      "Both reference files define contextual machine-readable requirements and concrete examples.",
+      "The accepted scope rule's applicability, model, and ten examples are unchanged.",
+      "The analytics rule body is semantically intact and not represented as operationally activated.",
+      "The revision draft remains pending user acceptance, with the previously rejected artifacts preserved."
+    ],
+    "execution_requested_now": false,
+    "resolved_design_decisions": [
+      {
+        "id": "D1",
+        "decision": "The explainer is pinned at index 0 in all instruction arrays; former final-index explainer semantics are superseded."
+      },
+      {
+        "id": "D2",
+        "decision": "New outer and inner entries are inserted at index 1; indices of existing entries shift without changing contents or order."
+      },
+      {
+        "id": "D3",
+        "decision": "Every standalone rule is a single complete object with a title; a group is one nested array whose index-zero explainer contains a group title."
+      },
+      {
+        "id": "D4",
+        "decision": "Rules and explainers use semantically complete, contextual machine dialect; pseudo-machine shorthand without defined meaning is unacceptable."
+      },
+      {
+        "id": "D5",
+        "decision": "The array structural rules and the rule-writing rules are separate referenced documents with examples, not copied into the outer index-zero explainer."
+      }
+    ],
+    "amendments": [
+      {
+        "verbatim_user_utterance": "The newest rule should be appended to the beginning of the array and all indices renumbered accordingly...the nested elements should follow the rules of their local index when they override the outer scope",
+        "purpose": "Resolve ordering and nested interpretation precedence questions without altering the original task request."
+      },
+      {
+        "purpose": "Apply latest user revisions to the wrapper design without treating the design as accepted before review.",
+        "user_instruction_summary": "Store detailed structural rules and examples in a separate Terminals references rules template; store a second reference document for machine-dialect writing requirements and examples; reference both from the wrapper's index-zero explainer, preserving the accepted verbose user scope rule as one titled object."
+      }
+    ],
+    "previous_requirements_before_current_revision": [
+      {
+        "id": "R1",
         "requirement": "Support both standalone individual rules and grouped rules organized by subject."
       },
       {
@@ -38,39 +137,6 @@
         "id": "R8",
         "requirement": "Preserve the content and behavioral scope of existing account custom instructions; wrapper design must not silently change their meanings."
       }
-    ],
-    "deliverable": "A documented JSON wrapper structure, its indexing/ordering/interpretation semantics, and an instantiated example containing account custom instructions, with ambiguity-resolution notes and validation criteria.",
-    "open_design_questions": [],
-    "acceptance_criteria": [
-      "One subject per group and scope information at group index 0.",
-      "Individual rules are representable outside grouped arrays.",
-      "The final interpretation element is reserved and unambiguously defined.",
-      "Order and rule interpretation are deterministic and machine-readable.",
-      "No existing account instruction is changed or silently excluded merely by wrapper conversion.",
-      "Adding a standalone ad hoc rule makes it the first rule in its applicable ad hoc array; former rule indices shift by +1.",
-      "Nested rule arrays apply local interpretation rules in preference to conflicting outer-scope interpretation, only within the local array.",
-      "Subject group index 0 and final interpretation element remain structurally reserved after insertions."
-    ],
-    "execution_requested_now": false,
-    "resolved_design_decisions": [
-      {
-        "id": "D1",
-        "decision": "Insert new ad hoc rules at the beginning of the applicable array (index 0); existing entries shift right and array indices renumber. Never append a new ad hoc rule at the end merely because it is new."
-      },
-      {
-        "id": "D2",
-        "decision": "A grouped array retains its subject/scope definition at index 0 and its local interpretation rules in its final element. Nested elements follow the local index rules, which take precedence over the outer scope wherever an explicit local override exists."
-      },
-      {
-        "id": "D3",
-        "decision": "Treat reserved structural indices as reserved. New rule insertion must not displace group scope metadata from index 0 or the interpretation element from the final position; preserve their roles while maintaining the specified newest-first order for ad hoc rules."
-      }
-    ],
-    "amendments": [
-      {
-        "verbatim_user_utterance": "The newest rule should be appended to the beginning of the array and all indices renumbered accordingly...the nested elements should follow the rules of their local index when they override the outer scope",
-        "purpose": "Resolve ordering and nested interpretation precedence questions without altering the original task request."
-      }
     ]
   },
   "context": {
@@ -95,5 +161,16 @@
       ]
     },
     "accepted": false
+  },
+  "revision_draft": {
+    "status": "pending_review",
+    "files": [
+      "references/rules-template.json",
+      "references/machine-dialect-rules.json",
+      "Tasks/User Prompt Task Queue/user-prompt-task-1794193447-wrapper-draft.json"
+    ],
+    "accepted_scope_source": "Tasks/TasksCompleted/user-prompt-task-1794192853-accepted-instruction.json",
+    "analytics_source": "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json",
+    "account_settings_updated": false
   }
 }

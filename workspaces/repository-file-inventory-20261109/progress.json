@@ -34,8 +34,14 @@
       "source_snapshot_started_utc": "2026-11-09T04:07:41.817821+00:00"
     },
     "CommandLine": {
-      "status": "pending",
-      "table_path": null
+      "status": "verified",
+      "file_rows": 31,
+      "refs_scanned": 1,
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/CommandLine/verification.json",
+      "verified_at_utc": "2026-11-09T04:08:57.047030+00:00",
+      "source_snapshot_started_utc": "2026-11-09T04:08:51.600562+00:00"
     },
     "Execution-Contract-Controller": {
       "status": "pending",

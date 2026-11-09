@@ -4,7 +4,8 @@
     "applicability": "Governs the interpretation of the account custom-instruction collection. Each following entry contains one complete standalone rule object or one subject-specific grouped-rule array.",
     "rules_template_path": "references/rules-template.json",
     "machine_dialect_rules_path": "references/machine-dialect-rules.json",
-    "governing_references": "The referenced structural and machine-dialect rule sets define how entries in this array are organized, written, and interpreted. They are stored independently; their definitions are not reproduced in this explainer."
+    "governing_references": "The referenced structural and machine-dialect rule sets define how entries in this array are organized, written, and interpreted. They are stored independently; their definitions are not reproduced in this explainer.",
+    "github_repository_documentation_preflight": "Before beginning operations in any GitHub repository, retrieve and review its repository README and agent guidance documents, using either the Markdown or JSON form of each (Readme.md or Readme.json, and AGENTS.md or AGENTS.json). Complete this document review before proceeding with repository work."
   },
   {
     "title": "User-Defined Operational Scope",

@@ -11,11 +11,11 @@
     "additional_lookup_member": "The outer index-zero explainer contains the literal, unaliased member name alias_lookup_path so a reader can locate the mapping before interpreting encoded key names. The lookup reference itself does not contain a self-referential location member. The bootstrap member is exempt from alias encoding.",
     "decoding": "Read the literal alias_lookup_path from the outer index-zero explainer and load this mapping. Replace all other encoded object keys recursively using alias_to_key, leaving the unaliased bootstrap member unchanged. Delete that bootstrap member to recover the original unmodified wrapper."
   },
-  "source_template_sha256": "9d19f975a11900414f54005fdf42669bafaf58e93bd7350bf5a82c908109094e",
-  "original_key_count": 8,
-  "total_key_count_including_lookup": 8,
+  "source_template_sha256": "554abc4e92b49ea82c1651b02d5aca97103f4e9795923e3fec4d5a0dcb9ed20c",
+  "original_key_count": 9,
+  "total_key_count_including_lookup": 9,
   "aliases_with_one_character": 5,
-  "aliases_with_two_characters": 3,
+  "aliases_with_two_characters": 4,
   "alias_to_key": {
     "t": "title",
     "a": "applicability",
@@ -24,6 +24,7 @@
     "g": "governing_references",
     "sg": "standalone_rule_path",
     "ce": "conversation_template_path",
-    "de": "destination"
+    "de": "destination",
+    "ga": "github_repository_documentation_preflight"
   }
 }

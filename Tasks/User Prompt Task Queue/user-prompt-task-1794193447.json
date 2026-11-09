@@ -119,6 +119,12 @@
         "user_instruction_summary": "Keep title and applicability; remove all other members from the embedded rule and add a path to the standalone scope reference.",
         "implementation": "Outer index 1 now contains title, applicability, and standalone_rule_path only. The complete model and ten examples remain in references/user-defined-scope-rule.json. The aliased copy and lookup are synchronized.",
         "status": "pending_user_review"
+      },
+      {
+        "purpose": "Add an explicit repository-documentation preflight instruction to the outer index-zero explainer.",
+        "user_instruction_summary": "Before carrying out operations in a GitHub repository, fetch and read its README and AGENTS documents, using Markdown or JSON variants. Express the instruction equivalently rather than verbatim.",
+        "implementation": "The outer index-zero explainer has a github_repository_documentation_preflight instruction. Update the aliased copy and the alias reference without modifying the complete standalone scope and analytics rules.",
+        "status": "pending_user_review"
       }
     ],
     "previous_requirements_before_current_revision": [

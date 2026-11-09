@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -eu\necho '=== VERIFY WORKFLOW REGISTRATION ==='\ngh workflow view codespace-mcp-identifiers-members.yml --repo BestNameYet/Terminals\necho '=== VALIDATE FILES ==='\npython3 - <<'PY'\nimport pathlib,subprocess,yaml\nw=pathlib.Path('.github/workflows/codespace-mcp-identifiers-members.yml')\nt=w.read_text()\nassert '${{ fromJSON(needs.discover.outputs.matrix) }}' in t\nassert '${{ matrix.repository }}' in t\nassert '${{ matrix.revision }}' in t\nassert 'timeout-minutes: 120' in t\nv=yaml.safe_load(t)\nassert set(v['jobs'])=={'discover','scan','merge'}\nassert len(v['jobs']['scan']['steps'])==6\nassert len(v['jobs']['merge']['steps'])==5\nsubprocess.run(['node','--check','workspaces/codespace-mcp-srs-design/expression-inventory/scan-identifiers-members.js'],check=True)\nprint('YAML_OK jobs',sorted(v['jobs']))\nPY\necho '=== DISPATCH ==='\ngh workflow run codespace-mcp-identifiers-members.yml --repo BestNameYet/Terminals --ref main\necho '=== RUNS ==='\ngh run list --repo BestNameYet/Terminals --workflow codespace-mcp-identifiers-members.yml --limit 3 --json databaseId,createdAt,status,conclusion\n",
+  "outputThat": [
+    "=== VERIFY WORKFLOW REGISTRATION ===",
+    "Codespace MCP Identifier and Member Inventory - codespace-mcp-identifiers-members.yml",
+    "ID: 411837487",
+    "",
+    "Total runs 0",
+    "",
+    "To see the YAML for this workflow, try: gh workflow view codespace-mcp-identifiers-members.yml --yaml",
+    "=== VALIDATE FILES ===",
+    "YAML_OK jobs ['discover', 'merge', 'scan']",
+    "=== DISPATCH ===",
+    "https://github.com/BestNameYet/Terminals/actions/runs/42584933907",
+    "=== RUNS ===",
+    "[{\"conclusion\":\"\",\"createdAt\":\"2026-11-09T08:18:02Z\",\"databaseId\":42584933907,\"status\":\"queued\"}]"
+  ]
+}

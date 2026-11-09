@@ -1,0 +1,28 @@
+{
+  "inputThis": "$:set -euo pipefail\ncat AGENTS.md >/dev/null\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\nprintf 'REMOTE_MAIN '; gh api repos/BestNameYet/Terminals/git/ref/heads/main --jq .object.sha\nprintf 'REMOTE_FILE_SHA '; gh api repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json --jq .sha\ncmp <(gh api repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json --jq .content | base64 -d) <(cat <<'EXPECTED_CONTENT_EOF'\n{\n  \"name\": \"MCP Remote Server Space\",\n  \"features\": {\n    \"ghcr.io/devcontainers/features/node:1\": {\n      \"version\": \"lts\"\n    }\n  },\n  \"forwardPorts\":,\n  \"portsAttributes\": {\n    \"3000\": {\n      \"label\": \"MCP SSE Server\",\n      \"onAutoForward\": \"silent\",\n      \"elevationRequired\": false\n    }\n  },\n  \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",\n  \"waitFor\": \"postCreateCommand\"\n}\nEXPECTED_CONTENT_EOF\n)\nprintf 'EXACT_BYTES_MATCH yes\\n'\nprintf 'REMOTE_FILE_BODY_BEGIN\\n'\ngh api repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json --jq .content | base64 -d\nprintf 'REMOTE_FILE_BODY_END\\n'",
+  "outputThat": [
+    "REMOTE_MAIN 0546f3484ee66f8dd0b6fc071d2b98b13f1bed90",
+    "REMOTE_FILE_SHA 3b5b0a85a3434fad4a78b185b9bd495e8c20bf4c",
+    "EXACT_BYTES_MATCH yes",
+    "REMOTE_FILE_BODY_BEGIN",
+    "{",
+    "  \"name\": \"MCP Remote Server Space\",",
+    "  \"features\": {",
+    "    \"ghcr.io/devcontainers/features/node:1\": {",
+    "      \"version\": \"lts\"",
+    "    }",
+    "  },",
+    "  \"forwardPorts\":,",
+    "  \"portsAttributes\": {",
+    "    \"3000\": {",
+    "      \"label\": \"MCP SSE Server\",",
+    "      \"onAutoForward\": \"silent\",",
+    "      \"elevationRequired\": false",
+    "    }",
+    "  },",
+    "  \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",",
+    "  \"waitFor\": \"postCreateCommand\"",
+    "}",
+    "REMOTE_FILE_BODY_END"
+  ]
+}

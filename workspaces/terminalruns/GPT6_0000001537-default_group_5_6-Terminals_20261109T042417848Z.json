@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -e\nfor repo in IssueStack- MCP-Collaborative; do python3 workspaces/repository-file-inventory-20261109/scan-one.py \"$repo\"; done",
+  "outputThat": [
+    "DEFAULT_BRANCH_SCAN BestNameYet/IssueStack- files 46 head 9bb23ec2541004485be4c75d52a847f4465d0b1b",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/IssueStack-\", \"files\": 46, \"languages\": {\"html\": 4, \"javascript\": 36, \"python\": 5, \"yaml\": 1}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/IssueStack-/files.csv\", \"commit\": \"6555fb204e59f4dd1eb668f32619f4f08d7022ab\", \"expression_search_performed\": false}",
+    "DEFAULT_BRANCH_SCAN BestNameYet/MCP-Collaborative files 11 head 05ee655375695fbf48e0eeaab5ef2c561a565f78",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/MCP-Collaborative\", \"files\": 11, \"languages\": {\"html\": 0, \"javascript\": 0, \"python\": 9, \"yaml\": 2}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/files.csv\", \"commit\": \"bc3fea914190a224307426f93f44f072d7f4ee29\", \"expression_search_performed\": false}"
+  ]
+}

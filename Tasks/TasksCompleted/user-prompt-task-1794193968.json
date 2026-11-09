@@ -1,6 +1,6 @@
 {
   "task_type": "conversation_analytics_end_of_turn_append_rule",
-  "status": "pending",
+  "status": "completed",
   "created_at_utc": "2026-11-09T03:12:48Z",
   "verbatim_user_utterance": "Next task is to create a rule entry that sets a end of turn requirement for the agent to append the completed record based on the template to the records for its current conversation. These records will be append only json arrays of the conversation analytics",
   "task": {
@@ -77,5 +77,14 @@
     "related_prior_task": "user-prompt-task-1794193447.json",
     "relationship": "New task depends on the proposed account-custom-instruction wrapper and the existing conversation-record template. This creates a task specification, not a live end-of-turn automation or a change to the account custom instructions.",
     "intended_task_queue": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
+  },
+  "completed_at_utc": "2026-11-09T17:09:18.199Z",
+  "completion": {
+    "kind": "design_deliverable",
+    "activation": "not_performed",
+    "files": [
+      "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json",
+      "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json"
+    ]
   }
 }

@@ -1,0 +1,45 @@
+{
+  "schema": "terminals.custom-instruction-design-completion.v1",
+  "completed_at_utc": "2026-11-09T17:09:18.199Z",
+  "tasks": [
+    {
+      "id": "1794192853",
+      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794192853.json",
+      "status": "completed",
+      "kind": "design_deliverable"
+    },
+    {
+      "id": "1794193447",
+      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794193447.json",
+      "status": "completed",
+      "kind": "design_deliverable"
+    },
+    {
+      "id": "1794193968",
+      "task_path": "Tasks/TasksCompleted/user-prompt-task-1794193968.json",
+      "status": "completed",
+      "kind": "design_deliverable"
+    }
+  ],
+  "artifacts": [
+    "Tasks/TasksCompleted/user-prompt-task-1794192853-revision.json",
+    "Tasks/TasksCompleted/user-prompt-task-1794193447-wrapper.json",
+    "Tasks/TasksCompleted/user-prompt-task-1794193447-spec.md",
+    "Tasks/TasksCompleted/user-prompt-task-1794193968-rule.json"
+  ],
+  "verification": {
+    "template_id": "terminals.conversation-record",
+    "template_version": "1.0.0",
+    "template_path": "conversations/conversation-record.template.json",
+    "scope_preserved": true,
+    "nested_final_interpretation_present": true,
+    "analytics_record_append_contract_specified": true
+  },
+  "activation": {
+    "account_custom_instructions": "not_updated",
+    "end_of_turn_hook": "not_installed",
+    "persistent_analytics_appends": "not_started",
+    "reason": "The queued deliverables were rule and wrapper designs, not activation of ChatGPT settings or deployment of a runtime callback."
+  },
+  "other_queued_tasks": "unchanged"
+}

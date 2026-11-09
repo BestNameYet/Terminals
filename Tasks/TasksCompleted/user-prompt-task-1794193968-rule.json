@@ -42,5 +42,6 @@
       "success": "After the write, read back the persistent destination and verify valid JSON, exact conversation/turn identity, inclusion of the completed record once, and preservation of the prior array elements and order.",
       "unavailable": "If persistent access, an atomic write, validation, or readback fails, record an explicit pending or failure state; do not assert persistence succeeded."
     }
-  }
+  },
+  "Final group element: interpretation instructions for this single-subject array; index 0 defines its subject and scope, indexes 1 through length-2 contain rules. Explicit local interpretation overrides conflicting outer-array interpretation only inside this group."
 ]

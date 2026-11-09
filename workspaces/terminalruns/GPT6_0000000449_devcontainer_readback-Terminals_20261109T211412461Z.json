@@ -1,0 +1,4 @@
+{
+  "inputThis": "$:set -euo pipefail\ncat AGENTS.md >/dev/null\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngit fetch origin main -q\nprintf 'REMOTE_MAIN '; git rev-parse origin/main\nprintf 'REMOTE_FILE_BYTES '; git show origin/main:.devcontainer/devcontainer.json | wc -c\nprintf 'REMOTE_FILE_BODY_BEGIN\\n'\ngit show origin/main:.devcontainer/devcontainer.json\nprintf 'REMOTE_FILE_BODY_END\\n'\nprintf 'REMOTE_JSON_VALIDITY '\nif git show origin/main:.devcontainer/devcontainer.json | node -e 'let s=\"\";process.stdin.on(\"data\",d=>s+=d);process.stdin.on(\"end\",()=>{try{JSON.parse(s);console.log(\"valid\");}catch(e){console.log(\"invalid:\",e.message);}})'; then :; fi",
+  "outputThat": []
+}

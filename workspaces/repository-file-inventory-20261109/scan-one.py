@@ -34,7 +34,17 @@ def run(args,timeout=200):
     return p.stdout.strip()
 
 def table(repo,sha):
-    result=gh("GET","repos/"+repo+"/git/trees/"+sha+"?recursive=1")
+    try:
+        result=gh("GET","repos/"+repo+"/git/trees/"+sha+"?recursive=1")
+    except RuntimeError as error:
+        # GitHub's Trees endpoint can return 404 for the canonical empty tree.
+        # The pinned commit tree SHA proves the repository is empty on this ref.
+        if "HTTP 404" not in str(error):
+            raise
+        commit=gh("GET","repos/"+repo+"/git/commits/"+sha)
+        if commit.get("tree",{}).get("sha")=="4b825dc642cb6eb9a060e54bf8d69288fbee4904":
+            return {},0
+        raise
     if result.get("truncated"):
         raise RuntimeError("Incomplete Git tree; no partial inventory may be marked verified")
     rows={}

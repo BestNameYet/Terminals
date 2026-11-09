@@ -1,0 +1,522 @@
+{
+  "definition": "wire-center anchored, one-inch line perpendicular to the measured wire family; count complete center-to-center pitches + fraction of final incomplete pitch",
+  "source_image": "terminal/tasks/fishFry/pizza_screen_minus01_centered_1448x1448_rotated_cw0p5_clean_upper_right_724x724_arrow_removed_opencv_base.png",
+  "source_sha256": "7e07015264f782664407afe6ad3bc852b370651e4020b4bb524910f284dfb14e",
+  "scale_origin": "12-in nominal diameter / fitted 698.143-pixel outer rim radius",
+  "one_inch_px": 116.35716666666667,
+  "vertical_ones": [
+    5.221735521264137,
+    5.122711180755059,
+    4.996633351607416,
+    4.998984172988943
+  ],
+  "diagonal_ones": [
+    5.25183723791978,
+    5.273657648983432,
+    5.290054889523157,
+    5.231237922412929,
+    5.256730231570155,
+    5.286200206853444,
+    5.211069456412995,
+    5.234027977480361,
+    5.267507817289251,
+    5.245428844441641,
+    5.273307492375419,
+    5.294852821281685
+  ],
+  "summary": {
+    "vertical": {
+      "mean": 5.085016056653889,
+      "min": 4.996633351607416,
+      "max": 5.221735521264137,
+      "n_samples": 4
+    },
+    "diagonal": {
+      "mean": 5.259659378878687,
+      "min": 5.211069456412995,
+      "max": 5.294852821281685,
+      "n_samples": 12
+    }
+  },
+  "nominal_classification": "approximately 5 x 5 mesh (measured fractional counts need not be exact integers)",
+  "limitations": [
+    "nominal 12-inch outside diameter is an assumed physical calibration, not a measured physical standard",
+    "wire peak positions are image-derived estimates; no lens/perspective correction",
+    "different regions have different pitch",
+    "one-inch segments count intervals between wire centers, not merely dark pixels or image-space crossings",
+    "diagonal projection averages along the wire direction to suppress other-family crossings"
+  ],
+  "samples": [
+    {
+      "family": "near_vertical",
+      "start_wire_index_one_based": 5,
+      "start_coordinate_along_wire_normal_px": 90.993,
+      "one_inch_endpoint_coordinate_px": 207.35016666666667,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.22173552126413765,
+      "linear_mesh_count_per_inch": 5.221735521264137,
+      "final_bracketing_wire_centers_px": [
+        202.364,
+        224.851
+      ],
+      "position": "horizontal at y=680 px, from fitted near-vertical wire center",
+      "line_direction_angle_deg": 0.0,
+      "source_band": "six fitted vertical measurement bands",
+      "row_y_px": 680.0
+    },
+    {
+      "family": "near_vertical",
+      "start_wire_index_one_based": 10,
+      "start_coordinate_along_wire_normal_px": 202.364,
+      "one_inch_endpoint_coordinate_px": 318.7211666666667,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.12271118075505871,
+      "linear_mesh_count_per_inch": 5.122711180755059,
+      "final_bracketing_wire_centers_px": [
+        315.902,
+        338.876
+      ],
+      "position": "horizontal at y=680 px, from fitted near-vertical wire center",
+      "line_direction_angle_deg": 0.0,
+      "source_band": "six fitted vertical measurement bands",
+      "row_y_px": 680.0
+    },
+    {
+      "family": "near_vertical",
+      "start_wire_index_one_based": 15,
+      "start_coordinate_along_wire_normal_px": 315.902,
+      "one_inch_endpoint_coordinate_px": 432.25916666666666,
+      "complete_center_to_center_pitches": 4,
+      "fractional_final_pitch": 0.9966333516074162,
+      "linear_mesh_count_per_inch": 4.996633351607416,
+      "final_bracketing_wire_centers_px": [
+        408.626,
+        432.339
+      ],
+      "position": "horizontal at y=680 px, from fitted near-vertical wire center",
+      "line_direction_angle_deg": 0.0,
+      "source_band": "six fitted vertical measurement bands",
+      "row_y_px": 680.0
+    },
+    {
+      "family": "near_vertical",
+      "start_wire_index_one_based": 20,
+      "start_coordinate_along_wire_normal_px": 432.339,
+      "one_inch_endpoint_coordinate_px": 548.6961666666666,
+      "complete_center_to_center_pitches": 4,
+      "fractional_final_pitch": 0.9989841729889433,
+      "linear_mesh_count_per_inch": 4.998984172988943,
+      "final_bracketing_wire_centers_px": [
+        525.258,
+        548.72
+      ],
+      "position": "horizontal at y=680 px, from fitted near-vertical wire center",
+      "line_direction_angle_deg": 0.0,
+      "source_band": "six fitted vertical measurement bands",
+      "row_y_px": 680.0
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 3,
+      "start_coordinate_along_wire_normal_px": -578.7857741777293,
+      "one_inch_endpoint_coordinate_px": -462.42860751106264,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.25183723791977985,
+      "linear_mesh_count_per_inch": 5.25183723791978,
+      "final_bracketing_wire_centers_px": [
+        -467.95519696835015,
+        -446.010112504519
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "A",
+      "region_xyxy": [
+        65,
+        220,
+        420,
+        540
+      ],
+      "line_direction_angle_deg": 52.099999999999994,
+      "wire_angle_deg": 142.1
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 5,
+      "start_coordinate_along_wire_normal_px": -534.3134479662483,
+      "one_inch_endpoint_coordinate_px": -417.95628129958163,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.2736576489834324,
+      "linear_mesh_count_per_inch": 5.273657648983432,
+      "final_bracketing_wire_centers_px": [
+        -423.97595349472823,
+        -401.97886253999656
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "A",
+      "region_xyxy": [
+        65,
+        220,
+        420,
+        540
+      ],
+      "line_direction_angle_deg": 52.099999999999994,
+      "wire_angle_deg": 142.1
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 7,
+      "start_coordinate_along_wire_normal_px": -490.00799153851875,
+      "one_inch_endpoint_coordinate_px": -373.6508248718521,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.29005488952315706,
+      "linear_mesh_count_per_inch": 5.290054889523157,
+      "final_bracketing_wire_centers_px": [
+        -380.00046668115675,
+        -358.1092935320217
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "A",
+      "region_xyxy": [
+        65,
+        220,
+        420,
+        540
+      ],
+      "line_direction_angle_deg": 52.099999999999994,
+      "wire_angle_deg": 142.1
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 3,
+      "start_coordinate_along_wire_normal_px": -645.5495556029908,
+      "one_inch_endpoint_coordinate_px": -529.1923889363242,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.2312379224129295,
+      "linear_mesh_count_per_inch": 5.231237922412929,
+      "final_bracketing_wire_centers_px": [
+        -534.3028014547235,
+        -512.202566056165
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "B",
+      "region_xyxy": [
+        65,
+        350,
+        400,
+        660
+      ],
+      "line_direction_angle_deg": 52.19999999999999,
+      "wire_angle_deg": 142.2
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 5,
+      "start_coordinate_along_wire_normal_px": -600.8188006370461,
+      "one_inch_endpoint_coordinate_px": -484.46163397037947,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.25673023157015534,
+      "linear_mesh_count_per_inch": 5.256730231570155,
+      "final_bracketing_wire_centers_px": [
+        -490.09871760986346,
+        -468.14149190641695
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "B",
+      "region_xyxy": [
+        65,
+        350,
+        400,
+        660
+      ],
+      "line_direction_angle_deg": 52.19999999999999,
+      "wire_angle_deg": 142.2
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 7,
+      "start_coordinate_along_wire_normal_px": -556.4129139750289,
+      "one_inch_endpoint_coordinate_px": -440.05574730836224,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.28620020685344405,
+      "linear_mesh_count_per_inch": 5.286200206853444,
+      "final_bracketing_wire_centers_px": [
+        -446.3300439010905,
+        -424.40729037931834
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "B",
+      "region_xyxy": [
+        65,
+        350,
+        400,
+        660
+      ],
+      "line_direction_angle_deg": 52.19999999999999,
+      "wire_angle_deg": 142.2
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 3,
+      "start_coordinate_along_wire_normal_px": -646.0465173512954,
+      "one_inch_endpoint_coordinate_px": -529.6893506846287,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.2110694564129944,
+      "linear_mesh_count_per_inch": 5.211069456412995,
+      "final_bracketing_wire_centers_px": [
+        -534.3753917583862,
+        -512.1739744932164
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "C",
+      "region_xyxy": [
+        170,
+        330,
+        465,
+        610
+      ],
+      "line_direction_angle_deg": 52.30000000000001,
+      "wire_angle_deg": 142.3
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 5,
+      "start_coordinate_along_wire_normal_px": -601.1921119787999,
+      "one_inch_endpoint_coordinate_px": -484.8349453121332,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.2340279774803611,
+      "linear_mesh_count_per_inch": 5.234027977480361,
+      "final_bracketing_wire_centers_px": [
+        -489.9798453039134,
+        -467.99572166548234
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "C",
+      "region_xyxy": [
+        170,
+        330,
+        465,
+        610
+      ],
+      "line_direction_angle_deg": 52.30000000000001,
+      "wire_angle_deg": 142.3
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 7,
+      "start_coordinate_along_wire_normal_px": -556.5503105453532,
+      "one_inch_endpoint_coordinate_px": -440.19314387868656,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.26750781728925066,
+      "linear_mesh_count_per_inch": 5.267507817289251,
+      "final_bracketing_wire_centers_px": [
+        -446.0509151148981,
+        -424.15334480996137
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "C",
+      "region_xyxy": [
+        170,
+        330,
+        465,
+        610
+      ],
+      "line_direction_angle_deg": 52.30000000000001,
+      "wire_angle_deg": 142.3
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 3,
+      "start_coordinate_along_wire_normal_px": -622.7487410415665,
+      "one_inch_endpoint_coordinate_px": -506.39157437489985,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.24542884444164054,
+      "linear_mesh_count_per_inch": 5.245428844441641,
+      "final_bracketing_wire_centers_px": [
+        -511.79372093508834,
+        -489.7826709605893
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "D",
+      "region_xyxy": [
+        40,
+        200,
+        380,
+        650
+      ],
+      "line_direction_angle_deg": 52.0,
+      "wire_angle_deg": 142.0
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 5,
+      "start_coordinate_along_wire_normal_px": -578.1622807163568,
+      "one_inch_endpoint_coordinate_px": -461.80511404969013,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.2733074923754185,
+      "linear_mesh_count_per_inch": 5.273307492375419,
+      "final_bracketing_wire_centers_px": [
+        -467.7938401965982,
+        -445.8817949216671
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "D",
+      "region_xyxy": [
+        40,
+        200,
+        380,
+        650
+      ],
+      "line_direction_angle_deg": 52.0,
+      "wire_angle_deg": 142.0
+    },
+    {
+      "family": "diagonal",
+      "start_wire_index_one_based": 7,
+      "start_coordinate_along_wire_normal_px": -533.8101405709087,
+      "one_inch_endpoint_coordinate_px": -417.45297390424207,
+      "complete_center_to_center_pitches": 5,
+      "fractional_final_pitch": 0.29485282128168516,
+      "linear_mesh_count_per_inch": 5.294852821281685,
+      "final_bracketing_wire_centers_px": [
+        -423.9235957235339,
+        -401.97833574207976
+      ],
+      "position": "line normal to diagonal wires; centers detected by averaging along wire direction",
+      "region": "D",
+      "region_xyxy": [
+        40,
+        200,
+        380,
+        650
+      ],
+      "line_direction_angle_deg": 52.0,
+      "wire_angle_deg": 142.0
+    }
+  ],
+  "diagonal_detected_wire_coordinates": {
+    "A": {
+      "centers": [
+        -623.6104767305468,
+        -601.2847538831325,
+        -578.7857741777293,
+        -556.548204185804,
+        -534.3134479662483,
+        -512.1298666612878,
+        -490.00799153851875,
+        -467.95519696835015,
+        -446.010112504519,
+        -423.97595349472823,
+        -401.97886253999656,
+        -380.00046668115675,
+        -358.1092935320217,
+        -336.1360606896465,
+        -314.27829353184245,
+        -292.4368113172801,
+        -270.74867373653206
+      ],
+      "angle": 142.1,
+      "normal": [
+        -0.6142852000989434,
+        -0.7890840848346905
+      ],
+      "region_xyxy": [
+        65,
+        220,
+        420,
+        540
+      ]
+    },
+    "B": {
+      "centers": [
+        -690.474758776551,
+        -668.1381527628677,
+        -645.5495556029908,
+        -623.2403936205611,
+        -600.8188006370461,
+        -578.5223808341096,
+        -556.4129139750289,
+        -534.3028014547235,
+        -512.202566056165,
+        -490.09871760986346,
+        -468.14149190641695,
+        -446.3300439010905,
+        -424.40729037931834,
+        -402.5367204914936,
+        -380.62391678559516
+      ],
+      "angle": 142.2,
+      "normal": [
+        -0.6129070536529768,
+        -0.7901550123756902
+      ],
+      "region_xyxy": [
+        65,
+        350,
+        400,
+        660
+      ]
+    },
+    "C": {
+      "centers": [
+        -690.945385885234,
+        -668.4788588315744,
+        -646.0465173512954,
+        -623.594602716008,
+        -601.1921119787999,
+        -578.7562230658536,
+        -556.5503105453532,
+        -534.3753917583862,
+        -512.1739744932164,
+        -489.9798453039134,
+        -467.99572166548234,
+        -446.0509151148981,
+        -424.15334480996137
+      ],
+      "angle": 142.3,
+      "normal": [
+        -0.6115270401858311,
+        -0.79122353296749
+      ],
+      "region_xyxy": [
+        170,
+        330,
+        465,
+        610
+      ]
+    },
+    "D": {
+      "centers": [
+        -667.6051536926581,
+        -645.2924135088232,
+        -622.7487410415665,
+        -600.4397452485498,
+        -578.1622807163568,
+        -555.8875949010437,
+        -533.8101405709087,
+        -511.79372093508834,
+        -489.7826709605893,
+        -467.7938401965982,
+        -445.8817949216671,
+        -423.9235957235339,
+        -401.97833574207976,
+        -379.95115459601857,
+        -357.9496717037073,
+        -336.04807776729956,
+        -314.1715413342443,
+        -292.36827413931456,
+        -270.5894686196346,
+        -248.94007548254757
+      ],
+      "angle": 142.0,
+      "normal": [
+        -0.6156614753256584,
+        -0.7880107536067219
+      ],
+      "region_xyxy": [
+        40,
+        200,
+        380,
+        650
+      ]
+    }
+  }
+}

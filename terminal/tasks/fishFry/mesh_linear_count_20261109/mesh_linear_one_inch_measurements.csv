@@ -1,0 +1,17 @@
+wire_family,region,start_wire_index,start_normal_coordinate_px,end_normal_coordinate_px,complete_pitches,fractional_pitch,mesh_count_per_inch
+near_vertical,lower-quadrant fitted vertical,5,90.993,207.350,5,0.2217,5.2217
+near_vertical,lower-quadrant fitted vertical,10,202.364,318.721,5,0.1227,5.1227
+near_vertical,lower-quadrant fitted vertical,15,315.902,432.259,4,0.9966,4.9966
+near_vertical,lower-quadrant fitted vertical,20,432.339,548.696,4,0.9990,4.9990
+diagonal,A,3,-578.786,-462.429,5,0.2518,5.2518
+diagonal,A,5,-534.313,-417.956,5,0.2737,5.2737
+diagonal,A,7,-490.008,-373.651,5,0.2901,5.2901
+diagonal,B,3,-645.550,-529.192,5,0.2312,5.2312
+diagonal,B,5,-600.819,-484.462,5,0.2567,5.2567
+diagonal,B,7,-556.413,-440.056,5,0.2862,5.2862
+diagonal,C,3,-646.047,-529.689,5,0.2111,5.2111
+diagonal,C,5,-601.192,-484.835,5,0.2340,5.2340
+diagonal,C,7,-556.550,-440.193,5,0.2675,5.2675
+diagonal,D,3,-622.749,-506.392,5,0.2454,5.2454
+diagonal,D,5,-578.162,-461.805,5,0.2733,5.2733
+diagonal,D,7,-533.810,-417.453,5,0.2949,5.2949

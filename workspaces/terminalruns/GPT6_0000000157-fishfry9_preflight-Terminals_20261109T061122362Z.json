@@ -1,0 +1,17 @@
+{
+  "inputThis": "$:set -euo pipefail\nprintf 'HEAD '; git rev-parse HEAD\nprintf 'AGENTS_SHA '; git hash-object AGENTS.md\nprintf 'ROOT_README '; test -f README.md && (cat README.md | head -n 80) || echo absent\nprintf 'APPLICABLE_AGENTS '; find terminal -name AGENTS.md -print 2>/dev/null || true\nprintf 'APPLICABLE_README '; find terminal/tasks/fishFry -name README.md -print 2>/dev/null || true\nprintf 'SOURCE '; file terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png\nprintf 'SOURCE_SHA256 '; sha256sum terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png\nprintf 'FILECOUNT '; ls -1 terminal/tasks/fishFry | wc -l\nprintf 'BRANCH '; git branch --show-current\nprintf 'REMOTE '; git remote get-url origin\nprintf 'PIL '; python3 -c 'from PIL import Image; print(Image.__version__)' 2>&1 || true\nprintf 'REGISTRY '; test -f .github/issue-workflow-registry.json && echo present || echo absent",
+  "outputThat": [
+    "HEAD 47120319f1578350dd45df50412ba0c969eea575",
+    "AGENTS_SHA 3827d3f35b226f98aa3115d4a976ed596be822b4",
+    "ROOT_README absent",
+    "APPLICABLE_AGENTS APPLICABLE_README SOURCE terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png: PNG image data, 1536 x 1476, 8-bit/color RGB, non-interlaced",
+    "SOURCE_SHA256 429c0a45293e64de09f8da94e795c088e53afbd023337af3a59e344776412c2d  terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png",
+    "FILECOUNT 2",
+    "BRANCH main",
+    "REMOTE https://github.com/BestNameYet/Terminals",
+    "PIL Traceback (most recent call last):",
+    "  File \"<string>\", line 1, in <module>",
+    "ModuleNotFoundError: No module named 'PIL'",
+    "REGISTRY present"
+  ]
+}

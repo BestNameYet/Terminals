@@ -1,0 +1,11 @@
+{
+  "inputThis": "$:set -e\nfor repo in CommandLine Execution-Contract-Controller IssueScratch; do python3 workspaces/repository-file-inventory-20261109/scan-one.py \"$repo\"; done",
+  "outputThat": [
+    "DEFAULT_BRANCH_SCAN BestNameYet/CommandLine files 31 head cb95df66740899dd0be725d0084495bc07e8f281",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/CommandLine\", \"files\": 31, \"languages\": {\"html\": 0, \"javascript\": 16, \"python\": 0, \"yaml\": 15}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv\", \"commit\": \"b0d16460c74639f9d2af121c95429b5a4dfbf8c3\", \"expression_search_performed\": false}",
+    "DEFAULT_BRANCH_SCAN BestNameYet/Execution-Contract-Controller files 27 head 5d821e93dd25f216d66b2c86d58455aa9208ceab",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/Execution-Contract-Controller\", \"files\": 27, \"languages\": {\"html\": 0, \"javascript\": 0, \"python\": 25, \"yaml\": 2}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/Execution-Contract-Controller/files.csv\", \"commit\": \"fc1e068e5367cade7a90c6bfa40f4122f8a08ad1\", \"expression_search_performed\": false}",
+    "DEFAULT_BRANCH_SCAN BestNameYet/IssueScratch files 0 head 0cce4f7b833ff120103488de879e7c72f38030f3",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/IssueScratch\", \"files\": 0, \"languages\": {\"html\": 0, \"javascript\": 0, \"python\": 0, \"yaml\": 0}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/IssueScratch/files.csv\", \"commit\": \"69253c33d44e919776f5a471b69576531ca2c5cc\", \"expression_search_performed\": false}"
+  ]
+}

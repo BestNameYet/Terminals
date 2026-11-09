@@ -1,0 +1,13 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -f AGENTS.md\nif test -f README.md; then cat README.md >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ntest ! -e .devcontainer/devcontainer.json\ntest ! -e config/file-metadata.json\nmkdir -p .devcontainer\ncat > .devcontainer/devcontainer.json <<'DEVCONTAINER_EOF'\n{\n  \"name\": \"Terminals MCP Development\",\n  \"image\": \"mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm\",\n  \"features\": {\n    \"ghcr.io/devcontainers/features/github-cli:1\": {}\n  },\n  \"forwardPorts\": [\n    3000\n  ],\n  \"portsAttributes\": {\n    \"3000\": {\n      \"label\": \"MCP development server\",\n      \"onAutoForward\": \"notify\",\n      \"visibility\": \"private\"\n    }\n  },\n  \"customizations\": {\n    \"vscode\": {\n      \"extensions\": [\n        \"dbaeumer.vscode-eslint\"\n      ]\n    }\n  },\n  \"remoteUser\": \"node\"\n}\nDEVCONTAINER_EOF\nnode -e 'const fs=require(\"fs\");const p=\".devcontainer/devcontainer.json\";const c=JSON.parse(fs.readFileSync(p,\"utf8\"));if(c.image!==\"mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm\")process.exit(2);console.log(\"VALIDATED\",p,fs.statSync(p).size)'\ngit add -- .devcontainer/devcontainer.json\ngit diff --cached --check\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\ngit commit -m 'Add Node.js Codespaces devcontainer for MCP development'\nfor i in 1 2 3 4; do\n git fetch origin main -q\n git rebase origin/main -q\n if git push origin HEAD:main; then break; fi\n test \"$i\" -lt 4\ndone\nprintf 'PUBLISHED_COMMIT '; git rev-parse HEAD\ngit show --stat --oneline HEAD",
+  "outputThat": [
+    "VALIDATED .devcontainer/devcontainer.json 515",
+    "[main fbeae33] Add Node.js Codespaces devcontainer for MCP development",
+    " 1 file changed, 25 insertions(+)",
+    " create mode 100644 .devcontainer/devcontainer.json",
+    "PUBLISHED_COMMIT fbeae330f8dc70165d02f9096c3d127116ab6542",
+    "fbeae33 Add Node.js Codespaces devcontainer for MCP development",
+    " .devcontainer/devcontainer.json | 25 +++++++++++++++++++++++++",
+    " 1 file changed, 25 insertions(+)"
+  ]
+}

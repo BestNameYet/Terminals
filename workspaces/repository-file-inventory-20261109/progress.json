@@ -74,9 +74,14 @@
       "verified_at_utc": "2026-11-09T04:24:20.245385+00:00"
     },
     "MCP-Collaborative": {
-      "status": "pending",
-      "table_path": null,
-      "supersedes_previous_all_ref_table": true
+      "status": "verified",
+      "file_rows": 11,
+      "scope": "default_branch_only",
+      "head_sha": "05ee655375695fbf48e0eeaab5ef2c561a565f78",
+      "table_path": "workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/files.csv",
+      "json_table_path": "workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/files.json",
+      "verification_path": "workspaces/repository-file-inventory-20261109/repos/MCP-Collaborative/verification.json",
+      "verified_at_utc": "2026-11-09T04:24:27.336191+00:00"
     },
     "StateMachines": {
       "status": "pending",

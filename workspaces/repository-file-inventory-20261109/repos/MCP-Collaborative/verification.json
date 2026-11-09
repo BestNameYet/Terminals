@@ -1,0 +1,22 @@
+{
+  "schema": "terminals.repository-default-branch-file-inventory.v2",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "repository": "BestNameYet/MCP-Collaborative",
+  "scope": "default_branch_only",
+  "default_branch": "main",
+  "head_sha": "05ee655375695fbf48e0eeaab5ef2c561a565f78",
+  "status": "verified",
+  "matched_file_rows": 11,
+  "git_tree_entries": 52,
+  "languages": {
+    "html": 0,
+    "javascript": 0,
+    "python": 9,
+    "yaml": 2
+  },
+  "last_commit_date_method": "Local Git history: git log -1 --format=%H%x09%cI <pinned-head> -- <file-path>",
+  "file_size_method": "Git Trees API git blob size, exact bytes",
+  "expression_search_performed": false,
+  "verified_at_utc": "2026-11-09T04:24:27.336191+00:00",
+  "limitation": "Only default branch, as explicitly directed; other branches and tags excluded."
+}

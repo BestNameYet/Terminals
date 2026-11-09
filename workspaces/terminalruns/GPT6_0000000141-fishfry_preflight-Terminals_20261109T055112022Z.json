@@ -1,0 +1,12 @@
+{
+  "inputThis": "$:printf 'HEAD '; git rev-parse --short HEAD; printf 'ROOT_README '; test -f README.md && echo yes || echo no; printf 'TARGET_PATH '; test -d terminal/tasks/fishFry && echo exists || echo missing; printf 'PIL '; python3 -c 'import PIL; print(PIL.__version__)' 2>&1 || true; printf 'REMOTE_IMAGE '; curl -L -sS -o /dev/null -w '%{http_code} %{size_download}\\n' --max-time 15 'https://assets.katomcdn.com/q_auto%2Cf_auto/v1637700341/products/080/080-APZS12/080-apzs12.jpg' || true",
+  "outputThat": [
+    "HEAD 7d62e5a",
+    "ROOT_README no",
+    "TARGET_PATH missing",
+    "PIL Traceback (most recent call last):",
+    "  File \"<string>\", line 1, in <module>",
+    "ModuleNotFoundError: No module named 'PIL'",
+    "REMOTE_IMAGE 200 157163"
+  ]
+}

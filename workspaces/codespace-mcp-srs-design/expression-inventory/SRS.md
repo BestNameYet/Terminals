@@ -1,0 +1,7 @@
+# JavaScript Expression Collector — SRS
+
+A Node.js command-line utility in the Codespace MCP design workspace. Input: a JSON, CSV, or newline-delimited file-path list, optional source root, and optional output directory. The program reads each inventoried JavaScript file, optionally verifies its Git blob SHA-1, parses its source once with @babel/parser, and walks the AST with @babel/traverse. For each expression node it records the source slice, AST node type, line and column span, whether it is a standalone expression statement, and its enclosing function name/type/span or absence thereof. Nested expressions are separate records. Semantic grouping/classification beyond Babel node types is not performed.
+
+The program writes separate JSON and CSV tables per successful JavaScript input and a manifest covering all input entries, including non-JavaScript skips, parse errors, and zero-expression files. If any JavaScript file fails, the program returns a nonzero exit code after writing the manifest. The planned/manual GitHub Actions entrypoint checks out the input source repository/ref, uses npm ci for its Babel dependencies, invokes this program, and uploads the result directory as an Actions artifact. This design concerns JavaScript files; other languages require separate parsers.
+
+Acceptance: Node syntax validation succeeds. A fixture with both top-level and function-body expressions yields AST records containing the corresponding enclosing-function relationships. Every input row is represented in the output manifest.

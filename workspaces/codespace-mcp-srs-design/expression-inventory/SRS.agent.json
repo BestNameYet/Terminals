@@ -1,0 +1,40 @@
+{
+  "schema": "codespace-mcp.expression-collector.srs.v1",
+  "source": "SRS.md",
+  "input": {
+    "file_list": [
+      "json",
+      "csv",
+      "txt"
+    ],
+    "source_root": "path",
+    "output_dir": "path"
+  },
+  "dependencies": [
+    "@babel/parser",
+    "@babel/traverse",
+    "@babel/types"
+  ],
+  "behavior": [
+    "read_every_input_row",
+    "skip_non_js_rows_explicitly",
+    "verify_git_blob_sha1_when_given",
+    "parse_javascript_once",
+    "walk_each_expression_ast_node",
+    "record_source_location_type_and_function_context",
+    "retain_per_file_errors",
+    "nonzero_exit_for_errors"
+  ],
+  "output": {
+    "csv": "per_file",
+    "json": "per_file",
+    "manifest": "all_input_rows"
+  },
+  "semantic_classifier": "not_implemented_beyond_ast_type",
+  "entrypoint": "collect-expressions.js",
+  "acceptance": [
+    "node_check",
+    "fixture_ast_context",
+    "complete_manifest"
+  ]
+}

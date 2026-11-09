@@ -1,0 +1,12 @@
+{
+  "name": "codespace-mcp-expression-inventory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Babel-based JavaScript expression AST collector",
+  "devDependencies": {
+    "@babel/parser": "^7.28.0",
+    "@babel/traverse": "^7.28.0",
+    "@babel/types": "^7.28.0"
+  }
+}

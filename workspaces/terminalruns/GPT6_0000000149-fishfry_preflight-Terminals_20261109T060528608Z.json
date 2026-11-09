@@ -1,0 +1,26 @@
+{
+  "inputThis": "$:set -euo pipefail\nprintf 'COMMIT '; git rev-parse HEAD\nprintf 'ROOT_README '; if test -f README.md; then cat README.md; else echo absent; fi\nprintf 'AGENTS_SHA '; git hash-object AGENTS.md\nprintf 'AGENTS_HEADER '; sed -n '1,12p' AGENTS.md\nprintf 'NESTED_AGENTS\\n'; find terminal -name AGENTS.md -print 2>/dev/null || true\nprintf 'SOURCE '; test -f terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png && file terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png\nprintf 'SOURCE_SHA256 '; sha256sum terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png\nprintf 'PIL '; python3 -c 'import PIL; print(PIL.__version__)' 2>&1 || true",
+  "outputThat": [
+    "COMMIT 48945f05a06308f7cc5a58d078cb78d78faf8cff",
+    "ROOT_README absent",
+    "AGENTS_SHA 3827d3f35b226f98aa3115d4a976ed596be822b4",
+    "AGENTS_HEADER # Terminals — Agent Execution Contract",
+    "",
+    "**Contract version:** 1.0.0  ",
+    "**Repository:** BestNameYet/Terminals  ",
+    "**Source:** https://github.com/BestNameYet/Terminals/issues/4#issuecomment-6609907520  ",
+    "**Template convention:** Programs selection specification v0.2.0",
+    "",
+    "**Structural boundary:** Part I contains exclusively mandatory SHALL imperatives. Part II contains independently organized SHOULD procedures, concrete examples and descriptive contract facts. Procedures do not grant authority or override imperatives.",
+    "",
+    "## I. Imperatives — SHALL",
+    "",
+    "~~~json",
+    "NESTED_AGENTS",
+    "SOURCE terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png: PNG image data, 1536 x 1476, 8-bit/color RGB, non-interlaced",
+    "SOURCE_SHA256 429c0a45293e64de09f8da94e795c088e53afbd023337af3a59e344776412c2d  terminal/tasks/fishFry/pizza_screen_arrow_90_clockwise.png",
+    "PIL Traceback (most recent call last):",
+    "  File \"<string>\", line 1, in <module>",
+    "ModuleNotFoundError: No module named 'PIL'"
+  ]
+}

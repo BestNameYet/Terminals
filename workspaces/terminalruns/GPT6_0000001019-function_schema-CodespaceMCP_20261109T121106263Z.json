@@ -1,0 +1,20 @@
+{
+  "inputThis": "$:node - <<'NODE'\nconst fs=require('fs');const p=JSON.parse(fs.readFileSync('workspaces/repository-file-inventory-20261109/repos/CommandLine/files.json'));console.log('FILE_LIST_SHAPE',JSON.stringify(p).slice(0,2600));console.log('PKG',fs.readFileSync('workspaces/codespace-mcp-srs-design/expression-inventory/package.json','utf8'));console.log('REPOS',fs.readdirSync('workspaces/repository-file-inventory-20261109/repos').join(','));\nNODE",
+  "outputThat": [
+    "FILE_LIST_SHAPE {\"repository\":\"BestNameYet/CommandLine\",\"scope\":\"default_branch_only\",\"rows\":[{\"repository\":\"BestNameYet/CommandLine\",\"relative_file_path\":\".github/workflows/extract-chatgpt-share-html.yml\",\"language\":\"yaml\",\"size_bytes\":3961,\"last_file_commit_at_utc\":\"2026-10-31T04:48:30Z\",\"last_file_commit_sha\":\"febc1cfa30792ad1db1a94ec805d41fb20b7a104\",\"file_revision_sha\":\"dac99f399c7ded72dc9ac39c100f28243cd0f2fa\",\"source_url\":\"https://github.com/BestNameYet/CommandLine/blob/cb95df66740899dd0be725d0084495bc07e8f281/.github/workflows/extract-chatgpt-share-html.yml\",\"inventory_verification_status\":\"verified_default_branch_file_history\"},{\"repository\":\"BestNameYet/CommandLine\",\"relative_file_path\":\".github/workflows/issue-6-commit.yml\",\"language\":\"yaml\",\"size_bytes\":669,\"last_file_commit_at_utc\":\"2026-10-24T03:50:00Z\",\"last_file_commit_sha\":\"99d7644b5663737e65219a3761d15024b6d2cd1a\",\"file_revision_sha\":\"1920dec788ed477162602084642e268f1574bfe6\",\"source_url\":\"https://github.com/BestNameYet/CommandLine/blob/cb95df66740899dd0be725d0084495bc07e8f281/.github/workflows/issue-6-commit.yml\",\"inventory_verification_status\":\"verified_default_branch_file_history\"},{\"repository\":\"BestNameYet/CommandLine\",\"relative_file_path\":\".github/workflows/issue-6-gh.yml\",\"language\":\"yaml\",\"size_bytes\":3337,\"last_file_commit_at_utc\":\"2026-10-24T17:51:01Z\",\"last_file_commit_sha\":\"3ac3f856d4a01c2f6d47907b8168430a2709378d\",\"file_revision_sha\":\"998bdbb8ec54bb60ccc05964f26c80fb1ae4644d\",\"source_url\":\"https://github.com/BestNameYet/CommandLine/blob/cb95df66740899dd0be725d0084495bc07e8f281/.github/workflows/issue-6-gh.yml\",\"inventory_verification_status\":\"verified_default_branch_file_history\"},{\"repository\":\"BestNameYet/CommandLine\",\"relative_file_path\":\".github/workflows/issue-6-meta.yml\",\"language\":\"yaml\",\"size_bytes\":964,\"last_file_commit_at_utc\":\"2026-10-24T03:50:33Z\",\"last_file_commit_sha\":\"1d898bfa80787ba4e272fe0d909dddc5eb79b450\",\"file_revision_sha\":\"97149e569c979dbfcb490f5812180d616d3aac12\",\"source_url\":\"https://github.com/BestNameYet/CommandLine/blob/cb95df66740899dd0be725d0084495bc07e8f281/.github/workflows/issue-6-meta.yml\",\"inventory_verification_status\":\"verified_default_branch_file_history\"},{\"repository\":\"BestNameYet/CommandLine\",\"relative_file_path\":\".github/workflows/issue-6-standard.yml\",\"language\":\"yaml\",\"size_bytes\":667,\"last_file_commit_at_utc\":\"2026-10-24T03:49:59Z\",\"last_file_commit_sha\":\"6ef5013f39eb8d3ed69d8ee45508c826b834e8d2\",\"file_revision_sha\":\"40582eb42793d82df9c289275917d24a2cd3c752\",\"source_url\":\"https://github.com/BestNameYet/CommandLine/blob/cb95df66740899dd0be725d0084",
+    "PKG {",
+    "  \"name\": \"codespace-mcp-expression-inventory\",",
+    "  \"version\": \"1.0.0\",",
+    "  \"private\": true,",
+    "  \"type\": \"commonjs\",",
+    "  \"description\": \"Babel-based JavaScript expression AST collector\",",
+    "  \"devDependencies\": {",
+    "    \"@babel/parser\": \"^7.28.0\",",
+    "    \"@babel/traverse\": \"^7.28.0\",",
+    "    \"@babel/types\": \"^7.28.0\"",
+    "  }",
+    "}",
+    "",
+    "REPOS Canonical-Skills-Location,CommandLine,Execution-Contract-Controller,IssueScratch,IssueStack-,MCP-Collaborative,StateMachines,Surfaces,Terminals"
+  ]
+}

@@ -59,7 +59,7 @@
         "requirement": "Provide an instantiated wrapper draft containing the accepted user scope rule as one outer rule object and a nested conversation-analytics group without falsely asserting activation."
       }
     ],
-    "deliverable": "Two detailed JSON reference rule sets in references/, each containing examples, and a JSON wrapper draft in the task queue referencing both documents while preserving the accepted user scope rule and the conversation-analytics rule.",
+    "deliverable": "Two external rule references with examples, plus an instruction-wrapper draft containing the complete accepted scope rule and the complete conversation-analytics rule as separate standalone objects.",
     "open_design_questions": [],
     "acceptance_criteria": [
       "An outer array exists with index-zero explainer referencing both rule-set paths; no self-redefinition of template structure is embedded there.",
@@ -102,6 +102,11 @@
       {
         "purpose": "Apply latest user revisions to the wrapper design without treating the design as accepted before review.",
         "user_instruction_summary": "Store detailed structural rules and examples in a separate Terminals references rules template; store a second reference document for machine-dialect writing requirements and examples; reference both from the wrapper's index-zero explainer, preserving the accepted verbose user scope rule as one titled object."
+      },
+      {
+        "purpose": "Make Conversation Analytics one standalone rule object because the former two-element grouped-rule array added only redundant context.",
+        "user_instruction_summary": "Conversation analytics should be an object, not an array. Its former group-explainer at index 0 and the subordinate rule at index 1 were redundant; retain one complete analytics rule object without the superfluous group explainer.",
+        "implementation": "Replace outer index 2 with the preexisting complete titled analytics rule object, preserving its original rule body byte-for-byte at the parsed JSON value level. Update the editable aliased copy and its exact-key alias lookup without modifying the separate accepted analytics source."
       }
     ],
     "previous_requirements_before_current_revision": [

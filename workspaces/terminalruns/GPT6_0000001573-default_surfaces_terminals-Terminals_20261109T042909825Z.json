@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -e\nfor repo in Surfaces Terminals; do python3 workspaces/repository-file-inventory-20261109/scan-one.py \"$repo\"; done",
+  "outputThat": [
+    "DEFAULT_BRANCH_SCAN BestNameYet/Surfaces files 0 head 9fc66dae0e4ff90395b1674139d5cffd0794a10b",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/Surfaces\", \"files\": 0, \"languages\": {\"html\": 0, \"javascript\": 0, \"python\": 0, \"yaml\": 0}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/Surfaces/files.csv\", \"commit\": \"6cff912c710356965b8373e7b842f202fa915888\", \"expression_search_performed\": false}",
+    "DEFAULT_BRANCH_SCAN BestNameYet/Terminals files 49 head 6cff912c710356965b8373e7b842f202fa915888",
+    "{\"result\": \"VERIFIED\", \"repo\": \"BestNameYet/Terminals\", \"files\": 49, \"languages\": {\"html\": 9, \"javascript\": 35, \"python\": 1, \"yaml\": 4}, \"default_branch\": \"main\", \"path\": \"workspaces/repository-file-inventory-20261109/repos/Terminals/files.csv\", \"commit\": \"b2ab995bb8a7b9533829260d66caa988c93a7d51\", \"expression_search_performed\": false}"
+  ]
+}

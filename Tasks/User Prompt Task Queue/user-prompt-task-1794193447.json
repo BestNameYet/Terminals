@@ -1,0 +1,82 @@
+{
+  "task_type": "account_custom_instruction_wrapper_design",
+  "status": "pending",
+  "created_at_utc": "2026-11-09T03:04:07Z",
+  "verbatim_user_utterance": "Next task, devise a wrapper to contain the account custom instruction as either individual rules or group rules on a subject..where the grouped rules a presented in an array, where the first index clarifies the scope of the other indices and one subject is allowed per array. And the ungrouped indices are rules adopted in an adhoc manner and typically appended from newest to oldest and where the last index of the array gives any rules or instructions for interpretation of the array",
+  "task": {
+    "objective": "Devise a machine-readable wrapper representation for the account custom instruction that can accommodate individual ad hoc rules and subject-specific grouped rules.",
+    "requirements": [
+      {
+        "id": "R1",
+        "requirement": "Support both standalone individual rules and grouped rules organized by subject."
+      },
+      {
+        "id": "R2",
+        "requirement": "Represent each subject group as an array."
+      },
+      {
+        "id": "R3",
+        "requirement": "Use the first element (index 0) of each grouped-rule array to clarify the scope governing its remaining elements."
+      },
+      {
+        "id": "R4",
+        "requirement": "Allow exactly one subject per grouped-rule array; do not combine unrelated subjects in the same group."
+      },
+      {
+        "id": "R5",
+        "requirement": "Represent ad hoc standalone rules in newest-to-oldest order. Insert each new ad hoc rule at index 0 of its applicable ad hoc rule array, shifting all existing elements one position forward and renumbering their array indices accordingly."
+      },
+      {
+        "id": "R6",
+        "requirement": "Reserve the final element of each array that defines interpretation instructions for the interpretation rules applicable to that array; its index changes when new elements are inserted ahead of it."
+      },
+      {
+        "id": "R7",
+        "requirement": "Interpret nested/grouped arrays using their local index rules; where local rules explicitly override outer-scope interpretation, local rules take precedence within that nested array. Preserve group index 0 as its single-subject scope definition and its final element as its local interpretation instructions."
+      },
+      {
+        "id": "R8",
+        "requirement": "Preserve the content and behavioral scope of existing account custom instructions; wrapper design must not silently change their meanings."
+      }
+    ],
+    "deliverable": "A documented JSON wrapper structure, its indexing/ordering/interpretation semantics, and an instantiated example containing account custom instructions, with ambiguity-resolution notes and validation criteria.",
+    "open_design_questions": [],
+    "acceptance_criteria": [
+      "One subject per group and scope information at group index 0.",
+      "Individual rules are representable outside grouped arrays.",
+      "The final interpretation element is reserved and unambiguously defined.",
+      "Order and rule interpretation are deterministic and machine-readable.",
+      "No existing account instruction is changed or silently excluded merely by wrapper conversion.",
+      "Adding a standalone ad hoc rule makes it the first rule in its applicable ad hoc array; former rule indices shift by +1.",
+      "Nested rule arrays apply local interpretation rules in preference to conflicting outer-scope interpretation, only within the local array.",
+      "Subject group index 0 and final interpretation element remain structurally reserved after insertions."
+    ],
+    "execution_requested_now": false,
+    "resolved_design_decisions": [
+      {
+        "id": "D1",
+        "decision": "Insert new ad hoc rules at the beginning of the applicable array (index 0); existing entries shift right and array indices renumber. Never append a new ad hoc rule at the end merely because it is new."
+      },
+      {
+        "id": "D2",
+        "decision": "A grouped array retains its subject/scope definition at index 0 and its local interpretation rules in its final element. Nested elements follow the local index rules, which take precedence over the outer scope wherever an explicit local override exists."
+      },
+      {
+        "id": "D3",
+        "decision": "Treat reserved structural indices as reserved. New rule insertion must not displace group scope metadata from index 0 or the interpretation element from the final position; preserve their roles while maintaining the specified newest-first order for ad hoc rules."
+      }
+    ],
+    "amendments": [
+      {
+        "verbatim_user_utterance": "The newest rule should be appended to the beginning of the array and all indices renumbered accordingly...the nested elements should follow the rules of their local index when they override the outer scope",
+        "purpose": "Resolve ordering and nested interpretation precedence questions without altering the original task request."
+      }
+    ]
+  },
+  "context": {
+    "related_prior_task": "user-prompt-task-1794192853.json",
+    "related_prior_task_objective": "Condense the existing account scope instruction into a minimally verbose machine instruction without loss of intended meaning.",
+    "relation": "This task specifies a containing structure for account custom instructions and is distinct from editing or activating those instructions.",
+    "intended_storage": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
+  }
+}

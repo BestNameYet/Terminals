@@ -1,0 +1,81 @@
+{
+  "task_type": "conversation_analytics_end_of_turn_append_rule",
+  "status": "pending",
+  "created_at_utc": "2026-11-09T03:12:48Z",
+  "verbatim_user_utterance": "Next task is to create a rule entry that sets a end of turn requirement for the agent to append the completed record based on the template to the records for its current conversation. These records will be append only json arrays of the conversation analytics",
+  "task": {
+    "objective": "Create a machine-readable account-instruction rule entry requiring the agent, at the end of each turn, to append a completed conversation-analytics record derived from the current conversation-record template to the record collection belonging to the current conversation.",
+    "requirements": [
+      {
+        "id": "R1",
+        "requirement": "Express an end-of-turn obligation as a rule entry compatible with the account custom-instruction wrapper."
+      },
+      {
+        "id": "R2",
+        "requirement": "Use the current conversation analytics template as the structural definition for each completed record; reference its identifier, version and location, and define how updates to the template are handled."
+      },
+      {
+        "id": "R3",
+        "requirement": "For each completed agent turn, create a record analyzing the corresponding user utterance, adjacent conversation context and agent response, with all fields required by the template."
+      },
+      {
+        "id": "R4",
+        "requirement": "Append the completed record to the records belonging to the current conversation only; do not mix distinct conversations."
+      },
+      {
+        "id": "R5",
+        "requirement": "Store the conversation analytics records as a JSON array whose entries are append-only: do not overwrite, modify, delete, reorder or replace previous records when adding a new record."
+      },
+      {
+        "id": "R6",
+        "requirement": "Specify how a record identifies its conversation and turn, how an existing conversation record array is located, and how an initially absent array is initialized."
+      },
+      {
+        "id": "R7",
+        "requirement": "Define validation and atomic, concurrency-safe append behavior so the array remains parseable JSON and a completed record is not silently lost or duplicated."
+      },
+      {
+        "id": "R8",
+        "requirement": "Do not claim an end-of-turn append succeeded unless the persistent destination has been written and its resulting state verified; specify a failure condition or recoverable pending state when persistence is unavailable."
+      },
+      {
+        "id": "R9",
+        "requirement": "Respect the wrapper’s existing grouped-rule and nested-local-precedence semantics when placing this rule; do not silently modify other instruction content."
+      }
+    ],
+    "reference_template": {
+      "repository": "BestNameYet/Terminals",
+      "path": "conversations/conversation-record.template.json",
+      "version": "1.0.0",
+      "template_id": "terminals.conversation-record"
+    },
+    "intended_record_destination": {
+      "repository": "BestNameYet/Terminals",
+      "directory": "conversations/",
+      "per_conversation_record_path": "to be specified in the rule design",
+      "format": "JSON array",
+      "mutation_policy": "append-only"
+    },
+    "deliverable": "A rule entry compatible with the account custom-instruction wrapper, with a specified end-of-turn trigger, per-conversation append-only JSON array storage contract, template reference, validation rules, persistence and verification behavior.",
+    "acceptance_criteria": [
+      "Rule explicitly triggers at end of every agent turn.",
+      "Each appended element is a completed record following the referenced conversation analytics template.",
+      "Each conversation has an identifiable separate record array.",
+      "Earlier array elements remain byte-for-byte logically unchanged and retain their order.",
+      "JSON remains a valid array after each append.",
+      "No persistence success is reported without verified storage.",
+      "The rule is compatible with local nested-rule precedence and preserves unrelated instructions."
+    ],
+    "execution_requested_now": false,
+    "design_questions_for_implementation": [
+      "Exact repository filename and conversation identifier convention for the per-conversation JSON array.",
+      "Whether a completed turn is recorded before or after the user-visible response is delivered; define handling of failed end-of-turn writes.",
+      "How the runtime obtains sufficiently complete response content at the end-of-turn boundary."
+    ]
+  },
+  "context": {
+    "related_prior_task": "user-prompt-task-1794193447.json",
+    "relationship": "New task depends on the proposed account-custom-instruction wrapper and the existing conversation-record template. This creates a task specification, not a live end-of-turn automation or a change to the account custom instructions.",
+    "intended_task_queue": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
+  }
+}

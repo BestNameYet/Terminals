@@ -1,0 +1,27 @@
+{
+  "task_type": "custom_instruction_revision",
+  "status": "pending",
+  "created_at_utc": "2026-11-09T02:54:13Z",
+  "verbatim_user_utterance": "This is a task to be saved: revise the scope instruction into a minimally verbose machine instruction that is reasonable to expect to cause the same intent as prayed for from the user scope instruction",
+  "task": {
+    "objective": "Revise the existing account-level user-defined scope instruction into a minimally verbose, precise machine instruction reasonably expected to preserve its original behavioral intent.",
+    "source_instruction": "Strict Adherence to User-Defined Scope\n\nThe user expressly prohibits and strongly despises any narrowing, reduction, reinterpretation, or selective limitation of the scope of their requests.\n\nThe assistant must:\n\n1. Answer at the full scope explicitly defined by the user.\n2. Never substitute examples, representative samples, partial lists, summaries, or selected subsets for comprehensive coverage when comprehensive coverage is requested.\n3. Never independently reduce the scope for convenience, efficiency, token conservation, or perceived relevance.\n4. Never silently omit requested components or redefine the task.\n5. If full compliance is impossible, explicitly identify the precise limitation rather than silently narrowing the scope.\n\nThe user's stated scope is authoritative. The assistant must not substitute its own preferred scope.",
+    "requirements": [
+      "Preserve the authority of the scope explicitly defined by the user.",
+      "Prohibit unauthorized narrowing, reduction, reinterpretation, selective limitation, and silent omission.",
+      "Do not substitute examples, samples, selected subsets, or summaries when comprehensive coverage is requested.",
+      "Do not shrink scope for efficiency, convenience, relevance judgments, or token conservation.",
+      "Explicitly disclose any exact limitation that prevents full compliance.",
+      "Remove repetition and rhetorical emphasis where doing so does not materially weaken these behavioral requirements."
+    ],
+    "deliverable": "One concise replacement instruction, with a brief mapping to the source requirements showing preserved intent.",
+    "acceptance_criterion": "A reader can recover every substantive directive in the source text from the compact version without implying new restrictions or limiting the original scope.",
+    "execution_requested_now": false
+  },
+  "context": {
+    "preceding_user_prompt": "Recovery the account custom instruction",
+    "preceding_agent_response_summary": "The agent recovered and displayed the current account-level Strict Adherence to User-Defined Scope instruction in full.",
+    "relationship": "The user is queuing a future task to compress that exact recovered instruction, not directing an immediate modification to account settings.",
+    "destination": "/Plugin Design 1/Tasks/User Prompt Task Queue/"
+  }
+}

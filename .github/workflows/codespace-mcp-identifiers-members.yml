@@ -1,0 +1,121 @@
+name: Codespace MCP Identifier and Member Inventory
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.targets.outputs.matrix }}
+    steps:
+      - name: Check out inventory repository
+        uses: actions/checkout@v4
+      - name: Build pinned repository matrix
+        id: targets
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          base = Path("workspaces/repository-file-inventory-20261109")
+          progress = json.loads((base / "progress.json").read_text())
+          matrix = []
+          for name in progress["order"]:
+              item = progress["per_repository"][name]
+              assert item["status"] == "verified", name
+              matrix.append({
+                  "name": name,
+                  "repository": "BestNameYet/" + name,
+                  "revision": item["head_sha"],
+                  "file_list": item["json_table_path"]
+              })
+          print("matrix=" + json.dumps(matrix, separators=(",", ":")))
+          PY
+
+  scan:
+    needs: discover
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - name: Check out collector and file inventories
+        uses: actions/checkout@v4
+        with:
+          path: task
+      - name: Check out pinned source revision
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repository }}
+          ref: ${{ matrix.revision }}
+          path: source
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: task/workspaces/codespace-mcp-srs-design/expression-inventory/package-lock.json
+      - name: Install Babel
+        working-directory: task/workspaces/codespace-mcp-srs-design/expression-inventory
+        run: npm ci
+      - name: Scan identifiers and member expressions
+        env:
+          REPO: ${{ matrix.repository }}
+          REV: ${{ matrix.revision }}
+          FILE_LIST: ${{ matrix.file_list }}
+        shell: bash
+        run: |
+          node task/workspaces/codespace-mcp-srs-design/expression-inventory/scan-identifiers-members.js scan \
+            "task/$FILE_LIST" \
+            source \
+            part/part.json \
+            "$REPO" \
+            "$REV"
+      - name: Preserve repository scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identifier-member-part-${{ matrix.name }}
+          path: part/part.json
+          if-no-files-found: error
+          retention-days: 14
+
+  merge:
+    needs: [discover, scan]
+    if: ${{ always() && needs.discover.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out merger and inventory metadata
+        uses: actions/checkout@v4
+        with:
+          path: task
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Download every repository result
+        uses: actions/download-artifact@v4
+        with:
+          pattern: identifier-member-part-*
+          path: parts
+      - name: Deduplicate and group all results
+        run: |
+          node task/workspaces/codespace-mcp-srs-design/expression-inventory/scan-identifiers-members.js merge \
+            parts \
+            task/workspaces/repository-file-inventory-20261109/progress.json \
+            combined-identifiers-members.json
+      - name: Upload combined file
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-identifiers-members
+          path: combined-identifiers-members.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,11 @@
+{
+  "inputThis": "$:set -eu\nworkflow=codespace-mcp-expression-inventory.yml\necho '=== BEFORE ==='\ngh run list --repo BestNameYet/Terminals --workflow \"$workflow\" --limit 5 --json databaseId,createdAt,status,conclusion,displayTitle\necho '=== DISPATCH ==='\ngh workflow run \"$workflow\" --repo BestNameYet/Terminals --ref main \\\n  -f source_repository=BestNameYet/CommandLine \\\n  -f source_ref=cb95df66740899dd0be725d0084495bc07e8f281 \\\n  -f file_list_path=workspaces/repository-file-inventory-20261109/repos/CommandLine/files.json\necho '=== AFTER ==='\ngh run list --repo BestNameYet/Terminals --workflow \"$workflow\" --limit 5 --json databaseId,createdAt,status,conclusion,displayTitle\n",
+  "outputThat": [
+    "=== BEFORE ===",
+    "[]",
+    "=== DISPATCH ===",
+    "https://github.com/BestNameYet/Terminals/actions/runs/42573703776",
+    "=== AFTER ===",
+    "[{\"conclusion\":\"\",\"createdAt\":\"2026-11-09T06:32:55Z\",\"databaseId\":42573703776,\"displayTitle\":\"Codespace MCP JavaScript Expression Inventory\",\"status\":\"queued\"}]"
+  ]
+}

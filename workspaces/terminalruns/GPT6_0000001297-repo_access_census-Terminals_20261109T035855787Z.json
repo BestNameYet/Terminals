@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:python3 - <<'PY'\nimport json,subprocess\npaths=[\n\"installation/repositories?per_page=100&page=1\",\n\"search/repositories?q=user:BestNameYet&per_page=100&page=1\",\n\"users/BestNameYet/repos?type=all&per_page=100&page=2\",\n]\nfor u in paths:\n p=subprocess.run([\"gh\",\"api\",u],text=True,capture_output=True,timeout=60)\n print(\"endpoint\",u,\"exit\",p.returncode)\n if p.returncode:\n  print(\"error\",p.stderr[:450]);continue\n d=json.loads(p.stdout);a=d if isinstance(d,list) else d.get(\"repositories\",d.get(\"items\",[]))\n print(\"counts\",len(a),d.get(\"total_count\") if isinstance(d,dict) else None)\n print(\"repos\",[(v.get(\"full_name\"),v.get(\"private\"),v.get(\"pushed_at\")) for v in a if v.get(\"owner\",{}).get(\"login\",\"\").lower()==\"bestnameyet\"])\nPY",
+  "outputThat": [
+    "endpoint installation/repositories?per_page=100&page=1 exit 0",
+    "counts 1 1",
+    "repos [('BestNameYet/Terminals', True, '2026-11-09T03:58:03Z')]",
+    "endpoint search/repositories?q=user:BestNameYet&per_page=100&page=1 exit 0",
+    "counts 18 18",
+    "repos [('BestNameYet/somepeoplehaveactualproblemstodealwith', False, '2025-07-29T22:05:43Z'), ('BestNameYet/Surfaces', False, '2026-11-05T15:15:04Z'), ('BestNameYet/IssueScratch', False, '2026-11-03T14:47:08Z'), ('BestNameYet/wrights-carnival-calculator', False, '2025-07-28T20:55:41Z'), ('BestNameYet/Terminals', True, '2026-11-09T03:58:03Z'), ('BestNameYet/Canonical-Skills-Location', False, '2026-08-23T16:54:19Z'), ('BestNameYet/carnivalcalculator', False, '2025-07-29T13:29:38Z'), ('BestNameYet/IssueStack-', False, '2026-11-05T12:23:53Z'), ('BestNameYet/BatteryStatus', False, '2025-07-13T11:32:17Z'), ('BestNameYet/CommandLine', False, '2026-10-31T04:48:42Z'), ('BestNameYet/bestnameyet.github.io', False, '2020-05-26T07:56:11Z'), ('BestNameYet/JuliaSnippets', False, '2021-06-04T06:04:22Z'), ('BestNameYet/MCP-Collaborative', False, '2026-10-22T18:19:17Z'), ('BestNameYet/MVCMiniMaxTTT', False, '2019-10-29T00:51:42Z'), ('BestNameYet/Problems', False, '2019-06-15T13:03:19Z'), ('BestNameYet/Execution-Contract-Controller', False, '2026-08-31T05:10:26Z'), ('BestNameYet/Ocaml', False, '2020-05-07T06:10:39Z'), ('BestNameYet/StateMachines', False, '2026-11-05T08:18:24Z')]",
+    "endpoint users/BestNameYet/repos?type=all&per_page=100&page=2 exit 0",
+    "counts 0 None",
+    "repos []"
+  ]
+}

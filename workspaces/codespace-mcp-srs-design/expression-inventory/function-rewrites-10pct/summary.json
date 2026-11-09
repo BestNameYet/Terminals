@@ -1,0 +1,22 @@
+{
+  "schema": "map-mutate-event-rewrite-experiment.v1",
+  "population": 5881,
+  "sampled": 589,
+  "actual_fraction": 0.10015303519809556,
+  "selection": "SHA256 rank of repo/path/source span; smallest ceil(N/10)",
+  "candidate_unverified": 379,
+  "not_expressible": 210,
+  "counts": {
+    "Canonical-Skills-Location": 0,
+    "CommandLine": 294,
+    "Execution-Contract-Controller": 0,
+    "IssueScratch": 0,
+    "IssueStack-": 800,
+    "MCP-Collaborative": 0,
+    "StateMachines": 4146,
+    "Surfaces": 0,
+    "Terminals": 641
+  },
+  "errors": 2,
+  "warning": "Candidate rewriting is syntax-level only; not validated for semantic equivalence. Expressions containing calls may have side effects."
+}

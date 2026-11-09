@@ -1,0 +1,14 @@
+[
+  {
+    "repository": "StateMachines",
+    "file": "ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js",
+    "error": "parse",
+    "detail": "Expecting Unicode escape sequence \\uXXXX. (887:11)"
+  },
+  {
+    "repository": "StateMachines",
+    "file": "source-code-copy/ChatMachines/GeminiEvaluation/evaluations/supervisor_readme_projection_revision_materialized_20261003_1/outputs/unchanged-send-to-gemini.js",
+    "error": "parse",
+    "detail": "Expecting Unicode escape sequence \\uXXXX. (887:11)"
+  }
+]

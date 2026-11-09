@@ -1,0 +1,116 @@
+{
+  "snapshot_utc": "2026-11-09T04:02:55.438812+00:00",
+  "window_start_utc": "2026-05-09T04:02:55.438812+00:00",
+  "window_end_utc": "2026-11-09T04:02:55.438812+00:00",
+  "account_repository_access": "public+installed_private_only",
+  "repositories": [
+    {
+      "owner": "BestNameYet",
+      "repository": "Canonical-Skills-Location",
+      "full_name": "BestNameYet/Canonical-Skills-Location",
+      "repository_url": "https://github.com/BestNameYet/Canonical-Skills-Location",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-08-23T16:54:19Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "CommandLine",
+      "full_name": "BestNameYet/CommandLine",
+      "repository_url": "https://github.com/BestNameYet/CommandLine",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-10-31T04:48:42Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "Execution-Contract-Controller",
+      "full_name": "BestNameYet/Execution-Contract-Controller",
+      "repository_url": "https://github.com/BestNameYet/Execution-Contract-Controller",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-08-31T05:10:26Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "IssueScratch",
+      "full_name": "BestNameYet/IssueScratch",
+      "repository_url": "https://github.com/BestNameYet/IssueScratch",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-11-03T14:47:08Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "IssueStack-",
+      "full_name": "BestNameYet/IssueStack-",
+      "repository_url": "https://github.com/BestNameYet/IssueStack-",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-11-05T12:23:53Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "MCP-Collaborative",
+      "full_name": "BestNameYet/MCP-Collaborative",
+      "repository_url": "https://github.com/BestNameYet/MCP-Collaborative",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-10-22T18:19:17Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "StateMachines",
+      "full_name": "BestNameYet/StateMachines",
+      "repository_url": "https://github.com/BestNameYet/StateMachines",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-11-05T08:18:24Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "Surfaces",
+      "full_name": "BestNameYet/Surfaces",
+      "repository_url": "https://github.com/BestNameYet/Surfaces",
+      "visibility": "public",
+      "default_branch": "main",
+      "pushed_at": "2026-11-05T15:15:04Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    },
+    {
+      "owner": "BestNameYet",
+      "repository": "Terminals",
+      "full_name": "BestNameYet/Terminals",
+      "repository_url": "https://github.com/BestNameYet/Terminals",
+      "visibility": "private",
+      "default_branch": "main",
+      "pushed_at": "2026-11-09T04:00:47Z",
+      "archived": false,
+      "activity_evidence": "GitHub repository pushed_at",
+      "in_scope_decision": "included_visible"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "repository-inventory-progress.v1",
+  "source_task": "Tasks/User Prompt Task Queue/user-prompt-task-1794196167.json",
+  "stage_1": "verified_accessible_population_only",
+  "stage_2": "not_started",
+  "stage_3": "not_started_expression_search_prohibited_until_user_resumes",
+  "start_utc": "2026-11-09T04:02:55.438812+00:00",
+  "cutoff_utc": "2026-05-09T04:02:55.438812+00:00",
+  "visible_repository_count": 18,
+  "public_repository_count": 17,
+  "installed_private_repository_count": 1,
+  "active_visible_repositories": 9,
+  "census_limitation": "Authenticated account-wide user/repos request returned HTTP 403; uninstalled private repositories are not discoverable with current integration. The nine active repositories are complete only within the union of visible public and installed repositories.",
+  "order": [
+    "Canonical-Skills-Location",
+    "CommandLine",
+    "Execution-Contract-Controller",
+    "IssueScratch",
+    "IssueStack-",
+    "MCP-Collaborative",
+    "StateMachines",
+    "Surfaces",
+    "Terminals"
+  ],
+  "per_repository": {
+    "Canonical-Skills-Location": {
+      "status": "pending",
+      "table_path": null
+    },
+    "CommandLine": {
+      "status": "pending",
+      "table_path": null
+    },
+    "Execution-Contract-Controller": {
+      "status": "pending",
+      "table_path": null
+    },
+    "IssueScratch": {
+      "status": "pending",
+      "table_path": null
+    },
+    "IssueStack-": {
+      "status": "pending",
+      "table_path": null
+    },
+    "MCP-Collaborative": {
+      "status": "pending",
+      "table_path": null
+    },
+    "StateMachines": {
+      "status": "pending",
+      "table_path": null
+    },
+    "Surfaces": {
+      "status": "pending",
+      "table_path": null
+    },
+    "Terminals": {
+      "status": "pending",
+      "table_path": null
+    }
+  },
+  "expression_tables_created": 0
+}

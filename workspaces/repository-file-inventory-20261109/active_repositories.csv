@@ -1,0 +1,10 @@
+owner,repository,full_name,repository_url,visibility,default_branch,pushed_at,archived,activity_evidence,in_scope_decision
+BestNameYet,Canonical-Skills-Location,BestNameYet/Canonical-Skills-Location,https://github.com/BestNameYet/Canonical-Skills-Location,public,main,2026-08-23T16:54:19Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,CommandLine,BestNameYet/CommandLine,https://github.com/BestNameYet/CommandLine,public,main,2026-10-31T04:48:42Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,Execution-Contract-Controller,BestNameYet/Execution-Contract-Controller,https://github.com/BestNameYet/Execution-Contract-Controller,public,main,2026-08-31T05:10:26Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,IssueScratch,BestNameYet/IssueScratch,https://github.com/BestNameYet/IssueScratch,public,main,2026-11-03T14:47:08Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,IssueStack-,BestNameYet/IssueStack-,https://github.com/BestNameYet/IssueStack-,public,main,2026-11-05T12:23:53Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,MCP-Collaborative,BestNameYet/MCP-Collaborative,https://github.com/BestNameYet/MCP-Collaborative,public,main,2026-10-22T18:19:17Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,StateMachines,BestNameYet/StateMachines,https://github.com/BestNameYet/StateMachines,public,main,2026-11-05T08:18:24Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,Surfaces,BestNameYet/Surfaces,https://github.com/BestNameYet/Surfaces,public,main,2026-11-05T15:15:04Z,False,GitHub repository pushed_at,included_visible
+BestNameYet,Terminals,BestNameYet/Terminals,https://github.com/BestNameYet/Terminals,private,main,2026-11-09T04:00:47Z,False,GitHub repository pushed_at,included_visible

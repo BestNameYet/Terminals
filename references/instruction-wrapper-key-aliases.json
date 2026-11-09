@@ -8,14 +8,14 @@
     "first_character": "The first character of every alias must equal the exact first character of its original key, preserving capitalization.",
     "allocation": "Preserve previously assigned aliases for every key retained in the current draft. For a newly introduced key, assign its exact first character if available; otherwise use the shortest free two-character alias beginning with that character and a suffix from a-z, A-Z, or 0-9. Reuse the same alias for every occurrence of one original key.",
     "data_preservation": "Replace JSON object-member keys only. Preserve all array positions, strings, numbers, booleans, nulls, object relationships, and rule bodies without modification.",
-    "additional_lookup_member": "The outer index-zero explainer contains the literal, unaliased member name alias_lookup_path so a reader can locate the mapping before interpreting encoded key names. The lookup reference itself does not contain a self-referential location member. The bootstrap member is exempt from alias encoding.",
-    "decoding": "Read the literal alias_lookup_path from the outer index-zero explainer and load this mapping. Replace all other encoded object keys recursively using alias_to_key, leaving the unaliased bootstrap member unchanged. Delete that bootstrap member to recover the original unmodified wrapper."
+    "additional_lookup_member": "In the aliased copy, the outer index-zero explainer exposes the literal alias_lookup_path and reference_base_url members without aliasing. These bootstrap values let an agent locate the GitHub repository and fetch the alias dictionary before interpreting any encoded key names. All other names use their allocated aliases.",
+    "decoding": "Read reference_base_url and alias_lookup_path from the outer index-zero explainer, fetch the lookup file by resolving alias_lookup_path against reference_base_url, and decode all other object-member aliases recursively using alias_to_key. Preserve the literal reference_base_url and remove the alias_lookup_path bootstrap-only member to reconstruct the unaliased draft."
   },
-  "source_template_sha256": "554abc4e92b49ea82c1651b02d5aca97103f4e9795923e3fec4d5a0dcb9ed20c",
-  "original_key_count": 9,
-  "total_key_count_including_lookup": 9,
+  "source_template_sha256": "53fccae68fdde280e47bb04410ded72b8c171e8c913708e819a273ee263c59b5",
+  "original_key_count": 11,
+  "total_key_count_including_lookup": 11,
   "aliases_with_one_character": 5,
-  "aliases_with_two_characters": 4,
+  "aliases_with_two_characters": 5,
   "alias_to_key": {
     "t": "title",
     "a": "applicability",
@@ -25,6 +25,7 @@
     "sg": "standalone_rule_path",
     "ce": "conversation_template_path",
     "de": "destination",
-    "ga": "github_repository_documentation_preflight"
+    "ga": "github_repository_documentation_preflight",
+    "ra": "reference_resolution"
   }
 }

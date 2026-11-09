@@ -125,6 +125,12 @@
         "user_instruction_summary": "Before carrying out operations in a GitHub repository, fetch and read its README and AGENTS documents, using Markdown or JSON variants. Express the instruction equivalently rather than verbatim.",
         "implementation": "The outer index-zero explainer has a github_repository_documentation_preflight instruction. Update the aliased copy and the alias reference without modifying the complete standalone scope and analytics rules.",
         "status": "pending_user_review"
+      },
+      {
+        "purpose": "Make relative instruction reference paths independently resolvable to an identified GitHub repository and branch.",
+        "user_instruction_summary": "The relative paths are ambiguous without a base storage location; specify the source repository, branch, and a direct retrieval mechanism in the wrapper.",
+        "implementation": "Add reference_base_url and reference_resolution to outer index zero. Keep reference_base_url and alias_lookup_path literal in the aliased copy so the alias map can be retrieved before decoding. Preserve all existing rule entries and relative paths.",
+        "status": "pending_user_review"
       }
     ],
     "previous_requirements_before_current_revision": [

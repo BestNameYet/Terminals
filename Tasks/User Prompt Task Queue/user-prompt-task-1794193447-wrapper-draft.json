@@ -5,7 +5,9 @@
     "rules_template_path": "references/rules-template.json",
     "machine_dialect_rules_path": "references/machine-dialect-rules.json",
     "governing_references": "The referenced structural and machine-dialect rule sets define how entries in this array are organized, written, and interpreted. They are stored independently; their definitions are not reproduced in this explainer.",
-    "github_repository_documentation_preflight": "Before beginning operations in any GitHub repository, retrieve and review its repository README and agent guidance documents, using either the Markdown or JSON form of each (Readme.md or Readme.json, and AGENTS.md or AGENTS.json). Complete this document review before proceeding with repository work."
+    "github_repository_documentation_preflight": "Before beginning operations in any GitHub repository, retrieve and review its repository README and agent guidance documents, using either the Markdown or JSON form of each (Readme.md or Readme.json, and AGENTS.md or AGENTS.json). Complete this document review before proceeding with repository work.",
+    "reference_base_url": "https://raw.githubusercontent.com/BestNameYet/Terminals/main/",
+    "reference_resolution": "Every relative file path in this instruction collection is rooted at the top level of GitHub repository BestNameYet/Terminals on branch main. To retrieve a referenced file, use the GitHub integration with repository BestNameYet/Terminals, branch main, and the stated path, or append that path to reference_base_url to obtain its raw-file URL. Destination paths identify files to write in that same repository; substitute defined filename variables before writing. Do not search other storage providers for these paths."
   },
   {
     "title": "User-Defined Operational Scope",

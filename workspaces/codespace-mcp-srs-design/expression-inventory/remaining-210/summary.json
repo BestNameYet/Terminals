@@ -1,0 +1,21 @@
+{
+  "schema": "canonical-rewrite-remaining210-summary.v1",
+  "author": "current_session_agent",
+  "input": "function-rewrites-10pct/rewrites.json",
+  "source_dataset_sha256": "275c978b4addc4cc81c3a1548ca949303b5811c8ce75accbb838718fef1a9ccd",
+  "selected": 210,
+  "iterated": 210,
+  "not_visited": 0,
+  "complete_verified_rewrites": 0,
+  "partial_function_rewrites": 208,
+  "parse_blocked": 2,
+  "map_actions": 688,
+  "mutate_actions": 1202,
+  "unresolved_operations_or_values": 2423,
+  "deferred_question_groups": 13,
+  "deferred_per_function_questions": 4463,
+  "previous_379_rewrites": "untouched_not_attributed_to_this_agent",
+  "scope": "Every prior not_expressible record, original order and pinned source identity preserved",
+  "status": "iteration_complete_semantic_questions_reserved",
+  "verification": "Source syntax and structural coverage only; no source functions executed; no semantic equivalence asserted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "canonical-rewrite-remaining210.srs.v1",
+  "source": "SRS.md",
+  "scope": {
+    "population": 210,
+    "input": "../function-rewrites-10pct/rewrites.json",
+    "selection": "translation.status === not_expressible",
+    "previous379": "untouched"
+  },
+  "canonical_actions": {
+    "MAP": [
+      "target",
+      "mapping_function"
+    ],
+    "MUTATE": [
+      "target",
+      "new_state"
+    ]
+  },
+  "requirements": [
+    "preserve_identity_source_order_and_parameters",
+    "represent_each_function",
+    "retain_control_flow_and_completions",
+    "separate_unresolved_effects_from_MAP",
+    "record_all_questions_without_pausing_iteration",
+    "never_claim_structural_validation_proves_equivalence"
+  ],
+  "outputs": [
+    "rewrites.json",
+    "questions.json",
+    "summary.json",
+    "verification.json",
+    "index.json",
+    "manifest.json"
+  ],
+  "semantic_status": "partial_rewrites_pending_reserved_contract_questions"
+}

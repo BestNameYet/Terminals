@@ -1,0 +1,50 @@
+{
+  "schema": "canonical-rewrite-artifacts.v1",
+  "files": [
+    {
+      "name": "SRS.agent.json",
+      "bytes": 945,
+      "sha256": "1c14745e2e02d298546bd9ca30b0037d41fdfdebe361880399ffc98d8edd26cc"
+    },
+    {
+      "name": "SRS.md",
+      "bytes": 1916,
+      "sha256": "f3110a08d126578186f5fe6b08736e76c2f3950b86a161490894b34f47dfe7da"
+    },
+    {
+      "name": "index.json",
+      "bytes": 63454,
+      "sha256": "69e2f22d4478c64a11c25a5eb34863c3fac0ce1263b88fcd756c11f9a49fbd5b"
+    },
+    {
+      "name": "questions.json",
+      "bytes": 191927,
+      "sha256": "bed0f3d5ebaeb125671bcb85ea8aeea2003cb8bde0456296ccddaed429810477"
+    },
+    {
+      "name": "rewrite-remaining.cjs",
+      "bytes": 15177,
+      "sha256": "829ae5d7190472f8b849e0afb5523fcdf248b57d7a1c0222c6d6240c31aef189"
+    },
+    {
+      "name": "rewrite-remaining.test.cjs",
+      "bytes": 3471,
+      "sha256": "cca6904ab0795b2f1c19600fcc8f4c0a5c9767f798b151f1b1ea4f31ac46eb9b"
+    },
+    {
+      "name": "rewrites.json",
+      "bytes": 5667850,
+      "sha256": "aea9aa594decd1e40b1dbbfa7c2726685dbd05cc3b85343083ac1940296c4ad4"
+    },
+    {
+      "name": "summary.json",
+      "bytes": 924,
+      "sha256": "4f1d526ea363f2230408bbb3c4685e13a06b3b3fc6a0d11a8b1d0867089f9eb6"
+    },
+    {
+      "name": "verification.json",
+      "bytes": 332,
+      "sha256": "1a11cfb889236898544361c2b967bed0900243834594de5e31616b5db3fa10ba"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "all_210_ids_in_order": true,
+    "sources_preserved": true,
+    "all_function_results_recorded": true,
+    "parameter_counts_preserved": true,
+    "no_return_or_throw_events": true,
+    "canonical_action_shapes": true,
+    "mapper_syntax": true
+  },
+  "passed": true,
+  "semantic_equivalence_verified": false
+}

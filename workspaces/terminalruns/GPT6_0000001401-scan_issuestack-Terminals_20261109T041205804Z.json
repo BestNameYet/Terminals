@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:python3 workspaces/repository-file-inventory-20261109/scan-one.py IssueStack-",
+  "outputThat": [
+    "SCAN BestNameYet/IssueStack- refs 34 file_rows 1504"
+  ]
+}

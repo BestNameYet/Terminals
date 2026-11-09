@@ -1,0 +1,25 @@
+{
+  "name": "Terminals MCP Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "forwardPorts": [
+    3000
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "MCP development server",
+      "onAutoForward": "notify",
+      "visibility": "private"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "remoteUser": "node"
+}

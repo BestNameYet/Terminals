@@ -197,7 +197,7 @@ assert len(list(OUT.iterdir()))==5
 print("SOURCE",SOURCE,"SOBEL",SOBEL,flush=True)
 print("FIT_CIRCLE",f"center=({cx:.3f},{cy:.3f})",f"radius={R:.3f}",f"residual_rms={rms:.3f}",f"control_points={len(control)}",flush=True)
 print("NOMINAL_SCALE",f"px_per_in={px_per_in:.4f}",flush=True)
-print("EQUAL_ARC",f"interval_px={interval_px:.4f}",f"interval_inches={interval_inches:.5f}",f"total_px={interval_px*8:.4f}",flush=True)
+print("EQUAL_ARC",f"interval_px={interval_px:.4f}",f"interval_inches={interval_inches:.5f}",f"total_px={interval_px*(N-1):.4f}",flush=True)
 for q in out:
     print("RIM_POINT",q["index"],
           f"x={q['outer_edge_x_px']:.3f}",
@@ -208,5 +208,5 @@ for q in out:
           f"circle_residual_px={q['circle_edge_residual_px']:.3f}",flush=True)
 for path in sorted(OUT.iterdir()):
     print("OUTPUT",path,"bytes",path.stat().st_size,"sha256",hashlib.sha256(path.read_bytes()).hexdigest(),flush=True)
-print("VALIDATED","source unchanged, 9 radial measurements, 8 equal arc intervals, source and Sobel overlays, saved tables",flush=True)
+print("VALIDATED","source unchanged, 5 radial measurements, 4 equal arc intervals, source and Sobel overlays, saved tables",flush=True)
 

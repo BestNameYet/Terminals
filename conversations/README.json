@@ -1,0 +1,28 @@
+{
+  "document_type": "directory-readme",
+  "version": "1.0.0",
+  "directory": "conversations/",
+  "purpose": "Temporarily house conversation records for specification design and analysis.",
+  "status": "temporary",
+  "record_type": "user_prompt_and_agent_response_contextual_analysis",
+  "current_template": {
+    "path": "conversations/conversation-record.template.json",
+    "version": "1.0.0",
+    "template_id": "terminals.conversation-record"
+  },
+  "source_example": {
+    "path_in_chatgpt_library": "/Plugin Design 1/Tasks/User Prompt Task Queue/user-prompt-task-1794191751.json",
+    "library_file_id": "libfile_f45fc8bd3bf081918fea24ec6ed5d0c0"
+  },
+  "constraints": {
+    "preceding_user_turns": {
+      "minimum": 3,
+      "maximum": 7,
+      "order": "chronological"
+    },
+    "verbatim_utterance": "exact user wording",
+    "evidence": "distinguish verified actions from claims; identify ambiguities likely to mislead",
+    "long_term_status": "not an authoritative permanent archive"
+  },
+  "lifecycle": "Records may be reviewed and migrated to an eventual permanent location; preserve provenance and original content during transfer."
+}

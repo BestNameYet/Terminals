@@ -1,0 +1,148 @@
+{
+  "task_type": "six_month_active_repository_source_expression_inventory",
+  "schema_version": "1.0.0",
+  "status": "pending",
+  "created_at_utc": "2026-11-09T03:49:27Z",
+  "verbatim_user_utterance": "Create a task to:\nFind the active repos over the last 6 months and list them in a table. Next search for each repo for yaml, JavaScript, html, and python. and Record each file path, file size, and last commit date to a table by repo. Perform this action iteratively, that is for one repo find alll files that match the criteria and make the table.for that repo, do.not continue to the next repo until after the working repo table is complete Next, for each file on the list, list every naked expression and each expression found in a function definition. For each file, save the list to a table.",
+  "task": {
+    "objective": "Enumerate every repository in the BestNameYet GitHub account active during the six months preceding execution; build a complete YAML, JavaScript, HTML, and Python source-file inventory and per-repository table, completing and verifying one repository before advancing to another; subsequently extract and table every naked expression and every expression occurring in a function definition, separately for every inventoried file.",
+    "execution_requested_now": false,
+    "account_owner": "BestNameYet",
+    "temporal_scope": {
+      "evaluation": "rolling_six_calendar_months_preceding_execution",
+      "clock": "execution_utc",
+      "window_start_and_end": "Record exact execution UTC timestamp and the corresponding six-calendar-month-earlier lower bound, inclusive, in the repository table and report.",
+      "active_repository_criterion": "Include every repository under the account with recorded repository push activity in the time window, checking all paginated account repositories and accessible visibility classes; record pushed_at and any material discrepancies in activity evidence. Do not limit the census to a preselected subset.",
+      "access": "Include all repositories reachable with the authorized account integration, including private repositories when authorized; enumerate inaccessible/permission-blocked repos separately without claiming complete coverage.",
+      "repository_metadata": [
+        "owner",
+        "repository",
+        "full_name",
+        "repository_url",
+        "visibility",
+        "default_branch",
+        "pushed_at",
+        "archived",
+        "activity_evidence",
+        "in_scope_decision"
+      ]
+    },
+    "ordered_workflow": [
+      {
+        "id": "INV-01",
+        "name": "Census active repositories",
+        "instructions": [
+          "Enumerate the complete accessible BestNameYet repository population using pagination and a repeatable snapshot.",
+          "Apply and document the six-month activity window, filtering criterion, and inclusion/exclusion decisions.",
+          "Produce and verify the complete active-repository table before beginning the repository-by-repository file inventory."
+        ],
+        "output": "active_repositories_table"
+      },
+      {
+        "id": "INV-02",
+        "name": "Fully inventory one active repository at a time",
+        "depends_on": [
+          "INV-01"
+        ],
+        "iteration_key": "repository",
+        "instructions": [
+          "For exactly one current repository, enumerate all source-file paths matching YAML, JavaScript, HTML, or Python. Do not use an arbitrary maximum-count cap or stop after representative matches.",
+          "Search all accessible current repository branches/refs needed to avoid silently dropping source files; record each ref, deduplicate only with traceable branch coverage, and do not pretend a default-branch-only scan is exhaustive.",
+          "Match extensions case-insensitively, including YAML .yml/.yaml; JavaScript .js/.mjs/.cjs/.jsx and pertinent JavaScript modules; HTML .html/.htm; Python .py/.pyw and pertinent Python source formats. Document additional recognized extensions and any formats that cannot be classified without inspecting their contents.",
+          "For every matching file on its applicable ref, determine repository, branch/ref, full relative path, language, exact byte size, last commit date/time touching that file, and last commit SHA. Last commit date must be file-specific, not merely the repository's latest push date.",
+          "Complete the working repository's file table, validate the inventory against the enumerated source tree, and persist the table with a completion/verification record before beginning the next repository.",
+          "If a repository cannot be inventoried fully, record the exact unresolved coverage and mark that repository blocked/incomplete. Do not falsely mark complete or silently advance as if it were complete."
+        ],
+        "gate": "The current repository file inventory and table must be complete, persisted, and verified before the next repository's file search starts.",
+        "output": "one_complete_file_inventory_table_per_repository",
+        "file_table_columns": [
+          "repository",
+          "branch_or_ref",
+          "relative_file_path",
+          "language",
+          "size_bytes",
+          "last_file_commit_at_utc",
+          "last_file_commit_sha",
+          "file_revision_sha",
+          "source_url",
+          "inventory_verification_status"
+        ]
+      },
+      {
+        "id": "INV-03",
+        "name": "Inventory expressions for every listed file",
+        "depends_on": [
+          "INV-02"
+        ],
+        "iteration_key": "file_inventory_row",
+        "instructions": [
+          "After repository file inventory phase, process every inventoried file without sampling or silently omitting any file or expression.",
+          "Use language-appropriate lexers/parsers and verify parse success; for mixed HTML and templates, analyze executable/script/expression-bearing regions and separately disclose whether templates or embedded languages are supported.",
+          "Collect each expression occurring outside any function definition, each standalone/unbound expression statement, and each individual expression AST node within any function definition (including nested functions, arrow functions, anonymous functions, lambdas and methods where applicable). Preserve distinctions so the user-defined term 'naked expression' is not silently narrowed.",
+          "Before final classification, make the meaning of 'naked expression' explicit: distinguish a standalone/unbound expression from an expression outside a function. If the intended definition remains unresolved, retain both categories and flag the ambiguity rather than silently choosing one.",
+          "For every extracted expression, retain source text or a lossless slice reference, start/end line and column, syntax-node kind, classification(s), enclosing function identity or null, enclosing function definition span where applicable, and exact file revision.",
+          "For YAML/HTML that contain no executable language expressions under the documented parsing rules, persist a per-file zero-expression result instead of omitting the file. Do not misclassify ordinary YAML scalars or HTML markup as executable expressions.",
+          "Treat parse failures, unsupported syntax, dynamic generated files and truncated files as explicit incomplete records; do not label their expression tables complete."
+        ],
+        "gate": "A separate expression table (including an explicit zero-row result where applicable) and verifiable source coverage status exist for each row in the file inventory.",
+        "output": "one_expression_table_per_file",
+        "expression_table_columns": [
+          "repository",
+          "branch_or_ref",
+          "file_path",
+          "file_revision_sha",
+          "expression_id",
+          "expression_text_or_source_slice",
+          "start_line",
+          "start_column",
+          "end_line",
+          "end_column",
+          "syntax_node_type",
+          "naked_standalone_candidate",
+          "outside_function",
+          "inside_function_definition",
+          "enclosing_function_name_or_id",
+          "enclosing_function_definition_span",
+          "extraction_or_parse_status"
+        ]
+      },
+      {
+        "id": "INV-04",
+        "name": "Global verification and final report",
+        "depends_on": [
+          "INV-03"
+        ],
+        "instructions": [
+          "Verify complete repository count, repo inventory completion and matching-file totals, and a per-file expression-table artifact for every file row.",
+          "Reconcile source branch snapshots, paginated file inventory, file-level commit history, parser coverage, and all table row counts.",
+          "Provide tables and paths for all outputs, including zero-match repositories/files, explicit exceptions, source snapshot identifiers, verification receipts and unresolved ambiguity or blockers.",
+          "Do not substitute examples, selected repositories, partial file inventories, or representative expressions for comprehensive results."
+        ],
+        "output": "full_inventory_manifest_and_auditable_completion_report"
+      }
+    ],
+    "output_contract": {
+      "repository_table": "One comprehensive table of every active repository under the six-month criterion.",
+      "files_by_repo": "One complete, separately persisted file inventory table for each active repository, including a no-matching-files result where appropriate.",
+      "expressions_by_file": "One separately persisted expression inventory table for every inventoried source-file row, including a documented no-expressions result where appropriate.",
+      "recommended_formats": "Machine-readable JSON/CSV tables with a readable report and an index/manifest linking every repository and file artifact; preserve exact provenance.",
+      "publication_location": "Decide and document a suitable authorized workspace path at execution time; do not overwrite or relocate unrelated work."
+    },
+    "acceptance_criteria": [
+      "No eligible repository is excluded by an undisclosed selection or API pagination limit.",
+      "Every repository inventory is completed and verified before proceeding to the next repository.",
+      "Every matching YAML, JavaScript, HTML and Python source file in the stated repository/ref scope has a path, exact byte size and file-specific last commit timestamp.",
+      "Every file inventory row links to a separate comprehensive expression table or explicit no-expression artifact.",
+      "Every applicable naked/standalone expression and every expression AST occurrence within function definitions is recorded without sampling, with exact file and source spans.",
+      "All parsing failures, inaccessible refs, unsupported expressions, ambiguities and incomplete inventories are explicitly reported.",
+      "An end-to-end reconciliation confirms that repository counts, file table rows and per-file expression tables agree."
+    ]
+  },
+  "context": {
+    "source": "Plugin Design 1 request",
+    "destination_repository": "BestNameYet/Terminals",
+    "destination_directory": "Tasks/User Prompt Task Queue/",
+    "completion_destination": "Tasks/TasksCompleted/",
+    "relationship": "New independent pending task; task creation is not authorization to run the repository scan now."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:python3 - <<'PY'\nimport json,gzip\nc=json.load(gzip.open('workspaces/codespace-mcp-srs-design/expression-inventory/remaining-210/source-resolution/source-corpus.json.gz','rt'))\nprint(type(c).__name__)\nprint(list(c)[:4] if isinstance(c,dict) else len(c))\nr=c[0] if isinstance(c,list) else next(iter(c.values()))\nprint(str(r)[:1000])\nPY",
+  "outputThat": [
+    "list",
+    "321",
+    "{'repository': 'CommandLine', 'revision': 'cb95df66740899dd0be725d0084495bc07e8f281', 'file': 'runtime/delete-comment.mjs', 'blob_sha': '63ef0dfffc4c4c55f8f8d918fa18cb7678a20cea', 'source': \"await fetch(\\n  'https://api.github.com/repos/BestNameYet/CommandLine/issues/comments/6353910739',\\n  {\\n    method: 'DELETE',\\n    headers: {\\n      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`\\n    }\\n  }\\n);\\n\"}"
+  ]
+}

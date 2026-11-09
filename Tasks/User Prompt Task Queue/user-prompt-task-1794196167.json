@@ -103,7 +103,58 @@
           "enclosing_function_name_or_id",
           "enclosing_function_definition_span",
           "extraction_or_parse_status"
-        ]
+        ],
+        "javascript_babel_installation_workflow_proposal": {
+          "status": "proposed_only_not_implemented",
+          "purpose": "Set up the npm environment and install Babel parser-related packages, without parsing source files or running the expression search.",
+          "scope": "Preparation for JavaScript expression extraction, to be performed only if a future instruction authorizes implementing the workflow.",
+          "location_for_package_manifest": "workspaces/repository-file-inventory-20261109/",
+          "required_npm_packages": {
+            "direct_dev_dependencies": [
+              "@babel/parser",
+              "@babel/traverse",
+              "@babel/types"
+            ],
+            "transitive_dependencies": "Resolved and installed automatically by npm from a committed package-lock.json."
+          },
+          "prerequisite": {
+            "package_json": "Must exist with declared Babel development dependencies before installation-only GitHub Actions job runs.",
+            "package_lock_json": "Must exist and be committed, in sync with package.json, for reproducible npm ci.",
+            "current_state": "Neither file existed in the designated workspace at proposal time; this proposal does not create them.",
+            "one_time_preparation": "When separately authorized, initialize the package manifest and lockfile and record the Babel packages using npm; do not perform that preparation now."
+          },
+          "hypothetical_workflow": {
+            "trigger": "workflow_dispatch (manual)",
+            "runner": "ubuntu-latest",
+            "permissions": "contents: read",
+            "steps": [
+              "Check out repository (actions/checkout).",
+              "Set up Node.js 24 (actions/setup-node@v7).",
+              "Run npm ci in workspaces/repository-file-inventory-20261109/, using the committed package.json and package-lock.json.",
+              "Verify npm installed the expected Babel packages, for example by resolving @babel/parser, @babel/traverse, and @babel/types, then exit."
+            ],
+            "npm_command": "npm ci",
+            "verification_only_command": "node -e \"['@babel/parser','@babel/traverse','@babel/types'].forEach(p => require.resolve(p))\"",
+            "output": "An Actions job success/failure indicating whether npm dependencies installed and resolved.",
+            "lifecycle_note": "GitHub-hosted runner and node_modules are ephemeral; installation is not retained between workflow runs. Any later parser job must install/restore dependencies separately or use an explicitly provisioned persistent environment.",
+            "not_in_scope": [
+              "No JavaScript parsing or AST traversal",
+              "No expression classification, extraction, statistics or tables",
+              "No changes to the active repository inventory",
+              "No npm publishing and no package registry upload",
+              "No parser execution",
+              "No automatic workflow triggers beyond manual invocation"
+            ]
+          },
+          "implementation_authorized": false,
+          "workflow_file_created": false,
+          "npm_packages_installed": false,
+          "expression_search_started": false,
+          "reference_documentation": [
+            "https://babeljs.io/docs/babel-traverse",
+            "https://github.com/actions/setup-node"
+          ]
+        }
       },
       {
         "id": "INV-04",
@@ -149,6 +200,10 @@
     {
       "user_utterance": "Don't include branches",
       "effect": "Use each active repository's default branch only, excluding other branches and tags; supersede previously generated branch-inclusive file tables; preserve one-repository-at-a-time completion gate."
+    },
+    {
+      "user_utterance": "Don't write a workflow. Let this be part of the task and write up what a workflow would look like that merely loaded babel and it's dependencies to npm",
+      "effect": "Record an installation-only Babel/npm GitHub Actions workflow proposal under INV-03, without creating a workflow file or installing dependencies."
     }
   ],
   "execution_progress": {

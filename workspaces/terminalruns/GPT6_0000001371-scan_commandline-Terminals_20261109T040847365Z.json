@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:python3 workspaces/repository-file-inventory-20261109/scan-one.py CommandLine",
+  "outputThat": [
+    "SCAN BestNameYet/CommandLine refs 1 file_rows 31",
+    "{\"result\": \"VERIFIED\", \"repository\": \"BestNameYet/CommandLine\", \"refs\": 1, \"branches\": 1, \"tags\": 0, \"file_rows\": 31, \"language_counts\": {\"javascript\": 16, \"yaml\": 15}, \"table\": \"workspaces/repository-file-inventory-20261109/repos/CommandLine/files.csv\", \"verification\": \"workspaces/repository-file-inventory-20261109/repos/CommandLine/verification.json\", \"commit\": \"d6b94ea8da207e75bb1a1f5c66ccba45c4ed4b83\", \"expression_search_executed\": false}"
+  ]
+}

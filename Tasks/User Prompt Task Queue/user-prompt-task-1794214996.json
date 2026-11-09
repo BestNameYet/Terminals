@@ -1,0 +1,188 @@
+{
+  "task_type": "babel_function_feature_extraction_and_functional_classification",
+  "schema_version": "1.0.0",
+  "status": "pending",
+  "source_request": "Write up your extraction suggestion as a task in root tasks",
+  "task": {
+    "objective": "Extract source-backed structural, data-flow, call/dependency and effect features for every function definition in the pinned JavaScript inventory; use these features to group functionally similar implementations and classify behavior without equating Babel syntax or names with semantics.",
+    "execution_requested_now": false,
+    "repository": "BestNameYet/Terminals",
+    "source_inventory": {
+      "inventory_root": "workspaces/repository-file-inventory-20261109/",
+      "collector": "workspaces/codespace-mcp-srs-design/expression-inventory/collect-expressions.js",
+      "grouped_identifiers": "workspaces/codespace-mcp-srs-design/expression-inventory/identifiers-members.json",
+      "grouped_function_pairs": "workspaces/codespace-mcp-srs-design/expression-inventory/enclosing-function-name-type-pairs.json",
+      "parser_spec": "references/babel-parser-ast-spec.md",
+      "libraries": [
+        "@babel/parser",
+        "@babel/traverse",
+        "@babel/types"
+      ],
+      "extraction_runs": [
+        42573859935,
+        42573703776,
+        42573862688,
+        42573864857,
+        42573867528,
+        42573869494,
+        42573871895,
+        42573874240,
+        42573876389
+      ],
+      "baseline": {
+        "repositories": 9,
+        "files_in_inventory": 774,
+        "javascript_files": 321,
+        "successfully_parsed_js_files": 319,
+        "failed_js_files": 2,
+        "extracted_expressions": 265283,
+        "distinct_enclosing_function_name_type_pairs": 976,
+        "distinct_nonnull_function_names": 931
+      },
+      "scope": "All inventoried JS files at their recorded pinned source revisions; preserve parse failures and source-byte verification. No unannounced sampling or substitution with newer HEAD revisions."
+    },
+    "classification_unit": {
+      "primary": "Individual function definition identified by repository, revision, relative file path, and AST source span.",
+      "included_forms": [
+        "FunctionDeclaration",
+        "FunctionExpression",
+        "ArrowFunctionExpression",
+        "ObjectMethod",
+        "ClassMethod",
+        "ClassPrivateMethod",
+        "other Babel function-like nodes enabled by the parser"
+      ],
+      "names": "Retain explicit, inferred, and null names. Preserve separate definitions with the same name.",
+      "nesting": "Record parent/child function identity; separate operations directly in the function body from those inside nested functions and callbacks.",
+      "aggregation": "Group by (enclosing_function_name, enclosing_function_type) as secondary analysis, not as a unique function identifier; reconcile against all 976 existing pairs and null/outside-function cases."
+    },
+    "feature_categories": [
+      {
+        "category": "signature",
+        "extract": [
+          "Babel definition type, name and naming context",
+          "parameter count and parameter AST patterns (rest/default/destructuring)",
+          "async, generator, method kind and static/private flags",
+          "return and yield shape",
+          "source span and containing function identity"
+        ]
+      },
+      {
+        "category": "operations",
+        "extract": [
+          "exact AST expression node types and counts",
+          "arithmetic, logical, comparison, unary, assignment and update operators",
+          "call/new expression structures and argument counts",
+          "object/array/template construction",
+          "member-expression chains, computed/optional property access"
+        ]
+      },
+      {
+        "category": "data_flow",
+        "extract": [
+          "parameter/local/captured/global identifier reads",
+          "lexically resolved assignments and writes",
+          "mutated bindings and object properties",
+          "returned values and input-to-output dependencies where resolvable",
+          "unresolved data-flow and alias uncertainty"
+        ]
+      },
+      {
+        "category": "control_flow",
+        "extract": [
+          "conditions, switches, loops, conditional expressions",
+          "early returns, throws, try/catch/finally",
+          "await and yield sites",
+          "branch/loop nesting and directly evidenced flow metrics"
+        ]
+      },
+      {
+        "category": "dependencies",
+        "extract": [
+          "statically known direct call targets and imports",
+          "callee/member access paths and imported aliases",
+          "callback and nested-call relationships",
+          "dynamic, computed and indirect call identities left unresolved where necessary"
+        ]
+      },
+      {
+        "category": "effects",
+        "extract": [
+          "local/shared state mutation",
+          "file input/output and network calls",
+          "process execution and interprocess operations",
+          "console/output/event emission",
+          "other externally observable effects",
+          "evidence and explicit unknowns when behavior cannot be statically established"
+        ]
+      }
+    ],
+    "ordered_tasks": [
+      {
+        "id": "FEAT-01",
+        "action": "Verify governing repository instructions, source inventories, source hashes, pinned revisions, Babel parser configuration, and coverage baseline."
+      },
+      {
+        "id": "FEAT-02",
+        "action": "Reparse each inventoried JavaScript file and enumerate every function-like AST definition, including anonymous and nested definitions; assign stable identities and hierarchy."
+      },
+      {
+        "id": "FEAT-03",
+        "action": "Extract all six feature categories via Babel node fields, traversal and lexical scope/binding analysis; preserve source evidence and unknowns; distinguish direct vs nested-body observations."
+      },
+      {
+        "id": "FEAT-04",
+        "action": "Link function definitions to existing expression, identifier/member and name/type inventories; produce feature vectors and comprehensive per-definition and aggregate records; preserve zero-expression functions."
+      },
+      {
+        "id": "FEAT-05",
+        "action": "Identify similarities using calls/member paths, data flow, effects, operators and control flow; use names only as supporting evidence; classify multi-label behaviors such as computation, transformation, validation, mutation, I/O and orchestration. Keep raw features independent from inferred labels."
+      },
+      {
+        "id": "FEAT-06",
+        "action": "Test and reconcile complete file/function coverage, source identities, aggregation, nested scope boundaries, unresolved dynamics and classification evidence against a manually reviewed reference set; persist outputs and independently verify readback."
+      }
+    ],
+    "output_contract": {
+      "per_function": {
+        "function_id": "stable source identity",
+        "repository": "owner/repository",
+        "source_revision": "pinned SHA",
+        "file_path": "relative path",
+        "source_span": "start/end offsets and positions",
+        "enclosing_function_name": "string or null",
+        "enclosing_function_type": "Babel node type",
+        "parent_function_id": "ID or null",
+        "signature": "structured definition metadata",
+        "features": "six feature category objects",
+        "evidence": "AST types, locations, resolved references, uncertainty"
+      },
+      "datasets": [
+        "Per-function machine-readable feature inventory",
+        "Combined and per-name/type aggregate index linked to function identities",
+        "Call and dependency references and unresolved-analysis diagnostics",
+        "Separately versioned functional similarity groups and multi-label classifications",
+        "Coverage/error manifest, parser settings, source revisions and tests"
+      ]
+    },
+    "guardrails": [
+      "Do not equate AST declaration type or matching function names with functional equivalence.",
+      "Do not treat source occurrence counts as runtime execution frequency.",
+      "Do not assert absence of side effects for unresolved calls.",
+      "Do not aggregate nested callbacks into the parent function's direct operation counts.",
+      "No revision to the planned JSON runtime action vocabulary is required by this extraction task.",
+      "No source repo mutations, workflow deployments or runtime changes without explicit separate authorization."
+    ],
+    "acceptance": [
+      "Every parseable JS file and function-like definition at the pinned revisions is covered, including anonymous and nested functions and those with zero recorded expressions.",
+      "Every definition has a unique source-based identity and separately attributable features.",
+      "All six feature categories are extracted with evidence or explicit unresolved markers.",
+      "Definitions are reconciled against the 976 prior name/type pairs; null name/type/outside-function cases and all omissions or errors are explained.",
+      "Output and clustering are reproducible; classification labels are distinguished from static observations and evaluated against manual review.",
+      "Results are persisted with verifiable readback; the task remains pending until implementation and validation are actually completed."
+    ],
+    "output_location": "workspaces/codespace-mcp-srs-design/expression-inventory/",
+    "execution_boundary": "Record task only. Do not run feature extraction as part of task authoring."
+  },
+  "created_at_utc": "2026-11-09T09:03:16Z"
+}

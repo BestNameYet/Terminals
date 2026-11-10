@@ -5,7 +5,9 @@
       "version": "lts"
     }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [
+    3000
+  ],
   "portsAttributes": {
     "3000": {
       "label": "MCP SSE Server",
@@ -13,5 +15,6 @@
     }
   },
   "postCreateCommand": "npm install -g @modelcontextprotocol/server-everything",
-  "waitFor": "postCreateCommand"
+  "waitFor": "postCreateCommand",
+  "postStartCommand": "nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &"
 }

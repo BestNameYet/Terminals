@@ -1,0 +1,11 @@
+{
+  "inputThis": "$:set -euo pipefail\nif test -f README.md; then cat README.md >/dev/null; elif test -f README.json; then cat README.json >/dev/null; fi\ncat AGENTS.md >/dev/null\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh api 'repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json?ref=main' --jq .content | base64 --decode >/tmp/terminals-devcontainer-verified.json\nnode <<'NODE'\nconst fs=require('fs'), assert=require('assert');\nconst config=JSON.parse(fs.readFileSync('/tmp/terminals-devcontainer-verified.json','utf8'));\nconst expected=\"nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &\";\nassert.strictEqual(config.postStartCommand,expected);\nassert.deepStrictEqual(config.forwardPorts,[3000]);\nassert.strictEqual(config.postCreateCommand,'npm install -g @modelcontextprotocol/server-everything');\nrequire('child_process').execFileSync('bash',['-n','-c',config.postStartCommand]);\nconsole.log('REMOTE_MAIN_CONFIGURATION_VERIFIED',true);\nconsole.log('POST_START_COMMAND',config.postStartCommand);\nconsole.log('FORWARDED_PORT',config.forwardPorts[0]);\nconsole.log('VALID_BASH',true);\nconsole.log('RUNTIME_SERVER_STARTED_BY_THIS_CHECK',false);\nNODE\ngh api repos/BestNameYet/Terminals/commits/main --jq .sha",
+  "outputThat": [
+    "REMOTE_MAIN_CONFIGURATION_VERIFIED true",
+    "POST_START_COMMAND nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &",
+    "FORWARDED_PORT 3000",
+    "VALID_BASH true",
+    "RUNTIME_SERVER_STARTED_BY_THIS_CHECK false",
+    "24eb7f3be20f417196f3c03dd1955dddbf46eb07"
+  ]
+}

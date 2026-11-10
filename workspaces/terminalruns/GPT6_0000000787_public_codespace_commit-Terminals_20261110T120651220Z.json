@@ -1,0 +1,26 @@
+{
+  "inputThis": "$:set -euo pipefail\n# Repository documentation reviewed and issue contract validated by preceding preflight.\ntest -f AGENTS.md && cat AGENTS.md >/dev/null\nif test -f README.md; then cat README.md >/dev/null; elif test -f README.json; then cat README.json >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh auth setup-git\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\nnode <<'NODE'\nconst fs=require('fs'),assert=require('assert'),cp=require('child_process');\nconst p='.devcontainer/devcontainer.json';\nconst old=JSON.parse(fs.readFileSync(p,'utf8'));\nassert(Array.isArray(old.forwardPorts) && old.forwardPorts.includes(3000),'port 3000 not forwarded');\nassert(!Object.hasOwn(old,'postAttachCommand'),'existing attach command present: need deliberate merge');\nassert(old.postStartCommand.includes('PORT=3000'),'server start does not target port 3000');\nconst updated=structuredClone(old);\nupdated.postAttachCommand='gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"';\nassert.equal(cp.spawnSync('bash',['-n','-c',updated.postAttachCommand]).status,0,'invalid bash syntax');\nfs.writeFileSync(p,JSON.stringify(updated,null,2)+'\\n');\nconst confirmed=JSON.parse(fs.readFileSync(p,'utf8'));\nconst {postAttachCommand,...unchanged}=confirmed;\nassert.deepStrictEqual(unchanged,old);\nassert.strictEqual(postAttachCommand,'gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"');\nconsole.log('PORT_VISIBILITY_CONFIGURED_PUBLIC_BY_DEFAULT=true');\nconsole.log('UPDATED_FILE='+p);\nconsole.log('POST_ATTACH_COMMAND='+postAttachCommand);\nconsole.log('EXISTING_CONFIG_UNCHANGED=true');\nconsole.log('CONFIG_JSON_VALID=true');\nconsole.log('BASH_SYNTAX_VALID=true');\nNODE\ngit add .devcontainer/devcontainer.json\ngit diff --cached --check\ngit diff --cached -- .devcontainer/devcontainer.json\ngit commit -m 'Make Codespaces MCP port 3000 public on attach'\nfor i in 1 2 3; do\n  git fetch origin main -q\n  git rebase origin/main -q\n  if git push origin HEAD:main; then break; fi\n  test \"$i\" -lt 3\ndone\necho COMMITTED_SHA=$(git rev-parse HEAD)",
+  "outputThat": [
+    "PORT_VISIBILITY_CONFIGURED_PUBLIC_BY_DEFAULT=true",
+    "UPDATED_FILE=.devcontainer/devcontainer.json",
+    "POST_ATTACH_COMMAND=gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"",
+    "EXISTING_CONFIG_UNCHANGED=true",
+    "CONFIG_JSON_VALID=true",
+    "BASH_SYNTAX_VALID=true",
+    "diff --git a/.devcontainer/devcontainer.json b/.devcontainer/devcontainer.json",
+    "index 9836fc9..0061fca 100644",
+    "--- a/.devcontainer/devcontainer.json",
+    "+++ b/.devcontainer/devcontainer.json",
+    "@@ -16,5 +16,6 @@",
+    "   },",
+    "   \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",",
+    "   \"waitFor\": \"postCreateCommand\",",
+    "-  \"postStartCommand\": \"nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &\"",
+    "+  \"postStartCommand\": \"nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &\",",
+    "+  \"postAttachCommand\": \"gh codespace ports visibility 3000:public -c \\\"$CODESPACE_NAME\\\"\"",
+    " }",
+    "[main 92fe7ea] Make Codespaces MCP port 3000 public on attach",
+    " 1 file changed, 2 insertions(+), 1 deletion(-)",
+    "COMMITTED_SHA=92fe7ea3a740dfb27affae350939ef2c7ca819c2"
+  ]
+}

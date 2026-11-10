@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -f AGENTS.md && cat AGENTS.md >/dev/null\nif test -f README.md; then cat README.md >/dev/null; elif test -f README.json; then cat README.json >/dev/null; fi\ngh api repos/BestNameYet/Terminals/issues/3 --jq .body >/dev/null\ngh api 'repos/BestNameYet/Terminals/contents/.devcontainer/devcontainer.json?ref=main' --jq .content | base64 --decode > /tmp/verify-codespace-public.json\nnode <<'NODE'\nconst fs=require('fs'),assert=require('assert');\nconst cfg=JSON.parse(fs.readFileSync('/tmp/verify-codespace-public.json','utf8'));\nassert.deepStrictEqual(cfg.forwardPorts,[3000]);\nassert.equal(cfg.postAttachCommand,'gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"');\nassert(cfg.postStartCommand.includes('PORT=3000'));\nconsole.log('REMOTE_MAIN_PUBLIC_PORT_DEFAULT_VERIFIED=true');\nconsole.log('POST_ATTACH_COMMAND='+cfg.postAttachCommand);\nconsole.log('POST_START_COMMAND='+cfg.postStartCommand);\nconsole.log('FORWARDED_PORT='+cfg.forwardPorts[0]);\nNODE\ngh api repos/BestNameYet/Terminals/commits/main --jq .sha",
+  "outputThat": [
+    "REMOTE_MAIN_PUBLIC_PORT_DEFAULT_VERIFIED=true",
+    "POST_ATTACH_COMMAND=gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"",
+    "POST_START_COMMAND=nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &",
+    "FORWARDED_PORT=3000",
+    "042c2ee8574b6dfd8c523ce5c9e35226739b7c20"
+  ]
+}

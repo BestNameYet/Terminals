@@ -19,7 +19,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.CODESPACES_PAT }}
       CODESPACE_NAME: ${{ vars.MCP_CODESPACE_NAME || 'shiny-robot' }}
-      MCP_URL: ${{ vars.MCP_SERVER_URL || 'https://shiny-robot-3000.app.github.dev/mcp' }}
+      MCP_URL: ${{ vars.MCP_SERVER_URL || 'https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev/mcp' }}
     steps:
       - name: Check credential and Codespace status
         shell: bash

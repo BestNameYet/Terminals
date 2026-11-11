@@ -17,5 +17,9 @@
   "postCreateCommand": "cd workspaces/codespace-terminal-mcp && npm install",
   "waitFor": "postCreateCommand",
   "postStartCommand": "nohup bash -lc 'cd workspaces/codespace-terminal-mcp && PORT=3000 node http-server.mjs' > /tmp/terminal-mcp.log 2>&1 < /dev/null &",
-  "postAttachCommand": "gh codespace ports visibility 3000:private -c \"$CODESPACE_NAME\""
+  "postAttachCommand": "gh codespace ports visibility 3000:private -c \"$CODESPACE_NAME\"",
+  "containerEnv": {
+    "MCP_ALLOWED_GITHUB_LOGIN": "BestNameYet",
+    "MCP_PUBLIC_ORIGIN": "https://shiny-robot-3000.app.github.dev"
+  }
 }

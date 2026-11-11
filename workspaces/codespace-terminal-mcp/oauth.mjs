@@ -2,7 +2,7 @@ import {randomBytes,createHash,timingSafeEqual} from 'node:crypto';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {homedir} from 'node:os';
 import {join} from 'node:path';
-const id=process.env.GITHUB_OAUTH_CLIENT_ID, secret=process.env.GITHUB_OAUTH_CLIENT_SECRET;
+const id=process.env.MCP_GH_OAUTH_CLIENT_ID, secret=process.env.MCP_GH_OAUTH_CLIENT_SECRET;
 const owner=process.env.MCP_ALLOWED_GITHUB_LOGIN;
 const origin=process.env.MCP_PUBLIC_ORIGIN?.replace(/\/$/,'');
 const path=process.env.MCP_AUTH_STATE_FILE||join(homedir(),'.local','share','terminals-mcp','oauth.json');

@@ -1,0 +1,30 @@
+{
+  "inputThis": "$:printf '%s\\n' '---CONFIG---'; cat .devcontainer/devcontainer.json; printf '%s\\n' '---MCP FILES---'; find .devcontainer -maxdepth 3 -type f -print; printf '%s\\n' '---MCP REFERENCES---'; rg -n 'mcpServers|mcp-server|modelcontextprotocol|MCP' .devcontainer workspaces --glob '*.json' --glob '*.js' --glob '*.mjs' | head -70",
+  "outputThat": [
+    "---CONFIG---",
+    "{",
+    "  \"name\": \"MCP Remote Server Space\",",
+    "  \"features\": {",
+    "    \"ghcr.io/devcontainers/features/node:1\": {",
+    "      \"version\": \"lts\"",
+    "    }",
+    "  },",
+    "  \"forwardPorts\": [",
+    "    3000",
+    "  ],",
+    "  \"portsAttributes\": {",
+    "    \"3000\": {",
+    "      \"label\": \"MCP SSE Server\",",
+    "      \"onAutoForward\": \"notify\"",
+    "    }",
+    "  },",
+    "  \"postCreateCommand\": \"npm install -g @modelcontextprotocol/server-everything\",",
+    "  \"waitFor\": \"postCreateCommand\",",
+    "  \"postStartCommand\": \"nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &\",",
+    "  \"postAttachCommand\": \"gh codespace ports visibility 3000:public -c \\\"$CODESPACE_NAME\\\"\"",
+    "}",
+    "---MCP FILES---",
+    ".devcontainer/devcontainer.json",
+    "---MCP REFERENCES---"
+  ]
+}

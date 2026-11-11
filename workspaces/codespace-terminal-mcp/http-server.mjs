@@ -1,3 +1,4 @@
+import {authorize,oauth,unauthorized} from './oauth.mjs';
 import { createServer } from 'node:http';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
@@ -19,7 +20,7 @@ const stdout=Buffer.concat(chunks.stdout).toString('utf8');
 const outputThat=stdout?stdout.split(/\r?\n/):[];if(stdout.endsWith('\n'))outputThat.pop();
 return {content:[{type:'text',text:JSON.stringify({inputThis:a.runOn+':'+a.whatPrompt,outputThat,stderr:Buffer.concat(chunks.stderr).toString('utf8'),...result,timedOut,overflow})}],isError:result.exitCode!==0||timedOut||overflow};
 });return server}
-createServer(async(req,res)=>{if(req.url!=='/mcp'){res.writeHead(404).end();return}if(req.method!=='POST'){res.writeHead(405).end();return}
+createServer(async(req,res)=>{const url=new URL(req.url,'http://localhost');if(await oauth(req,res,url))return;if(url.pathname==='/mcp'&&!authorize(req)){unauthorized(res);return}if(req.url!=='/mcp'){res.writeHead(404).end();return}if(req.method!=='POST'){res.writeHead(405).end();return}
 try{let raw='';for await(const part of req){raw+=part;if(raw.length>1048576)throw Error('Request too large')}const body=JSON.parse(raw);
 const server=setup();const transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined});
 await server.connect(transport);await transport.handleRequest(req,res,body);

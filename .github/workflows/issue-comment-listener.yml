@@ -13,7 +13,7 @@ permissions:
 jobs:
   listen:
     # Issue 10 executes in its dedicated owner-gated workflow. Ignore its bot output.
-    if: ${{ github.event.issue.number != 10 || github.event.sender.type != 'Bot' }}
+    if: ${{ github.event.issue.number != 3 && (github.event.issue.number != 10 || github.event.sender.type != 'Bot') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository

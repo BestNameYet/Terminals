@@ -10,12 +10,12 @@
   ],
   "portsAttributes": {
     "3000": {
-      "label": "MCP SSE Server",
+      "label": "Issue #3 MCP Terminal",
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "npm install -g @modelcontextprotocol/server-everything",
+  "postCreateCommand": "cd workspaces/codespace-terminal-mcp && npm install",
   "waitFor": "postCreateCommand",
-  "postStartCommand": "nohup bash -lc 'PORT=3000 npx @modelcontextprotocol/server-everything streamableHttp' > /tmp/mcp-everything.log 2>&1 < /dev/null &",
+  "postStartCommand": "nohup bash -lc 'cd workspaces/codespace-terminal-mcp && PORT=3000 node http-server.mjs' > /tmp/terminal-mcp.log 2>&1 < /dev/null &",
   "postAttachCommand": "gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\""
 }

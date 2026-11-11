@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:printf 'Repository: '; pwd; printf '\\nMCP-related working-tree status:\\n'; git status --short -- .devcontainer workspaces/codespace-terminal-mcp; printf '\\nUnstaged diff summary:\\n'; git diff --stat -- .devcontainer workspaces/codespace-terminal-mcp; printf '\\nStaged diff summary:\\n'; git diff --cached --stat -- .devcontainer workspaces/codespace-terminal-mcp; printf '\\nUntracked MCP-related files:\\n'; git ls-files --others --exclude-standard -- .devcontainer workspaces/codespace-terminal-mcp",
+  "outputThat": [
+    "Repository: /home/runner/work/Terminals/Terminals",
+    "",
+    "MCP-related working-tree status:",
+    "",
+    "Unstaged diff summary:",
+    "",
+    "Staged diff summary:",
+    "",
+    "Untracked MCP-related files:"
+  ]
+}

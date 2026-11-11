@@ -1,0 +1,14 @@
+{
+  "inputThis": "$:set -eu\npython3 - <<'PY'\nimport json\np='.devcontainer/devcontainer.json'\nd=json.load(open(p))\nd['postAttachCommand']='gh codespace ports visibility 3000:private -c \"$CODESPACE_NAME\"'\nopen(p,'w').write(json.dumps(d,indent=2)+'\\n')\nPY\nf=.devcontainer/devcontainer.json\nsha=$(gh api \"repos/BestNameYet/Terminals/contents/$f\" --jq .sha)\ngh api -X PUT \"repos/BestNameYet/Terminals/contents/$f\" -f message=\"Restrict terminal MCP port to private Codespace forwarding\" -f sha=\"$sha\" -f content=\"$(base64 -w0 \"$f\")\" --jq '.commit.sha'\ncd workspaces/codespace-terminal-mcp\nnpm install --no-audit --no-fund\nnode --check http-server.mjs\nnode --check server.mjs\n(PORT=39771 node http-server.mjs >/tmp/terminal-mcp-test.log 2>&1 & echo $! >/tmp/terminal-mcp-test.pid)\nsleep 2\ncurl -sS -i --max-time 8 http://127.0.0.1:39771/mcp | head -12\nkill \"$(cat /tmp/terminal-mcp-test.pid)\" || true\ncat /tmp/terminal-mcp-test.log",
+  "outputThat": [
+    "714d22fe0f038799e1ccf544aca008159e7fa9e9",
+    "",
+    "added 95 packages in 6s",
+    "HTTP/1.1 405 Method Not Allowed",
+    "Date: Wed, 11 Nov 2026 11:58:11 GMT",
+    "Connection: keep-alive",
+    "Keep-Alive: timeout=5",
+    "Transfer-Encoding: chunked",
+    ""
+  ]
+}

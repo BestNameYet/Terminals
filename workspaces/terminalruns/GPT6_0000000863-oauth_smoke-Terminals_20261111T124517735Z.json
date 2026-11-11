@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -eu\ncd workspaces/codespace-terminal-mcp\nnpm install --no-audit --no-fund >/dev/null\nnode --check oauth.mjs\nnode --check http-server.mjs\nPORT=39775 MCP_ALLOWED_GITHUB_LOGIN=BestNameYet MCP_PUBLIC_ORIGIN=https://shiny-robot-3000.app.github.dev MCP_GH_OAUTH_CLIENT_ID=test-client MCP_GH_OAUTH_CLIENT_SECRET=test-secret node http-server.mjs >/tmp/mcp-check.log 2>&1 &\npid=$!\ntrap 'kill $pid 2>/dev/null || true' EXIT\nsleep 2\nprintf 'DISCOVERY: '\ncurl -sS -o /tmp/mcp-discovery.json -w '%{http_code}\\n' http://127.0.0.1:39775/.well-known/oauth-authorization-server\npython3 -m json.tool /tmp/mcp-discovery.json | head -20\nprintf 'UNAUTHENTICATED: '\ncurl -sS -o /tmp/mcp-denied.json -w '%{http_code}\\n' -X POST -H 'content-type: application/json' --data '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}' http://127.0.0.1:39775/mcp\ncat /tmp/mcp-denied.json\nprintf '\\nLOGS: '\ncat /tmp/mcp-check.log\n",
+  "outputThat": [
+    "DISCOVERY: 404"
+  ]
+}

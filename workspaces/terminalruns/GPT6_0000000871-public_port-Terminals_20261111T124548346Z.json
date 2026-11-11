@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -eu\npython3 - <<'PY'\nimport json\np='.devcontainer/devcontainer.json'\nd=json.load(open(p))\nd['postAttachCommand']='gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"'\nopen(p,'w').write(json.dumps(d,indent=2)+'\\n')\nPY\nf=.devcontainer/devcontainer.json\nsha=$(gh api \"repos/BestNameYet/Terminals/contents/$f\" --jq .sha)\ngh api -X PUT \"repos/BestNameYet/Terminals/contents/$f\" -f message=\"Restore public Codespace MCP port per owner instruction\" -f sha=\"$sha\" -f content=\"$(base64 -w0 \"$f\")\" --jq '.commit.sha'\ngh codespace list --json name,state --limit 100 || true\n",
+  "outputThat": [
+    "3462132e9c02d986440ac3512375f75e2fd8671e"
+  ]
+}

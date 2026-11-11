@@ -1,0 +1,4 @@
+{
+  "inputThis": "gh:codespace list --repo BestNameYet/Terminals --json name,state,repository --limit 20",
+  "outputThat": []
+}

@@ -20,6 +20,7 @@
   "postAttachCommand": "gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"",
   "containerEnv": {
     "MCP_ALLOWED_GITHUB_LOGIN": "BestNameYet",
-    "MCP_PUBLIC_ORIGIN": "https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev"
+    "MCP_PUBLIC_ORIGIN": "https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev",
+    "MCP_GH_OAUTH_CLIENT_ID": "Ov23liR4iwt16z8xcgik"
   }
 }

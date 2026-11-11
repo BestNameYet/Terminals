@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -eu\npython3 - <<'PY'\np='workspaces/codespace-terminal-mcp/oauth.mjs'\ns=open(p).read()\ns=s.replace(\"if(url.pathname==='/\\\\.well-known/oauth-authorization-server'){return false}\\n\",\"\")\nopen(p,'w').write(s)\nPY\nnode --check workspaces/codespace-terminal-mcp/oauth.mjs\nf=workspaces/codespace-terminal-mcp/oauth.mjs\nsha=$(gh api \"repos/BestNameYet/Terminals/contents/$f\" --jq .sha)\ngh api -X PUT \"repos/BestNameYet/Terminals/contents/$f\" -f message=\"Fix OAuth discovery route\" -f sha=\"$sha\" -f content=\"$(base64 -w0 \"$f\")\" --jq .commit.sha\ncd workspaces/codespace-terminal-mcp\nnpm install --no-audit --no-fund >/dev/null\nPORT=39778 MCP_ALLOWED_GITHUB_LOGIN=BestNameYet MCP_PUBLIC_ORIGIN=https://shiny-robot-3000.app.github.dev MCP_GH_OAUTH_CLIENT_ID=test-client MCP_GH_OAUTH_CLIENT_SECRET=test-secret node http-server.mjs >/tmp/mcp-test-39778.log 2>&1 &\npid=$!\ntrap 'kill $pid 2>/dev/null || true' EXIT\nsleep 2\nprintf 'DISCOVERY: '\ncurl -sS -o /tmp/discovery39778.json -w '%{http_code}\\n' http://127.0.0.1:39778/.well-known/oauth-authorization-server\ncat /tmp/discovery39778.json\nprintf '\\nUNAUTHORIZED: '\ncurl -sS -o /tmp/denied39778.json -w '%{http_code}\\n' -X POST -H 'content-type: application/json' --data '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}' http://127.0.0.1:39778/mcp\ncat /tmp/denied39778.json\n",
+  "outputThat": [
+    "2adceb481218fee71f4ecf29987f5d78e04e129f",
+    "DISCOVERY: 200",
+    "{\"issuer\":\"https://shiny-robot-3000.app.github.dev\",\"authorization_endpoint\":\"https://shiny-robot-3000.app.github.dev/authorize\",\"token_endpoint\":\"https://shiny-robot-3000.app.github.dev/token\",\"registration_endpoint\":\"https://shiny-robot-3000.app.github.dev/register\",\"response_types_supported\":[\"code\"],\"grant_types_supported\":[\"authorization_code\"],\"code_challenge_methods_supported\":[\"S256\"],\"token_endpoint_auth_methods_supported\":[\"none\"]}",
+    "UNAUTHORIZED: 401",
+    "{\"error\":\"unauthorized\"}"
+  ]
+}

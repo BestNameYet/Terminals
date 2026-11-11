@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:python3 - <<'PY'\nimport json\np='.devcontainer/devcontainer.json'\nwith open(p) as f:d=json.load(f)\nassert d['containerEnv']['MCP_PUBLIC_ORIGIN']=='https://shiny-robot-3000.app.github.dev'\nd['containerEnv']['MCP_PUBLIC_ORIGIN']='https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev'\nwith open(p,'w') as f:json.dump(d,f,indent=2);f.write('\\n')\nPY\nf=.devcontainer/devcontainer.json\nsha=$(gh api \"repos/BestNameYet/Terminals/contents/$f\" --jq .sha)\ngh api -X PUT \"repos/BestNameYet/Terminals/contents/$f\" -f message=\"Correct Codespace MCP OAuth public origin\" -f sha=\"$sha\" -f content=\"$(base64 -w0 \"$f\")\" --jq .commit.sha",
+  "outputThat": [
+    "59bcae72fe9bab241f07abd1b6939d92c391368e"
+  ]
+}

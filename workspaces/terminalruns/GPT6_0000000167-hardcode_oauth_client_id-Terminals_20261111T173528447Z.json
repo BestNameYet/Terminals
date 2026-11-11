@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\npython3 - <<'PY'\nimport json\np='.devcontainer/devcontainer.json'\nwith open(p,encoding='utf-8') as f: d=json.load(f)\nassert d['containerEnv']['MCP_PUBLIC_ORIGIN']=='https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev', 'Unexpected OAuth origin'\nd['containerEnv']['MCP_GH_OAUTH_CLIENT_ID']='Ov23liR4iwt16z8xcgik'\nwith open(p,'w',encoding='utf-8') as f:\n    json.dump(d,f,indent=2)\n    f.write('\\n')\nPY\nf=.devcontainer/devcontainer.json\nsha=\"$(gh api \"repos/BestNameYet/Terminals/contents/$f\" --jq .sha)\"\ngh api -X PUT \"repos/BestNameYet/Terminals/contents/$f\" -f message=\"Configure registered GitHub OAuth client ID in devcontainer\" -f sha=\"$sha\" -f content=\"$(base64 -w0 \"$f\")\" --jq '.commit.sha'\n",
+  "outputThat": [
+    "b737718a522069d5c7656dee19289e0558943468"
+  ]
+}

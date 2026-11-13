@@ -1,10 +1,13 @@
 import {Server} from '@modelcontextprotocol/sdk/server/index.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
-import {ListToolsRequestSchema,CallToolRequestSchema} from '@modelcontextprotocol/sdk/types.js';
+import {ListToolsRequestSchema,CallToolRequestSchema,ListResourcesRequestSchema,ReadResourceRequestSchema} from '@modelcontextprotocol/sdk/types.js';
+import { renderResponseContent, listResponseResources, readResponseResource } from './response-template.mjs';
 import {spawn} from 'node:child_process';
-const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{}}});
+const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
 server.setRequestHandler(ListToolsRequestSchema,async()=>({tools:[{name:'terminal_execute',description:'Stateless Issue #3-compatible Bash/GitHub CLI execution; each invocation creates a fresh process.',inputSchema:schema}]}));
+server.setRequestHandler(ListResourcesRequestSchema,async()=>({resources:await listResponseResources()}));
+server.setRequestHandler(ReadResourceRequestSchema,async({params})=>({contents:[await readResponseResource(params.uri)]}));
 server.setRequestHandler(CallToolRequestSchema,async({params})=>{
 if(params.name!=='terminal_execute')throw Error('Unknown tool');
 const a=params.arguments||{};
@@ -17,6 +20,6 @@ for(const k of ['stdout','stderr'])child[k].on('data',b=>{bytes+=b.length;if(byt
 const result=await new Promise(resolve=>{child.on('error',e=>resolve({exitCode:null,error:e.message}));child.on('close',(code,signal)=>resolve({exitCode:code,signal}))});clearTimeout(timer);
 const stdout=Buffer.concat(data.stdout).toString('utf8');
 const receipt={inputThis:a.runOn+':'+a.whatPrompt,outputThat:stdout.replace(/\n$/,'').split('\n'),forWhom:a.forWhom,stderr:Buffer.concat(data.stderr).toString('utf8'),...result,timedOut,overflow};
-return {content:[{type:'text',text:JSON.stringify(receipt)}],isError:result.exitCode!==0||timedOut||overflow};
+return {content:await renderResponseContent(JSON.stringify(receipt)),isError:result.exitCode!==0||timedOut||overflow};
 });
 await server.connect(new StdioServerTransport());

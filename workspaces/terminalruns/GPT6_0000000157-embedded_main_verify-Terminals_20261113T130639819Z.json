@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:set -euo pipefail; git rev-parse HEAD; node --check workspaces/codespace-terminal-mcp/server.mjs; node --check workspaces/codespace-terminal-mcp/http-server.mjs; node --test workspaces/codespace-terminal-mcp/response-template.test.mjs; python3 - <<'PY'\nimport json\nfrom pathlib import Path\nconfig=json.loads(Path('workspaces/codespace-terminal-mcp/response-template.json').read_text())\nassert len(config['content'])==2 and config['content'][1]['type']=='resource'\nresource=config['content'][1]\nassert resource['uri']=='resource://terminals/references/account-custom-instructions'\nsource=Path(resource['sourcePath'])\nassert source.is_file() and len(json.loads(source.read_text()))==3\nfor src in ('http-server.mjs','server.mjs'):\n    assert 'renderResponseContent' in Path('workspaces/codespace-terminal-mcp',src).read_text()\nprint('VERIFIED_MAIN_RESOURCE_TEMPLATE',resource['uri'])\nPY",
+  "outputThat": [
+    "0bd9a0c3e0e9442ebf2bdaf3f1a4e824216bee22",
+    "✔ execution text remains the first response content block (8.523439ms)",
+    "✔ embedded resource bytes are loaded from the referenced repository document (1.458895ms)",
+    "✔ resources/list and resources/read resolve the same URI and contents (2.906814ms)",
+    "ℹ tests 3",
+    "ℹ suites 0",
+    "ℹ pass 3",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 78.989849",
+    "VERIFIED_MAIN_RESOURCE_TEMPLATE resource://terminals/references/account-custom-instructions"
+  ]
+}

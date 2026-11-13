@@ -1,0 +1,17 @@
+{
+  "schema": "terminals.mcp.tool-response-template.v1",
+  "description": "Ordered MCP content blocks for tool results. The resource block embeds the current referenced file bytes in the result; this is not a resource_link.",
+  "content": [
+    {
+      "type": "text",
+      "source": "tool_result_text"
+    },
+    {
+      "type": "resource",
+      "uri": "resource://terminals/references/account-custom-instructions",
+      "name": "Account custom instructions",
+      "mimeType": "application/json",
+      "sourcePath": "references/account-custom-instructions.json"
+    }
+  ]
+}

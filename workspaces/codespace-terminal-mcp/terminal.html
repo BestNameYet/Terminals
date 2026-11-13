@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codespace terminal</title>
+<style>
+:root { color-scheme: light dark; font: 14px system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1px; }
+main { border: 1px solid color-mix(in srgb, CanvasText 20%, Canvas); border-radius: 14px; padding: 16px; }
+header, .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+header { justify-content: space-between; }
+h1 { margin: 0; font-size: 17px; }
+#status { font-size: 12px; }
+form { display: grid; gap: 8px; margin-top: 14px; }
+textarea, select, button { font: inherit; color: inherit; background: Canvas; border: 1px solid color-mix(in srgb, CanvasText 34%, Canvas); border-radius: 8px; padding: 8px; }
+textarea { width: 100%; resize: vertical; min-height: 66px; font-family: ui-monospace, monospace; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+#run { background: CanvasText; color: Canvas; padding-inline: 16px; }
+#run { margin-left: auto; }
+#output { max-height: 19rem; min-height: 5rem; overflow: auto; margin: 12px 0 0; border-radius: 8px; padding: 12px; background: #182021; color: #eff6f5; white-space: pre-wrap; overflow-wrap: anywhere; }
+#output p { margin: 0 0 1em; }
+#output p:last-child { margin-bottom: 0; }
+</style>
+<main>
+  <header><h1>Codespace terminal</h1><span id="status" role="status">Connecting…</span></header>
+  <form id="terminal">
+    <label for="command">Command</label>
+    <textarea id="command" required spellcheck="false" placeholder="Enter a command"></textarea>
+    <div class="controls">
+      <label for="mode">Run with</label>
+      <select id="mode"><option value="$">Bash</option><option value="gh">GitHub CLI</option></select>
+      <button type="button" id="clear">Clear output</button>
+      <button id="run" disabled>Run</button>
+    </div>
+  </form>
+  <div id="output" role="log" aria-label="Terminal output" tabindex="0"></div>
+</main>
+<script>
+const form = document.querySelector('#terminal');
+const command = document.querySelector('#command');
+const mode = document.querySelector('#mode');
+const run = document.querySelector('#run');
+const status = document.querySelector('#status');
+const output = document.querySelector('#output');
+const pending = new Map();
+let nextId = 0;
+
+function notify(method, params) {
+  window.parent.postMessage({ jsonrpc: '2.0', method, params }, '*');
+}
+
+function call(method, params, timeout) {
+  return new Promise((resolve, reject) => {
+    const id = ++nextId;
+    const timer = setTimeout(() => {
+      pending.delete(id);
+      reject(new Error('The host did not respond.'));
+    }, timeout);
+    pending.set(id, { resolve, reject, timer });
+    window.parent.postMessage({ jsonrpc: '2.0', id, method, params }, '*');
+  });
+}
+
+window.addEventListener('message', ({ source, data }) => {
+  if (source !== window.parent || data?.jsonrpc !== '2.0') return;
+  const request = pending.get(data.id);
+  if (!request) return;
+  pending.delete(data.id);
+  clearTimeout(request.timer);
+  if (data.error) request.reject(new Error(data.error.message));
+  else request.resolve(data.result);
+});
+
+function print(lines) {
+  const entry = document.createElement('p');
+  entry.textContent = lines.join('\n');
+  output.append(entry);
+  while (output.childElementCount > 25) output.firstElementChild.remove();
+  output.scrollTop = output.scrollHeight;
+}
+
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  const prompt = command.value;
+  if (!prompt.trim() || run.disabled) return;
+  run.disabled = true;
+  status.textContent = 'Running…';
+  try {
+    const result = await call('tools/call', {
+      name: 'terminal_execute',
+      arguments: { runOn: mode.value, whatPrompt: prompt, forWhom: 'chatgpt-ui-' + crypto.randomUUID() },
+    }, 310000);
+    const text = result?.content?.find(item => item.type === 'text')?.text;
+    if (!text) throw new Error('The server returned no terminal output.');
+    let receipt;
+    try { receipt = JSON.parse(text); } catch { throw new Error(text); }
+    const lines = [receipt.inputThis, ...(receipt.outputThat ?? [])];
+    if (receipt.stderr) lines.push('stderr', receipt.stderr.trimEnd());
+    if (receipt.error) lines.push(receipt.error);
+    if (receipt.timedOut) lines.push('Command timed out.');
+    if (receipt.overflow) lines.push('Command exceeded the output limit.');
+    lines.push(receipt.signal ? 'Signal ' + receipt.signal : 'Exit ' + (receipt.exitCode ?? 'unknown'));
+    print(lines);
+    status.textContent = result.isError ? 'Command failed' : 'Ready';
+  } catch (error) {
+    print([prompt, error.message]);
+    status.textContent = 'Command failed';
+  } finally {
+    run.disabled = false;
+  }
+});
+
+document.querySelector('#clear').addEventListener('click', () => output.replaceChildren());
+command.addEventListener('keydown', event => {
+  if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) form.requestSubmit();
+});
+
+async function connect() {
+  try {
+    if (window.parent === window) throw new Error('Open this terminal in ChatGPT.');
+    await call('ui/initialize', {
+      appInfo: { name: 'Codespace terminal', version: '1.0.0' },
+      appCapabilities: {}, protocolVersion: '2026-01-26',
+    }, 10000);
+    notify('ui/notifications/initialized', {});
+    status.textContent = 'Ready';
+    run.disabled = false;
+  } catch (error) {
+    status.textContent = 'Unavailable';
+    print([error.message]);
+  }
+}
+connect();
+</script>
+</html>

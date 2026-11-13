@@ -1,17 +1,36 @@
 import {authorize,oauth,unauthorized} from './oauth.mjs';
 import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { ListToolsRequestSchema, CallToolRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { ListToolsRequestSchema, CallToolRequestSchema, ListResourcesRequestSchema, ReadResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { spawn } from 'node:child_process';
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
-function setup(){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{}}});
-server.setRequestHandler(ListToolsRequestSchema,async()=>({tools:[{name:'terminal_execute',description:'Execute one fresh Issue #3-compatible shell or gh command, no persistent PTY.',inputSchema:schema}]}));
+const terminalWorkspace = process.env.GITHUB_WORKSPACE || fileURLToPath(new URL('../../', import.meta.url));
+const terminalView = {
+  uri: 'ui://terminals/codespace-terminal.html',
+  name: 'Codespace terminal',
+  mimeType: 'text/html;profile=mcp-app',
+};
+
+function setup(){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
+server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
+  { name: 'terminal_open', title: 'Open Codespace terminal', description: 'Show the terminal controls in ChatGPT.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: terminalView.uri } } },
+  { name: 'terminal_execute', description: 'Execute one fresh Issue #3-compatible shell or gh command, no persistent PTY.', inputSchema: schema },
+] }));
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView] }));
+server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
+  if (params.uri !== terminalView.uri) throw new Error('Unknown resource');
+  const text = await readFile(new URL('./terminal.html', import.meta.url), 'utf8');
+  return { contents: [{ uri: terminalView.uri, mimeType: terminalView.mimeType, text }] };
+});
 server.setRequestHandler(CallToolRequestSchema,async({params})=>{
+if (params.name === 'terminal_open') return { content: [{ type: 'text', text: 'Codespace terminal ready.' }] };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};
 if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');
 const prompt=a.runOn==='gh'&&!/^gh(?:\s|$)/.test(a.whatPrompt.trim())?'gh '+a.whatPrompt:a.whatPrompt;
-const child=spawn('bash',['-o','pipefail','-c',prompt],{cwd:process.env.GITHUB_WORKSPACE||process.cwd(),stdio:['ignore','pipe','pipe']});
+const child=spawn('bash',['-o','pipefail','-c',prompt],{cwd:terminalWorkspace,stdio:['ignore','pipe','pipe']});
 const chunks={stdout:[],stderr:[]};let size=0,overflow=false,timedOut=false;
 const timer=setTimeout(()=>{timedOut=true;child.kill('SIGKILL')},300000);
 for(const k of ['stdout','stderr'])child[k].on('data',b=>{size+=b.length;if(size>67108864){overflow=true;child.kill('SIGKILL')}else chunks[k].push(b)});

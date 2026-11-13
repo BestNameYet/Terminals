@@ -28,7 +28,7 @@ if ready 2>/dev/null; then
 fi
 
 printf 'Starting Terminals MCP on port %s.\n' "$PORT" >>"$log"
-setsid --fork node http-server.mjs </dev/null >>"$log" 2>&1 9>&-
+setsid --fork flock -n "$state_dir/supervisor.lock" bash supervise-mcp.sh </dev/null >>"$log" 2>&1 9>&-
 for ((attempt=0; attempt<30; attempt++)); do
   if ready 2>/dev/null; then
     printf 'Terminals MCP is ready on port %s.\n' "$PORT"

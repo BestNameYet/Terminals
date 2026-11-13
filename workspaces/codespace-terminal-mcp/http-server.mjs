@@ -5,7 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { ListToolsRequestSchema, CallToolRequestSchema, ListResourcesRequestSchema, ReadResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { spawn } from 'node:child_process';
+import { spawn, execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+import {resolve} from 'node:path';
 import { renderResponseContent, listResponseResources, readResponseResource } from './response-template.mjs';
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
 const terminalWorkspace = process.env.GITHUB_WORKSPACE || fileURLToPath(new URL('../../', import.meta.url));
@@ -43,9 +45,51 @@ const outputThat=stdout?stdout.split(/\r?\n/):[];if(stdout.endsWith('\n'))output
 const resultText=JSON.stringify({inputThis:a.runOn+':'+a.whatPrompt,outputThat,stderr:Buffer.concat(chunks.stderr).toString('utf8'),...result,timedOut,overflow});
 return {content:await renderResponseContent(resultText),isError:result.exitCode!==0||timedOut||overflow};
 });return server}
-createServer(async(req,res)=>{const url=new URL(req.url,'http://localhost');if(await oauth(req,res,url))return;if(url.pathname==='/mcp'&&!authorize(req)){unauthorized(res);return}if(req.url!=='/mcp'){res.writeHead(404).end();return}if(req.method!=='POST'){res.writeHead(405).end();return}
+async function startMcpServer({publishPort,port=Number(process.env.PORT||3000)}={}){
+  const name=process.env.CODESPACE_NAME;
+  if(!Number.isInteger(port)||port<0||port>65535||(port===0&&!publishPort)) throw Error('Invalid PORT');
+  if(!name) throw Error('CODESPACE_NAME is required');
+  let published=false;
+  const handler=async(req,res)=>{const url=new URL(req.url,'http://localhost');if(await oauth(req,res,url))return;if(url.pathname==='/mcp'&&!authorize(req)){unauthorized(res);return}if(req.url!=='/mcp'){res.writeHead(404).end();return}if(req.method!=='POST'){res.writeHead(405).end();return}
 try{let raw='';for await(const part of req){raw+=part;if(raw.length>1048576)throw Error('Request too large')}const body=JSON.parse(raw);
 const server=setup();const transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined});
 await server.connect(transport);await transport.handleRequest(req,res,body);
 res.on('close',()=>{transport.close().catch(()=>{});server.close().catch(()=>{})});
-}catch(e){if(!res.headersSent)res.writeHead(400,{'content-type':'application/json'}).end(JSON.stringify({error:String(e)}))}}).listen(Number(process.env.PORT||3000),'0.0.0.0');
+}catch(e){if(!res.headersSent)res.writeHead(400,{'content-type':'application/json'}).end(JSON.stringify({error:String(e)}))}};
+  const server=createServer((req,res)=>{
+    if(!published) {
+      res.writeHead(503,{'content-type':'application/json'}).end(JSON.stringify({error:'starting'}));
+      return;
+    }
+    handler(req,res).catch(error=>{
+      console.error('MCP request failed:',error);
+      if(!res.headersSent) res.writeHead(500,{'content-type':'application/json'}).end(JSON.stringify({error:'internal_error'}));
+    });
+  });
+  await new Promise((resolve,reject)=>{
+    server.once('error',reject);
+    server.listen(port,'0.0.0.0',()=>{
+      server.off('error',reject);
+      resolve();
+    });
+  });
+  const listeningPort=server.address().port;
+  console.log('MCP_LISTENING',listeningPort);
+  try {
+    if(publishPort) {
+      await publishPort(listeningPort,name);
+    } else {
+      await promisify(execFile)('gh',['codespace','ports','visibility',String(listeningPort)+':public','-c',name],{timeout:30000});
+    }
+    published=true;
+    console.log('MCP_READY',listeningPort);
+    return server;
+  } catch(error) {
+    await new Promise(resolve=>server.close(resolve));
+    throw error;
+  }
+}
+if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])) {
+  startMcpServer().catch(error=>{console.error('MCP_STARTUP_ERROR',error);process.exitCode=1;});
+}
+export {startMcpServer};

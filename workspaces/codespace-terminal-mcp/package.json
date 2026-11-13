@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --check server.mjs"
+    "test": "node --check server.mjs && node --test *.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0"

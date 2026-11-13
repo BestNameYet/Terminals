@@ -5,18 +5,15 @@
       "version": "lts"
     }
   },
-  "forwardPorts": [
-    3000
-  ],
   "portsAttributes": {
     "3000": {
-      "label": "Issue #3 MCP Terminal",
+      "label": "Terminals MCP",
       "onAutoForward": "notify"
     }
   },
   "postCreateCommand": "cd workspaces/codespace-terminal-mcp && npm install",
   "waitFor": "postCreateCommand",
-  "postStartCommand": "bash workspaces/codespace-terminal-mcp/start-mcp.sh && timeout 30s gh codespace ports visibility 3000:public -c \"$CODESPACE_NAME\"",
+  "postStartCommand": "bash workspaces/codespace-terminal-mcp/start-mcp.sh",
   "containerEnv": {
     "MCP_ALLOWED_GITHUB_LOGIN": "BestNameYet",
     "MCP_PUBLIC_ORIGIN": "https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev",

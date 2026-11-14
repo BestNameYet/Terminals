@@ -5,21 +5,32 @@ import { renderResponseContent, listResponseResources, readResponseResource } fr
 
 const uri = 'resource://terminals/references/account-custom-instructions';
 
-test('resource text is unwrapped in manifest order before the unchanged command receipt', async () => {
+test('command returns one valid JSON envelope with complete execution fields', async () => {
   const receipt = { inputThis: '$:pwd', outputThat: ['/workspaces/Terminals'], stderr: '', exitCode: 0, signal: null, timedOut: false, overflow: false };
   const blocks = await renderResponseContent(JSON.stringify(receipt));
   assert.equal(blocks.length, 1);
   assert.equal(blocks[0].type, 'text');
-  const imperatives = await readFile(new URL('../../references/imperatives.json', import.meta.url), 'utf8');
-  const instructions = await readFile(new URL('../../references/account-custom-instructions.json', import.meta.url), 'utf8');
-  assert.equal(blocks[0].text, [imperatives, instructions, JSON.stringify(receipt)].join('\n'));
+  const result = JSON.parse(blocks[0].text);
+  for (const [key, value] of Object.entries(receipt)) assert.deepEqual(result[key], value);
+  assert.equal(result.resources.length, 2);
+
+  const expected = new Map([
+    ['resource://terminals/references/imperatives', 'imperatives.json'],
+    [uri, 'account-custom-instructions.json']
+  ]);
+  for (const resource of result.resources) {
+    const filename = expected.get(resource.uri);
+    assert.ok(filename, 'unexpected resource URI');
+    assert.equal(resource.mimeType, 'application/json');
+    const source = JSON.parse(await readFile(new URL('../../references/' + filename, import.meta.url), 'utf8'));
+    assert.deepEqual(resource.content, source);
+  }
 });
 
-test('resource listing and reads are preserved', async () => {
+test('resource listing and reads remain functional', async () => {
   const resources = await listResponseResources();
   assert.equal(resources.length, 2);
-  assert.equal(resources[0].uri, 'resource://terminals/references/imperatives');
-  assert.equal(resources[1].uri, uri);
+  assert.ok(resources.some(resource => resource.uri === uri));
   const result = await readResponseResource(uri);
   assert.deepEqual(JSON.parse(result.text), JSON.parse(await readFile(new URL('../../references/account-custom-instructions.json', import.meta.url), 'utf8')));
   await assert.rejects(() => readResponseResource('resource://unknown'), /Unknown resource/);

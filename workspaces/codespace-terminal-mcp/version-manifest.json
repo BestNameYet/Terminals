@@ -104,15 +104,6 @@
       "byte_length": 17832
     },
     {
-      "path": "references/imperatives.json",
-      "role": "embedded_resource",
-      "read_condition": "request_conditional",
-      "read_evidence": "response-template.mjs reads this referenced file for embedded imperatives and resource reads",
-      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
-      "git_blob_oid": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
-      "byte_length": 3
-    },
-    {
       "path": "workspaces/codespace-terminal-mcp/server.mjs",
       "role": "alternate_stdio_entrypoint",
       "read_condition": "alternate_stdio_start",

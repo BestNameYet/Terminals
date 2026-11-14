@@ -1,0 +1,12 @@
+{
+  "inputThis": "$:set -e; CODESPACE_NAME=$(gh codespace list --repo BestNameYet/Terminals --json name,repository --jq '.[]|select(.repository==\"BestNameYet/Terminals\")|.name' | head -n 1); test -n \"$CODESPACE_NAME\"; echo \"CODESPACE_NAME=$CODESPACE_NAME\"; gh api --method POST \"user/codespaces/${CODESPACE_NAME}/start\" >/dev/null || true; gh codespace ssh -c \"$CODESPACE_NAME\" -- \"bash -lc 'cd /workspaces/Terminals && printf \\\"HEAD=\\\" && git rev-parse HEAD && printf \\\"NODE=\\\" && node --version && printf \\\"STRACE=\\\" && (command -v strace || true) && printf \\\"MODULE_COUNT=\\\" && find workspaces/codespace-terminal-mcp/node_modules -type f 2>/dev/null | wc -l && printf \\\"LOCKFILE=\\\" && test -f workspaces/codespace-terminal-mcp/package-lock.json && echo YES || echo NO && printf \\\"PROCESS=\\\" && pgrep -af \\\"node http-server.mjs\\\" || true'\"",
+  "outputThat": [
+    "CODESPACE_NAME=shiny-robot-v64x5jj4v4q2x96",
+    "HEAD=2e7045b7cfc62a24e41b17758a354d3131fec86a",
+    "NODE=v26.13.0",
+    "STRACE=/usr/bin/strace",
+    "MODULE_COUNT=3657",
+    "LOCKFILE=YES",
+    "PROCESS=502 bash -lc cd /workspaces/Terminals && printf \"HEAD=\" && git rev-parse HEAD && printf \"NODE=\" && node --version && printf \"STRACE=\" && (command -v strace || true) && printf \"MODULE_COUNT=\" && find workspaces/codespace-terminal-mcp/node_modules -type f 2>/dev/null | wc -l && printf \"LOCKFILE=\" && test -f workspaces/codespace-terminal-mcp/package-lock.json && echo YES || echo NO && printf \"PROCESS=\" && pgrep -af \"node http-server.mjs\" || true"
+  ]
+}

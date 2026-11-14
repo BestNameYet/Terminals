@@ -1,0 +1,137 @@
+{
+  "schema": "terminals.mcp.runtime-version-manifest.v1",
+  "manifest_format_version": "1.0.0",
+  "application_name": "terminals-issue3-mcp",
+  "application_version": "0.1.0",
+  "repository": "BestNameYet/Terminals",
+  "authoritative_branch": "main",
+  "source_commit": "6c39b7d3df0aef63126dbc939a1c362c9cd919eb",
+  "scope": {
+    "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
+    "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
+    "excluded": "Third-party Node packages, Node and operating-system internals, generated dependency trees, test-only files, and arbitrary files read by user-supplied terminal commands. Referenced documents not actually loaded by the MCP server are excluded.",
+    "version_identity": "Each file is pinned by SHA-256 of the committed bytes and by the Git blob object ID; the source commit identifies the snapshot from which all entries were computed."
+  },
+  "files": [
+    {
+      "path": ".devcontainer/devcontainer.json",
+      "role": "codespace_environment",
+      "read_condition": "codespace_build_or_rebuild",
+      "read_evidence": "Codespaces creation or rebuild reads container settings and lifecycle commands",
+      "sha256": "990a2a13fcfd431ebb060022b960c4a21a72b39304afc6a0713c0ca2c3851cfb",
+      "git_blob_oid": "d49883d0bb8ea00fa4b63fb01807b43d15f82c6a",
+      "byte_length": 647
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/package.json",
+      "role": "module_and_install_metadata",
+      "read_condition": "startup_and_alternate_stdio",
+      "read_evidence": "Node package-scope resolution and npm installation/start entrypoint",
+      "sha256": "282e1e332b2aa49abf957343c4a993a26da31c299f351ecf0bde3ce20f10e43d",
+      "git_blob_oid": "ef9061d47de54228d95dcc7f3ae31dd787fa0bd5",
+      "byte_length": 282
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/start-mcp.sh",
+      "role": "startup_script",
+      "read_condition": "codespace_start",
+      "read_evidence": "Codespace postStartCommand executes the startup script",
+      "sha256": "e4d6dd3af21d40222dc35dab29d19959b284d4ad62630586908a4634c07c89a7",
+      "git_blob_oid": "3f32e73822275106aa1c60d3e2cef71d010edfca",
+      "byte_length": 931
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/supervise-mcp.sh",
+      "role": "supervisor_script",
+      "read_condition": "server_launch",
+      "read_evidence": "start-mcp.sh starts the supervisor and the shell reads this script",
+      "sha256": "ccbabf9e919fb45ea1624a84059ceba0ae928b237160e72a4e7114879d80abe0",
+      "git_blob_oid": "d8b6721e5897fc4ebc115294716adb657349c3be",
+      "byte_length": 504
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/http-server.mjs",
+      "role": "http_entrypoint",
+      "read_condition": "http_start",
+      "read_evidence": "Supervisor launches node http-server.mjs; Node loads this entrypoint",
+      "sha256": "09a1496ab256a906ba77702a30208ca40200e7228a62e7701be52698c7dd4696",
+      "git_blob_oid": "f60875e5289bd0694d7e333f060a95014bbda6e9",
+      "byte_length": 6487
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/oauth.mjs",
+      "role": "http_module",
+      "read_condition": "http_start",
+      "read_evidence": "Imported and evaluated by http-server.mjs on startup",
+      "sha256": "2add1e05c956828b990e38b1353a89ed61bfc10257824ffce4615b0b16e3229a",
+      "git_blob_oid": "d57e3b29de77fe947d07612906f40b8f9f38a5dd",
+      "byte_length": 8531
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/response-template.mjs",
+      "role": "response_module",
+      "read_condition": "http_or_stdio_start",
+      "read_evidence": "Imported and evaluated by HTTP entrypoint or optional stdio entrypoint",
+      "sha256": "40b6472535c695be54299a98b6d7fc4c7fdb656445cc3a69c091ecc515db3ca7",
+      "git_blob_oid": "7f359b3ec005f991d0fcb2a4b5ab73d8c007fc56",
+      "byte_length": 2611
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/response-template.json",
+      "role": "response_configuration",
+      "read_condition": "request_conditional",
+      "read_evidence": "response-template.mjs reads the JSON on MCP tool and resource requests",
+      "sha256": "ed5a9cf227f1b05ce086e2eaa0ff1ecc065024adf862b75f6a6f3d08f391f90d",
+      "git_blob_oid": "eabdd9110aafd05d44ff06490ecf51d59e126d15",
+      "byte_length": 580
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/terminal.html",
+      "role": "ui_resource",
+      "read_condition": "resource_request_conditional",
+      "read_evidence": "http-server.mjs reads this file when ui://terminals/codespace-terminal.html is requested",
+      "sha256": "fceea68c95d8a5d185659c82e76143fbb9eb7adb3c1ca368f6f28b233878620e",
+      "git_blob_oid": "c4765bbfc1238c9ee2e70b8dfc700556795095a3",
+      "byte_length": 5567
+    },
+    {
+      "path": "references/account-custom-instructions.json",
+      "role": "embedded_resource",
+      "read_condition": "request_conditional",
+      "read_evidence": "response-template.mjs reads this referenced file for embedded account instructions and resource reads",
+      "sha256": "f9c48fbea69d5964d9105e21716c5720dbcb12304983987c2032bbd7c46173f8",
+      "git_blob_oid": "b40c4f1b576bb211b77854749b93ed4e856ab687",
+      "byte_length": 18103
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/server.mjs",
+      "role": "alternate_stdio_entrypoint",
+      "read_condition": "alternate_stdio_start",
+      "read_evidence": "Node loads this file if npm start selects the package's stdio server; not the Codespace HTTP supervisor's entrypoint",
+      "sha256": "00b935cbd106afd7c5f4d834e15085e994b33a7c9f84a555fa44ffee0ffa802a",
+      "git_blob_oid": "967595c35f40a49123fdceeabcbb26392cdee2c9",
+      "byte_length": 2795
+    }
+  ],
+  "unversioned_runtime_data": [
+    {
+      "path_template": "/workspaces/.terminals-mcp/<codespace_name>/oauth.json",
+      "read_when": "OAuth module initializes and the MCP_AUTH_STATE_FILE environment variable points here",
+      "reason": "Per-instance mutable OAuth state, not authored source; must not be included in a public version manifest or hashed into published source."
+    },
+    {
+      "path_template": "$HOME/.local/share/terminals-mcp/oauth.json",
+      "read_when": "OAuth initialization falls back to the legacy state file if the configured path is missing",
+      "reason": "Legacy mutable OAuth state; not authored source."
+    },
+    {
+      "path_template": "<configured_MCP_AUTH_STATE_FILE>",
+      "read_when": "MCP_AUTH_STATE_FILE overrides the OAuth state location",
+      "reason": "An environment-configured mutable data file, not a versioned implementation file."
+    }
+  ],
+  "dependency_boundary": {
+    "source_of_external_dependencies": "workspaces/codespace-terminal-mcp/package.json",
+    "rule": "Version only repository-maintained MCP implementation inputs. Dependencies and arbitrary terminal-command operands are outside this implementation manifest."
+  }
+}

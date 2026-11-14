@@ -1,9 +1,10 @@
 {
   "title": "End-of-Turn Conversation Analytics Recording",
-  "applicability": "At the end of each completed assistant turn, the caller constructs the complete analytics record from the active template and submits it once through EOTRecorder.",
+  "applicability": "For each assistant turn, the agent finalizes the exact reply text, constructs the complete analytics record from that text and the active template, submits the record once through EOTRecorder, then sends the finalized reply verbatim.",
   "trigger": {
-    "event": "end_of_completed_assistant_turn",
-    "response_capture": "Use the finalized assistant response. If the runtime cannot access it at the end-of-turn boundary, report the record as pending. A recorder call requires the complete record as its input."
+    "event": "final_reply_text_ready_before_send",
+    "response_capture": "Finalize the full user-visible reply before constructing the record. Use that exact text as the source for the response analysis.",
+    "submission_order": "Call EOTRecorder with the complete record before sending the final reply. After the call returns, send the finalized reply verbatim."
   },
   "template": {
     "repository": "BestNameYet/Terminals",

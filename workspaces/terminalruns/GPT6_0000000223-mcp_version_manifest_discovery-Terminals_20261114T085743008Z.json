@@ -1,0 +1,19 @@
+{
+  "inputThis": "$:pwd; git rev-parse --show-toplevel; git rev-parse HEAD; find workspaces/codespace-terminal-mcp -maxdepth 2 -type f -not -path '*/node_modules/*' | sort",
+  "outputThat": [
+    "/home/runner/work/Terminals/Terminals",
+    "/home/runner/work/Terminals/Terminals",
+    "6397f3eb918a51b6f02d230bb1044e2f4aeb8aea",
+    "workspaces/codespace-terminal-mcp/http-server.mjs",
+    "workspaces/codespace-terminal-mcp/oauth.mjs",
+    "workspaces/codespace-terminal-mcp/package.json",
+    "workspaces/codespace-terminal-mcp/response-template.json",
+    "workspaces/codespace-terminal-mcp/response-template.mjs",
+    "workspaces/codespace-terminal-mcp/response-template.test.mjs",
+    "workspaces/codespace-terminal-mcp/server.mjs",
+    "workspaces/codespace-terminal-mcp/start-mcp.sh",
+    "workspaces/codespace-terminal-mcp/startup.test.mjs",
+    "workspaces/codespace-terminal-mcp/supervise-mcp.sh",
+    "workspaces/codespace-terminal-mcp/terminal.html"
+  ]
+}

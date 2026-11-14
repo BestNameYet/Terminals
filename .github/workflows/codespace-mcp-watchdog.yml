@@ -13,55 +13,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  ensure-mcp:
+  ensure-codespace:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
       GH_TOKEN: ${{ secrets.CODESPACES_PAT }}
       CODESPACE_NAME: ${{ vars.MCP_CODESPACE_NAME || 'shiny-robot' }}
-      MCP_URL: ${{ vars.MCP_SERVER_URL || 'https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev/mcp' }}
     steps:
-      - name: Check credential and Codespace status
+      - name: Start Codespace
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "${GH_TOKEN}" ]]; then
-            echo "::error::Configure repository secret CODESPACES_PAT with Codespaces management access."
-            exit 1
-          fi
-          state="$(gh api "user/codespaces/${CODESPACE_NAME}" --jq '.state')"
-          echo "Codespace ${CODESPACE_NAME}: ${state}"
-          if [[ "${state}" != "Available" ]]; then
-            echo "Requesting Codespace start"
-            gh api --method POST "user/codespaces/${CODESPACE_NAME}/start" >/dev/null
-          fi
-          for attempt in {1..18}; do
-            state="$(gh api "user/codespaces/${CODESPACE_NAME}" --jq '.state')"
-            [[ "${state}" == "Available" ]] && break
-            sleep 10
-          done
-          if [[ "${state}" != "Available" ]]; then
-            echo "::error::Codespace did not become available: ${state}"
-            exit 1
-          fi
-      - name: Check MCP service and restart if needed
-        shell: bash
-        run: |
-          set -euo pipefail
-          # A protected MCP endpoint may respond 401; that still proves the HTTP service is responding.
-          code="$(curl -L -sS -o /dev/null -w '%{http_code}' --max-time 15 "${MCP_URL}" || true)"
-          if [[ "${code}" == "200" || "${code}" == "400" || "${code}" == "401" || "${code}" == "405" ]]; then
-            echo "MCP endpoint responding: HTTP ${code}"
-            exit 0
-          fi
-          echo "MCP endpoint not healthy (HTTP ${code}); invoking the devcontainer startup entry point inside Codespace"
-          if ! gh codespace ssh -c "${CODESPACE_NAME}" -- "bash -lc 'bash /workspaces/Terminals/workspaces/codespace-terminal-mcp/start-mcp.sh'"; then
-            echo "::warning::Startup entry point returned nonzero; checking endpoint before reporting failure."
-          fi
-          sleep 10
-          code="$(curl -L -sS -o /dev/null -w '%{http_code}' --max-time 15 "${MCP_URL}" || true)"
-          if [[ "${code}" != "200" && "${code}" != "400" && "${code}" != "401" && "${code}" != "405" ]]; then
-            echo "::error::MCP endpoint remains unavailable: HTTP ${code}"
-            exit 1
-          fi
-          echo "MCP endpoint restored: HTTP ${code}"
+          gh codespace start -c "${CODESPACE_NAME}"

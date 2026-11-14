@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -e\nname=$(gh codespace list --repo BestNameYet/Terminals --json name,repository --jq '.[]|select(.repository==\"BestNameYet/Terminals\")|.name' | head -n 1)\ngh codespace ssh -c \"$name\" -- \"bash -lc 'if [[ -n \\u0024{MCP_GH_OAUTH_CLIENT_SECRET:-} ]]; then echo login_shell_secret=present; else echo login_shell_secret=missing; fi; if [[ -n \\u0024{CODESPACE_NAME:-} ]]; then echo login_shell_name=present; else echo login_shell_name=missing; fi'\"\nprintf '\\nRepository Codespaces secret names:\\n'\ngh api repos/BestNameYet/Terminals/codespaces/secrets --jq '.secrets[].name' || true",
+  "outputThat": [
+    "login_shell_secret=present",
+    "login_shell_name=present",
+    "",
+    "Repository Codespaces secret names:"
+  ]
+}

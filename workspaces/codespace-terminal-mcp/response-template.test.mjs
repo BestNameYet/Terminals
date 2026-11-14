@@ -26,7 +26,7 @@ test('embedded resource bytes are loaded from the referenced repository document
 
 test('resources/list and resources/read resolve the same URI and contents', async () => {
   const list = await listResponseResources();
-  assert.equal(list.length, 1);
+  assert.equal(list.length, 2);
   assert.equal(list[0].uri, uri);
   const read = await readResponseResource(uri);
   const content = await renderResponseContent('ok');

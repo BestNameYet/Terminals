@@ -12,6 +12,13 @@
       "name": "Account custom instructions",
       "mimeType": "application/json",
       "sourcePath": "references/account-custom-instructions.json"
+    },
+    {
+      "type": "resource",
+      "uri": "resource://terminals/references/imperatives",
+      "name": "Imperatives",
+      "mimeType": "application/json",
+      "sourcePath": "references/imperatives.json"
     }
   ]
 }

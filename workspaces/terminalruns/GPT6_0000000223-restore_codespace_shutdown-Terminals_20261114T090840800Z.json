@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail; name=$(gh codespace list --repo BestNameYet/Terminals --json name,repository --jq '.[]|select(.repository==\"BestNameYet/Terminals\")|.name' | head -n 1); test -n \"$name\"; state=$(gh api \"user/codespaces/${name}\" --jq .state); printf 'before_restore=%s\\n' \"$state\"; if [ \"$state\" != Shutdown ]; then gh api --method POST \"user/codespaces/${name}/stop\" >/dev/null; fi; gh api \"user/codespaces/${name}\" --jq '\"after_request=\"+.state'",
+  "outputThat": [
+    "before_restore=Available",
+    "after_request=ShuttingDown"
+  ]
+}

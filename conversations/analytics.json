@@ -1,0 +1,36 @@
+[
+  {
+    "template_id": "terminals.conversation-record",
+    "template_version": "1.1.0",
+    "task_type": "user_prompt_and_agent_response_contextual_analysis",
+    "turn_id": 1,
+    "timestamp": 1794678400,
+    "created_at_utc": "2026-11-14T00:00:00Z",
+    "target_exchange": {
+      "verbatim_utterance": "Synthetic EOTRecorder smoke-test prompt.",
+      "summary_of_adjacent_conversation": {
+        "preceding_user_turn_count": 0,
+        "preceding_user_turns_chronological": [],
+        "immediate_preceding_agent_response": null,
+        "sequence_summary": "First turn of the synthetic exchange."
+      },
+      "key_context_clues_to_meaning_and_intent": [
+        "This is a synthetic test."
+      ],
+      "explanation_of_how_utterance_is_embedded_in_conversation": "First prompt of the synthetic exchange."
+    },
+    "agent_response": {
+      "summary": "Acknowledged the synthetic smoke test.",
+      "key_context_clues_to_response_intent": [
+        "The test used synthetic content."
+      ],
+      "terms_or_explanations_risking_false_impressions": [],
+      "relationship_to_preceding_user_prompt_and_recent_exchanges": {
+        "immediate_user_prompt": "Synthetic EOTRecorder smoke-test prompt.",
+        "immediate_relationship": "The response acknowledged the prompt.",
+        "recent_user_prompts_and_agent_responses": [],
+        "outcome_assessment": "Synthetic recorder test input."
+      }
+    }
+  }
+]

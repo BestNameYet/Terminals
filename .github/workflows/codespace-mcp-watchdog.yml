@@ -54,8 +54,10 @@ jobs:
             echo "MCP endpoint responding: HTTP ${code}"
             exit 0
           fi
-          echo "MCP endpoint not healthy (HTTP ${code}); starting server inside Codespace"
-          gh codespace ssh -c "${CODESPACE_NAME}" -- "bash -lc 'cd /workspaces/Terminals/workspaces/codespace-terminal-mcp && (pgrep -f "node http-server.mjs" >/dev/null || (nohup env PORT=3000 node http-server.mjs >/tmp/terminal-mcp.log 2>&1 </dev/null &))'"
+          echo "MCP endpoint not healthy (HTTP ${code}); invoking the devcontainer startup entry point inside Codespace"
+          if ! gh codespace ssh -c "${CODESPACE_NAME}" -- "bash -lc 'bash /workspaces/Terminals/workspaces/codespace-terminal-mcp/start-mcp.sh'"; then
+            echo "::warning::Startup entry point returned nonzero; checking endpoint before reporting failure."
+          fi
           sleep 10
           code="$(curl -L -sS -o /dev/null -w '%{http_code}' --max-time 15 "${MCP_URL}" || true)"
           if [[ "${code}" != "200" && "${code}" != "400" && "${code}" != "401" && "${code}" != "405" ]]; then

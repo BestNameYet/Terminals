@@ -156,5 +156,5 @@ jobs:
               echo "::error::Codespace $codespace did not become available: $state"
               exit 1
             fi
-            gh codespace ssh -c "$codespace" -- "DEPLOY_SHA=$DEPLOY_SHA bash -c 'printf %s $payload | base64 -d | bash -s'"
+            gh codespace ssh -c "$codespace" -- "CODESPACE_NAME=$codespace DEPLOY_SHA=$DEPLOY_SHA bash -c 'printf %s $payload | base64 -d | bash -s'"
           done

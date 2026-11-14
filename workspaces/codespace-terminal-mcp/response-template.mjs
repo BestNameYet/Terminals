@@ -44,24 +44,26 @@ async function resourceContents(block) {
   return { uri: block.uri, mimeType: block.mimeType, text };
 }
 
+// Strip only the presentation wrapper; do not change block placement.
+function stripResourceIdentifiers(resource) {
+  return resource.text;
+}
+
 export async function renderResponseContent(text) {
   const blocks = await getTemplate();
   const envelope = JSON.parse(text);
   if (envelope === null || typeof envelope !== 'object' || Array.isArray(envelope)) {
     throw new Error('MCP command result must be a JSON object');
   }
-  const resources = [];
+  const parts = [];
   for (const block of blocks) {
-    if (block.type !== 'resource') continue;
-    const resource = await resourceContents(block);
-    resources.push({
-      uri: resource.uri,
-      name: block.name,
-      mimeType: resource.mimeType,
-      content: resource.mimeType === 'application/json' ? JSON.parse(resource.text) : resource.text
-    });
+    if (block.type === 'resource') {
+      parts.push(stripResourceIdentifiers(await resourceContents(block)));
+    } else if (block.type === 'text' && block.source === 'tool_result_text') {
+      parts.push(text);
+    }
   }
-  return [{ type: 'text', text: JSON.stringify({ ...envelope, resources }) }];
+  return [{ type: 'text', text: parts.join('\n') }];
 }
 
 export async function listResponseResources() {

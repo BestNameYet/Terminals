@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "984b3852f557a1d84b6ccea47a7fdd0851b3b414",
+  "source_commit": "8e278779eca64182d069b9014cdfa5a126bbada7",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -54,9 +54,9 @@
       "role": "http_entrypoint",
       "read_condition": "http_start",
       "read_evidence": "Supervisor launches node http-server.mjs; Node loads this entrypoint",
-      "sha256": "795095c4d4f8fa0ed090ef907baf25138b1049a1a734d20f3b77a20aa838925d",
-      "git_blob_oid": "23f9b677bc3814f8f1f26a09108bc3fc939ebeba",
-      "byte_length": 6745
+      "sha256": "ce626ba255c558dde9d1bbdac6a8df9bc7186ba32a84e0aaa8351ed1c4b8e86d",
+      "git_blob_oid": "dee80f4ead355b47f010d4f7cf1f78e01a15a646",
+      "byte_length": 6854
     },
     {
       "path": "workspaces/codespace-terminal-mcp/oauth.mjs",
@@ -99,9 +99,9 @@
       "role": "embedded_resource",
       "read_condition": "request_conditional",
       "read_evidence": "response-template.mjs reads this referenced file for embedded account instructions and resource reads",
-      "sha256": "f9c48fbea69d5964d9105e21716c5720dbcb12304983987c2032bbd7c46173f8",
-      "git_blob_oid": "b40c4f1b576bb211b77854749b93ed4e856ab687",
-      "byte_length": 18103
+      "sha256": "96981b8840e72c0487ad74bf3db29665def0ff277e4925fdfdc8dfcc9b57fd51",
+      "git_blob_oid": "3d77ef86fe290a92ff19ad2cdbb1753b207e3895",
+      "byte_length": 17832
     },
     {
       "path": "references/imperatives.json",
@@ -117,9 +117,9 @@
       "role": "alternate_stdio_entrypoint",
       "read_condition": "alternate_stdio_start",
       "read_evidence": "Node loads this file if npm start selects the package's stdio server; not the Codespace HTTP supervisor's entrypoint",
-      "sha256": "03c435daab4ba37269eb5d2c060f47b26fb547cdb6d34895dd459a82c75a3992",
-      "git_blob_oid": "4e12e27cf62bc8db5d13b744d264e95654c780d8",
-      "byte_length": 3059
+      "sha256": "c3d014a081fae02058124060366b321d02a50a3eccc5c113c05b8dfbbe3c55f6",
+      "git_blob_oid": "dc32a7e27defa778319c9ffc047d3a59137ba9d6",
+      "byte_length": 3168
     },
     {
       "path": "workspaces/codespace-terminal-mcp/alias-dispatcher.mjs",

@@ -111,6 +111,15 @@
       "sha256": "00b935cbd106afd7c5f4d834e15085e994b33a7c9f84a555fa44ffee0ffa802a",
       "git_blob_oid": "967595c35f40a49123fdceeabcbb26392cdee2c9",
       "byte_length": 2795
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/alias-dispatcher.mjs",
+      "role": "function_dispatcher",
+      "read_condition": "http_or_stdio_start",
+      "read_evidence": "Imported by both MCP terminal_execute entrypoints for @ dispatch",
+      "sha256": "3c86a96e843bb067bd04fec75b25fcb2d3527205c7230f2e5e6e45617ba525a2",
+      "git_blob_oid": "9d7c0864ab11e46a3c477b9edfedae18e0176e13",
+      "byte_length": 1533
     }
   ],
   "unversioned_runtime_data": [

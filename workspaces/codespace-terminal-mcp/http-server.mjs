@@ -9,7 +9,8 @@ import { spawn, execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import {resolve} from 'node:path';
 import { renderResponseContent, listResponseResources, readResponseResource } from './response-template.mjs';
-const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
+import { dispatchAliasReceipt } from './alias-dispatcher.mjs';
+const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh','@']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
 const terminalWorkspace = process.env.GITHUB_WORKSPACE || fileURLToPath(new URL('../../', import.meta.url));
 const terminalView = {
   uri: 'ui://terminals/codespace-terminal.html',
@@ -20,7 +21,7 @@ const terminalView = {
 function setup(){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
   { name: 'terminal_open', title: 'Open Codespace terminal', description: 'Show the terminal controls in ChatGPT.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: terminalView.uri } } },
-  { name: 'terminal_execute', description: 'Execute one fresh Issue #3-compatible shell or gh command, no persistent PTY.', inputSchema: schema },
+  { name: 'terminal_execute', description: 'Execute a fresh Bash ($), GitHub CLI (gh), or registered convenience function (@) command.', inputSchema: schema },
 ] }));
 server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView, ...await listResponseResources()] }));
 server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
@@ -33,7 +34,8 @@ server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
 server.setRequestHandler(CallToolRequestSchema,async({params})=>{
 if (params.name === 'terminal_open') return { content: await renderResponseContent('Codespace terminal ready.') };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};
-if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');
+if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh','@'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');
+if(a.runOn==='@'){const receipt=await dispatchAliasReceipt(a.whatPrompt);return {content:await renderResponseContent(JSON.stringify(receipt)),isError:receipt.exitCode!==0};}
 const prompt=a.runOn==='gh'&&!/^gh(?:\s|$)/.test(a.whatPrompt.trim())?'gh '+a.whatPrompt:a.whatPrompt;
 const child=spawn('bash',['-o','pipefail','-c',prompt],{cwd:terminalWorkspace,stdio:['ignore','pipe','pipe']});
 const chunks={stdout:[],stderr:[]};let size=0,overflow=false,timedOut=false;

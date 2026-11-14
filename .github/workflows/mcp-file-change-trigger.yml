@@ -1,0 +1,21 @@
+name: MCP file change trigger
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'workspaces/codespace-terminal-mcp/**'
+      - '.devcontainer/devcontainer.json'
+      - 'references/account-custom-instructions.json'
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record triggering commit
+        run: |
+          printf 'MCP file change: %s (%s)\n' "$GITHUB_SHA" "$GITHUB_REF"

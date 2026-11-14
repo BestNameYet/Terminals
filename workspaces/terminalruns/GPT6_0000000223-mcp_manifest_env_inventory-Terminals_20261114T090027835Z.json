@@ -1,0 +1,23 @@
+{
+  "inputThis": "$:gh codespace list --repo BestNameYet/Terminals --json name,state,repository --jq '.[]|{name,state,repository}' && printf '\\nTRACKED_RUNTIME_FILES:\\n' && git ls-files 'workspaces/codespace-terminal-mcp/**' '.devcontainer/**' | sort && printf '\\nLOCKFILES:\\n' && git ls-files '*lock*' | grep -E 'package-lock|pnpm-lock|yarn.lock|npm-shrinkwrap' | head -30",
+  "outputThat": [
+    "{\"name\":\"shiny-robot-v64x5jj4v4q2x96\",\"repository\":\"BestNameYet/Terminals\",\"state\":\"Shutdown\"}",
+    "",
+    "TRACKED_RUNTIME_FILES:",
+    ".devcontainer/devcontainer.json",
+    "workspaces/codespace-terminal-mcp/http-server.mjs",
+    "workspaces/codespace-terminal-mcp/oauth.mjs",
+    "workspaces/codespace-terminal-mcp/package.json",
+    "workspaces/codespace-terminal-mcp/response-template.json",
+    "workspaces/codespace-terminal-mcp/response-template.mjs",
+    "workspaces/codespace-terminal-mcp/response-template.test.mjs",
+    "workspaces/codespace-terminal-mcp/server.mjs",
+    "workspaces/codespace-terminal-mcp/start-mcp.sh",
+    "workspaces/codespace-terminal-mcp/startup.test.mjs",
+    "workspaces/codespace-terminal-mcp/supervise-mcp.sh",
+    "workspaces/codespace-terminal-mcp/terminal.html",
+    "",
+    "LOCKFILES:",
+    "workspaces/codespace-mcp-srs-design/expression-inventory/package-lock.json"
+  ]
+}

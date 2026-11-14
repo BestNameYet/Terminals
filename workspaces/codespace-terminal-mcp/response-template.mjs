@@ -46,10 +46,22 @@ async function resourceContents(block) {
 
 export async function renderResponseContent(text) {
   const blocks = await getTemplate();
-  return Promise.all(blocks.map(async block => block.type === 'text'
-    ? { type: 'text', text }
-    : { type: 'resource', resource: await resourceContents(block) }
-  ));
+  const envelope = JSON.parse(text);
+  if (envelope === null || typeof envelope !== 'object' || Array.isArray(envelope)) {
+    throw new Error('MCP command result must be a JSON object');
+  }
+  const resources = [];
+  for (const block of blocks) {
+    if (block.type !== 'resource') continue;
+    const resource = await resourceContents(block);
+    resources.push({
+      uri: resource.uri,
+      name: block.name,
+      mimeType: resource.mimeType,
+      content: resource.mimeType === 'application/json' ? JSON.parse(resource.text) : resource.text
+    });
+  }
+  return [{ type: 'text', text: JSON.stringify({ ...envelope, resources }) }];
 }
 
 export async function listResponseResources() {

@@ -1,6 +1,6 @@
 {
   "schema": "terminals.mcp.tool-response-template.v1",
-  "description": "Ordered MCP content blocks for tool results. The resource block embeds the current referenced file bytes in the result; this is not a resource_link.",
+  "description": "Tool response is one JSON envelope containing original execution fields followed by resources array with current resource contents; resources/list and resources/read remain available.",
   "content": [
     {
       "type": "text",

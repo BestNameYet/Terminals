@@ -35,7 +35,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
   return { contents: [await readResponseResource(params.uri)] };
 });
 server.setRequestHandler(CallToolRequestSchema,async({params})=>{
-if (params.name === 'terminal_open') return { content: await renderResponseContent('Codespace terminal ready.') };
+if (params.name === 'terminal_open') return { content: await renderResponseContent(JSON.stringify({message:'Codespace terminal ready.'})) };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};
 if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh','@'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');
 if(a.runOn==='@'){const receipt=await dispatchAliasReceipt(a.whatPrompt);return {content:await renderResponseContent(JSON.stringify(receipt)),isError:receipt.exitCode!==0};}

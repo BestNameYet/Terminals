@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "ff7fd94614ec0e61e7def9ecc17b52f487c799a8",
+  "source_commit": "5955344715a6383aad4084ad58c58e815b7e0e9c",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -54,9 +54,9 @@
       "role": "http_entrypoint",
       "read_condition": "http_start",
       "read_evidence": "Supervisor launches node http-server.mjs; Node loads this entrypoint",
-      "sha256": "ce626ba255c558dde9d1bbdac6a8df9bc7186ba32a84e0aaa8351ed1c4b8e86d",
-      "git_blob_oid": "dee80f4ead355b47f010d4f7cf1f78e01a15a646",
-      "byte_length": 6854
+      "sha256": "ea4985319a4196b796e976547752a6f40d6017622ce8dc0c2176377c9e7580c6",
+      "git_blob_oid": "76b7b27b3fedf2a90bb317ecdc8c496173521136",
+      "byte_length": 6880
     },
     {
       "path": "workspaces/codespace-terminal-mcp/oauth.mjs",
@@ -72,18 +72,18 @@
       "role": "response_module",
       "read_condition": "http_or_stdio_start",
       "read_evidence": "Imported and evaluated by HTTP entrypoint or optional stdio entrypoint",
-      "sha256": "40b6472535c695be54299a98b6d7fc4c7fdb656445cc3a69c091ecc515db3ca7",
-      "git_blob_oid": "7f359b3ec005f991d0fcb2a4b5ab73d8c007fc56",
-      "byte_length": 2611
+      "sha256": "8559bd3ef5b87607fdb5f570a92dbf3ea39260d3a36a8fbace1baa51ae27939d",
+      "git_blob_oid": "4ec83fb735ac3ccb22668d03b17df8298e3a6e9c",
+      "byte_length": 3080
     },
     {
       "path": "workspaces/codespace-terminal-mcp/response-template.json",
       "role": "response_configuration",
       "read_condition": "request_conditional",
       "read_evidence": "response-template.mjs reads the JSON on MCP tool and resource requests",
-      "sha256": "3587de3f7006f7cc9407a3c82287821160655941521e5110af4cb3b23f6498ce",
-      "git_blob_oid": "01774d792774ea61e0ab740f19b2a032d6fcd77d",
-      "byte_length": 796
+      "sha256": "64fdb8a8f125d09cf3cd1c4bb02339ddaa0a09e4a99dabcfb3ae232918711541",
+      "git_blob_oid": "61ec4a8b2c174c901a5c8ccaef9492f26642b9f9",
+      "byte_length": 831
     },
     {
       "path": "workspaces/codespace-terminal-mcp/terminal.html",

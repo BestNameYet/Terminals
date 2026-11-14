@@ -24,4 +24,4 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh codespace start -c "${CODESPACE_NAME}"
+          gh api --method POST "user/codespaces/${CODESPACE_NAME}/start" >/dev/null

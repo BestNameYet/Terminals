@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "17c622e12240bd9bbfcfd1ce8a9f048a8a575337",
+  "source_commit": "cd73e0c83c60f9ccb97ee077ef1efcfeca67f925",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -81,9 +81,9 @@
       "role": "response_configuration",
       "read_condition": "request_conditional",
       "read_evidence": "response-template.mjs reads the JSON on MCP tool and resource requests",
-      "sha256": "ed5a9cf227f1b05ce086e2eaa0ff1ecc065024adf862b75f6a6f3d08f391f90d",
-      "git_blob_oid": "eabdd9110aafd05d44ff06490ecf51d59e126d15",
-      "byte_length": 580
+      "sha256": "3587de3f7006f7cc9407a3c82287821160655941521e5110af4cb3b23f6498ce",
+      "git_blob_oid": "01774d792774ea61e0ab740f19b2a032d6fcd77d",
+      "byte_length": 796
     },
     {
       "path": "workspaces/codespace-terminal-mcp/terminal.html",
@@ -102,6 +102,15 @@
       "sha256": "f9c48fbea69d5964d9105e21716c5720dbcb12304983987c2032bbd7c46173f8",
       "git_blob_oid": "b40c4f1b576bb211b77854749b93ed4e856ab687",
       "byte_length": 18103
+    },
+    {
+      "path": "references/imperatives.json",
+      "role": "embedded_resource",
+      "read_condition": "request_conditional",
+      "read_evidence": "response-template.mjs reads this referenced file for embedded imperatives and resource reads",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "git_blob_oid": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "byte_length": 3
     },
     {
       "path": "workspaces/codespace-terminal-mcp/server.mjs",

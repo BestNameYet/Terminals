@@ -3,8 +3,11 @@
   "description": "Tool response is one JSON envelope containing original execution fields followed by resources array with current resource contents; resources/list and resources/read remain available.",
   "content": [
     {
-      "type": "text",
-      "source": "tool_result_text"
+      "type": "resource",
+      "uri": "resource://terminals/references/imperatives",
+      "name": "Imperatives",
+      "mimeType": "application/json",
+      "sourcePath": "references/imperatives.json"
     },
     {
       "type": "resource",
@@ -14,11 +17,8 @@
       "sourcePath": "references/account-custom-instructions.json"
     },
     {
-      "type": "resource",
-      "uri": "resource://terminals/references/imperatives",
-      "name": "Imperatives",
-      "mimeType": "application/json",
-      "sourcePath": "references/imperatives.json"
+      "type": "text",
+      "source": "tool_result_text"
     }
   ]
 }

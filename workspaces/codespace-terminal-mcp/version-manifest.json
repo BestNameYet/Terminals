@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "5955344715a6383aad4084ad58c58e815b7e0e9c",
+  "source_commit": "3e0ef59aaaff5ead4d8fcbcfa37d5f7ce25124d0",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -81,8 +81,8 @@
       "role": "response_configuration",
       "read_condition": "request_conditional",
       "read_evidence": "response-template.mjs reads the JSON on MCP tool and resource requests",
-      "sha256": "64fdb8a8f125d09cf3cd1c4bb02339ddaa0a09e4a99dabcfb3ae232918711541",
-      "git_blob_oid": "61ec4a8b2c174c901a5c8ccaef9492f26642b9f9",
+      "sha256": "2a537795e79eb6c3218b18d90630e2e24bc3d1133e29ff237df77951b39d57cb",
+      "git_blob_oid": "140baa81983d6aef72b43a30a7c9570c5b68354b",
       "byte_length": 831
     },
     {

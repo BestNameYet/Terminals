@@ -2,7 +2,10 @@ import {Server} from '@modelcontextprotocol/sdk/server/index.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {ListToolsRequestSchema,CallToolRequestSchema,ListResourcesRequestSchema,ReadResourceRequestSchema} from '@modelcontextprotocol/sdk/types.js';
 import { renderResponseContent, listResponseResources, readResponseResource } from './response-template.mjs';
-import { dispatchAliasReceipt } from './alias-dispatcher.mjs';
+import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
+import { EOTRecorder } from './eot-recorder.mjs';
+
+registerAlias('EOTRecorder', EOTRecorder);
 import {spawn} from 'node:child_process';
 const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh','@']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};

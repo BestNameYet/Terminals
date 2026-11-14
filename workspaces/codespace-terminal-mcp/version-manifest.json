@@ -129,6 +129,24 @@
       "sha256": "3c86a96e843bb067bd04fec75b25fcb2d3527205c7230f2e5e6e45617ba525a2",
       "git_blob_oid": "9d7c0864ab11e46a3c477b9edfedae18e0176e13",
       "byte_length": 1533
+    },
+    {
+      "path": "workspaces/codespace-terminal-mcp/eot-recorder.mjs",
+      "role": "function_handler",
+      "read_condition": "http_or_stdio_start",
+      "read_evidence": "Both MCP entrypoints import the registered EOTRecorder handler",
+      "sha256": "ce4b0934f9a653f51ebada791660f3392f8bd69e89f1c283dee21f61e1ad73c9",
+      "git_blob_oid": "57b9e1bcb76224de6cadfa9b316ad79d1c27d5c4",
+      "byte_length": 5449
+    },
+    {
+      "path": "conversations/conversation-record.template.json",
+      "role": "record_template",
+      "read_condition": "recorder_invocation",
+      "read_evidence": "EOTRecorder reads the active template when validating an invocation",
+      "sha256": "d0b0e1ba6df16ce380840bba09cd9660dcde25320b3db842c8b41088a0761a43",
+      "git_blob_oid": "011f741475dcb5a392a48514758a0f0bafb7761e",
+      "byte_length": 1490
     }
   ],
   "unversioned_runtime_data": [

@@ -1,28 +1,51 @@
 {
   "template_id": "terminals.conversation-record",
-  "template_version": "1.0.0",
+  "template_version": "1.1.0",
   "task_type": "user_prompt_and_agent_response_contextual_analysis",
-  "created_at_utc": null,
+  "created_at_utc": "utc_datetime",
+  "turn_id": "positive_integer",
+  "timestamp": "integer",
   "target_exchange": {
-    "verbatim_utterance": null,
+    "verbatim_utterance": "text",
     "summary_of_adjacent_conversation": {
-      "preceding_user_turn_count": null,
-      "preceding_user_turns_chronological": [],
-      "immediate_preceding_agent_response": null,
-      "sequence_summary": null
+      "preceding_user_turn_count": "integer",
+      "preceding_user_turns_chronological": [
+        {
+          "user_utterance": "text",
+          "context_summary": "text"
+        }
+      ],
+      "immediate_preceding_agent_response": "text_or_null",
+      "sequence_summary": "text"
     },
-    "key_context_clues_to_meaning_and_intent": [],
-    "explanation_of_how_utterance_is_embedded_in_conversation": null
+    "key_context_clues_to_meaning_and_intent": [
+      "text"
+    ],
+    "explanation_of_how_utterance_is_embedded_in_conversation": "text"
   },
   "agent_response": {
-    "summary": null,
-    "key_context_clues_to_response_intent": [],
-    "terms_or_explanations_risking_false_impressions": [],
+    "summary": "text",
+    "key_context_clues_to_response_intent": [
+      "text"
+    ],
+    "terms_or_explanations_risking_false_impressions": [
+      {
+        "term_or_claim": "text",
+        "potential_false_impression": "text",
+        "actual_state_and_qualification": "text",
+        "error_or_ambiguity_type": "text"
+      }
+    ],
     "relationship_to_preceding_user_prompt_and_recent_exchanges": {
-      "immediate_user_prompt": null,
-      "immediate_relationship": null,
-      "recent_user_prompts_and_agent_responses": [],
-      "outcome_assessment": null
+      "immediate_user_prompt": "text",
+      "immediate_relationship": "text",
+      "recent_user_prompts_and_agent_responses": [
+        {
+          "prompt": "text",
+          "response_relationship": "text"
+        }
+      ],
+      "outcome_assessment": "text"
     }
   }
 }

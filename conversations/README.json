@@ -7,7 +7,7 @@
   "record_type": "user_prompt_and_agent_response_contextual_analysis",
   "current_template": {
     "path": "conversations/conversation-record.template.json",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "template_id": "terminals.conversation-record"
   },
   "source_example": {
@@ -16,13 +16,13 @@
   },
   "constraints": {
     "preceding_user_turns": {
-      "minimum": 3,
-      "maximum": 7,
+      "selection": "available preceding turns",
       "order": "chronological"
     },
     "verbatim_utterance": "exact user wording",
     "evidence": "distinguish verified actions from claims; identify ambiguities likely to mislead",
     "long_term_status": "not an authoritative permanent archive"
   },
-  "lifecycle": "Records may be reviewed and migrated to an eventual permanent location; preserve provenance and original content during transfer."
+  "lifecycle": "Records may be reviewed and migrated to an eventual permanent location; preserve provenance and original content during transfer.",
+  "recorder_destination": "conversations/analytics.json"
 }

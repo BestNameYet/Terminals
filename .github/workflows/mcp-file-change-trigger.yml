@@ -8,14 +8,153 @@ on:
       - 'workspaces/codespace-terminal-mcp/**'
       - '.devcontainer/devcontainer.json'
       - 'references/account-custom-instructions.json'
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: mcp-version-deployment-main
+  cancel-in-progress: false
 
 jobs:
-  detect:
+  deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Record triggering commit
+      - name: Check out GitHub main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Refresh and commit MCP version manifest
+        id: manifest
+        shell: bash
         run: |
-          printf 'MCP file change: %s (%s)\n' "$GITHUB_SHA" "$GITHUB_REF"
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git checkout -f -B main origin/main
+
+            python3 - <<'PY'
+          import hashlib
+          import json
+          import pathlib
+          import subprocess
+
+          manifest_path = pathlib.Path("workspaces/codespace-terminal-mcp/version-manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          assert manifest["schema"] == "terminals.mcp.runtime-version-manifest.v1"
+          commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          manifest["source_commit"] = commit
+
+          for entry in manifest["files"]:
+              path = entry["path"]
+              data = subprocess.check_output(["git", "show", f"HEAD:{path}"])
+              blob = subprocess.check_output(["git", "rev-parse", f"HEAD:{path}"], text=True).strip()
+              entry["sha256"] = hashlib.sha256(data).hexdigest()
+              entry["git_blob_oid"] = blob
+              entry["byte_length"] = len(data)
+
+          package = json.loads(pathlib.Path("workspaces/codespace-terminal-mcp/package.json").read_text())
+          manifest["application_name"] = package["name"]
+          manifest["application_version"] = package["version"]
+          manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          print(f"Manifest recorded source commit {commit} and {len(manifest['files'])} files")
+          PY
+
+            git add -- workspaces/codespace-terminal-mcp/version-manifest.json
+            if ! git diff --cached --quiet; then
+              git commit -m "Refresh MCP runtime version manifest"
+            fi
+
+            if git push origin HEAD:main; then
+              printf 'deploy_sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              break
+            fi
+            if (( attempt == 3 )); then
+              echo "::error::Could not publish version manifest to main"
+              exit 1
+            fi
+          done
+
+      - name: Update Codespace checkout and restart MCP server
+        shell: bash
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACES_PAT }}
+          DEPLOY_SHA: ${{ steps.manifest.outputs.deploy_sha }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${GH_TOKEN:-}" ]]; then
+            echo "::error::CODESPACES_PAT is required for Codespaces management"
+            exit 1
+          fi
+          if [[ ! "$DEPLOY_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::Missing manifest deployment commit"
+            exit 1
+          fi
+
+          mapfile -t codespaces < <(gh codespace list --repo "$GITHUB_REPOSITORY" --json name,repository --jq ".[] | select(.repository == \"$GITHUB_REPOSITORY\") | .name")
+          if (( ${#codespaces[@]} == 0 )); then
+            echo "::error::No Codespaces found for $GITHUB_REPOSITORY"
+            exit 1
+          fi
+
+          remote_script=$(cat <<'REMOTE'
+          set -euo pipefail
+          cd /workspaces/Terminals
+          git fetch origin main
+          git checkout -f -B main origin/main
+          actual_sha=$(git rev-parse HEAD)
+          if [[ "$actual_sha" != "$DEPLOY_SHA" ]]; then
+            printf 'Expected %s but Codespace fetched %s\n' "$DEPLOY_SHA" "$actual_sha" >&2
+            exit 1
+          fi
+
+          cd workspaces/codespace-terminal-mcp
+          pkill -TERM -f '^bash supervise-mcp[.]sh$' || true
+          sleep 2
+          pkill -TERM -f '^node http-server[.]mjs$' || true
+          sleep 2
+          pkill -KILL -f '^bash supervise-mcp[.]sh$' || true
+          pkill -KILL -f '^node http-server[.]mjs$' || true
+          sleep 1
+
+          bash start-mcp.sh
+          for attempt in {1..30}; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 http://127.0.0.1:3000/mcp || true)
+            if [[ "$code" == 200 || "$code" == 400 || "$code" == 401 || "$code" == 405 ]]; then
+              pgrep -f '^node http-server[.]mjs$' >/dev/null
+              printf 'MCP restarted at %s (HTTP %s)\n' "$actual_sha" "$code"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'MCP did not become ready after restart' >&2
+          exit 1
+          REMOTE
+          )
+          payload=$(printf '%s\n' "$remote_script" | base64 -w0)
+
+          for codespace in "${codespaces[@]}"; do
+            echo "Updating Codespace: $codespace"
+            state=$(gh api "user/codespaces/$codespace" --jq '.state')
+            if [[ "$state" != Available ]]; then
+              gh api --method POST "user/codespaces/$codespace/start" >/dev/null
+            fi
+            for attempt in {1..24}; do
+              state=$(gh api "user/codespaces/$codespace" --jq '.state')
+              [[ "$state" == Available ]] && break
+              sleep 10
+            done
+            if [[ "$state" != Available ]]; then
+              echo "::error::Codespace $codespace did not become available: $state"
+              exit 1
+            fi
+            gh codespace ssh -c "$codespace" -- "DEPLOY_SHA=$DEPLOY_SHA bash -c 'printf %s $payload | base64 -d | bash -s'"
+          done

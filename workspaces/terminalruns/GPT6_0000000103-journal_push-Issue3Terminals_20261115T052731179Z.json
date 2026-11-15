@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail\ntest -n \"$GH_TOKEN\"\ngh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- env GH_TOKEN=\"$GH_TOKEN\" bash -s <<'REMOTE_FILESYSTEM'\nset -euo pipefail\ncd /workspaces/Terminals\ngit fetch origin main\ngit rebase origin/main\nauth_header=$(printf 'x-access-token:%s' \"$GH_TOKEN\" | base64 -w0)\ngit -c \"http.https://github.com/.extraheader=AUTHORIZATION: basic $auth_header\" push origin HEAD:main\nunset auth_header\nprintf '%s\\n' '--- COMMIT ---'\ngit rev-parse HEAD\nprintf '%s\\n' '--- STATUS ---'\ngit status --short | head -20\nREMOTE_FILESYSTEM",
+  "outputThat": [
+    "--- COMMIT ---",
+    "70792d9c5d44abf4a5090fcdf6ba07c21755a188",
+    "--- STATUS ---",
+    "?? workspaces/codespace-terminal-mcp/node_modules/",
+    "?? workspaces/codespace-terminal-mcp/package-lock.json"
+  ]
+}

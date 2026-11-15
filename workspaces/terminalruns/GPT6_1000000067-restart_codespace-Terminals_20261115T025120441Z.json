@@ -1,0 +1,4 @@
+{
+  "inputThis": "$:set -euo pipefail\nname='shiny-robot-v64x5jj4v4q2x96'\ngh api --method POST \"user/codespaces/${name}/stop\" >/dev/null\ngh api --method POST \"user/codespaces/${name}/start\" >/dev/null\nprintf 'Restart requested for %s\\n' \"$name\"",
+  "outputThat": []
+}

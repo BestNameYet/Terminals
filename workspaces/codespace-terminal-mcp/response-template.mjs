@@ -64,7 +64,7 @@ export async function renderResponseContent(text) {
       else if (outputThat !== undefined) parts.push(String(outputThat));
     }
   }
-  content[0] = { ...fields, output: parts.join('\n'), ...content[0] };
+  content[0] = { ...fields, text: parts.join('\n'), ...content[0] };
   return content;
 }
 

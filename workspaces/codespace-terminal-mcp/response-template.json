@@ -7,7 +7,7 @@
       "uri": "https://raw.githubusercontent.com/BestNameYet/Surfaces/main/references/imperative.json",
       "name": "Imperatives",
       "mimeType": "application/json",
-      "sourcePath": "references/imperatives.json"
+      "sourcePath": "https://raw.githubusercontent.com/BestNameYet/Surfaces/main/references/imperative.json"
     },
     {
       "type": "resource",

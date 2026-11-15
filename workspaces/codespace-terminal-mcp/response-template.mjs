@@ -40,7 +40,16 @@ function filePath(sourcePath) {
 }
 
 async function resourceContents(block) {
-  const text = await readFile(filePath(block.sourcePath), 'utf8');
+  let text;
+  if (block.sourcePath.startsWith('https://')) {
+    const response = await fetch(block.sourcePath, { signal: AbortSignal.timeout(15000) });
+    if (!response.ok) {
+      throw new Error(`Embedded resource fetch failed: HTTP ${response.status}`);
+    }
+    text = await response.text();
+  } else {
+    text = await readFile(filePath(block.sourcePath), 'utf8');
+  }
   return { uri: block.uri, mimeType: block.mimeType, text };
 }
 

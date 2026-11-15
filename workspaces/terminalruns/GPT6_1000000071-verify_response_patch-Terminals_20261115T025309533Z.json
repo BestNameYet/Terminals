@@ -1,0 +1,16 @@
+{
+  "inputThis": "$:node --check workspaces/codespace-terminal-mcp/response-template.mjs && node --test workspaces/codespace-terminal-mcp/response-template.test.mjs",
+  "outputThat": [
+    "✔ command returns one valid JSON envelope with complete execution fields (9.347479ms)",
+    "✔ resource listing and reads remain functional (4.445118ms)",
+    "✔ non-object tool response is rejected (1.3065ms)",
+    "ℹ tests 3",
+    "ℹ suites 0",
+    "ℹ pass 3",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 81.014915"
+  ]
+}

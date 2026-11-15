@@ -56,9 +56,14 @@ export async function renderResponseContent(text) {
   for (const block of blocks) {
     if (block.type === 'resource') {
       const resource = await resourceContents(block);
-      parts.push(resource.mimeType === 'application/json'
-        ? JSON.stringify(JSON.parse(resource.text))
-        : resource.text);
+      if (resource.mimeType === 'application/json') {
+        const parsed = JSON.parse(resource.text);
+        const serialized = JSON.stringify(parsed);
+        const value = Array.isArray(parsed) ? serialized.slice(1, -1) : serialized;
+        if (value) parts.push(value);
+      } else {
+        parts.push(resource.text);
+      }
     } else if (block.type === 'text' && block.source === 'tool_result_text') {
       if (Array.isArray(outputThat)) parts.push(outputThat.join('\n'));
       else if (outputThat !== undefined) parts.push(String(outputThat));

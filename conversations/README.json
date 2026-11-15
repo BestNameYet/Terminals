@@ -1,28 +1,33 @@
 {
   "document_type": "directory-readme",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "directory": "conversations/",
-  "purpose": "Temporarily house conversation records for specification design and analysis.",
+  "purpose": "Temporarily store event-driven turn journals and legacy conversation records for specification and operational analysis.",
   "status": "temporary",
-  "record_type": "user_prompt_and_agent_response_contextual_analysis",
+  "record_type": "turn_lifecycle_journal",
   "current_template": {
-    "path": "conversations/conversation-record.template.json",
-    "version": "1.1.0",
-    "template_id": "terminals.conversation-record"
+    "path": "conversations/turn-journal.template.json",
+    "version": "2.0.0",
+    "template_id": "terminals.turn-journal"
   },
   "source_example": {
     "path_in_chatgpt_library": "/Plugin Design 1/Tasks/User Prompt Task Queue/user-prompt-task-1794191751.json",
     "library_file_id": "libfile_f45fc8bd3bf081918fea24ec6ed5d0c0"
   },
   "constraints": {
-    "preceding_user_turns": {
-      "selection": "available preceding turns",
-      "order": "chronological"
-    },
-    "verbatim_utterance": "exact user wording",
-    "evidence": "distinguish verified actions from claims; identify ambiguities likely to mislead",
-    "long_term_status": "not an authoritative permanent archive"
+    "begin_turn": "Must persist before substantive work and capture timestamp, topics, categories, immediate topic and instructions.",
+    "scratchpad": "Chronological evidence-based operational notes; excludes hidden chain-of-thought.",
+    "end_task": "Requirement-level outcomes at task completion/termination, not automatically at every turn.",
+    "end_turn": "Finalize reply verbatim and record it before sending.",
+    "historical_records": "Preserve all prior version 1.1.0 entries without migration or modification.",
+    "long_term_status": "Not an authoritative permanent archive."
   },
-  "lifecycle": "Records may be reviewed and migrated to an eventual permanent location; preserve provenance and original content during transfer.",
-  "recorder_destination": "conversations/analytics.json"
+  "lifecycle": "begin_turn -> scratchpad (zero or more) -> optional end_task -> end_turn. All events operate on one persisted journal identified by turn_key; task_id relates multiple turns.",
+  "recorder_destination": "conversations/analytics.json",
+  "previous_template": {
+    "path": "conversations/conversation-record.template.json",
+    "version": "1.1.0",
+    "template_id": "terminals.conversation-record"
+  },
+  "recorder_alias": "TurnJournal"
 }

@@ -1,0 +1,146 @@
+{
+  "schema": "terminals.turn-journal.template.v2",
+  "template_id": "terminals.turn-journal",
+  "template_version": "2.0.0",
+  "description": "Event-driven turn journal: begin_turn, zero or more scratchpad entries, optional end_task, required end_turn. Type strings describe required values; arrays describe zero or more entries.",
+  "event_data_shapes": {
+    "begin_turn": {
+      "started_at_utc": "utc_datetime",
+      "started_unix_seconds": "integer",
+      "conversation_topics": [
+        "text"
+      ],
+      "topic_categories": [
+        "text"
+      ],
+      "specific_immediate_topic": "text",
+      "immediate_user_instruction_verbatim": "text",
+      "summarized_immediate_user_instruction": "text",
+      "summarized_environmental_user_instructions": [
+        "text"
+      ],
+      "preceding_context_summary": "text_or_null",
+      "planned_actions": [
+        "text"
+      ],
+      "success_criteria": [
+        "text"
+      ]
+    },
+    "scratchpad": {
+      "recorded_at_utc": "utc_datetime",
+      "entry_type": "text",
+      "summary": "text",
+      "observations": [
+        "text"
+      ],
+      "actions": [
+        "text"
+      ],
+      "tool_results": [
+        "text"
+      ],
+      "decisions": [
+        "text"
+      ],
+      "evidence": [
+        "text"
+      ],
+      "blockers": [
+        "text"
+      ],
+      "errors_and_corrections": [
+        "text"
+      ],
+      "next_steps": [
+        "text"
+      ]
+    },
+    "end_task": {
+      "ended_at_utc": "utc_datetime",
+      "task_status": "text",
+      "task_objective": "text",
+      "completion_summary": "text",
+      "requirements_evaluation": [
+        {
+          "requirement": "text",
+          "status": "text",
+          "evidence": "text"
+        }
+      ],
+      "deliverables": [
+        "text"
+      ],
+      "verification_results": [
+        "text"
+      ],
+      "limitations": [
+        "text"
+      ],
+      "unresolved_work": [
+        "text"
+      ],
+      "recommended_follow_up": [
+        "text"
+      ]
+    },
+    "end_turn": {
+      "ended_at_utc": "utc_datetime",
+      "final_reply_verbatim": "text",
+      "reply_summary": "text",
+      "alignment_to_user_instruction": "text",
+      "actions_completed": [
+        "text"
+      ],
+      "requirements_not_met": [
+        "text"
+      ],
+      "uncertainties_and_qualifications": [
+        "text"
+      ],
+      "continuation_context": [
+        "text"
+      ],
+      "task_closed": "boolean"
+    }
+  },
+  "request_envelope": {
+    "all_events": [
+      "template_id",
+      "template_version",
+      "event",
+      "event_id",
+      "turn_key",
+      "data"
+    ],
+    "begin_turn_additional": [
+      "task_id",
+      "turn_id"
+    ],
+    "event_enum": [
+      "begin_turn",
+      "scratchpad",
+      "end_task",
+      "end_turn"
+    ],
+    "event_id": "Stable idempotency key unique to an event; retry the identical request with the same event_id.",
+    "turn_key": "Stable unique identifier shared by all events for one assistant turn.",
+    "task_id": "Stable identifier shared across turns belonging to the same task.",
+    "turn_id": "One-based index of the assistant turn within available conversation context."
+  },
+  "persisted_record": {
+    "record_type": "turn_lifecycle_journal",
+    "template_id": "terminals.turn-journal",
+    "template_version": "2.0.0",
+    "turn_key": "text",
+    "task_id": "text",
+    "turn_id": "positive_integer",
+    "state": "open|closed",
+    "initial": "begin_turn object",
+    "scratchpad_entries": "ordered scratchpad objects",
+    "end_of_task_analysis": "end_task object or null",
+    "end_of_turn_analysis": "end_turn object or null",
+    "event_log": "ordered event receipts with event ID and payload fingerprint",
+    "updated_at_utc": "utc_datetime"
+  }
+}

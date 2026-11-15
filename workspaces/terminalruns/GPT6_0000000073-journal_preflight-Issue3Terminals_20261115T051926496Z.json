@@ -1,0 +1,18 @@
+{
+  "inputThis": "$:gh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- bash -s <<'REMOTE_FILESYSTEM'\nset -e\ncd /workspaces/Terminals\nprintf '%s\\n' '--- STATUS ---'\ngit status --short | head -20\nprintf '%s\\n' '--- HEAD ---'\ngit rev-parse HEAD\nREMOTE_FILESYSTEM",
+  "outputThat": [
+    "--- STATUS ---",
+    " M conversations/README.json",
+    " M references/account-custom-instructions.json",
+    " M references/conversation-analytics-rule.json",
+    " M workspaces/codespace-terminal-mcp/http-server.mjs",
+    " M workspaces/codespace-terminal-mcp/server.mjs",
+    "?? conversations/turn-journal.template.json",
+    "?? workspaces/codespace-terminal-mcp/node_modules/",
+    "?? workspaces/codespace-terminal-mcp/package-lock.json",
+    "?? workspaces/codespace-terminal-mcp/turn-journal.mjs",
+    "?? workspaces/codespace-terminal-mcp/turn-journal.test.mjs",
+    "--- HEAD ---",
+    "ff896bd07c3f2a02534792bd40f7f629f892c079"
+  ]
+}

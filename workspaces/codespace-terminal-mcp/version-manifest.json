@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "d103398515a7a464e02c1563bd8da339de1881ad",
+  "source_commit": "7fd28b27abca069901e9752f54f35fc6eb61393b",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",

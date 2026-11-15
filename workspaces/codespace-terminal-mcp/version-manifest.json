@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "c864806e8c1ae1510cb33203cfef898ff9cc9a84",
+  "source_commit": "ec685b41b7737162dc508c3b43bcf85275c9a8a0",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -72,9 +72,9 @@
       "role": "response_module",
       "read_condition": "http_or_stdio_start",
       "read_evidence": "Imported and evaluated by HTTP entrypoint or optional stdio entrypoint",
-      "sha256": "419751d617e57db1ab2292940ebb51497857d57c1dd00846faba6be396f9cddc",
-      "git_blob_oid": "a6438f62156aa812e9bee18870ffaf9726a7fb32",
-      "byte_length": 3255
+      "sha256": "018fd65e3927baa6f6bc0fa92f6222a028bec326a3a079eddfe9f295bd3a1511",
+      "git_blob_oid": "e6c3bbbbc2bd415b5ac5c7f04c5d4f93da9ae6c2",
+      "byte_length": 3454
     },
     {
       "path": "workspaces/codespace-terminal-mcp/response-template.json",

@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "b7a65a1a70ae1f36851803a892d6e4417a577143",
+  "source_commit": "49dda656f14931f24733143b623f2a6e9154c17c",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -126,9 +126,9 @@
       "role": "function_handler",
       "read_condition": "http_or_stdio_start",
       "read_evidence": "Both MCP entrypoints import the registered EOTRecorder handler",
-      "sha256": "ce4b0934f9a653f51ebada791660f3392f8bd69e89f1c283dee21f61e1ad73c9",
-      "git_blob_oid": "57b9e1bcb76224de6cadfa9b316ad79d1c27d5c4",
-      "byte_length": 5449
+      "sha256": "032ffe749d34c89fe1dc9026a30d7c3e1a0c15073816986b91495066ba4fde06",
+      "git_blob_oid": "35971e86fb1c8b7b0bb887ad95830491f502b375",
+      "byte_length": 4107
     },
     {
       "path": "conversations/conversation-record.template.json",

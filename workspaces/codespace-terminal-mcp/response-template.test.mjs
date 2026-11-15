@@ -5,20 +5,27 @@ import { renderResponseContent, listResponseResources, readResponseResource } fr
 
 const uri = 'resource://terminals/references/account-custom-instructions';
 
-test('command returns one valid JSON envelope with complete execution fields', async () => {
+test('flattened output strips JSON array brackets without iterating elements', async () => {
   const receipt = { inputThis: '$:pwd', outputThat: ['/workspaces/Terminals'], stderr: '', exitCode: 0, signal: null, timedOut: false, overflow: false };
   const blocks = await renderResponseContent(JSON.stringify(receipt));
   assert.equal(blocks.length, 1);
   assert.equal(blocks[0].type, 'text');
-  const result = JSON.parse(blocks[0].text);
-  for (const [key, value] of Object.entries(receipt)) assert.deepEqual(result[key], value);
-  assert.equal(result.resources.length, 2);
+  const { type, text, ...execution } = blocks[0];
+  assert.equal(type, 'text');
+  const { outputThat, ...expectedFields } = receipt;
+  assert.deepEqual(execution, expectedFields);
+  assert.equal(typeof text, 'string');
 
   const filenames = ['imperatives.json', 'account-custom-instructions.json'];
-  for (const [index, resource] of result.resources.entries()) {
-    const source = JSON.parse(await readFile(new URL('../../references/' + filenames[index], import.meta.url), 'utf8'));
-    assert.deepEqual(resource, { type: 'text', content: source });
+  const expectedParts = [];
+  for (const filename of filenames) {
+    const source = JSON.parse(await readFile(new URL('../../references/' + filename, import.meta.url), 'utf8'));
+    const serialized = JSON.stringify(source);
+    const flattened = Array.isArray(source) ? serialized.slice(1, -1) : serialized;
+    if (flattened) expectedParts.push(flattened);
   }
+  expectedParts.push('/workspaces/Terminals');
+  assert.equal(text, expectedParts.join('\n'));
 });
 
 test('resource listing and reads remain functional', async () => {

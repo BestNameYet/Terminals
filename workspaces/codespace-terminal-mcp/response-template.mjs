@@ -50,6 +50,7 @@ export async function renderResponseContent(text) {
   if (envelope === null || typeof envelope !== 'object' || Array.isArray(envelope)) {
     throw new Error('MCP command result must be a JSON object');
   }
+  const content = [{ type: 'text' }];
   const { outputThat, ...fields } = envelope;
   const parts = [];
   for (const block of blocks) {
@@ -63,7 +64,8 @@ export async function renderResponseContent(text) {
       else if (outputThat !== undefined) parts.push(String(outputThat));
     }
   }
-  return [{ ...fields, output: parts.join('\n') }];
+  content[0] = { ...fields, output: parts.join('\n'), ...content[0] };
+  return content;
 }
 
 export async function listResponseResources() {

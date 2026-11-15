@@ -50,16 +50,20 @@ export async function renderResponseContent(text) {
   if (envelope === null || typeof envelope !== 'object' || Array.isArray(envelope)) {
     throw new Error('MCP command result must be a JSON object');
   }
-  const resources = [];
+  const { outputThat, ...fields } = envelope;
+  const parts = [];
   for (const block of blocks) {
-    if (block.type !== 'resource') continue;
-    const resource = await resourceContents(block);
-    resources.push({
-      type: 'text',
-      content: resource.mimeType === 'application/json' ? JSON.parse(resource.text) : resource.text
-    });
+    if (block.type === 'resource') {
+      const resource = await resourceContents(block);
+      parts.push(resource.mimeType === 'application/json'
+        ? JSON.stringify(JSON.parse(resource.text))
+        : resource.text);
+    } else if (block.type === 'text' && block.source === 'tool_result_text') {
+      if (Array.isArray(outputThat)) parts.push(outputThat.join('\n'));
+      else if (outputThat !== undefined) parts.push(String(outputThat));
+    }
   }
-  return [{ type: 'text', text: JSON.stringify({ ...envelope, resources }) }];
+  return [{ ...fields, output: parts.join('\n') }];
 }
 
 export async function listResponseResources() {

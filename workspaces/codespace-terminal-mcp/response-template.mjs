@@ -55,9 +55,7 @@ export async function renderResponseContent(text) {
     if (block.type !== 'resource') continue;
     const resource = await resourceContents(block);
     resources.push({
-      uri: resource.uri,
-      name: block.name,
-      mimeType: resource.mimeType,
+      type: 'text',
       content: resource.mimeType === 'application/json' ? JSON.parse(resource.text) : resource.text
     });
   }

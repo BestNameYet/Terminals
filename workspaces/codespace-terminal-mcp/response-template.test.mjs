@@ -14,16 +14,10 @@ test('command returns one valid JSON envelope with complete execution fields', a
   for (const [key, value] of Object.entries(receipt)) assert.deepEqual(result[key], value);
   assert.equal(result.resources.length, 2);
 
-  const expected = new Map([
-    ['resource://terminals/references/imperatives', 'imperatives.json'],
-    [uri, 'account-custom-instructions.json']
-  ]);
-  for (const resource of result.resources) {
-    const filename = expected.get(resource.uri);
-    assert.ok(filename, 'unexpected resource URI');
-    assert.equal(resource.mimeType, 'application/json');
-    const source = JSON.parse(await readFile(new URL('../../references/' + filename, import.meta.url), 'utf8'));
-    assert.deepEqual(resource.content, source);
+  const filenames = ['imperatives.json', 'account-custom-instructions.json'];
+  for (const [index, resource] of result.resources.entries()) {
+    const source = JSON.parse(await readFile(new URL('../../references/' + filenames[index], import.meta.url), 'utf8'));
+    assert.deepEqual(resource, { type: 'text', content: source });
   }
 });
 

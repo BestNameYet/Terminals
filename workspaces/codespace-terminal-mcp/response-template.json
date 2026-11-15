@@ -4,7 +4,7 @@
   "content": [
     {
       "type": "resource",
-      "uri": "resource://terminals/references/imperatives",
+      "uri": "https://raw.githubusercontent.com/BestNameYet/Surfaces/main/references/imperative.json",
       "name": "Imperatives",
       "mimeType": "application/json",
       "sourcePath": "references/imperatives.json"

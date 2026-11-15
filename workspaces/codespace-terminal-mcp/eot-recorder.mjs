@@ -1,5 +1,4 @@
 import { execFile } from 'node:child_process';
-import { readFile } from 'node:fs/promises';
 import { isDeepStrictEqual, promisify } from 'node:util';
 
 const exec = promisify(execFile);
@@ -7,28 +6,17 @@ const repository = 'BestNameYet/Terminals';
 const path = 'conversations/analytics.json';
 const route = 'repos/' + repository + '/contents/' + path;
 const branch = 'main';
-const templateUrl = new URL('../../conversations/conversation-record.template.json', import.meta.url);
+const allowedEntryTypes = new Set([
+  'BEGINNING_OF_TURN',
+  'SCRATCHPAD',
+  'JOURNAL',
+  'TASK_ANALYSIS',
+  'END_OF_TURN',
+]);
 
-function validate(value, shape, key = 'record') {
-  const fail = () => { throw new Error('Invalid value for ' + key); };
-  if (Array.isArray(shape)) {
-    if (!Array.isArray(value)) fail();
-    value.forEach((item, index) => validate(item, shape[0], key + '[' + index + ']'));
-  } else if (shape && typeof shape === 'object') {
-    if (!value || typeof value !== 'object' || Array.isArray(value)) fail();
-    for (const name of Object.keys(value)) {
-      if (!Object.hasOwn(shape, name)) throw new Error('Unexpected field ' + key + '.' + name);
-    }
-    for (const [name, entry] of Object.entries(shape)) validate(value[name], entry, key + '.' + name);
-  } else if (shape === 'integer' || shape === 'positive_integer') {
-    if (!Number.isSafeInteger(value) || value < (shape === 'positive_integer' ? 1 : 0)) fail();
-  } else if (shape === 'utc_datetime') {
-    if (typeof value !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z$/.test(value)
-        || !Number.isFinite(Date.parse(value))) fail();
-  } else if (shape === 'text' || shape === 'text_or_null') {
-    if (!(shape === 'text_or_null' && value === null) && (typeof value !== 'string' || !value.trim())) fail();
-  } else if (value !== shape) {
-    fail();
+function validateEntryType(event) {
+  if (!allowedEntryTypes.has(event?.entry_type)) {
+    throw new Error('Invalid entry_type: expected one of ' + [...allowedEntryTypes].join(', '));
   }
 }
 
@@ -55,34 +43,29 @@ export function createEOTRecorder({ request = githubRequest } = {}) {
   async function read(ref, allowMissing = false) {
     const result = await request('GET', route, { ref });
     if (result.status === 404 && allowMissing) return { records: [], sha: undefined };
-    if (result.status !== 200) throw new Error('Analytics read failed (GitHub HTTP ' + result.status + ')');
+    if (result.status !== 200) throw new Error('Event journal read failed (GitHub HTTP ' + result.status + ')');
     const sha = result.data?.sha;
     const blob = result.data?.encoding === 'none' && sha
       ? await request('GET', 'repos/' + repository + '/git/blobs/' + sha)
       : result;
     if (blob.status !== 200 || blob.data?.encoding !== 'base64' || typeof blob.data.content !== 'string') {
-      throw new Error('GitHub did not return the analytics file contents (HTTP ' + blob.status + ')');
+      throw new Error('GitHub did not return the event journal file contents (HTTP ' + blob.status + ')');
     }
     const records = JSON.parse(Buffer.from(blob.data.content, 'base64').toString('utf8'));
-    if (!Array.isArray(records)) throw new Error('The persisted analytics file must contain a JSON array');
+    if (!Array.isArray(records)) throw new Error('The persisted event journal file must contain a JSON array');
     return { records, sha };
   }
 
-  return async function EOTRecorder(record) {
-    const template = JSON.parse(await readFile(templateUrl, 'utf8'));
-    validate(record, template);
-    const context = record.target_exchange.summary_of_adjacent_conversation;
-    if (context.preceding_user_turn_count !== context.preceding_user_turns_chronological.length) {
-      throw new Error('preceding_user_turn_count must match preceding_user_turns_chronological');
-    }
+  return async function EOTRecorder(event) {
+    validateEntryType(event);
 
     let snapshot = await read(branch, true);
     for (let attempt = 0; attempt < 5; attempt++) {
       const { records, sha } = snapshot;
-      const updated = [...records, record];
+      const updated = [...records, event];
       const content = Buffer.from(JSON.stringify(updated, null, 2) + '\n').toString('base64');
       const write = await request('PUT', route, {
-        body: { message: 'Append conversation analytics record', branch, content, sha },
+        body: { message: 'Append conversation event', branch, content, sha },
       });
       if (write.status === 409 || write.status === 422) {
         const latest = await read(branch, true);
@@ -92,23 +75,23 @@ export function createEOTRecorder({ request = githubRequest } = {}) {
         }
       }
       if (write.status !== 200 && write.status !== 201) {
-        throw new Error('Analytics write failed (GitHub HTTP ' + write.status + ')');
+        throw new Error('Event append failed (GitHub HTTP ' + write.status + ')');
       }
       const commit = write.data?.commit?.sha;
       if (!/^[a-f0-9]{40}$/.test(commit ?? '')) {
-        throw new Error('Analytics verification failed: GitHub returned no commit SHA');
+        throw new Error('Event append verification failed: GitHub returned no commit SHA');
       }
       try {
         const persisted = await read(commit);
         if (!isDeepStrictEqual(persisted.records, updated)) {
-          throw new Error('committed analytics differ from the expected append');
+          throw new Error('committed event journal differs from the expected append');
         }
       } catch (error) {
-        throw new Error('Analytics verification failed at ' + commit + ': ' + error.message);
+        throw new Error('Event append verification failed at ' + commit + ': ' + error.message);
       }
-      return { status: 'verified', repository, branch, path, commit, index: records.length };
+      return { status: 'verified', message: 'Event appended and verified', entry_type: event.entry_type, repository, branch, path, commit, index: records.length };
     }
-    throw new Error('Analytics write failed after five revision conflicts');
+    throw new Error('Event append failed after five revision conflicts');
   };
 }
 

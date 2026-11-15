@@ -3,38 +3,8 @@ import { test } from 'node:test';
 import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 
 const record = {
-  "template_id": "terminals.conversation-record",
-  "template_version": "1.1.0",
-  "task_type": "user_prompt_and_agent_response_contextual_analysis",
-  "turn_id": 1,
-  "timestamp": 1794678400,
-  "created_at_utc": "2026-11-14T00:00:00Z",
-  "target_exchange": {
-    "verbatim_utterance": "Synthetic EOTRecorder smoke-test prompt.",
-    "summary_of_adjacent_conversation": {
-      "preceding_user_turn_count": 0,
-      "preceding_user_turns_chronological": [],
-      "immediate_preceding_agent_response": null,
-      "sequence_summary": "First turn of the synthetic exchange."
-    },
-    "key_context_clues_to_meaning_and_intent": [
-      "This is a synthetic test."
-    ],
-    "explanation_of_how_utterance_is_embedded_in_conversation": "First prompt of the synthetic exchange."
-  },
-  "agent_response": {
-    "summary": "Acknowledged the synthetic smoke test.",
-    "key_context_clues_to_response_intent": [
-      "The test used synthetic content."
-    ],
-    "terms_or_explanations_risking_false_impressions": [],
-    "relationship_to_preceding_user_prompt_and_recent_exchanges": {
-      "immediate_user_prompt": "Synthetic EOTRecorder smoke-test prompt.",
-      "immediate_relationship": "The response acknowledged the prompt.",
-      "recent_user_prompts_and_agent_responses": [],
-      "outcome_assessment": "Synthetic recorder test input."
-    }
-  }
+  entry_type: 'SCRATCHPAD',
+  content: { observation: 'Synthetic recorder test', arbitrary: [null, false, 0, { nested: [] }] }
 };
 
 async function makeRecorder(request) {
@@ -74,7 +44,7 @@ function githubStore(initial = null) {
   };
 }
 
-test('the registered alias appends identical records and preserves existing values and order', async () => {
+test('registered EOTRecorder appends one event per invocation and preserves preceding records', async () => {
   const legacy = { template_version: '1.0.0', conversation_id: 'legacy' };
   const store = githubStore([legacy]);
   registerAlias('EOTRecorder', await makeRecorder(store.request));
@@ -85,28 +55,49 @@ test('the registered alias appends identical records and preserves existing valu
   assert.equal(second.exitCode, 0, second.stderr);
   assert.equal(JSON.parse(first.outputThat[0]).index, 1);
   assert.equal(JSON.parse(second.outputThat[0]).index, 2);
+  assert.equal(JSON.parse(first.outputThat[0]).message, 'Event appended and verified');
   assert.deepEqual(store.records, [legacy, record, record]);
+  assert.equal(store.writes[0].message, 'Append conversation event');
 });
 
-test('concurrent writers retry against the new revision and both append', async () => {
+test('all five recognized types accept unrestricted JSON content and arbitrary extra fields', async () => {
+  const store = githubStore([]);
+  const append = await makeRecorder(store.request);
+  const types = ['BEGINNING_OF_TURN', 'SCRATCHPAD', 'JOURNAL', 'TASK_ANALYSIS', 'END_OF_TURN'];
+  const inputs = types.map((entry_type, i) => ({
+    entry_type,
+    content: [undefined, null, false, 23, 'unstructured text'][i],
+    unrelated_fields: { any: true },
+    turn_id: 0,
+    timestamp: 'not a timestamp',
+  }));
+  // Only JSON-serializable event content is submitted through the MCP interface.
+  inputs[0].content = null;
+  for (const input of inputs) {
+    const receipt = await append(input);
+    assert.equal(receipt.status, 'verified');
+    assert.equal(receipt.entry_type, input.entry_type);
+  }
+  assert.deepEqual(store.records, inputs);
+});
+
+test('only entry_type is validated before GitHub is contacted', async () => {
+  const append = await makeRecorder(() => assert.fail('Invalid event reached GitHub'));
+  for (const input of [null, {}, [], 'SCRATCHPAD', { entry_type: 'scratchpad' },
+    { entry_type: 'OTHER', content: 'x' }, { entry_type: null }]) {
+    await assert.rejects(append(input), /Invalid entry_type/);
+  }
+});
+
+test('concurrent writers retry against the latest revision without lost events', async () => {
   const store = githubStore();
   const append = await makeRecorder(store.request);
-  const other = { ...record, turn_id: 2 };
+  const other = { entry_type: 'JOURNAL', content: 'Second event' };
   const receipts = await Promise.all([append(record), append(other)]);
   assert.deepEqual(receipts.map(({ index }) => index).sort(), [0, 1]);
   assert.equal(store.records.length, 2);
-  assert.deepEqual(store.records.find(item => item.turn_id === 1), record);
-  assert.deepEqual(store.records.find(item => item.turn_id === 2), other);
-});
-
-test('invalid records fail before contacting GitHub', async () => {
-  const append = await makeRecorder(() => assert.fail('Invalid input reached GitHub'));
-  await assert.rejects(append({ ...record, turn_id: 0 }), /turn_id/);
-  await assert.rejects(append({ ...record, timestamp: '1794678400' }), /timestamp/);
-  await assert.rejects(append({ ...record, conversation_id: 'legacy' }), /conversation_id/);
-  const invalid = structuredClone(record);
-  invalid.target_exchange.summary_of_adjacent_conversation.preceding_user_turns_chronological = [{ user_utterance: 'A prompt' }];
-  await assert.rejects(append(invalid), /context_summary/);
+  assert.deepEqual(store.records.find(item => item.entry_type === 'SCRATCHPAD'), record);
+  assert.deepEqual(store.records.find(item => item.entry_type === 'JOURNAL'), other);
 });
 
 test('a rejected write is reported without a second write', async () => {
@@ -117,7 +108,7 @@ test('a rejected write is reported without a second write', async () => {
     attempts++;
     return { status: 403 };
   });
-  await assert.rejects(append(record), /write.*403/i);
+  await assert.rejects(append(record), /append.*403/i);
   assert.equal(attempts, 1);
 });
 

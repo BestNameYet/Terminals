@@ -181,8 +181,8 @@
     },
     {
       "state": "State_3",
-      "instruction": "Read `clarifying_questions`. Return `question_answers` as one answer object per prior question. Each `question_id` matches the exact identifier of its corresponding question. Each `answer` is a substantive explanation addressing that question. Each `unresolved` is a Boolean indicating whether essential information for a reliable answer is still unavailable.",
-      "return_schema_notation": "question_answers: {question_id: string, answer: string, unresolved: boolean}[]",
+      "instruction": "Read `clarifying_questions`. Return `question_answers` as one object per original question, in the same order as `clarifying_questions`. Each `question_id` is the exact original question ID. Each `question` is the exact original question text. Each `answer` is a substantive explanation addressing that question. Each `unresolved` is a Boolean indicating whether essential information for a reliable answer is still unavailable.",
+      "return_schema_notation": "question_answers: {question_id: string, question: string, answer: string, unresolved: boolean}[]",
       "return_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
@@ -190,7 +190,7 @@
         "properties": {
           "question_answers": {
             "type": "array",
-            "description": "The `question_answers` property is an array of answer objects, containing one object for every question in `clarifying_questions`.",
+            "description": "The `question_answers` array contains exactly one answer per `clarifying_questions` entry in the same order, with each original ID and question text preserved.",
             "items": {
               "type": "object",
               "description": "Each object in `question_answers` contains an answer to exactly one previously identified question.",
@@ -198,6 +198,10 @@
                 "question_id": {
                   "type": "string",
                   "description": "The `question_answers[].question_id` property is a string matching the exact identifier of the question being answered in `clarifying_questions[].id`."
+                },
+                "question": {
+                  "type": "string",
+                  "description": "The `question_answers[].question` property is the exact original question text from the corresponding `clarifying_questions[].question`."
                 },
                 "answer": {
                   "type": "string",
@@ -210,6 +214,7 @@
               },
               "required": [
                 "question_id",
+                "question",
                 "answer",
                 "unresolved"
               ],
@@ -224,7 +229,7 @@
       },
       "instruction_explanation_coverage": {
         "output_keyword": "question_answers",
-        "described_schema_nodes": 5,
+        "described_schema_nodes": 6,
         "prior_context": "Previous accepted inputs are retrieved by semantic keyword through read(keyword).",
         "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
       },
@@ -232,13 +237,14 @@
       "read_keywords": [
         "clarifying_questions"
       ],
-      "compact_instruction_projection": "Read `clarifying_questions`. Return `question_answers` as one answer object per prior question. Each `question_id` matches the exact identifier of its corresponding question. Each `answer` is a substantive explanation addressing that question. Each `unresolved` is a Boolean indicating whether essential information for a reliable answer is still unavailable.",
+      "compact_instruction_projection": "Read `clarifying_questions`. Return `question_answers` as one object per original question, in the same order as `clarifying_questions`. Each `question_id` is the exact original question ID. Each `question` is the exact original question text. Each `answer` is a substantive explanation addressing that question. Each `unresolved` is a Boolean indicating whether essential information for a reliable answer is still unavailable.",
       "schema_derivation": {
         "input_keywords": [
           "clarifying_questions"
         ],
         "runtime_constraints": [
-          "Derive exact answer count and permitted question_id values from clarifying_questions; verify each question is answered exactly once."
+          "Set the exact answer count from clarifying_questions.",
+          "Derive one positional schema per original question and require its exact question_id and question text at the same position as in clarifying_questions."
         ],
         "mode": "context_derived_constraints_on_base_schema"
       }

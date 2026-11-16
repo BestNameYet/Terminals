@@ -1,0 +1,41 @@
+import { renderState } from "./render_state.mjs"
+import { validateReturnSchema } from "./validate_return_schema.mjs"
+
+const keyword = "question_answers"
+
+export default async function captureQuestionAnswers(e, _index, read, exchange) {
+  const clarifying_questions = read("clarifying_questions")
+  if (!Array.isArray(clarifying_questions) || clarifying_questions.length === 0) {
+    throw new ReferenceError("clarifying_questions")
+  }
+
+  function deriveSchema(schema) {
+    const answers = schema.properties[keyword]
+    const answer = answers.items
+    answers.minItems = clarifying_questions.length
+    answers.maxItems = clarifying_questions.length
+    answers.prefixItems = clarifying_questions.map(({ id, question }) => ({
+      ...answer,
+      properties: {
+        ...answer.properties,
+        question_id: { ...answer.properties.question_id, const: id },
+        question: { ...answer.properties.question, const: question }
+      }
+    }))
+    answers.items = false
+    return schema
+  }
+
+  const previousError = e.error
+  e.error = null
+  const { input, issuedSchema } = await renderState(
+    keyword, { clarifying_questions }, previousError, exchange, deriveSchema
+  )
+  const { valid, errors } = validateReturnSchema(input, issuedSchema)
+  e.error = valid ? null : {
+    error: true,
+    errortype: `${keyword}.input_error`,
+    diagnostic_data: errors
+  }
+  return { valid, input: valid ? input : null, error: e.error }
+}

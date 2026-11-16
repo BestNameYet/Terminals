@@ -12,9 +12,11 @@ import { renderResponseContent, listResponseResources, readResponseResource } fr
 import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 import { EOTRecorder } from './eot-recorder.mjs';
 import { TurnJournal } from './turn-journal.mjs';
+import { Procedure } from './procedure.mjs';
 
 registerAlias('EOTRecorder', EOTRecorder);
 registerAlias('TurnJournal', TurnJournal);
+registerAlias('Procedure', Procedure);
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh','@']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
 const terminalWorkspace = process.env.GITHUB_WORKSPACE || fileURLToPath(new URL('../../', import.meta.url));
 const terminalView = {

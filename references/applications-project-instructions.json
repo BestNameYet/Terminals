@@ -1,0 +1,60 @@
+{
+  "title": "Applications Project — Start or Restart Terminal MCP via Terminals Issue #3",
+  "version": "1.0.0",
+  "applicability": "When developing or operating Applications project's registered @ functions and the Terminals MCP Codespace needs to be started or restarted.",
+  "execution_interface": {
+    "repository": "BestNameYet/Terminals",
+    "issue_url": "https://github.com/BestNameYet/Terminals/issues/3",
+    "issue_number": 3,
+    "method": "Post the complete JSON request as a NEW issue comment authored by the repository owner. Issue #3 invokes .github/workflows/issue-3-comment-listener.yml and executes whatPrompt on the GitHub Actions runner. The runner is not the Codespace.",
+    "required_fields": [
+      "runOn",
+      "whatPrompt",
+      "forWhom"
+    ],
+    "runOn": "$",
+    "invocation_identity": "Use a distinct forWhom on every call in the form <model>_<10-digit zero-padded prime>-<task>-Applications."
+  },
+  "codespace": {
+    "exact_name": "shiny-robot-v64x5jj4v4q2x96",
+    "relationship": "Starting the Codespace initiates its configured startup behavior, including launching the Terminal MCP service. No independent MCP process-restart command is required for the start operation."
+  },
+  "procedures": {
+    "start": {
+      "purpose": "Start the Terminals Codespace when stopped without modifying its files or rebuilding it.",
+      "issue_3_comment_body_example": {
+        "runOn": "$",
+        "whatPrompt": "gh api --method POST 'user/codespaces/shiny-robot-v64x5jj4v4q2x96/start'",
+        "forWhom": "GPT6_0000000007-start_codespace-Applications"
+      },
+      "alternative_existing_workflow": {
+        "runOn": "$",
+        "whatPrompt": "gh workflow run codespace-mcp-watchdog.yml --repo BestNameYet/Terminals --ref main",
+        "forWhom": "GPT6_0000000011-dispatch_codespace_start-Applications"
+      },
+      "workflow_reference": "https://github.com/BestNameYet/Terminals/blob/main/.github/workflows/codespace-mcp-watchdog.yml",
+      "important_distinction": "Dispatch acceptance is not proof the Codespace is running. The watchdog workflow starts the Codespace through the Codespaces API using its configured CODESPACE_NAME."
+    },
+    "restart": {
+      "purpose": "Stop an already running Codespace and start that SAME Codespace again, allowing its startup configuration to launch Terminal MCP.",
+      "step_1_stop": {
+        "runOn": "$",
+        "whatPrompt": "gh api --method POST 'user/codespaces/shiny-robot-v64x5jj4v4q2x96/stop'",
+        "forWhom": "GPT6_0000000013-stop_codespace-Applications"
+      },
+      "step_2_wait_for_stopped_state": "Confirm that the Codespace status is ShutDown (or the documented stopped status) before starting it. A stop API success response alone does not establish shutdown completion. Inspect state with the Issue #3 command: gh api 'user/codespaces/shiny-robot-v64x5jj4v4q2x96' --jq '.state'.",
+      "step_3_start": {
+        "runOn": "$",
+        "whatPrompt": "gh api --method POST 'user/codespaces/shiny-robot-v64x5jj4v4q2x96/start'",
+        "forWhom": "GPT6_0000000017-restart_codespace-Applications"
+      },
+      "sequence_requirement": "Do not issue stop when the user only requests start. Do not submit start until the stop operation has reached its stopped state. Use a fresh forWhom for each status check and state-changing command."
+    }
+  },
+  "verification": {
+    "issue_3_execution": "After each Issue #3 comment, inspect the corresponding Actions execution and the command output file under workspaces/terminalruns/{forWhom}_{timestamp}.json.",
+    "codespace_state": "Read Codespace state with gh api 'user/codespaces/shiny-robot-v64x5jj4v4q2x96' --jq '.state'.",
+    "result_policy": "A posted comment or dispatched workflow alone does not prove the Codespace started. Report actual observed state, any execution errors, and whether MCP service connectivity was independently tested."
+  },
+  "authority_boundary": "This is an Applications project reference procedure, not an automatic change to ChatGPT Project Instructions. Its Issue #3 command payload is interpreted by the live GitHub workflow; recheck the current workflow if its contract changes."
+}

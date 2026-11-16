@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:gh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- bash -lc 'cd /workspaces/Terminals; pwd; git rev-parse --short HEAD; git status --short | head -30; ls -la workspaces/2d-state-event-procedure-design 2>&1; ls -la workspaces/2d-state-event-procedure-design/src 2>&1; git branch --show-current' ",
+  "outputThat": [
+    "/home/codespace",
+    "ls: cannot access 'workspaces/2d-state-event-procedure-design': No such file or directory",
+    "ls: cannot access 'workspaces/2d-state-event-procedure-design/src': No such file or directory"
+  ]
+}

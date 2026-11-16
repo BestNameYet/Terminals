@@ -1,19 +1,17 @@
-export function initializeIterator(steps, returnSchemas, checkpoint = null) {
-  const e = checkpoint
-    ? checkpoint.main_array
-    : Array(steps.length).fill(null)
-  const keywordIndexes = checkpoint
-    ? new Map(checkpoint.keyword_map)
-    : new Map(returnSchemas.map((schema, index) => [
-        Object.keys(schema)[0],
-        index
-      ]))
-  const i = checkpoint ? checkpoint.step_index : 0
+export function initializeIterator(steps, returnSchemas, checkpoint) {
+  if (!checkpoint || typeof checkpoint !== "object") {
+    throw new TypeError("checkpoint")
+  }
+
+  const e = checkpoint.main_array
+  const keywordIndexes = new Map(checkpoint.keyword_map)
+  const i = checkpoint.step_index
+  const stateObject = checkpoint.state_object
 
   if (!Array.isArray(e) || e.length !== steps.length) {
     throw new TypeError("main_array")
   }
-  if (!Number.isInteger(i) || i < 0 || i > steps.length) {
+  if (!Number.isInteger(i) || i < 0 || i >= steps.length) {
     throw new RangeError("step_index")
   }
   if (keywordIndexes.size !== steps.length) {
@@ -25,50 +23,22 @@ export function initializeIterator(steps, returnSchemas, checkpoint = null) {
       throw new TypeError("keyword_map")
     }
   }
+  if (!stateObject || typeof stateObject !== "object" || Array.isArray(stateObject)) {
+    throw new TypeError("state_object")
+  }
 
-  if (checkpoint && Object.hasOwn(checkpoint, "pending_error")) {
+  if (Object.hasOwn(checkpoint, "pending_error")) {
     e.error = checkpoint.pending_error
   }
 
-  return checkpoint && Object.hasOwn(checkpoint, "state_object")
-    ? { e, keywordIndexes, i, stateObject: checkpoint.state_object }
-    : { e, keywordIndexes, i }
+  return { e, keywordIndexes, i, stateObject }
 }
 
-export async function iterate(
-  steps,
-  returnSchemas,
-  render,
-  initialize = () => initializeIterator(steps, returnSchemas)
-) {
-  const restored = initialize()
-  const { e, keywordIndexes, i: initialIndex } = restored
-
-  if (Object.hasOwn(restored, "stateObject")) {
-    return render(restored.stateObject)
+export async function iterate(steps, returnSchemas, render, initialize) {
+  if (typeof initialize !== "function") {
+    throw new TypeError("initialize")
   }
 
-  function read(keyword) {
-    const index = keywordIndexes.get(keyword)
-    const record = e[index]
-
-    if (record?.valid === true) {
-      return record.input[keyword]
-    }
-  }
-
-  let i = initialIndex
-  while (i < steps.length) {
-    const result = await steps[i](e, i, read, render)
-    if (typeof result?.valid !== "boolean") {
-      throw new TypeError("valid")
-    }
-    e[i] = result
-
-    if (result.valid) {
-      i += 1
-    }
-  }
-
-  return e
+  const { stateObject } = initialize()
+  return render(stateObject)
 }

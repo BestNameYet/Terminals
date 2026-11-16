@@ -1,0 +1,82 @@
+{
+  "title": "Revised state instructions and return schemas",
+  "source": {
+    "repository": "BestNameYet/Terminals",
+    "path": "workspaces/shared-conversations/6afabb25-854c-83e8-a96e-681c2c4f307e/43830049560-1/conversation.md",
+    "section": "Revised state instructions and return schemas"
+  },
+  "representation": "The return_schema_notation values preserve the source table's compact structural notation. They are not executable JSON Schema definitions.",
+  "invariant": "Each non-obvious member of an agent return schema must be defined in the accompanying agent-facing instruction with a complete sentence describing the expected input. This applies to preserved fields and newly added fields when prior input is decorated.",
+  "universal_instruction": "Preserve all previously accepted properties of the context object `e` without modification, except where a revision is explicitly required by the procedure. Add the property requested by the current state using the exact structure, types, identifiers, and constraints specified in its return schema. Return the complete updated context object `e`.",
+  "validation_distinction": {
+    "structural": "The return-schema validator checks structural requirements: types, required fields, enumerations, array lengths, unique identifiers, and references between properties.",
+    "substantive": "The state-event function additionally evaluates whether the agent's response satisfies the substantive instruction, such as whether every question has been answered or every required change has a corresponding action."
+  },
+  "states": [
+    {
+      "state": "State_0",
+      "instruction": "Return the original user prompt verbatim in `e1` as a single string, preserving its exact wording.",
+      "return_schema_notation": "e1: string"
+    },
+    {
+      "state": "State_1",
+      "instruction": "Examine `e.e1` and determine the user's intent. Return `intent` as one clear statement of purpose; `objectives` as an array of individually identifiable goals; `constraints` as an array of explicit limitations or requirements; and `requested_outcome` as a description of the result the user wants.",
+      "return_schema_notation": "e2: {intent: string, objectives: string[], constraints: string[], requested_outcome: string}"
+    },
+    {
+      "state": "State_2",
+      "instruction": "Examine `e.e1` and `e.e2`. Generate an array of 7–11 questions necessary to fulfill the request. Each item must contain `id`, a unique identifier such as `Q1`, and `question`, a complete interrogative sentence.",
+      "return_schema_notation": "e3: {id: string, question: string}[]"
+    },
+    {
+      "state": "State_3",
+      "instruction": "Answer every question in `e.e3`. Return one object per question. Set `question_id` to the exact corresponding `e.e3.id`; `answer` to a substantive explanation; and `unresolved` to a Boolean indicating whether the information necessary for a reliable answer remains unavailable.",
+      "return_schema_notation": "e4: {question_id: string, answer: string, unresolved: boolean}[]"
+    },
+    {
+      "state": "State_4",
+      "instruction": "Define the desired final system state from the user prompt, intent, and answers. Return `description` as a summary of that state. Return `conditions` as an array of independently verifiable requirements; each condition requires a unique `id`, a `requirement` describing what must be true, and `verification` describing how to establish that it is true.",
+      "return_schema_notation": "e5: {description: string, conditions: {id: string, requirement: string, verification: string}[]}"
+    },
+    {
+      "state": "State_5",
+      "instruction": "Determine the current system state relative to `e.e5`. Return `description` as a factual summary. Return `observations` as an array where `id` uniquely identifies the observation, `condition` describes the observed state, and `evidence` records how it was established. Return `unknowns` as an array of specific facts that could not be determined.",
+      "return_schema_notation": "e6: {description: string, observations: {id: string, condition: string, evidence: string}[], unknowns: string[]}"
+    },
+    {
+      "state": "State_6",
+      "instruction": "Compare the current system state against the desired final state. Return one object per required system change. Give each change a unique `id`; set `operation` to exactly `create`, `delete`, or `modify`; identify the affected resource in `target`; describe the exact transformation in `required_change`; and supply `condition_ids` as an array of identifiers referencing the requirements in `e.e5.conditions` that the change fulfills.",
+      "return_schema_notation": "e7: {id: string, operation: \"create\" | \"delete\" | \"modify\", target: string, required_change: string, condition_ids: string[]}[]"
+    },
+    {
+      "state": "State_7",
+      "instruction": "Specify the exact agent actions needed to perform the changes in `e.e7`. Give each action a unique `id`; supply `change_ids` as an array of corresponding identifiers in `e.e7`; describe the specific executable operation in `action`; identify the resource or execution surface in `target`; and describe the observable outcome expected from that action in `expected_result`.",
+      "return_schema_notation": "e8: {id: string, change_ids: string[], action: string, target: string, expected_result: string}[]"
+    },
+    {
+      "state": "State_8",
+      "instruction": "Restate the desired and current system states. Set `desired_state` to a summary consistent with `e.e5`, and `current_state` to a summary consistent with `e.e6`. Return `mappings` as an array with one entry per required change: `change_id` must reference `e.e7.id`, and `action_ids` must list the corresponding identifiers in `e.e8`. Return `gaps` as an array of uncovered changes, unmatched actions, or other identified mapping deficiencies; use an empty array when none exist.",
+      "return_schema_notation": "e9: {desired_state: string, current_state: string, mappings: {change_id: string, action_ids: string[]}[], gaps: string[]}"
+    },
+    {
+      "state": "State_9",
+      "instruction": "Write an ordered, stepwise executable procedure. Return `steps` as an array in execution order. For each step, supply a unique `id`; `change_ids` referencing changes in `e.e7`; `action_ids` referencing actions in `e.e8`; `action` describing exactly what the agent must do; `expected_change` describing the resulting system modification; and `verification` describing the observable test of successful completion.",
+      "return_schema_notation": "e10: {steps: {id: string, change_ids: string[], action_ids: string[], action: string, expected_change: string, verification: string}[]}"
+    },
+    {
+      "state": "State_10",
+      "instruction": "Simulate executing the complete procedure without performing actual system modifications. Return `steps` with one entry per `e.e10.steps` item: `step_id` must match the original step identifier, `simulated_result` describes its predicted outcome, and `passed` is a Boolean indicating whether that outcome meets expectations. Return `checklist` with one entry per `e.e5.conditions` item: `condition_id` references the desired-state requirement, `expected` describes the required condition, `simulated` describes the predicted final condition, `passed` indicates whether they match, and `discrepancy` explains any difference (empty string if none). Set `matches_desired_state` to true only when every required condition is satisfied. Return `revisions` as an array of specific corrections required before execution, or an empty array when none are required.",
+      "return_schema_notation": "e11: {steps: {step_id: string, simulated_result: string, passed: boolean}[], checklist: {condition_id: string, expected: string, simulated: string, passed: boolean, discrepancy: string}[], matches_desired_state: boolean, revisions: string[]}"
+    },
+    {
+      "state": "State_11",
+      "instruction": "Execute the validated procedure in `e.e10` in its specified order. Return `steps` with one record for each procedure step. Set `step_id` to its identifier in `e.e10`; `actions_performed` to an array describing the operations actually attempted; `observed_result` to the actual outcome; `status` to exactly `success`, `failed`, or `skipped`; and `evidence` to an array of observable results, command outputs, or verification references supporting the reported outcome.",
+      "return_schema_notation": "e12: {steps: {step_id: string, actions_performed: string[], observed_result: string, status: \"success\" | \"failed\" | \"skipped\", evidence: string[]}[]}"
+    },
+    {
+      "state": "State_12",
+      "instruction": "Perform the post-execution diagnostic by decorating the existing `e.e11.checklist`, without replacing or regenerating its items. Preserve every `condition_id`, `expected`, and `simulated` value from the original checklist. For each item, add `actual` describing the observed post-execution condition; `status` as exactly `pass`, `fail`, or `unverified`; `discrepancy` describing any difference between expected and actual results (empty string if none); and `evidence` as an array of supporting observations or verification results. Set `overall_result` to `pass` only when every checklist item passes, `fail` when an established discrepancy exists, or `incomplete` when verification remains unresolved without an established failure.",
+      "return_schema_notation": "e13: {checklist: {condition_id: string, expected: string, simulated: string, actual: string, status: \"pass\" | \"fail\" | \"unverified\", discrepancy: string, evidence: string[]}[], overall_result: \"pass\" | \"fail\" | \"incomplete\"}"
+    }
+  ]
+}

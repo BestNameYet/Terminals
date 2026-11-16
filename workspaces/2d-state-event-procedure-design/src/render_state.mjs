@@ -3,35 +3,36 @@ import { readFileSync } from "node:fs"
 const { states } = JSON.parse(readFileSync(
   new URL("../state-instructions-and-return-schemas.json", import.meta.url), "utf8"
 ))
-const definitions = new Map(states.map(state => [state.keyword, state]))
+const definitions = Object.fromEntries(states.map(s => [s.keyword, s]))
+const order = states.map(s => s.keyword)
 
-export async function renderState(keyword, context, previousError, render, deriveSchema, record) {
-  const definition = definitions.get(keyword)
-  if (!definition) {
-    throw new ReferenceError(keyword)
-  }
-  if (!record || typeof record !== "object") {
-    throw new TypeError("step_record")
-  }
-  record.keyword = keyword
-  record.read_keywords = definition.read_keywords ?? []
-  record.issuedSchema ??= deriveSchema
+export function getDefinition(keyword) {
+  const definition = definitions[keyword]
+  if (!definition) throw new ReferenceError(keyword)
+  return { ...definition, next: order[order.indexOf(keyword) + 1] ?? null }
+}
+
+export function withDiagnostic(keyword, projection, error) {
+  const next = structuredClone(projection)
+  const diagnostic = structuredClone(error)
+  const message = getDefinition(keyword).diagnostics?.[error.errortype]
+  if (message !== undefined) diagnostic.message = message
+  next.error_message = diagnostic
+  return next
+}
+
+export function buildProjection(keyword, context, previousError, deriveSchema) {
+  const definition = getDefinition(keyword)
+  const final_schema = deriveSchema
     ? deriveSchema(structuredClone(definition.return_schema))
-    : definition.return_schema
-  const diagnostic = {}
-  if (previousError?.error === true) {
-    diagnostic.error_message = structuredClone(previousError)
-    const message = definition.diagnostics?.[previousError.errortype]
-    if (message !== undefined) {
-      diagnostic.error_message.message = message
-    }
-  }
-  const input = await render({
-    ...diagnostic,
+    : structuredClone(definition.return_schema)
+  const projection = {
     keyword,
     instruction: definition.compact_instruction_projection,
-    return_schema: record.issuedSchema,
+    final_schema,
     context: structuredClone(context)
-  })
-  return { input }
+  }
+  return previousError?.error === true
+    ? withDiagnostic(keyword, projection, previousError)
+    : projection
 }

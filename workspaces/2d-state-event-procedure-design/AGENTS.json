@@ -2,7 +2,7 @@
   {
     "title": "Workspace Purpose",
     "applicability": "Introduces the purpose of the 2D state-event procedure design workspace in BestNameYet/Terminals.",
-    "purpose": "Design and document an MCP-based interactive procedure with indexed step selection, keyword-addressed accepted inputs, two interactive queue phases, and a complete persisted run record."
+    "purpose": "Design and document an MCP-based interactive procedure with nonce-keyed persistent execution records, keyword-addressed projection definitions and accepted inputs, deterministic transitions through state.next, two interactive queue phases, and a complete persisted run record. The same nonce identifies the current saved state and projection until that procedure terminates."
   },
   {
     "title": "Machine-Dialect Requirements for Workspace Agent Instructions",

@@ -11,7 +11,7 @@ import handler9 from "./execution_procedure.mjs"
 import handler10 from "./simulation_results.mjs"
 import handler11 from "./execution_results.mjs"
 import handler12 from "./post_execution_diagnostic.mjs"
-import { getDefinition, withDiagnostic } from "./render_state.mjs"
+import { getDefinition, renderCompletion, withDiagnostic } from "./render_state.mjs"
 
 const handlers = {
   "verbatim_request": handler0,
@@ -49,9 +49,9 @@ export async function create(nonce, { save, render }, keyword = "verbatim_reques
 export async function f(agentInput, nonce, { load, save, render }) {
   const record = await load(nonce)
   if (!record?.state?.projection || !record.inputs) throw new ReferenceError("nonce")
+  if (record.completed) return record.completionReceipt ?? renderCompletion(nonce, record.inputs)
   const { state } = record
   if (agentInput === undefined) return render(state.projection)
-  if (record.completed) throw new Error("procedure completed")
   const read = key => record.inputs[key]
   const result = await handlers[state.keyword]({ error: null }, 0, read, agentInput, state.projection)
   if (!result.valid) {
@@ -62,8 +62,9 @@ export async function f(agentInput, nonce, { load, save, render }) {
   record.inputs[state.keyword] = result.input[state.keyword]
   if (state.next === null) {
     record.completed = true
+    record.completionReceipt = renderCompletion(nonce, record.inputs)
     await save(nonce, record)
-    return { completed: true, nonce }
+    return record.completionReceipt
   }
   record.state = await buildState(state.next, record.inputs)
   await save(nonce, record)

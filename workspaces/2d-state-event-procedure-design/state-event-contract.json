@@ -11,7 +11,8 @@
       }
     },
     "inputs": "All accepted prior input values keyed by semantic keyword",
-    "completed": "Optional terminal indicator"
+    "completed": "Optional terminal indicator",
+      "completionReceipt": "The saved completion response containing the completion indicator, configured message, nonce, and all accepted inputs keyed by semantic keyword"
   },
   "reference": {
     "definitions": "state-instructions-and-return-schemas.json",
@@ -19,8 +20,8 @@
     "preservation": "Existing complete instructions, compact projections, full return schemas, schema_derivation rules, read_keywords, diagnostics, and semantic validators must not be shortened or discarded."
   },
   "events": {
-    "nonce": "Fetch saved record and render its stored state.projection without recalculation.",
-    "nonce(input)": "Fetch record; validate input using stored state.projection.final_schema and state-specific substantive validator. On rejection save diagnostic on current projection and re-render. On acceptance save value in inputs[state.keyword]; generate next state using state.next, resolving read_keywords against inputs and deriving final_schema; save the new record under the same nonce before rendering. At null next mark complete."
+    "nonce": "Fetch the saved record. Return the completion receipt for a completed record. Otherwise render its stored state.projection without recalculation.",
+    "nonce(input)": "Fetch the saved record. Return the completion receipt for a completed record without processing the submitted input. Otherwise validate input using stored state.projection.final_schema and state-specific substantive validator. On rejection save diagnostic on current projection and re-render. On acceptance save value in inputs[state.keyword]; generate next state using state.next, resolving read_keywords against inputs and deriving final_schema; save the new record under the same nonce before rendering. At null next, mark complete, generate and save the completion receipt with the final accepted input, and return the receipt. For an older completed record without a saved receipt, derive it from the saved accepted inputs."
   },
   "generation": {
     "function": "buildState(keyword, inputs)",

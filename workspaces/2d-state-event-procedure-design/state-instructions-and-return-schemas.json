@@ -5,78 +5,1001 @@
     "path": "workspaces/shared-conversations/6afabb25-854c-83e8-a96e-681c2c4f307e/43830049560-1/conversation.md",
     "section": "Revised state instructions and return schemas"
   },
-  "representation": "The return_schema_notation values preserve the source table's compact structural notation. They are not executable JSON Schema definitions.",
-  "invariant": "Each non-obvious member of an agent return schema must be defined in the accompanying agent-facing instruction with a complete sentence describing the expected input. This applies to preserved fields and newly added fields when prior input is decorated.",
-  "universal_instruction": "Preserve all previously accepted properties of the context object `e` without modification, except where a revision is explicitly required by the procedure. Add the property requested by the current state using the exact structure, types, identifiers, and constraints specified in its return schema. Return the complete updated context object `e`.",
+  "representation": "Each state provides a complete agent-facing instruction containing a full sentence for every nontrivial key of its current JSON return schema, including nested object and array-item fields, plus explanatory sentences for prior required context addresses. The return_schema field is a JSON Schema Draft 2020-12 object; return_schema_notation is retained only as a nonexecutable compact structural summary.",
+  "invariant": "Every nontrivial schema property, including nested fields of objects and array items, has at least one complete accompanying instruction sentence defining its intended value and input shape. Prior accepted context properties are identified and must remain unchanged; newly requested properties use zero-based e.e_i addresses.",
+  "universal_instruction": "Preserve all previously accepted properties of context e without modification, except where the procedure explicitly requires a revision. Add the newly requested e.e_i for the current zero-based State_i, meeting the return_schema structure and cross-property requirements. Return the complete updated e.",
   "validation_distinction": {
-    "structural": "The return-schema validator checks structural requirements: types, required fields, enumerations, array lengths, unique identifiers, and references between properties.",
-    "substantive": "The state-event function additionally evaluates whether the agent's response satisfies the substantive instruction, such as whether every question has been answered or every required change has a corresponding action."
+    "structural": "JSON Schema validation checks the data types, required properties, enumerations, and array-length bounds expressed by return_schema for the newly requested property and the presence of previously required context addresses.",
+    "substantive": "The state-event-selected Function_i separately verifies preserved context values, identifier uniqueness, cross-property references, coverage, consistency, and other substantive requirements that JSON Schema alone cannot express. An agent's own passed or matches_desired_state fields are predictions to be assessed, never the validator's acceptance Boolean."
   },
   "states": [
     {
       "state": "State_0",
-      "instruction": "Return the original user prompt verbatim in `e1` as a single string, preserving its exact wording.",
-      "return_schema_notation": "e1: string"
+      "instruction": "Return the original user prompt verbatim in `e0` as a single string, preserving its exact wording. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording.",
+      "return_schema_notation": "e0: string",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0"
+        ],
+        "properties": {
+          "e0": {
+            "type": "string",
+            "description": "The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording."
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e0",
+        "prior_property_count": 0,
+        "explained_schema_keys": 1,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_1",
-      "instruction": "Examine `e.e1` and determine the user's intent. Return `intent` as one clear statement of purpose; `objectives` as an array of individually identifiable goals; `constraints` as an array of explicit limitations or requirements; and `requested_outcome` as a description of the result the user wants.",
-      "return_schema_notation": "e2: {intent: string, objectives: string[], constraints: string[], requested_outcome: string}"
+      "instruction": "Examine `e.e0` and determine the user's intent. Return `intent` as one clear statement of purpose; `objectives` as an array of individually identifiable goals; `constraints` as an array of explicit limitations or requirements; and `requested_outcome` as a description of the result the user wants. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e1.intent` property is a string stating the user's purpose in one clear statement. The `e.e1.objectives` property is an array of strings, each naming one independently identifiable user goal. Each string in `e.e1.objectives` identifies one goal from the user's request. The `e.e1.constraints` property is an array of strings describing the request's explicit limitations and requirements. Each string in `e.e1.constraints` states one explicit limitation or requirement. The `e.e1.requested_outcome` property is a string describing the result the user wants.",
+      "return_schema_notation": "e1: {intent: string, objectives: string[], constraints: string[], requested_outcome: string}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1"
+        ],
+        "properties": {
+          "e1": {
+            "type": "object",
+            "description": "The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome.",
+            "properties": {
+              "intent": {
+                "type": "string",
+                "description": "The `e.e1.intent` property is a string stating the user's purpose in one clear statement."
+              },
+              "objectives": {
+                "type": "array",
+                "description": "The `e.e1.objectives` property is an array of strings, each naming one independently identifiable user goal.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `e.e1.objectives` identifies one goal from the user's request."
+                }
+              },
+              "constraints": {
+                "type": "array",
+                "description": "The `e.e1.constraints` property is an array of strings describing the request's explicit limitations and requirements.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `e.e1.constraints` states one explicit limitation or requirement."
+                }
+              },
+              "requested_outcome": {
+                "type": "string",
+                "description": "The `e.e1.requested_outcome` property is a string describing the result the user wants."
+              }
+            },
+            "required": [
+              "intent",
+              "objectives",
+              "constraints",
+              "requested_outcome"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e1",
+        "prior_property_count": 1,
+        "explained_schema_keys": 7,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_2",
-      "instruction": "Examine `e.e1` and `e.e2`. Generate an array of 7–11 questions necessary to fulfill the request. Each item must contain `id`, a unique identifier such as `Q1`, and `question`, a complete interrogative sentence.",
-      "return_schema_notation": "e3: {id: string, question: string}[]"
+      "instruction": "Examine `e.e0` and `e.e1`. Generate an array of 7–11 questions necessary to fulfill the request. Each item must contain `id`, a unique identifier such as `Q1`, and `question`, a complete interrogative sentence. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. Each object in `e.e2` represents one question and contains its identifier and full question text. The `e.e2[].id` property is a string uniquely identifying the question, such as Q1. The `e.e2[].question` property is a string containing a complete interrogative sentence identifying information needed to fulfill the request.",
+      "return_schema_notation": "e2: {id: string, question: string}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2"
+        ],
+        "properties": {
+          "e2": {
+            "type": "array",
+            "description": "The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `e.e2` represents one question and contains its identifier and full question text.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `e.e2[].id` property is a string uniquely identifying the question, such as Q1."
+                },
+                "question": {
+                  "type": "string",
+                  "description": "The `e.e2[].question` property is a string containing a complete interrogative sentence identifying information needed to fulfill the request."
+                }
+              },
+              "required": [
+                "id",
+                "question"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 7,
+            "maxItems": 11
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e2",
+        "prior_property_count": 2,
+        "explained_schema_keys": 4,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_3",
-      "instruction": "Answer every question in `e.e3`. Return one object per question. Set `question_id` to the exact corresponding `e.e3.id`; `answer` to a substantive explanation; and `unresolved` to a Boolean indicating whether the information necessary for a reliable answer remains unavailable.",
-      "return_schema_notation": "e4: {question_id: string, answer: string, unresolved: boolean}[]"
+      "instruction": "Answer every question in `e.e2`. Return one object per question. Set `question_id` to the exact corresponding `e.e2.id`; `answer` to a substantive explanation; and `unresolved` to a Boolean indicating whether the information necessary for a reliable answer remains unavailable. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. Each object in `e.e3` contains an answer to exactly one previously identified question. The `e.e3[].question_id` property is a string matching the exact identifier of the question being answered in `e.e2[].id`. The `e.e3[].answer` property is a string containing a substantive explanation addressing its referenced question. The `e.e3[].unresolved` property is a Boolean that is true if necessary information remains unavailable for a reliable answer, and false otherwise.",
+      "return_schema_notation": "e3: {question_id: string, answer: string, unresolved: boolean}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3"
+        ],
+        "properties": {
+          "e3": {
+            "type": "array",
+            "description": "The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `e.e3` contains an answer to exactly one previously identified question.",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "description": "The `e.e3[].question_id` property is a string matching the exact identifier of the question being answered in `e.e2[].id`."
+                },
+                "answer": {
+                  "type": "string",
+                  "description": "The `e.e3[].answer` property is a string containing a substantive explanation addressing its referenced question."
+                },
+                "unresolved": {
+                  "type": "boolean",
+                  "description": "The `e.e3[].unresolved` property is a Boolean that is true if necessary information remains unavailable for a reliable answer, and false otherwise."
+                }
+              },
+              "required": [
+                "question_id",
+                "answer",
+                "unresolved"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e3",
+        "prior_property_count": 3,
+        "explained_schema_keys": 5,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_4",
-      "instruction": "Define the desired final system state from the user prompt, intent, and answers. Return `description` as a summary of that state. Return `conditions` as an array of independently verifiable requirements; each condition requires a unique `id`, a `requirement` describing what must be true, and `verification` describing how to establish that it is true.",
-      "return_schema_notation": "e5: {description: string, conditions: {id: string, requirement: string, verification: string}[]}"
+      "instruction": "Define the desired final system state from the user prompt, intent, and answers. Return `description` as a summary of that state. Return `conditions` as an array of independently verifiable requirements; each condition requires a unique `id`, a `requirement` describing what must be true, and `verification` describing how to establish that it is true. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e4.description` property is a string summarizing the desired final system state. The `e.e4.conditions` property is an array of independently verifiable desired-state requirements. Each object in `e.e4.conditions` defines one independently verifiable desired-state requirement. The `e.e4.conditions[].id` property is a string uniquely identifying one desired-state requirement. The `e.e4.conditions[].requirement` property is a string specifying what must be true in the desired final system state. The `e.e4.conditions[].verification` property is a string describing observable evidence or a test establishing whether the requirement is met.",
+      "return_schema_notation": "e4: {description: string, conditions: {id: string, requirement: string, verification: string}[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4"
+        ],
+        "properties": {
+          "e4": {
+            "type": "object",
+            "description": "The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement.",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The `e.e4.description` property is a string summarizing the desired final system state."
+              },
+              "conditions": {
+                "type": "array",
+                "description": "The `e.e4.conditions` property is an array of independently verifiable desired-state requirements.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e4.conditions` defines one independently verifiable desired-state requirement.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `e.e4.conditions[].id` property is a string uniquely identifying one desired-state requirement."
+                    },
+                    "requirement": {
+                      "type": "string",
+                      "description": "The `e.e4.conditions[].requirement` property is a string specifying what must be true in the desired final system state."
+                    },
+                    "verification": {
+                      "type": "string",
+                      "description": "The `e.e4.conditions[].verification` property is a string describing observable evidence or a test establishing whether the requirement is met."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "requirement",
+                    "verification"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "description",
+              "conditions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e4",
+        "prior_property_count": 4,
+        "explained_schema_keys": 7,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_5",
-      "instruction": "Determine the current system state relative to `e.e5`. Return `description` as a factual summary. Return `observations` as an array where `id` uniquely identifies the observation, `condition` describes the observed state, and `evidence` records how it was established. Return `unknowns` as an array of specific facts that could not be determined.",
-      "return_schema_notation": "e6: {description: string, observations: {id: string, condition: string, evidence: string}[], unknowns: string[]}"
+      "instruction": "Determine the current system state relative to `e.e4`. Return `description` as a factual summary. Return `observations` as an array where `id` uniquely identifies the observation, `condition` describes the observed state, and `evidence` records how it was established. Return `unknowns` as an array of specific facts that could not be determined. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e5.description` property is a string factually summarizing the current system state. The `e.e5.observations` property is an array of current-state observations and their evidence. Each object in `e.e5.observations` records one fact about the current system and its supporting evidence. The `e.e5.observations[].id` property is a string uniquely identifying one observed system-state fact. The `e.e5.observations[].condition` property is a string describing the system condition observed. The `e.e5.observations[].evidence` property is a string stating how the observation was established. The `e.e5.unknowns` property is an array of strings identifying specific unknown facts, or an empty array if no such unknowns remain. Each string in `e.e5.unknowns` identifies a particular current-state fact that could not be determined.",
+      "return_schema_notation": "e5: {description: string, observations: {id: string, condition: string, evidence: string}[], unknowns: string[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5"
+        ],
+        "properties": {
+          "e5": {
+            "type": "object",
+            "description": "The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts.",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The `e.e5.description` property is a string factually summarizing the current system state."
+              },
+              "observations": {
+                "type": "array",
+                "description": "The `e.e5.observations` property is an array of current-state observations and their evidence.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e5.observations` records one fact about the current system and its supporting evidence.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `e.e5.observations[].id` property is a string uniquely identifying one observed system-state fact."
+                    },
+                    "condition": {
+                      "type": "string",
+                      "description": "The `e.e5.observations[].condition` property is a string describing the system condition observed."
+                    },
+                    "evidence": {
+                      "type": "string",
+                      "description": "The `e.e5.observations[].evidence` property is a string stating how the observation was established."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "condition",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "unknowns": {
+                "type": "array",
+                "description": "The `e.e5.unknowns` property is an array of strings identifying specific unknown facts, or an empty array if no such unknowns remain.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `e.e5.unknowns` identifies a particular current-state fact that could not be determined."
+                }
+              }
+            },
+            "required": [
+              "description",
+              "observations",
+              "unknowns"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e5",
+        "prior_property_count": 5,
+        "explained_schema_keys": 9,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_6",
-      "instruction": "Compare the current system state against the desired final state. Return one object per required system change. Give each change a unique `id`; set `operation` to exactly `create`, `delete`, or `modify`; identify the affected resource in `target`; describe the exact transformation in `required_change`; and supply `condition_ids` as an array of identifiers referencing the requirements in `e.e5.conditions` that the change fulfills.",
-      "return_schema_notation": "e7: {id: string, operation: \"create\" | \"delete\" | \"modify\", target: string, required_change: string, condition_ids: string[]}[]"
+      "instruction": "Compare the current system state against the desired final state. Return one object per required system change. Give each change a unique `id`; set `operation` to exactly `create`, `delete`, or `modify`; identify the affected resource in `target`; describe the exact transformation in `required_change`; and supply `condition_ids` as an array of identifiers referencing the requirements in `e.e4.conditions` that the change fulfills. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. Each object in `e.e6` identifies one necessary system change and the desired-state conditions it fulfills. The `e.e6[].id` property is a string uniquely identifying one required system change. The `e.e6[].operation` property is a string with exactly one of the values create, delete, or modify, identifying the file or resource operation. The `e.e6[].target` property is a string identifying the specific file or other affected resource. The `e.e6[].required_change` property is a string specifying the exact transformation required for that target. The `e.e6[].condition_ids` property is an array of strings referring to desired-state requirement identifiers in `e.e4.conditions`. Each string in `e.e6[].condition_ids` must match an identifier in `e.e4.conditions[].id` for a desired-state requirement satisfied by the change.",
+      "return_schema_notation": "e6: {id: string, operation: \"create\" | \"delete\" | \"modify\", target: string, required_change: string, condition_ids: string[]}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6"
+        ],
+        "properties": {
+          "e6": {
+            "type": "array",
+            "description": "The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `e.e6` identifies one necessary system change and the desired-state conditions it fulfills.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `e.e6[].id` property is a string uniquely identifying one required system change."
+                },
+                "operation": {
+                  "type": "string",
+                  "enum": [
+                    "create",
+                    "delete",
+                    "modify"
+                  ],
+                  "description": "The `e.e6[].operation` property is a string with exactly one of the values create, delete, or modify, identifying the file or resource operation."
+                },
+                "target": {
+                  "type": "string",
+                  "description": "The `e.e6[].target` property is a string identifying the specific file or other affected resource."
+                },
+                "required_change": {
+                  "type": "string",
+                  "description": "The `e.e6[].required_change` property is a string specifying the exact transformation required for that target."
+                },
+                "condition_ids": {
+                  "type": "array",
+                  "description": "The `e.e6[].condition_ids` property is an array of strings referring to desired-state requirement identifiers in `e.e4.conditions`.",
+                  "items": {
+                    "type": "string",
+                    "description": "Each string in `e.e6[].condition_ids` must match an identifier in `e.e4.conditions[].id` for a desired-state requirement satisfied by the change."
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "operation",
+                "target",
+                "required_change",
+                "condition_ids"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e6",
+        "prior_property_count": 6,
+        "explained_schema_keys": 8,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_7",
-      "instruction": "Specify the exact agent actions needed to perform the changes in `e.e7`. Give each action a unique `id`; supply `change_ids` as an array of corresponding identifiers in `e.e7`; describe the specific executable operation in `action`; identify the resource or execution surface in `target`; and describe the observable outcome expected from that action in `expected_result`.",
-      "return_schema_notation": "e8: {id: string, change_ids: string[], action: string, target: string, expected_result: string}[]"
+      "instruction": "Specify the exact agent actions needed to perform the changes in `e.e6`. Give each action a unique `id`; supply `change_ids` as an array of corresponding identifiers in `e.e6`; describe the specific executable operation in `action`; identify the resource or execution surface in `target`; and describe the observable outcome expected from that action in `expected_result`. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. Each object in `e.e7` identifies one action needed to implement a mapped system change. The `e.e7[].id` property is a string uniquely identifying one required agent action. The `e.e7[].change_ids` property is an array of strings identifying the required changes in `e.e6` that this action implements. Each string in `e.e7[].change_ids` references an existing change identifier in `e.e6[].id` that the action implements. The `e.e7[].action` property is a string describing the precise executable operation the agent must perform. The `e.e7[].target` property is a string specifying the resource or execution surface on which the action operates. The `e.e7[].expected_result` property is a string describing the observable outcome expected after the action executes.",
+      "return_schema_notation": "e7: {id: string, change_ids: string[], action: string, target: string, expected_result: string}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7"
+        ],
+        "properties": {
+          "e7": {
+            "type": "array",
+            "description": "The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `e.e7` identifies one action needed to implement a mapped system change.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `e.e7[].id` property is a string uniquely identifying one required agent action."
+                },
+                "change_ids": {
+                  "type": "array",
+                  "description": "The `e.e7[].change_ids` property is an array of strings identifying the required changes in `e.e6` that this action implements.",
+                  "items": {
+                    "type": "string",
+                    "description": "Each string in `e.e7[].change_ids` references an existing change identifier in `e.e6[].id` that the action implements."
+                  }
+                },
+                "action": {
+                  "type": "string",
+                  "description": "The `e.e7[].action` property is a string describing the precise executable operation the agent must perform."
+                },
+                "target": {
+                  "type": "string",
+                  "description": "The `e.e7[].target` property is a string specifying the resource or execution surface on which the action operates."
+                },
+                "expected_result": {
+                  "type": "string",
+                  "description": "The `e.e7[].expected_result` property is a string describing the observable outcome expected after the action executes."
+                }
+              },
+              "required": [
+                "id",
+                "change_ids",
+                "action",
+                "target",
+                "expected_result"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e7",
+        "prior_property_count": 7,
+        "explained_schema_keys": 8,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_8",
-      "instruction": "Restate the desired and current system states. Set `desired_state` to a summary consistent with `e.e5`, and `current_state` to a summary consistent with `e.e6`. Return `mappings` as an array with one entry per required change: `change_id` must reference `e.e7.id`, and `action_ids` must list the corresponding identifiers in `e.e8`. Return `gaps` as an array of uncovered changes, unmatched actions, or other identified mapping deficiencies; use an empty array when none exist.",
-      "return_schema_notation": "e9: {desired_state: string, current_state: string, mappings: {change_id: string, action_ids: string[]}[], gaps: string[]}"
+      "instruction": "Restate the desired and current system states. Set `desired_state` to a summary consistent with `e.e4`, and `current_state` to a summary consistent with `e.e5`. Return `mappings` as an array with one entry per required change: `change_id` must reference `e.e6.id`, and `action_ids` must list the corresponding identifiers in `e.e7`. Return `gaps` as an array of uncovered changes, unmatched actions, or other identified mapping deficiencies; use an empty array when none exist. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps. The `e.e8.desired_state` property is a string summarizing the desired system state consistently with `e.e4`. The `e.e8.current_state` property is a string summarizing the current system state consistently with `e.e5`. The `e.e8.mappings` property is an array containing one change-to-action mapping for every required change in `e.e6`. Each object in `e.e8.mappings` associates an identified change with the actions needed to produce it. The `e.e8.mappings[].change_id` property is a string referencing exactly one change identifier from `e.e6[].id`. The `e.e8.mappings[].action_ids` property is an array of strings listing the agent actions mapped to the associated change. Each string in `e.e8.mappings[].action_ids` references an action identifier in `e.e7[].id` associated with its change. The `e.e8.gaps` property is an array of strings explaining uncovered changes or mapping deficiencies, or an empty array when none exist. Each string in `e.e8.gaps` describes an uncovered change, unmatched action, or other mapping deficiency.",
+      "return_schema_notation": "e8: {desired_state: string, current_state: string, mappings: {change_id: string, action_ids: string[]}[], gaps: string[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7",
+          "e8"
+        ],
+        "properties": {
+          "e8": {
+            "type": "object",
+            "description": "The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps.",
+            "properties": {
+              "desired_state": {
+                "type": "string",
+                "description": "The `e.e8.desired_state` property is a string summarizing the desired system state consistently with `e.e4`."
+              },
+              "current_state": {
+                "type": "string",
+                "description": "The `e.e8.current_state` property is a string summarizing the current system state consistently with `e.e5`."
+              },
+              "mappings": {
+                "type": "array",
+                "description": "The `e.e8.mappings` property is an array containing one change-to-action mapping for every required change in `e.e6`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e8.mappings` associates an identified change with the actions needed to produce it.",
+                  "properties": {
+                    "change_id": {
+                      "type": "string",
+                      "description": "The `e.e8.mappings[].change_id` property is a string referencing exactly one change identifier from `e.e6[].id`."
+                    },
+                    "action_ids": {
+                      "type": "array",
+                      "description": "The `e.e8.mappings[].action_ids` property is an array of strings listing the agent actions mapped to the associated change.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e8.mappings[].action_ids` references an action identifier in `e.e7[].id` associated with its change."
+                      }
+                    }
+                  },
+                  "required": [
+                    "change_id",
+                    "action_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "gaps": {
+                "type": "array",
+                "description": "The `e.e8.gaps` property is an array of strings explaining uncovered changes or mapping deficiencies, or an empty array when none exist.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `e.e8.gaps` describes an uncovered change, unmatched action, or other mapping deficiency."
+                }
+              }
+            },
+            "required": [
+              "desired_state",
+              "current_state",
+              "mappings",
+              "gaps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e8",
+        "prior_property_count": 8,
+        "explained_schema_keys": 10,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_9",
-      "instruction": "Write an ordered, stepwise executable procedure. Return `steps` as an array in execution order. For each step, supply a unique `id`; `change_ids` referencing changes in `e.e7`; `action_ids` referencing actions in `e.e8`; `action` describing exactly what the agent must do; `expected_change` describing the resulting system modification; and `verification` describing the observable test of successful completion.",
-      "return_schema_notation": "e10: {steps: {id: string, change_ids: string[], action_ids: string[], action: string, expected_change: string, verification: string}[]}"
+      "instruction": "Write an ordered, stepwise executable procedure. Return `steps` as an array in execution order. For each step, supply a unique `id`; `change_ids` referencing changes in `e.e6`; `action_ids` referencing actions in `e.e7`; `action` describing exactly what the agent must do; `expected_change` describing the resulting system modification; and `verification` describing the observable test of successful completion. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps. The `e.e9` property is an object containing the ordered executable procedure. The `e.e9.steps` property is an array of procedure steps ordered by execution sequence. Each object in `e.e9.steps` is an executable procedure step with traceability to actions and required changes. The `e.e9.steps[].id` property is a string uniquely identifying a step in the executable procedure. The `e.e9.steps[].change_ids` property is an array of strings identifying the changes produced by the step. Each string in `e.e9.steps[].change_ids` references an affected change identifier in `e.e6[].id`. The `e.e9.steps[].action_ids` property is an array of strings identifying the actions carried out in this step. Each string in `e.e9.steps[].action_ids` references an agent action identifier in `e.e7[].id`. The `e.e9.steps[].action` property is a string describing precisely what the agent must do in the step. The `e.e9.steps[].expected_change` property is a string describing the system modification expected to result from the step. The `e.e9.steps[].verification` property is a string describing a concrete observable test of successful step completion.",
+      "return_schema_notation": "e9: {steps: {id: string, change_ids: string[], action_ids: string[], action: string, expected_change: string, verification: string}[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7",
+          "e8",
+          "e9"
+        ],
+        "properties": {
+          "e9": {
+            "type": "object",
+            "description": "The `e.e9` property is an object containing the ordered executable procedure.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `e.e9.steps` property is an array of procedure steps ordered by execution sequence.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e9.steps` is an executable procedure step with traceability to actions and required changes.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `e.e9.steps[].id` property is a string uniquely identifying a step in the executable procedure."
+                    },
+                    "change_ids": {
+                      "type": "array",
+                      "description": "The `e.e9.steps[].change_ids` property is an array of strings identifying the changes produced by the step.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e9.steps[].change_ids` references an affected change identifier in `e.e6[].id`."
+                      }
+                    },
+                    "action_ids": {
+                      "type": "array",
+                      "description": "The `e.e9.steps[].action_ids` property is an array of strings identifying the actions carried out in this step.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e9.steps[].action_ids` references an agent action identifier in `e.e7[].id`."
+                      }
+                    },
+                    "action": {
+                      "type": "string",
+                      "description": "The `e.e9.steps[].action` property is a string describing precisely what the agent must do in the step."
+                    },
+                    "expected_change": {
+                      "type": "string",
+                      "description": "The `e.e9.steps[].expected_change` property is a string describing the system modification expected to result from the step."
+                    },
+                    "verification": {
+                      "type": "string",
+                      "description": "The `e.e9.steps[].verification` property is a string describing a concrete observable test of successful step completion."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "change_ids",
+                    "action_ids",
+                    "action",
+                    "expected_change",
+                    "verification"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "steps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e9",
+        "prior_property_count": 9,
+        "explained_schema_keys": 11,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_10",
-      "instruction": "Simulate executing the complete procedure without performing actual system modifications. Return `steps` with one entry per `e.e10.steps` item: `step_id` must match the original step identifier, `simulated_result` describes its predicted outcome, and `passed` is a Boolean indicating whether that outcome meets expectations. Return `checklist` with one entry per `e.e5.conditions` item: `condition_id` references the desired-state requirement, `expected` describes the required condition, `simulated` describes the predicted final condition, `passed` indicates whether they match, and `discrepancy` explains any difference (empty string if none). Set `matches_desired_state` to true only when every required condition is satisfied. Return `revisions` as an array of specific corrections required before execution, or an empty array when none are required.",
-      "return_schema_notation": "e11: {steps: {step_id: string, simulated_result: string, passed: boolean}[], checklist: {condition_id: string, expected: string, simulated: string, passed: boolean, discrepancy: string}[], matches_desired_state: boolean, revisions: string[]}"
+      "instruction": "Simulate executing the complete procedure without performing actual system modifications. Return `steps` with one entry per `e.e9.steps` item: `step_id` must match the original step identifier, `simulated_result` describes its predicted outcome, and `passed` is a Boolean indicating whether that outcome meets expectations. Return `checklist` with one entry per `e.e4.conditions` item: `condition_id` references the desired-state requirement, `expected` describes the required condition, `simulated` describes the predicted final condition, `passed` indicates whether they match, and `discrepancy` explains any difference (empty string if none). Set `matches_desired_state` to true only when every required condition is satisfied. Return `revisions` as an array of specific corrections required before execution, or an empty array when none are required. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps. The `e.e9` property is an object containing the ordered executable procedure. The `e.e10` property is an object containing simulated procedure results, predicted requirement coverage, and possible revisions. The `e.e10.steps` property is an array containing a simulated result for every procedure step in `e.e9.steps`. Each object in `e.e10.steps` records a prediction for one step in the existing executable procedure. The `e.e10.steps[].step_id` property is a string matching an existing procedure-step identifier in `e.e9.steps[].id`. The `e.e10.steps[].simulated_result` property is a string describing the predicted result of simulating that step without making system changes. The `e.e10.steps[].passed` property is a Boolean recording the agent's predicted assessment of whether the simulated outcome meets that step's expectations, not the validating function's judgment. The `e.e10.checklist` property is an array containing one simulated evaluation for every desired-state requirement in `e.e4.conditions`. Each object in `e.e10.checklist` compares one desired-state condition against the simulated outcome. The `e.e10.checklist[].condition_id` property is a string matching a desired-state requirement identifier in `e.e4.conditions[].id`. The `e.e10.checklist[].expected` property is a string describing the required condition for the referenced desired-state requirement. The `e.e10.checklist[].simulated` property is a string describing the system condition predicted after simulated procedure execution. The `e.e10.checklist[].passed` property is a Boolean indicating the agent's predicted comparison of the simulated and expected conditions, not application-level validation. The `e.e10.checklist[].discrepancy` property is a string explaining any predicted difference between expected and simulated results, or an empty string if no difference is predicted. The `e.e10.matches_desired_state` property is a Boolean representing whether the agent predicts that every required condition is satisfied, not whether Function_10 has validated its response. The `e.e10.revisions` property is an array of strings describing required pre-execution revisions, or an empty array if none are required. Each string in `e.e10.revisions` describes one concrete correction recommended before the procedure is executed.",
+      "return_schema_notation": "e10: {steps: {step_id: string, simulated_result: string, passed: boolean}[], checklist: {condition_id: string, expected: string, simulated: string, passed: boolean, discrepancy: string}[], matches_desired_state: boolean, revisions: string[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7",
+          "e8",
+          "e9",
+          "e10"
+        ],
+        "properties": {
+          "e10": {
+            "type": "object",
+            "description": "The `e.e10` property is an object containing simulated procedure results, predicted requirement coverage, and possible revisions.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `e.e10.steps` property is an array containing a simulated result for every procedure step in `e.e9.steps`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e10.steps` records a prediction for one step in the existing executable procedure.",
+                  "properties": {
+                    "step_id": {
+                      "type": "string",
+                      "description": "The `e.e10.steps[].step_id` property is a string matching an existing procedure-step identifier in `e.e9.steps[].id`."
+                    },
+                    "simulated_result": {
+                      "type": "string",
+                      "description": "The `e.e10.steps[].simulated_result` property is a string describing the predicted result of simulating that step without making system changes."
+                    },
+                    "passed": {
+                      "type": "boolean",
+                      "description": "The `e.e10.steps[].passed` property is a Boolean recording the agent's predicted assessment of whether the simulated outcome meets that step's expectations, not the validating function's judgment."
+                    }
+                  },
+                  "required": [
+                    "step_id",
+                    "simulated_result",
+                    "passed"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "checklist": {
+                "type": "array",
+                "description": "The `e.e10.checklist` property is an array containing one simulated evaluation for every desired-state requirement in `e.e4.conditions`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e10.checklist` compares one desired-state condition against the simulated outcome.",
+                  "properties": {
+                    "condition_id": {
+                      "type": "string",
+                      "description": "The `e.e10.checklist[].condition_id` property is a string matching a desired-state requirement identifier in `e.e4.conditions[].id`."
+                    },
+                    "expected": {
+                      "type": "string",
+                      "description": "The `e.e10.checklist[].expected` property is a string describing the required condition for the referenced desired-state requirement."
+                    },
+                    "simulated": {
+                      "type": "string",
+                      "description": "The `e.e10.checklist[].simulated` property is a string describing the system condition predicted after simulated procedure execution."
+                    },
+                    "passed": {
+                      "type": "boolean",
+                      "description": "The `e.e10.checklist[].passed` property is a Boolean indicating the agent's predicted comparison of the simulated and expected conditions, not application-level validation."
+                    },
+                    "discrepancy": {
+                      "type": "string",
+                      "description": "The `e.e10.checklist[].discrepancy` property is a string explaining any predicted difference between expected and simulated results, or an empty string if no difference is predicted."
+                    }
+                  },
+                  "required": [
+                    "condition_id",
+                    "expected",
+                    "simulated",
+                    "passed",
+                    "discrepancy"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "matches_desired_state": {
+                "type": "boolean",
+                "description": "The `e.e10.matches_desired_state` property is a Boolean representing whether the agent predicts that every required condition is satisfied, not whether Function_10 has validated its response."
+              },
+              "revisions": {
+                "type": "array",
+                "description": "The `e.e10.revisions` property is an array of strings describing required pre-execution revisions, or an empty array if none are required.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `e.e10.revisions` describes one concrete correction recommended before the procedure is executed."
+                }
+              }
+            },
+            "required": [
+              "steps",
+              "checklist",
+              "matches_desired_state",
+              "revisions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e10",
+        "prior_property_count": 10,
+        "explained_schema_keys": 16,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_11",
-      "instruction": "Execute the validated procedure in `e.e10` in its specified order. Return `steps` with one record for each procedure step. Set `step_id` to its identifier in `e.e10`; `actions_performed` to an array describing the operations actually attempted; `observed_result` to the actual outcome; `status` to exactly `success`, `failed`, or `skipped`; and `evidence` to an array of observable results, command outputs, or verification references supporting the reported outcome.",
-      "return_schema_notation": "e12: {steps: {step_id: string, actions_performed: string[], observed_result: string, status: \"success\" | \"failed\" | \"skipped\", evidence: string[]}[]}"
+      "instruction": "Execute the validated procedure in `e.e9` in its specified order. Return `steps` with one record for each procedure step. Set `step_id` to its identifier in `e.e9`; `actions_performed` to an array describing the operations actually attempted; `observed_result` to the actual outcome; `status` to exactly `success`, `failed`, or `skipped`; and `evidence` to an array of observable results, command outputs, or verification references supporting the reported outcome. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps. The `e.e9` property is an object containing the ordered executable procedure. The `e.e10` property is an object containing simulated procedure results, predicted requirement coverage, and possible revisions. The `e.e11` property is an object recording execution outcomes and supporting evidence. The `e.e11.steps` property is an array containing one execution-result record for every procedure step in `e.e9.steps`. Each object in `e.e11.steps` records what actually occurred during one procedure step. The `e.e11.steps[].step_id` property is a string matching one step identifier in `e.e9.steps[].id`. The `e.e11.steps[].actions_performed` property is an array of strings describing the agent operations actually attempted. Each string in `e.e11.steps[].actions_performed` identifies an operation actually attempted during the referenced step. The `e.e11.steps[].observed_result` property is a string describing the actual outcome observed after the referenced step. The `e.e11.steps[].status` property is a string with exactly one of success, failed, or skipped, identifying the observed execution result. The `e.e11.steps[].evidence` property is an array of strings containing supporting observations, outputs, or verification references. Each string in `e.e11.steps[].evidence` identifies an observable result, command output, or verification reference supporting the reported execution outcome.",
+      "return_schema_notation": "e11: {steps: {step_id: string, actions_performed: string[], observed_result: string, status: \"success\" | \"failed\" | \"skipped\", evidence: string[]}[]}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7",
+          "e8",
+          "e9",
+          "e10",
+          "e11"
+        ],
+        "properties": {
+          "e11": {
+            "type": "object",
+            "description": "The `e.e11` property is an object recording execution outcomes and supporting evidence.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `e.e11.steps` property is an array containing one execution-result record for every procedure step in `e.e9.steps`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e11.steps` records what actually occurred during one procedure step.",
+                  "properties": {
+                    "step_id": {
+                      "type": "string",
+                      "description": "The `e.e11.steps[].step_id` property is a string matching one step identifier in `e.e9.steps[].id`."
+                    },
+                    "actions_performed": {
+                      "type": "array",
+                      "description": "The `e.e11.steps[].actions_performed` property is an array of strings describing the agent operations actually attempted.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e11.steps[].actions_performed` identifies an operation actually attempted during the referenced step."
+                      }
+                    },
+                    "observed_result": {
+                      "type": "string",
+                      "description": "The `e.e11.steps[].observed_result` property is a string describing the actual outcome observed after the referenced step."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "failed",
+                        "skipped"
+                      ],
+                      "description": "The `e.e11.steps[].status` property is a string with exactly one of success, failed, or skipped, identifying the observed execution result."
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "description": "The `e.e11.steps[].evidence` property is an array of strings containing supporting observations, outputs, or verification references.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e11.steps[].evidence` identifies an observable result, command output, or verification reference supporting the reported execution outcome."
+                      }
+                    }
+                  },
+                  "required": [
+                    "step_id",
+                    "actions_performed",
+                    "observed_result",
+                    "status",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "steps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e11",
+        "prior_property_count": 11,
+        "explained_schema_keys": 10,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     },
     {
       "state": "State_12",
-      "instruction": "Perform the post-execution diagnostic by decorating the existing `e.e11.checklist`, without replacing or regenerating its items. Preserve every `condition_id`, `expected`, and `simulated` value from the original checklist. For each item, add `actual` describing the observed post-execution condition; `status` as exactly `pass`, `fail`, or `unverified`; `discrepancy` describing any difference between expected and actual results (empty string if none); and `evidence` as an array of supporting observations or verification results. Set `overall_result` to `pass` only when every checklist item passes, `fail` when an established discrepancy exists, or `incomplete` when verification remains unresolved without an established failure.",
-      "return_schema_notation": "e13: {checklist: {condition_id: string, expected: string, simulated: string, actual: string, status: \"pass\" | \"fail\" | \"unverified\", discrepancy: string, evidence: string[]}[], overall_result: \"pass\" | \"fail\" | \"incomplete\"}"
+      "instruction": "Perform the post-execution diagnostic by decorating the existing `e.e10.checklist`, without replacing or regenerating its items. Preserve every `condition_id`, `expected`, and `simulated` value from the original checklist. For each item, add `actual` describing the observed post-execution condition; `status` as exactly `pass`, `fail`, or `unverified`; `discrepancy` describing any difference between expected and actual results (empty string if none); and `evidence` as an array of supporting observations or verification results. Set `overall_result` to `pass` only when every checklist item passes, `fail` when an established discrepancy exists, or `incomplete` when verification remains unresolved without an established failure. Return the complete context object `e`, retaining every previously accepted property under its original address without modification. The `e.e0` property is a string containing the original user prompt verbatim, without changing any of its wording. The `e.e1` property is an object describing the user's intent, objectives, constraints, and requested outcome. The `e.e2` property is an array containing between seven and eleven question objects needed to fulfill the user request. The `e.e3` property is an array of answer objects, containing one object for every question in `e.e2`. The `e.e4` property is an object describing the desired final system state and the conditions that would establish its achievement. The `e.e5` property is an object describing the observed current system state and explicitly unresolved facts. The `e.e6` property is an array of change objects derived by comparing `e.e5` with `e.e4`. The `e.e7` property is an array of actionable operation objects mapped to changes in `e.e6`. The `e.e8` property is an object describing the current-to-desired-state mapping and any remaining coverage gaps. The `e.e9` property is an object containing the ordered executable procedure. The `e.e10` property is an object containing simulated procedure results, predicted requirement coverage, and possible revisions. The `e.e11` property is an object recording execution outcomes and supporting evidence. The `e.e12` property is an object containing post-execution diagnostic outcomes and the overall result. The `e.e12.checklist` property is an array containing every item of `e.e10.checklist` in the same order, with preserved prior values and added observed results. Each object in `e.e12.checklist` preserves a prior simulated checklist item and decorates it with actual post-execution observations. The `e.e12.checklist[].condition_id` property is a string preserved exactly from the corresponding `e.e10.checklist[].condition_id`. The `e.e12.checklist[].expected` property is a string preserved exactly from the corresponding `e.e10.checklist[].expected`. The `e.e12.checklist[].simulated` property is a string preserved exactly from the corresponding `e.e10.checklist[].simulated`. The `e.e12.checklist[].actual` property is a string describing the observed post-execution condition. The `e.e12.checklist[].status` property is a string with exactly one of pass, fail, or unverified, describing whether the actual result satisfies the requirement. The `e.e12.checklist[].discrepancy` property is a string explaining any actual discrepancy from the required condition, or an empty string when none exists. The `e.e12.checklist[].evidence` property is an array of strings recording evidence for the assessed condition. Each string in `e.e12.checklist[].evidence` describes an observation or verification result supporting the post-execution assessment. The `e.e12.overall_result` property is a string set to pass when every checklist item passes, fail when a verified failure exists, or incomplete when some verification remains unresolved without an established failure.",
+      "return_schema_notation": "e12: {checklist: {condition_id: string, expected: string, simulated: string, actual: string, status: \"pass\" | \"fail\" | \"unverified\", discrepancy: string, evidence: string[]}[], overall_result: \"pass\" | \"fail\" | \"incomplete\"}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "The complete accumulated context object e, including preserved earlier context members and the state-specific response.",
+        "required": [
+          "e0",
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "e6",
+          "e7",
+          "e8",
+          "e9",
+          "e10",
+          "e11",
+          "e12"
+        ],
+        "properties": {
+          "e12": {
+            "type": "object",
+            "description": "The `e.e12` property is an object containing post-execution diagnostic outcomes and the overall result.",
+            "properties": {
+              "checklist": {
+                "type": "array",
+                "description": "The `e.e12.checklist` property is an array containing every item of `e.e10.checklist` in the same order, with preserved prior values and added observed results.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `e.e12.checklist` preserves a prior simulated checklist item and decorates it with actual post-execution observations.",
+                  "properties": {
+                    "condition_id": {
+                      "type": "string",
+                      "description": "The `e.e12.checklist[].condition_id` property is a string preserved exactly from the corresponding `e.e10.checklist[].condition_id`."
+                    },
+                    "expected": {
+                      "type": "string",
+                      "description": "The `e.e12.checklist[].expected` property is a string preserved exactly from the corresponding `e.e10.checklist[].expected`."
+                    },
+                    "simulated": {
+                      "type": "string",
+                      "description": "The `e.e12.checklist[].simulated` property is a string preserved exactly from the corresponding `e.e10.checklist[].simulated`."
+                    },
+                    "actual": {
+                      "type": "string",
+                      "description": "The `e.e12.checklist[].actual` property is a string describing the observed post-execution condition."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pass",
+                        "fail",
+                        "unverified"
+                      ],
+                      "description": "The `e.e12.checklist[].status` property is a string with exactly one of pass, fail, or unverified, describing whether the actual result satisfies the requirement."
+                    },
+                    "discrepancy": {
+                      "type": "string",
+                      "description": "The `e.e12.checklist[].discrepancy` property is a string explaining any actual discrepancy from the required condition, or an empty string when none exists."
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "description": "The `e.e12.checklist[].evidence` property is an array of strings recording evidence for the assessed condition.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `e.e12.checklist[].evidence` describes an observation or verification result supporting the post-execution assessment."
+                      }
+                    }
+                  },
+                  "required": [
+                    "condition_id",
+                    "expected",
+                    "simulated",
+                    "actual",
+                    "status",
+                    "discrepancy",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "overall_result": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "fail",
+                  "incomplete"
+                ],
+                "description": "The `e.e12.overall_result` property is a string set to pass when every checklist item passes, fail when a verified failure exists, or incomplete when some verification remains unresolved without an established failure."
+              }
+            },
+            "required": [
+              "checklist",
+              "overall_result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "instruction_explanation_coverage": {
+        "new_property": "e12",
+        "prior_property_count": 12,
+        "explained_schema_keys": 12,
+        "validation": "Every property and nested field declared under the newly requested e.e_i key has a full explanatory sentence in instruction; all preceding required context addresses are also identified in explanatory sentences."
+      }
     }
   ]
 }

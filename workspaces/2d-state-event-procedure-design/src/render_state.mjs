@@ -4,12 +4,16 @@ const { states } = JSON.parse(readFileSync(
   new URL("../state-instructions-and-return-schemas.json", import.meta.url), "utf8"
 ))
 const definitions = Object.fromEntries(states.map(s => [s.keyword, s]))
-const order = states.map(s => s.keyword)
+const bindings = JSON.parse(readFileSync(
+  new URL("../projection-bindings.json", import.meta.url), "utf8"
+))
 
 export function getDefinition(keyword) {
   const definition = definitions[keyword]
   if (!definition) throw new ReferenceError(keyword)
-  return { ...definition, next: order[order.indexOf(keyword) + 1] ?? null }
+  const binding = bindings[keyword]
+  if (!binding) throw new ReferenceError(`binding: ${keyword}`)
+  return { ...definition, next: binding.next, process: binding.process, derive_schema: binding.derive_schema }
 }
 
 export function withDiagnostic(keyword, projection, error) {

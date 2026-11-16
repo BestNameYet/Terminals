@@ -329,5 +329,88 @@
         "The transition function validates e.e2 as the property requested by State_1; e.e1 remains independently addressable for later states."
       ]
     }
+  },
+  {
+    "title": "File-Level Change Mapping as the Procedure's Structural Foundation",
+    "applicability": "The procedure-design phase that compares the current system state with the user-requested desired final system state, identifies filesystem changes, identifies agent actions, maps the actions to those changes, and subsequently expands the mappings into a procedure.",
+    "purpose": "Ensure that the procedure specifies concrete, individually identifiable file changes and the agent actions that produce each change, rather than producing an abstract action list disconnected from the desired final state.",
+    "required_behavior": {
+      "file_level_granularity": "For each filesystem transformation required by the desired final system state, describe the change at the level of the specific file affected. Give each separately identifiable file change its own change identifier, specify the affected file path, and classify its operation as create, modify, or delete. Do not substitute a broad directory-level or project-level description when a specific file change can be identified.",
+      "desired_state_traceability": "Identify which required condition or conditions of the desired final system state each file-level change is intended to satisfy. Preserve these relationships using the existing identifiers assigned to the final-state requirements and changes.",
+      "actions_per_change": "For each defined file change, identify the exact agent action or actions needed to produce that change. Map the action identifiers to the corresponding file-change identifier so the procedure can independently recover which actions effect which file changes. An action may be referenced by multiple change mappings where it produces multiple independently identified file changes.",
+      "mapping_as_skeleton": "Treat the existing change-to-action mappings as the canonical skeleton of the procedure. When generating ordered steps, command examples, code examples, simulation outputs, execution observations, or diagnostics, extend or decorate those mappings without replacing them with an unrelated action list, dropping original identifiers, or losing the link to the desired final state.",
+      "completion_coverage": "Represent every required file-level change in the mapping and associate it with its necessary actions. Where a required file change or action remains unmapped, identify the gap rather than silently omitting the requirement."
+    },
+    "example": {
+      "scenario": "The user's desired final state requires adding a new JSON configuration file and modifying an existing JavaScript program to read it.",
+      "file_changes": [
+        {
+          "change_id": "C1",
+          "file_path": "config/settings.json",
+          "operation": "create",
+          "desired_condition_ids": [
+            "D1"
+          ]
+        },
+        {
+          "change_id": "C2",
+          "file_path": "src/app.js",
+          "operation": "modify",
+          "desired_condition_ids": [
+            "D2"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "A1",
+          "description": "Write the required configuration data to config/settings.json."
+        },
+        {
+          "action_id": "A2",
+          "description": "Modify src/app.js so it reads config/settings.json and uses the configured values."
+        }
+      ],
+      "mappings": [
+        {
+          "change_id": "C1",
+          "action_ids": [
+            "A1"
+          ]
+        },
+        {
+          "change_id": "C2",
+          "action_ids": [
+            "A2"
+          ]
+        }
+      ],
+      "interpretation": "The two file changes remain separately addressable and traceable to the desired final-state conditions. Subsequent procedure and simulation stages add execution details to these same mappings rather than replacing them."
+    }
+  },
+  {
+    "title": "Two-Phase Interactive MCP Procedure Queue and Agent Handoff",
+    "applicability": "The application workflow that uses the two-dimensional State × Event machine to develop a procedure with an initial agent, place the resulting procedure into a queue, and continue interactively with a second agent for review, execution, and post-execution diagnostics.",
+    "purpose": "Establish that both sides of the queued handoff are interactive procedures, not an issue-comment job processor or an offline batch execution, so future queue design and implementation preserve the intended agent-facing MCP interaction.",
+    "required_behavior": {
+      "first_phase_interactive_procedure": "The first agent follows the interactive State × Event procedure for understanding the user request, defining desired and current system states, identifying file-level changes and actions, preserving their mappings, constructing the procedure, and supplying the simulation's proposed commands, code, and predicted effects. Each step issues the corresponding MCP tool response and receives the agent's schema-governed return as an event.",
+      "queue_handoff": "After the procedure-preparation phase reaches its defined handoff, the application places that prepared procedure and its accumulated context e into the queue for a second agent. The handoff must preserve the existing file-change identifiers, action identifiers, mapping relationships, return data, and other information required for continuation; the second agent must not have to reconstruct the procedure independently from a summary.",
+      "second_phase_interactive_procedure": "The second agent receives the queued procedure and continues through its own interactive State × Event exchanges. That phase comprises reviewing the prepared procedure, executing the associated actions, and completing the post-execution diagnostic against the existing desired-state requirements and checklist. The second agent's interactive responses remain subject to state-specific machine-dialect instructions, JSON return schemas, and function-selected transitions.",
+      "mcp_based_queue": "Expose the queue and both interactive procedure phases through the application's MCP-based interface. Treat IssueStack's issue-backed queue only as historical design context, not as a required implementation or an execution dependency; an Issue-comment-triggered workflow is not a substitute for the intended interactive MCP queue.",
+      "preserve_machine_architecture": "Queuing, agent assignment, suspension, resumption, and phase transfer may coordinate who acts and when, but must not change the State × Event dispatch dimensions, the event/context object e, the return-schema validation contract, or the responsibility of transition functions to choose states.",
+      "retain_full_run": "Ensure the application's complete run record encompasses both interactive phases, the queue handoff, actual execution results, and post-execution diagnostics. The queue must preserve continuity of the same procedure rather than treating the second phase as a new unrelated request."
+    },
+    "example": {
+      "title": "Interactive procedure authoring followed by interactive review and execution",
+      "sequence": [
+        "Agent 1 responds to MCP-rendered procedure states, supplying e.e1 and subsequent context properties as requested and validated by the selected transition functions.",
+        "Agent 1 produces a file-level change-to-action mapping and decorates that mapping with the stepwise procedure and a proposed simulation containing commands, code and predicted effects.",
+        "The application queues that prepared procedure together with its existing context e and the information needed to continue its run.",
+        "Agent 2 receives the queued work through the MCP-based interface and interactively reviews the proposed procedure, with each response consumed by the relevant State × Event handler.",
+        "Agent 2 executes the reviewed procedure and interactively supplies actual execution observations and the decorated post-execution diagnostic checklist.",
+        "The application retains the complete record spanning both agents and the handoff."
+      ]
+    },
+    "implementation_boundary": "This instruction specifies required queue behavior and relationships, not a queue storage format, claim protocol, scheduling policy, MCP tool naming convention, or specific implementation strategy. Those decisions must be made separately without changing the stated interactive two-phase behavior."
   }
 ]

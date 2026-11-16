@@ -1,6 +1,6 @@
 {
   "title": "Applications Project — Start or Restart Terminal MCP via Terminals Issue #3",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "applicability": "When developing or operating Applications project's registered @ functions and the Terminals MCP Codespace needs to be started or restarted.",
   "execution_interface": {
     "repository": "BestNameYet/Terminals",
@@ -49,6 +49,47 @@
         "forWhom": "GPT6_0000000017-restart_codespace-Applications"
       },
       "sequence_requirement": "Do not issue stop when the user only requests start. Do not submit start until the stop operation has reached its stopped state. Use a fresh forWhom for each status check and state-changing command."
+    },
+    "update_surfaces_imperative": {
+      "title": "Direct update of the Terminal MCP injected imperative resource",
+      "applicability": "When the Applications user requests an addition, in-place revision, or expressly authorized replacement of the Terminal MCP hot-context instructions stored at BestNameYet/Surfaces/references/imperative.json on main.",
+      "authoritative_target": {
+        "repository": "BestNameYet/Surfaces",
+        "branch": "main",
+        "file_path": "references/imperative.json",
+        "url": "https://github.com/BestNameYet/Surfaces/blob/main/references/imperative.json",
+        "type": "JSON array",
+        "exclusions": "Do not write BestNameYet/Terminals/references/imperatives.json, use the plural filename, or assume /workspaces/Terminals/references is the Surfaces source."
+      },
+      "method": "Use the GitHub Contents API through an authenticated gh CLI running in the Codespace (direct Terminal MCP) or in the Terminals Issue #3 GitHub Actions runner. No filesystem path in the Terminals Codespace is assumed to map to the Surfaces repository. The GitHub API updates the authoritative Surfaces branch directly. Do not modify the file merely to inspect it.",
+      "prerequisites": "The command environment must have gh, jq, base64, and a GitHub credential authorized to write BestNameYet/Surfaces. If credentials do not have that access, report the actual API failure; do not assume that the Terminals repository token grants access to Surfaces.",
+      "preparation": "Set operation to append, replace_by_title, or replace_all as authorized. Replace the heredoc with exact user-authorized JSON. append adds one complete JSON object without changing prior entries; replace_by_title replaces exactly one existing top-level object with the same title in place; replace_all requires explicit authorization to replace the complete array. Preserve all otherwise unaffected entries and array ordering.",
+      "command_lifetime": "Each Terminal MCP call and each Issue #3 command execution starts a fresh shell. Include all assignments, temporary files, transformations, API calls, and verification in one whatPrompt, as the full script given by shell_program_template.",
+      "shell_program_template": "set -euo pipefail\nrepository='BestNameYet/Surfaces'\nfile_path='references/imperative.json'\nbranch='main'\noperation='replace_by_title'  # choose: append | replace_by_title | replace_all\nworkdir=\"$(mktemp -d)\"\ntrap 'rm -rf \"$workdir\"' EXIT\n\n# Replace this entire heredoc with the exact user-requested JSON:\n# an object for append/replace_by_title, or the complete array for replace_all.\ncat > \"$workdir/payload.json\" <<'IMPERATIVE_PAYLOAD'\n{\"title\":\"REPLACE_WITH_ACTUAL_INSTRUCTION_TITLE\",\"applicability\":\"REPLACE_WITH_ACTUAL_SCOPE\",\"required_behavior\":\"REPLACE_WITH_ACTUAL_INSTRUCTION\"}\nIMPERATIVE_PAYLOAD\n\ngh api \"repos/$repository/contents/$file_path?ref=$branch\" > \"$workdir/original-response.json\"\noriginal_sha=\"$(jq -er '.sha' \"$workdir/original-response.json\")\"\njq -er '.content' \"$workdir/original-response.json\" | base64 --decode > \"$workdir/before.json\"\njq -e 'type==\"array\"' \"$workdir/before.json\" >/dev/null\n\ncase \"$operation\" in\n  append)\n    jq -e 'type==\"object\"' \"$workdir/payload.json\" >/dev/null\n    jq -e --slurpfile item \"$workdir/payload.json\" '. + $item' \"$workdir/before.json\" > \"$workdir/after.json\"\n    ;;\n  replace_by_title)\n    jq -e 'type==\"object\" and (.title | type==\"string\" and length>0)' \"$workdir/payload.json\" >/dev/null\n    jq -e --slurpfile item \"$workdir/payload.json\" '\n      ($item[0].title) as $target\n      | if ([.[] | select(type==\"object\" and .title==$target)] | length) == 1\n        then map(if type==\"object\" and .title==$target then $item[0] else . end)\n        else error(\"Expected exactly one matching top-level title\")\n        end\n    ' \"$workdir/before.json\" > \"$workdir/after.json\"\n    ;;\n  replace_all)\n    jq -e 'type==\"array\"' \"$workdir/payload.json\" > \"$workdir/after.json\"\n    ;;\n  *) printf 'Unsupported operation: %s\\n' \"$operation\" >&2; exit 2 ;;\nesac\n\njq -e 'type==\"array\"' \"$workdir/after.json\" >/dev/null\nif cmp -s \"$workdir/before.json\" \"$workdir/after.json\"; then\n  printf '%s\\n' 'No content change; no commit created.'\n  exit 0\nfi\n\nencoded=\"$(base64 -w 0 \"$workdir/after.json\")\"\njq -n --arg message \"Update Surfaces imperative.json ($operation)\" \\\n  --arg content \"$encoded\" --arg sha \"$original_sha\" --arg branch \"$branch\" \\\n  '{message:$message,content:$content,sha:$sha,branch:$branch}' > \"$workdir/write-request.json\"\n\ngh api --method PUT \"repos/$repository/contents/$file_path\" \\\n  --input \"$workdir/write-request.json\" > \"$workdir/write-result.json\"\n\ngh api \"repos/$repository/contents/$file_path?ref=$branch\" \\\n  --jq '.content' | base64 --decode > \"$workdir/readback.json\"\n\ncmp \"$workdir/after.json\" \"$workdir/readback.json\"\nprintf 'VERIFIED commit: '\njq -er '.commit.sha' \"$workdir/write-result.json\"\n",
+      "terminal_mcp": {
+        "tool": "terminal_execute",
+        "execution_location": "Terminals Codespace",
+        "request_template": {
+          "runOn": "$",
+          "whatPrompt": "Use the complete shell_program_template after replacing the operation and heredoc payload with the user-requested edit.",
+          "forWhom": "GPT6_0000000023-update_surfaces_imperative-Applications"
+        }
+      },
+      "issue_3": {
+        "submission_location": "https://github.com/BestNameYet/Terminals/issues/3",
+        "submission_format": "Submit a complete JSON object as the body of a new repository-owner-authored Issue #3 comment.",
+        "execution_location": "GitHub Actions runner for .github/workflows/issue-3-comment-listener.yml. Unlike a Codespace-local file edit, the gh api operation targets the remote Surfaces repository and therefore does not require gh codespace ssh.",
+        "request_template": {
+          "runOn": "$",
+          "whatPrompt": "Use the same complete shell_program_template after replacing the operation and heredoc payload with the user-requested edit; JSON-escape newlines and embedded quotes in the Issue #3 comment body.",
+          "forWhom": "GPT6_0000000029-update_surfaces_imperative-Applications"
+        },
+        "result_access": "Read the Issue #3 output under BestNameYet/Terminals/workspaces/terminalruns/{forWhom}_{timestamp}.json and inspect the corresponding Actions execution for stderr and exit status."
+      },
+      "invocation_identity": "Use a new valid forWhom on every invocation, with the documented model_prime-task-project format. The displayed IDs are examples and must not be reused.",
+      "verification": "The script reads the current Surfaces blob and SHA, validates the original JSON array, applies only the selected authorized transformation, writes through the Contents API with the original blob SHA, reads back Surfaces/main, and uses bytewise cmp before reporting VERIFIED with the resulting commit SHA. An API write or Issue #3 comment alone is not proof of successful readback.",
+      "failure_handling": "If the title is absent or duplicated, JSON invalid, GitHub API write conflicts, permissions are insufficient, or readback differs, stop and report the error without asserting verification. On a 409 conflict, fetch the new revision and reapply the authorized change against that revision instead of overwriting other changes.",
+      "hot_context_note": "The target is the user's hot-context source for Terminal MCP response injection. Updating Surfaces/main does not by itself prove when a running MCP server fetches or begins using the revised content; verify the relevant subsequent response separately."
     }
   },
   "verification": {

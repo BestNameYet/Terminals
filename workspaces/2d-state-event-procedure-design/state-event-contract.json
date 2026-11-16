@@ -1,0 +1,34 @@
+{
+  "title": "Nonce-keyed state/event procedure execution",
+  "priority": "Supersedes obsolete indexed-iterator and renderer handoff mechanics only; all unrelated AGENTS.json instructions and full state/schema requirements continue to apply.",
+  "persistent_record": {
+    "key": "nonce",
+    "fields": {
+      "state": {
+        "keyword": "Current state's semantic keyword",
+        "next": "Successor keyword or null",
+        "projection": "Complete generated presentation, including final_schema"
+      }
+    },
+    "inputs": "All accepted prior input values keyed by semantic keyword",
+    "completed": "Optional terminal indicator"
+  },
+  "reference": {
+    "definitions": "state-instructions-and-return-schemas.json",
+    "bindings": "projection-bindings.json",
+    "preservation": "Existing complete instructions, compact projections, full return schemas, schema_derivation rules, read_keywords, diagnostics, and semantic validators must not be shortened or discarded."
+  },
+  "events": {
+    "nonce": "Fetch saved record and render its stored state.projection without recalculation.",
+    "nonce(input)": "Fetch record; validate input using stored state.projection.final_schema and state-specific substantive validator. On rejection save diagnostic on current projection and re-render. On acceptance save value in inputs[state.keyword]; generate next state using state.next, resolving read_keywords against inputs and deriving final_schema; save the new record under the same nonce before rendering. At null next mark complete."
+  },
+  "generation": {
+    "function": "buildState(keyword, inputs)",
+    "schema_derivation": "The state's derive_schema binding identifies the function called at projection construction, never on replay or after render.",
+    "render": "Output-only; must not collect the next input or produce a separate issuedSchema.",
+    "no_indexed_transition": true,
+    "no_persistent_keyword_index_map": true
+  },
+  "entrypoint": "f(agentInput, nonce, {load,save,render})",
+  "initialization": "create(nonce, {save,render}, initialKeyword)"
+}

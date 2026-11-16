@@ -5,9 +5,11 @@ import { renderResponseContent, listResponseResources, readResponseResource } fr
 import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 import { EOTRecorder } from './eot-recorder.mjs';
 import { TurnJournal } from './turn-journal.mjs';
+import { Procedure } from './procedure.mjs';
 
 registerAlias('EOTRecorder', EOTRecorder);
 registerAlias('TurnJournal', TurnJournal);
+registerAlias('Procedure', Procedure);
 import {spawn} from 'node:child_process';
 const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh','@']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};

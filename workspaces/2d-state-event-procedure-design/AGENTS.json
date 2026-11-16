@@ -243,8 +243,21 @@
           "On acceptance, Function_4 invokes State_4(e), passing the accumulated context needed to define the desired final system state.",
           "If Function_4 instead rejects e.e4, it invokes State_3(e) with diagnostics describing the deficient answers. Neither invocation may omit context properties required by the destination state's contract."
         ]
+      },
+      {
+        "title": "Function returns the next state and its arguments for subsequent invocation",
+        "implementation_style": "Deferred invocation: the selected function returns a function pointer referencing the destination state together with the arguments that must be supplied when it is called. The application invokes the returned function after the handler returns.",
+        "illustrative_javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return { nextState: State_0, args: [{ ...e, validation_error: 'e.e1 must be a nonempty string.' }] };\n  }\n  return { nextState: State_1, args: [e] };\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
+        "interpretation": "Function_1 examines the agent-returned e.e1, determines the destination, and returns a reference to State_1 and the context argument e. The next state is not executed inside Function_1; the application invokes it with the returned arguments and obtains its rendered tool response. The invalid-input branch similarly references State_0 and supplies validation diagnostics in e. The next state remains a function selected by the handler, not by the event."
+      },
+      {
+        "title": "Function directly calls the next state",
+        "implementation_style": "Immediate invocation: the selected function calls the destination state itself and returns the rendered tool response produced by that state.",
+        "illustrative_javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0({ ...e, validation_error: 'e.e1 must be a nonempty string.' });\n  }\n  return State_1(e);\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst toolResponse = Function_1(e);",
+        "interpretation": "Function_1 examines e.e1, determines the destination, and immediately invokes State_1(e), passing the context as an argument. The return value is the tool response rendered by State_1, rather than a deferred function pointer and argument list. The invalid-input branch calls State_0(e) with an error-bearing context, as permitted by that state's input contract."
       }
     ],
-    "conformance": "An implementation conforms only when agent responses supply the event input, independently recallable inputs have distinct documented addresses in e, the state-event-selected function receives e and operates on at least one declared member, and that function passes contract-conforming arguments to the next state along the defined deterministic route. Deviations require correction rather than reinterpretation of the governing State × Event model."
+    "conformance": "An implementation conforms only when agent responses supply the event input, independently recallable inputs have distinct documented addresses in e, the state-event-selected function receives e and operates on at least one declared member, and that function passes contract-conforming arguments to the next state along the defined deterministic route. Deviations require correction rather than reinterpretation of the governing State × Event model.",
+    "implementation_choice_status": "The deferred return of a destination state function and arguments, and the immediate call of that state function, are alternative illustrations of state invocation. This document does not select or require either technique. The implementation may choose an invocation mechanism only if the current state and agent-return event still select the handler through the 2D dispatch table, the handler examines the required members of e, the handler determines the next state, and that state's input contract is satisfied."
   }
 ]

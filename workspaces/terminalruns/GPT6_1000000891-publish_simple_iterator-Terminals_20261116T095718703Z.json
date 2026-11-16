@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail\napi=repos/BestNameYet/Terminals/contents/workspaces/2d-state-event-procedure-design/src/iterator.mjs\nprevious=44ae5dd78175bc90adff9e06a86f26813f9a80f4\nexpected=dcfcdfd7de2eb58d1eb77633b85c32b9bd9988e7\ntest \"$(gh api \"$api?ref=main\" --jq .sha)\" = \"$previous\"\ncontent=$(base64 -w0 <<'ITERATOR_SOURCE'\nexport async function iterate(steps, returnSchemas) {\n  const e = Array(steps.length).fill(null)\n  const keywordIndexes = new Map()\n\n  for (let i = 0; i < steps.length; i += 1) {\n    const keyword = Object.keys(returnSchemas[i])[0]\n    keywordIndexes.set(keyword, i)\n  }\n\n  function read(keyword) {\n    const index = keywordIndexes.get(keyword)\n    const record = e[index]\n\n    if (record?.valid === true) {\n      return record.input[keyword]\n    }\n  }\n\n  let i = 0\n  while (i < steps.length) {\n    e[i] = await steps[i](e, i, read)\n\n    if (e[i].valid) {\n      i += 1\n    }\n  }\n\n  return e\n}\nITERATOR_SOURCE\n)\ncommit=$(gh api --method PUT \"$api\" -f branch=main -f message='Use a single procedure iterator with keyword lookup' -f sha=\"$previous\" -f content=\"$content\" --jq .commit.sha)\ntest \"$(gh api \"$api?ref=$commit\" --jq .sha)\" = \"$expected\"\ntest \"$(gh api \"$api?ref=main\" --jq .sha)\" = \"$expected\"\nprintf 'published_commit=%s\\npublished_blob=%s\\n' \"$commit\" \"$expected\"",
+  "outputThat": [
+    "published_commit=fb243418b1dfae1c7848dfcbd1497529622c5729",
+    "published_blob=dcfcdfd7de2eb58d1eb77633b85c32b9bd9988e7"
+  ]
+}

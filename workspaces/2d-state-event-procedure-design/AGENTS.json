@@ -217,38 +217,38 @@
     "implementation_choice_status": "Nonce-keyed persistent execution records and keyword-addressed projection definitions replace indexed iterator advancement and deferred state pointers. No additional step-index map or pending-diagnostic state is part of the active contract."
   },
   {
-    "title": "State-Event Transition Function Invocation and Explicit State Arguments",
-    "applicability": "Every dispatch of an agent-return event to a transition function, its return-schema validation, and its invocation or return of a destination state in the interactive indexed function-pointer procedure machine.",
+    "title": "State-Event Handler Invocation and Explicit Stored-State Arguments",
+    "applicability": "Every dispatch of agent input using a nonce, schema validation against a saved projection, same-state diagnostic retry, and successor generation for the interactive procedure.",
     "architectural_contract": {
-      "intersection_selection": "The current step file at index i provides Function_i for the input requested by that step's instruction.",
-      "event_consumption": "The state function receives the current reply and accesses earlier accepted values by keyword when necessary.",
-      "validation": "Validate the reply against the exact issued schema and applicable semantics. Return true on acceptance or false with a diagnostic on rejection.",
-      "invalid_response_route": "On rejection, preserve the diagnostic for the next invocation and return false. The next attempt calls the renderer with that diagnostic and the same instruction and schema.",
-      "valid_response_route": "On acceptance, return true with the accepted input. The iterator advances exactly once and invokes the next step file.",
-      "functional_argument_passing": "Use a run-scoped keyword lookup for accepted values. Keep diagnostic control data separate from the agent payload.",
-      "startup_defaults": "Start at index zero on a new run or at the saved index on resumption with the same keyword source.",
-      "deferred_or_immediate_invocation": "The state function returns a validation result. The iterator alone selects and invokes the next step by index."
+      "intersection_selection": "The nonce retrieves the current execution record, whose state.keyword determines the corresponding state-specific processing handler.",
+      "event_consumption": "The processing handler receives the agent input and may read earlier accepted inputs by keyword from the same nonce record.",
+      "validation": "Validate against the saved state.projection.final_schema and applicable semantic constraints; return true with accepted input or false with a structured diagnostic.",
+      "invalid_response_route": "On rejection, preserve the current keyword, its unchanged instruction and final_schema, attach the diagnostic to its projection, save under the same nonce and render the retry.",
+      "valid_response_route": "On acceptance, save the keyword value, generate the next projection by state.next using declared prior inputs and schema derivation, save under the same nonce, and render; a null successor completes the procedure.",
+      "functional_argument_passing": "Use a run-scoped keyword lookup for accepted values, and pass the already generated final_schema into validation. Diagnostics are part of the saved projection, not an independent pending input.",
+      "startup_defaults": "A no-argument invocation creates a nonce and initial verbatim_request projection; nonce-only resumption renders that saved projection.",
+      "deferred_or_immediate_invocation": "The renderer never collects agent input. Input arrives in a later invocation of the same procedure nonce, whose controller dispatches the current handler and saves the resulting state."
     },
     "mandatory_behavior": {
-      "deterministic_selection": "Use the current step file's Function_i to determine the Boolean from the returned input and the schema issued with that step's instruction. The agent's return does not determine the Boolean or choose a destination.",
-      "schema_validation_and_retry": "The active state function validates the reply for its current keyword against the issued schema. Return a rejection diagnostic when validation fails.",
-      "separate_context_and_state_argument": "Provide read(keyword) for earlier accepted values and supply only the state-specific rendering data to the renderer.",
-      "no_global_state_dependency": "Scope keyword reads to the active run. Keep persisted position and validation diagnostics under run control.",
-      "initial_state_defaults": "The iterator starts with an empty accepted-value source for a new run unless the run has a saved position and source."
+      "deterministic_selection": "Choose the processing handler by persisted state.keyword. It determines validity from the agent input and persisted final_schema, not from an agent-supplied Boolean. The agent cannot choose the successor.",
+      "schema_validation_and_retry": "Validate the current keyword against the saved final_schema. A rejected reply leaves the active state and schema unchanged, with an additional diagnostic saved in the projection.",
+      "separate_context_and_state_argument": "Expose the accepted keyword values to projection generation and state-specific validation without returning a complete context object to the agent. Give the renderer only the stored projection.",
+      "no_global_state_dependency": "All previous-value lookups and active-state selection are scoped to the nonce. Do not use global current indices or separate pending-error slots.",
+      "initial_state_defaults": "A new run starts with a new nonce, empty accepted keyword inputs and the generated verbatim_request projection; resumption loads the stored record without rebuilding its final_schema."
     },
     "examples": [
       {
         "title": "One state callable uses a separate renderer",
-        "javascript": "async function state(read, render) {\n  const { input, issuedSchema } = await render({ keyword: 'user_intent', context: { verbatim_request: read('verbatim_request') } });\n  const { valid, errors } = validateReturnSchema(input, issuedSchema);\n  return { valid, input: valid ? input : null, error: valid ? null : { error: true, errortype: 'user_intent.input_error', diagnostic_data: errors } };\n}",
-        "explanation": "The renderer resolves and presents the instruction and schema. The state function receives and validates the reply. In the procedure, the state also supplies any pending diagnostic and formats failures as structured diagnostic data."
+        "javascript": "async function processCurrent(record, agentInput, validateReturnSchema) {\n  const keyword = record.state.keyword;\n  const { valid, errors } = validateReturnSchema(agentInput, record.state.projection.final_schema);\n  return { valid, input: valid ? agentInput : null, error: valid ? null : { error: true, errortype: keyword + '.input_error', diagnostic_data: errors } };\n}",
+        "explanation": "The example illustrates structural validation against the stored schema; a real handler additionally applies all state-specific semantic checks. The renderer is not invoked by the handler and cannot collect input."
       },
       {
-        "title": "The iterator controls the next index",
-        "javascript": "const result = await steps[i](e, i, read, exchange);\ni += Number(result.valid);",
-        "explanation": "The active state function determines validity. The iterator advances for true or repeats for false."
+        "title": "Controller follows the saved successor keyword after acceptance",
+        "javascript": "if (result.valid) {\n  record.inputs[record.state.keyword] = result.input[record.state.keyword];\n  if (record.state.next !== null) record.state = await buildState(record.state.next, record.inputs);\n  else record.completed = true;\n} else {\n  record.state.projection = withDiagnostic(record.state.keyword, record.state.projection, result.error);\n}\nawait save(nonce, record);\nreturn record.completed ? { completed: true, nonce } : render(record.state.projection);",
+        "explanation": "The controller persists the new projection or the same-state retry before rendering. A null state.next marks completion instead of calling buildState."
       }
     ],
-    "conformance": "Each step has one callable which invokes the separate renderer and validates the current keyword reply. The iterator uses the returned Boolean to advance or repeat."
+    "conformance": "A nonce loads one current state and saved final_schema. Its handler validates input, and the controller persists either the same-state diagnostic projection or the keyword-defined successor projection before rendering."
   },
   {
     "title": "Agent Return and Accepted Inputs by Keyword",

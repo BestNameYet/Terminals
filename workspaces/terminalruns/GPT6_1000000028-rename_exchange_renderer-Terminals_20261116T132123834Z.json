@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:gh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- bash -s <<'REMOTE_FILESYSTEM'\nset -euo pipefail\ncd /workspaces/Terminals\npython3 - <<'PY'\nfrom pathlib import Path\nimport re\nroot=Path('workspaces/2d-state-event-procedure-design/src')\nchanged=[]\nfor p in root.glob('*.mjs'):\n    original=p.read_text()\n    updated=re.sub(r'\\bexchange\\b','render',original)\n    if updated != original:\n        p.write_text(updated)\n        changed.append(str(p))\nprint('CHANGED_FILES',len(changed))\nfor p in changed: print(p)\nPY\nfor f in workspaces/2d-state-event-procedure-design/src/*.mjs; do node --check \"$f\"; done\nrg -n '\\bexchange\\b' workspaces/2d-state-event-procedure-design/src && exit 1 || true\ngit diff --stat\ngit diff -- workspaces/2d-state-event-procedure-design/src/iterator.mjs workspaces/2d-state-event-procedure-design/src/render_state.mjs\nREMOTE_FILESYSTEM",
+  "outputThat": [
+    "CHANGED_FILES 0"
+  ]
+}

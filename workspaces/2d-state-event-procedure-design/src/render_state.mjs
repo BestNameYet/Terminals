@@ -13,8 +13,16 @@ export async function renderState(keyword, context, previousError, exchange, der
   const issuedSchema = deriveSchema
     ? deriveSchema(structuredClone(definition.return_schema))
     : definition.return_schema
+  const diagnostic = {}
+  if (previousError?.error === true) {
+    diagnostic.error_message = structuredClone(previousError)
+    const message = definition.diagnostics?.[previousError.errortype]
+    if (message !== undefined) {
+      diagnostic.error_message.message = message
+    }
+  }
   const input = await exchange({
-    error_message: previousError?.error === true ? structuredClone(previousError) : null,
+    ...diagnostic,
     keyword,
     instruction: definition.compact_instruction_projection,
     return_schema: structuredClone(issuedSchema),

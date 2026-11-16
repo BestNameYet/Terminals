@@ -503,7 +503,7 @@
     },
     {
       "state": "State_7",
-      "instruction": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action.",
+      "instruction": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action. Each action must list at least one accepted change ID, with no repeated IDs within that action. Cover every accepted required change. If there are no required changes, return an empty array.",
       "return_schema_notation": "agent_actions: {id: string, change_ids: string[], action: string, target: string, expected_result: string}[]",
       "return_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -565,23 +565,26 @@
         "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
       },
       "keyword": "agent_actions",
+      "diagnostics": {
+        "agent_actions.input_error": "Correct the agent_actions return using the validation details below. Use unique action IDs and cover every required change using accepted change IDs."
+      },
       "read_keywords": [
         "required_changes"
       ],
-      "compact_instruction_projection": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action.",
+      "compact_instruction_projection": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action. Each action must list at least one accepted change ID, with no repeated IDs within that action. Cover every accepted required change. If there are no required changes, return an empty array.",
       "schema_derivation": {
         "input_keywords": [
           "required_changes"
         ],
         "runtime_constraints": [
-          "Restrict change_ids to the accepted required_changes identifiers and verify coverage."
+          "Require each action to reference one or more distinct accepted required_changes identifiers. Verify unique action identifiers and coverage of all accepted changes."
         ],
         "mode": "context_derived_constraints_on_base_schema"
       }
     },
     {
       "state": "State_8",
-      "instruction": "Read `desired_state`, `current_state`, `required_changes`, and `agent_actions`. Return `change_action_mapping` as an object. `desired_state` summarizes the required final state consistently with the accepted input. `current_state` summarizes the observed state consistently with the accepted input. `mappings` contains one entry per required change. Each `change_id` references a required change, and `action_ids` lists corresponding identifiers from `agent_actions`. `gaps` lists uncovered changes, unmatched actions, or other deficiencies, or is empty if there are none.",
+      "instruction": "Read `desired_state`, `current_state`, `required_changes`, and `agent_actions`. Return `change_action_mapping` as an object. `desired_state` summarizes the required final state consistently with the accepted input. `current_state` summarizes the observed state consistently with the accepted input. `mappings` contains one entry per required change. Each `change_id` references a required change, and `action_ids` lists corresponding identifiers from `agent_actions`. `gaps` lists uncovered changes, unmatched actions, or other deficiencies, or is empty if there are none. Include each accepted change ID exactly once. For each change, include every accepted action whose change_ids contains that change ID, with no repeated or unrelated action IDs. Use an empty action_ids array for an uncovered change and report it in gaps. Describe any other gaps in gaps.",
       "return_schema_notation": "change_action_mapping: {desired_state: string, current_state: string, mappings: {change_id: string, action_ids: string[]}[], gaps: string[]}",
       "return_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -657,13 +660,16 @@
         "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
       },
       "keyword": "change_action_mapping",
+      "diagnostics": {
+        "change_action_mapping.input_error": "Correct the change_action_mapping return using the validation details below. Include exactly one mapping per required change, preserving its accepted action associations and reporting any gaps."
+      },
       "read_keywords": [
         "desired_state",
         "current_state",
         "required_changes",
         "agent_actions"
       ],
-      "compact_instruction_projection": "Read `desired_state`, `current_state`, `required_changes`, and `agent_actions`. Return `change_action_mapping` as an object. `desired_state` summarizes the required final state consistently with the accepted input. `current_state` summarizes the observed state consistently with the accepted input. `mappings` contains one entry per required change. Each `change_id` references a required change, and `action_ids` lists corresponding identifiers from `agent_actions`. `gaps` lists uncovered changes, unmatched actions, or other deficiencies, or is empty if there are none.",
+      "compact_instruction_projection": "Read `desired_state`, `current_state`, `required_changes`, and `agent_actions`. Return `change_action_mapping` as an object. `desired_state` summarizes the required final state consistently with the accepted input. `current_state` summarizes the observed state consistently with the accepted input. `mappings` contains one entry per required change. Each `change_id` references a required change, and `action_ids` lists corresponding identifiers from `agent_actions`. `gaps` lists uncovered changes, unmatched actions, or other deficiencies, or is empty if there are none. Include each accepted change ID exactly once. For each change, include every accepted action whose change_ids contains that change ID, with no repeated or unrelated action IDs. Use an empty action_ids array for an uncovered change and report it in gaps. Describe any other gaps in gaps.",
       "schema_derivation": {
         "input_keywords": [
           "desired_state",
@@ -672,7 +678,7 @@
           "agent_actions"
         ],
         "runtime_constraints": [
-          "Restrict change_id and action_ids to accepted identifiers, and derive mapping count from required_changes."
+          "Derive the exact mapping count and permitted identifiers from accepted required_changes and agent_actions. Verify one entry per change and preserve the set of accepted action associations for that change. Require gaps when an accepted change has no associated action or an accepted action is unmatched."
         ],
         "mode": "context_derived_constraints_on_base_schema"
       }

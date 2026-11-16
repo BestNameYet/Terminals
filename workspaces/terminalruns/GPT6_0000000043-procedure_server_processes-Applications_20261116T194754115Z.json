@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:gh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- bash -lc 'cd /workspaces/Terminals && printf \"REVISION=\" && git rev-parse --short HEAD && printf \"MCP_PROCESSES\\n\" && ps -eo pid,args | grep -E \"http-server[.]mjs|server[.]mjs\" || true'",
+  "outputThat": [
+    "REVISION="
+  ]
+}

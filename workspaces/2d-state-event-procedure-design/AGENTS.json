@@ -493,86 +493,86 @@
     "implementation_selection": "Nonce-controlled state processing with keyword-addressed projections and state.next transitions supersedes zero-based indexed advancement and synchronous render-and-input handlers. The complete existing state-specific validation requirements remain mandatory."
   },
   {
-    "title": "Indexed Procedure Iterator, Boolean Validation Branching, and Additive Error-Mode Rendering",
-    "applicability": "Every initialization, state invocation, agent-return event, validation operation, index transition, retry, state rendering, and procedure continuation governed by the indexed procedure in this workspace.",
-    "purpose": "Define deterministic indexed step invocation and retry, with keyword access to accepted inputs and a single-use diagnostic on rejection.",
+    "title": "Nonce-Persisted Procedure Controller, Validation Branching, and Additive Retry Rendering",
+    "applicability": "Every no-argument procedure initialization, nonce replay, separate nonce-plus-input event, validation, successful keyword transition, same-state retry and queue continuation in this workspace.",
+    "purpose": "Define deterministic persistence of one current state and complete generated projection per nonce, with keyword-addressed input retrieval, schema derivation at state generation, and additive validation diagnostics on rejection.",
     "definitions": {
-      "iterator_index": "The nonnegative integer i identifies the current procedure position. The initial index is zero. State_i and Function_i correspond to the same index i.",
-      "context_object": "Accepted inputs are held in a run-scoped source and retrieved through read(keyword). Local control state may carry a pending diagnostic.",
-      "state_function": "One callable at step index i prepares the state object, calls the renderer and validates the current reply.",
-      "validation_function": "Validation occurs inside the active state function after rendering. The state function uses the issued schema and applicable semantic constraints and returns a Boolean result.",
-      "validation_boolean": "The Boolean returned by Function_i is true when the requested input is accepted and false when rejected. This Boolean is determined by application validation rather than by the agent.",
-      "error_property": "The property e.error is reserved for validation diagnostics. A populated error object identifies a failed validation and supplies error type and diagnostic information required for rendering.",
-      "normal_mode": "The rendering mode that displays the complete ordinary instruction and JSON return schema associated with the current state.",
-      "error_mode": "The rendering mode that conspicuously displays the pending validation diagnostic before the complete, unchanged normal instruction and JSON return schema for the same state."
+      "iterator_index": "A numeric iterator index is not used for execution or persistence. The persistent nonce identifies a procedure record with one current state; its state.keyword and state.next identify the current and successor definitions.",
+      "context_object": "The record.inputs object stores every previously accepted input under its stable semantic keyword. Only declared prerequisite keys are resolved during new projection generation.",
+      "state_function": "The projection builder resolves the current keyword definition, complete instruction, base return schema and optional derive_schema function, constructing a concrete persisted projection with final_schema.",
+      "validation_function": "After a separate nonce-plus-input call, the state-specific handler validates that input against the currently saved projection.final_schema and applicable semantic requirements, returning validity and any diagnostic.",
+      "validation_boolean": "The Boolean is the application's acceptance result, not an agent-chosen event type or destination. Validity selects acceptance and state.next advancement, or rejection and same-state retry.",
+      "error_property": "A validation failure is represented by a structured diagnostic containing error=true, errortype and diagnostic data; the controller attaches it to the saved current projection without a separate pending diagnostic state.",
+      "normal_mode": "The saved projection's complete normal instruction and JSON final_schema are rendered without recomputation.",
+      "error_mode": "The same saved projection is rendered with a conspicuous additive error_message before its otherwise unchanged normal instruction and final_schema."
     },
     "mandatory_behavior": {
-      "initialization": "Initialize i at zero for a new run or restore the saved index and access to the run's accepted-value source.",
-      "state_invocation": "Invoke the state function at the current index once per attempt. The function reads prerequisites by keyword and calls the separate renderer with its state object.",
-      "error_detection": "At the beginning of State_i(e), inspect e.error. A populated validation error object with error=true selects error mode; an absent, null or cleared marker selects normal mode.",
-      "error_snapshot_and_reset": "Preserve a pending diagnostic in the state object before clearing its run-local value. Clearing it does not change the index or earlier accepted inputs.",
-      "normal_rendering": "In normal mode, construct a state object referencing the complete machine-dialect instruction and JSON return schema for State_i. The renderer resolves these from externally configured resources.",
-      "error_rendering": "In error mode, construct a state object referencing the same unchanged normal instruction and JSON return schema plus an additional conspicuous error presentation before them. Do not replace, abbreviate or modify the normal instruction or schema.",
-      "agent_response": "The reply arrives as E_RETURN(input) for the running state function. Its payload contains the current requested keyword and value. Validity is determined by the state function.",
-      "function_selection": "Select the step file at index i. The step provides Function_i and the return schema associated with its rendered instruction. Use only i_next to select the next step file after validation.",
-      "input_validation": "The active state function validates the current keyword against the issued schema and applicable semantic constraints.",
-      "validation_success": "Return true and the accepted input. The iterator records that input by keyword and advances exactly one index.",
-      "validation_failure": "Return false with a diagnostic including error=true, errortype and structured details as applicable. Keep it available for the next attempt.",
-      "index_retention": "On false, retain i and invoke the same step. It captures and clears the pending diagnostic and calls the renderer for the retry.",
-      "boolean_transition": "Compute i_next=i+Number(valid), with true contributing 1 and false contributing 0. Neither agent input nor renderer may independently advance the index.",
-      "recursive_continuation": "After validation, choose the next step file by the resulting index. Each attempt requests the input for one semantic keyword.",
-      "interaction_boundary": "The state function calls the separate renderer to present its state object and awaits the subsequent agent reply. It then validates the reply within the same invocation. Rendering and receiving the reply are distinct interaction phases.",
-      "context_preservation": "Keep earlier accepted values in the run's keyword source. Rejections do not replace accepted values.",
-      "function_responsibility_boundary": "The state function calls the separate renderer, validates the reply and returns the result. It does not present the response itself, invoke a destination state, or modify the index.",
-      "renderer_responsibility_boundary": "The renderer resolves externally configured templates and schemas and produces output. It does not validate returns, select transition functions, change i, or independently determine error state.",
-      "persistence_and_handoff": "Preserve the run identity, iterator index, accepted-value source and pending diagnostic across suspension, queue handoff and resumption.",
-      "non_deviation": "Do not substitute direct destination-state calls, agent-chosen routing, validity-coded event types or monolithic conditional dispatch for Boolean-controlled index advancement. Use the step file's own instruction and return-schema pair."
+      "initialization": "A procedure invocation without arguments creates a new nonce, builds the initial verbatim_request projection, persists the complete execution record and then returns the projection.",
+      "state_invocation": "For nonce-only invocation load and render the stored projection unchanged. For nonce-plus-input invocation dispatch to the processing handler identified by the saved state.keyword.",
+      "error_detection": "A submitted invalid input, as determined by the handler using the persisted final_schema and semantic checks, selects additive diagnostic retry on the current state. Absence of input selects exact replay, not an error mode decision.",
+      "error_snapshot_and_reset": "On rejection, add the diagnostic directly to the current saved projection, preserve its instruction and final_schema, and save the record before rendering. Do not create a separately pending error or clear the diagnostic by regenerating the state on the next replay.",
+      "normal_rendering": "Present the complete instruction and concrete final_schema already stored in record.state.projection; do not resolve the reference or derive schema during rendering.",
+      "error_rendering": "Present the structured externally resolved diagnostic conspicuously before the unchanged saved instruction and final_schema. The current state keyword and next pointer remain unchanged.",
+      "agent_response": "E_RETURN(input) arrives in a later invocation with the current nonce. Its object contains one requested keyword and value. The state-specific validator, not the agent, determines acceptance.",
+      "function_selection": "Select the processing handler by record.state.keyword; after successful validation resolve the successor definition from record.state.next. Do not use a persistent index, keyword map of numeric positions, or event column.",
+      "input_validation": "Validate the current one-keyword input against exactly record.state.projection.final_schema and all applicable state-specific semantic constraints.",
+      "validation_success": "On acceptance save record.inputs[state.keyword] and, if state.next is non-null, generate the next projection using declared previous keyword inputs and the referenced derivation function. Save under the same nonce before rendering. If state.next is null, persist completion.",
+      "validation_failure": "Return a structured error with error=true, errortype and diagnostic_data; preserve the current state and append its diagnostic to the saved projection for retry.",
+      "index_retention": "A rejected input retains the current state.keyword, state.next and final_schema under the nonce. It does not advance and does not require any index retention.",
+      "boolean_transition": "Use validation only to decide between same-state rejection and the deterministic keyword successor recorded as state.next. Do not compute i_next or i += Number(valid).",
+      "recursive_continuation": "After valid input build the successor by keyword and save it under the same nonce before rendering; each invocation requests only the current state's one semantic keyword.",
+      "interaction_boundary": "The renderer outputs the stored projection, ends the tool call, and does not await or solicit input. A subsequent nonce-plus-input invocation performs validation and may generate the next projection.",
+      "context_preservation": "Store all accepted inputs in record.inputs keyed by keyword. On rejection do not alter accepted values. New projection generation resolves only its declared prerequisite keywords.",
+      "function_responsibility_boundary": "The state-specific processing handler validates the current response and returns validity and diagnostic; the controller persists transitions or retries. The projection builder derives the schema before persistence; the renderer performs output only.",
+      "renderer_responsibility_boundary": "The renderer outputs complete saved projections and any already resolved additive diagnostic; it does not look up definitions, derive a schema, process inputs, change state.next, or decide error mode.",
+      "persistence_and_handoff": "Preserve nonce identity, current state keyword and successor, complete saved projection including final_schema, accepted inputs and required queue history across suspension and two-agent handoff.",
+      "non_deviation": "Do not reintroduce indexed iterator advancement, numeric keyword index maps, agent-selected destinations, validation-coded event types, synchronous render-and-reply exchange or a separate pending diagnostic state. Preserve full keyword definitions and substantive validator requirements."
     },
     "interface_contracts": {
-      "iterator_entry": "The iterator selects steps[i] and calls it once per attempt.",
-      "dispatch_entry": "steps[i] identifies the step file. Its semantic keyword identifies the instruction and return-schema pair.",
-      "validation_return": "The state function returns { valid, input, error }. valid is a Boolean. input contains the accepted reply on success and is null on rejection. error contains the diagnostic on rejection and is null on success.",
+      "iterator_entry": "create(nonce, {save,render}, initialKeyword) constructs, saves and renders the first state; f(agentInput, nonce, {load,save,render}) handles replay or submitted input.",
+      "dispatch_entry": "record.state.keyword identifies the active processing handler; state.next identifies the successor definition on acceptance.",
+      "validation_return": "The state-specific handler returns { valid, input, error }. valid is Boolean; input contains accepted one-keyword input on success and null on rejection; error contains diagnostic on failure and null on success.",
       "failure_error_shape": {
         "error": true,
-        "errortype": "An identifier for an applicable externally configured validation diagnostic, with structured data as needed."
+        "errortype": "Identifier for the externally configured diagnostic; structured diagnostic_data provides applicable validation details."
       },
-      "index_update": "i_next = i + Number(valid)",
-      "continuation": "After applying the Boolean result, invoke the step at the resulting index."
+      "index_update": "No index update occurs. Valid input generates the successor named by state.next; invalid input preserves the current state and schema.",
+      "continuation": "Persist the generated successor projection or same-state diagnostic under the unchanged nonce, then render. A null state.next marks the run completed."
     },
     "execution_examples": [
       {
         "title": "Initial successful validation",
         "sequence": [
-          "Start at index zero with no accepted values.",
-          "The verbatim_request step calls the renderer and receives the reply under its keyword.",
-          "The state function validates the reply and returns true with the input.",
-          "The iterator records the accepted value and advances to index one."
+          "Start with a no-argument call, generate a nonce and persist the complete verbatim_request projection with no accepted inputs.",
+          "The agent separately submits {verbatim_request: ...} and the same nonce.",
+          "The handler validates against the stored final_schema and returns accepted input.",
+          "The controller saves record.inputs.verbatim_request, generates user_intent by state.next, saves and renders that projection."
         ]
       },
       {
         "title": "Failed validation and same-state retry",
         "sequence": [
-          "The clarifying_questions state receives an invalid reply.",
-          "The state function returns false with a diagnostic.",
-          "The iterator retries the same step.",
-          "The step captures and clears the diagnostic before calling the renderer.",
-          "The renderer presents it before the unchanged instruction and schema."
+          "A nonce-plus-input call submits invalid clarifying_questions.",
+          "The state-specific handler returns false with a structured diagnostic.",
+          "The controller retains the same state and schema and saves the diagnostic in the existing projection.",
+          "A nonce-only replay returns exactly that saved diagnostic projection.",
+          "The instruction and final_schema remain complete and unchanged."
         ]
       },
       {
         "title": "Successful correction after retry",
         "sequence": [
-          "The step receives a corrected reply containing clarifying_questions.",
-          "The state function validates the reply and returns true.",
-          "The iterator records the value and advances. The next step reads it by keyword."
+          "The agent sends corrected clarifying_questions with the existing nonce.",
+          "The handler validates the reply against the current stored final_schema and returns true.",
+          "The controller saves the accepted value by keyword, builds state.next, and the successor retrieves the accepted questions by keyword as needed."
         ]
       }
     ],
     "relationship_to_existing_workspace_instructions": {
-      "preserved_requirements": "Preserve indexed step selection, external rendering resources, keyword-addressed accepted values, aligned return schemas, Boolean-controlled transitions, persisted run records and the interactive two-phase queue.",
-      "superseded_transition_behavior": "The active state function calls the separate renderer and validates its reply. The iterator alone invokes the following or repeated step.",
-      "superseded_index_convention": "Use a zero-based index for step selection and semantic keywords for accepted values and schema lookup.",
-      "reconciliation_requirement": "Maintain one authoritative iterator and transition mechanism across all current instruction objects and implementation examples; do not leave competing active direct-invocation contracts."
+      "preserved_requirements": "Preserve complete external instructions and schemas, keyword-addressed accepted values, state-specific structural and semantic validation, deterministic transitions, persistent run records and the interactive two-phase queue.",
+      "superseded_transition_behavior": "Separate projection generation, rendering and subsequent input validation. The controller follows state.next on acceptance or saves a diagnostic on the current projection on rejection.",
+      "superseded_index_convention": "Use a persistent nonce, active state.keyword and state.next for execution; semantic keyword addresses accepted inputs and projection definitions.",
+      "reconciliation_requirement": "Maintain one authoritative nonce-persisted execution contract across all instruction objects, examples and implementation; remove conflicting indexed-iterator and synchronous render-and-input contracts."
     }
   },
   {

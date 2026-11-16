@@ -577,33 +577,33 @@
   },
   {
     "title": "State Object Composition and Context-Derived Return Schemas",
-    "applicability": "Every state function preparing a state object for the separate renderer, including validation-error retries.",
-    "purpose": "Specify state-object components and allow derivation of a return schema from earlier accepted values read by keyword.",
+    "applicability": "Every new keyword-addressed state projection generated for the nonce-based procedure, including the initial state and successors; rejected inputs reuse the saved projection with an additive diagnostic.",
+    "purpose": "Specify complete persisted projection components and optional schema derivation from previously accepted keyword inputs, performed once during state generation before rendering.",
     "definitions": {
-      "state_object": "The JSON object constructed and returned by State_i(e) for the current state. It contains two mandatory content members, instruction and return_schema, and may contain one additional content member, error_message, when a validation diagnostic is pending.",
-      "instruction": "The mandatory content member describing the current state's agent-facing instruction. Its system-authored wording is obtained through the externally configured content mechanism; it must not be hardcoded into the state function.",
-      "return_schema": "The mandatory content member specifying the syntactically valid JSON return schema governing the input requested from the agent by the current state. The schema can be obtained from an external configured resource or derived at runtime by the state's schema helper using declared inputs from e.",
-      "error_message": "The conditional content member containing or referencing the diagnostic for a pending validation failure. It accompanies, rather than replaces, the mandatory instruction and return_schema members.",
-      "state_local_schema_helper": "An optional function defined within State_i that receives one or more specified properties of e and computes the current state's return schema from their accepted values. Its output is used as the return_schema component of the constructed state object."
+      "state_object": "The current nonce execution record contains state.keyword, state.next and state.projection. The projection is constructed and persisted before requesting agent input, and includes mandatory instruction and final_schema members plus conditional error_message after rejection.",
+      "instruction": "The mandatory stored projection member containing the complete current-state machine-dialect instruction resolved from externally addressable keyword content, never hardcoded as display text in executable source.",
+      "return_schema": "The required concrete JSON Schema is stored as projection.final_schema. It is obtained by cloning the externally configured base return_schema and optionally applying the referenced derivation function to declared accepted prior inputs at state generation time.",
+      "error_message": "An optional additional diagnostic member attached to the already persisted current projection after input validation failure. It never replaces the original complete instruction or final_schema.",
+      "state_local_schema_helper": "An optional per-state schema derivation function, referenced directly or by identifier in the keyword-addressed definition, that receives the base schema and explicitly declared accepted prior keyword values. It runs only when generating the new projection."
     },
     "mandatory_behavior": {
-      "mandatory_components": "State_i(e) must construct a JSON state object containing both instruction and return_schema on every invocation, whether or not a validation error exists. Neither component may be omitted, substituted by error_message, or replaced with a mere statement that the component will be produced later.",
-      "conditional_error_component": "Include error_message when e.error indicates a pending validation error. Capture the diagnostic needed for error presentation before clearing e.error according to the existing iterator rule. When no validation error exists, omit the error_message content member.",
-      "normal_and_error_composition": "A normal response includes instruction and return_schema. An error response includes error_message in addition to the same complete normal instruction and return_schema; the error message is displayed conspicuously before the normal instruction by the existing rendering mechanism.",
-      "instruction_content_source": "The instruction member must identify or carry the state-specific instruction obtained from externally addressable configuration content. Constructing the JSON state object does not authorize hardcoding any system-authored instruction wording in executable source.",
-      "schema_source_selection": "For each state invocation, supply a return_schema from either an externally configured schema definition or a dynamically constructed schema. Dynamic construction must produce a concrete, syntactically valid JSON Schema for the input requested at the current State_i, not an unexplained placeholder or abbreviated pseudo-schema.",
-      "optional_state_local_helper": "A State_i function may define a dedicated schema-construction helper inside its own function body. When used, the helper must receive one or more explicitly identified properties of e as inputs and derive the return_schema from their values. The helper is optional; the requirement does not force dynamic construction where an externally configured schema suffices.",
-      "context_derivation": "Use declared inputs retrieved by keyword to derive the applicable fields, types and constraints. Preserve earlier accepted values.",
-      "schema_instruction_alignment": "The instruction and schema describe the same one-keyword response. Any derived constraints come from the accepted values retrieved by keyword. The state function validates the reply against the schema issued with that instruction.",
-      "separate_rendering_responsibility": "The state function constructs the state object, supplies it to the separate renderer, and validates the later reply. The renderer resolves and presents the content.",
-      "preserve_existing_architecture": "The indexed iterator governs step order, and the semantic keyword identifies the instruction and return-schema pair. State-object composition and schema derivation follow the existing Boolean validation, single-use diagnostic and external-content contracts."
+      "mandatory_components": "Each generated state projection must contain a complete instruction and concrete valid final_schema before it is persisted and rendered. Never substitute a schema placeholder or defer generation to rendering or validation.",
+      "conditional_error_component": "After a rejected nonce-plus-input event, attach error_message to the same stored projection and persist. With no rejection, omit this member. Do not introduce separate pending-error storage or capture-and-clear logic on replay.",
+      "normal_and_error_composition": "A normal saved projection includes instruction and final_schema. A rejected-state projection contains the same complete instruction and unchanged final_schema plus additive error_message displayed before them.",
+      "instruction_content_source": "The instruction member is resolved from external keyword-addressed content during projection generation. Generating or persisting the projection does not permit hardcoding system-authored instruction wording in executable source.",
+      "schema_source_selection": "At new state construction, obtain the externally configured base return_schema, apply any referenced derivation function using declared accepted input values, and persist the concrete syntactically valid final_schema. Replaying and rendering never regenerate it.",
+      "optional_state_local_helper": "A keyword state definition may reference a dedicated function that receives the base schema and explicitly identified accepted prior values by keyword; it computes final_schema before the projection is stored. Derivation is optional when the base schema alone suffices.",
+      "context_derivation": "Use only declared prior accepted values from the nonce record.inputs by keyword to derive schema fields, types, cardinalities, ordering and identifier constraints; do not alter earlier accepted values.",
+      "schema_instruction_alignment": "The persisted complete instruction and final_schema describe the same current one-keyword response. Any derived constraints come from accepted previous values; input validation uses precisely this saved final_schema.",
+      "separate_rendering_responsibility": "The builder creates the complete projection, the controller saves it, and the renderer outputs it unchanged. A later nonce-plus-input call invokes the appropriate validator. Rendering does not solicit input or resolve definitions.",
+      "preserve_existing_architecture": "The nonce record identifies the current state.keyword and its deterministic state.next successor. Saved final_schema controls acceptance; rejected input retains the current state and schema with an additive diagnostic. The external-content and two-phase queue obligations remain in force."
     },
     "composition_examples": [
       {
         "title": "Normal state object",
         "content_members": {
-          "instruction": "Reference or resolved value of the externally configured state instruction",
-          "return_schema": {
+          "instruction": "Complete resolved externally configured verbatim_request instruction",
+          "final_schema": {
             "type": "object",
             "properties": {
               "verbatim_request": {
@@ -615,13 +615,13 @@
             ]
           }
         },
-        "interpretation": "The instruction and JSON return schema are present; error_message is omitted because no validation error is pending. The schema is illustrative content, not an instruction to hardcode it into executable source."
+        "interpretation": "Both mandatory members are generated and persisted under the nonce before rendering. No error_message exists because no rejection has occurred; schema is illustrative, not an instruction to hardcode a runtime schema."
       },
       {
         "title": "Error-mode state object",
         "content_members": {
-          "instruction": "Reference or resolved value of the same externally configured state instruction",
-          "return_schema": {
+          "instruction": "The same complete resolved externally configured verbatim_request instruction",
+          "final_schema": {
             "type": "object",
             "properties": {
               "verbatim_request": {
@@ -632,16 +632,16 @@
               "verbatim_request"
             ]
           },
-          "error_message": "Reference or resolved diagnostic captured from e.error"
+          "error_message": "Resolved diagnostic added after rejected input"
         },
-        "interpretation": "The pending diagnostic is additional to the two mandatory components. The renderer places the diagnostic conspicuously before the unchanged normal instruction and schema."
+        "interpretation": "Rejection adds an error_message to the saved current projection without rebuilding or changing instruction or final_schema. The renderer displays the diagnostic before the normal content."
       },
       {
         "title": "State-local helper deriving a schema from context",
-        "illustrative_javascript": "async function questionAnswers(read, render) {\n  const questions = read('clarifying_questions');\n  const stateObject = { keyword: 'question_answers', instruction: instructionReference('question_answers'), context: { clarifying_questions: questions }, return_schema: schemaBuilderFromAcceptedQuestions(questions) };\n  const { input, issuedSchema } = await render(stateObject);\n  return validateReturnSchema(input, issuedSchema);\n}",
-        "interpretation": "The state reads accepted clarifying_questions by keyword, derives the question_answers schema, and calls the separate renderer. The reply contains question_answers and is checked against the issued schema."
+        "illustrative_javascript": "function buildQuestionAnswers(inputs, definition) {\n  const questions = inputs.clarifying_questions;\n  const base = structuredClone(definition.return_schema);\n  const final_schema = resolveFunction(definition.derive_schema)(base, { clarifying_questions: questions });\n  return { keyword: 'question_answers', instruction: definition.instruction, final_schema, context: { clarifying_questions: questions } };\n}",
+        "interpretation": "The builder reads accepted clarifying_questions by keyword, derives and persists the question_answers final_schema, then the renderer outputs the saved projection. A later nonce-plus-input call validates only question_answers against that saved final_schema."
       }
     ],
-    "conformance": "A state object conforms when it always contains instruction and a valid return_schema; includes error_message only when a pending diagnostic exists; preserves the full normal instruction and schema in error mode; and uses external content references or runtime derivation rather than hardcoding rendered instruction, diagnostic, or fixed schema content in executable code."
+    "conformance": "A generated projection conforms when it contains the complete externally sourced instruction and valid concrete final_schema, adds error_message only as an unchanged-schema retry diagnostic, and uses declared keyword inputs for any schema derivation performed at generation time. No schema generation occurs during replay or rendering."
   }
 ]

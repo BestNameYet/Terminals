@@ -1,0 +1,429 @@
+{
+  "schema": "terminals.fsm.research-corpus.v1",
+  "review_date": "2026-11-16",
+  "research_scope": "Concrete 2D state×event function-pointer substrate for @Procedure",
+  "candidate_count": 41,
+  "included_count": 35,
+  "category_counts": {
+    "node_ts": 11,
+    "python": 10,
+    "formal_academic": 5,
+    "engineering_article": 5,
+    "developer_discussion": 4,
+    "excluded": 6
+  },
+  "screening_policy": "Retain unique original source implementations or substantive academic/engineering/forum evidence. Exclude search false-positives, meta-lists and visualization-only projects. Repository-discovered projects without code-line examination are classified as catalog coverage, not deep implementation verification.",
+  "confidence_scope": "Top-tier design conclusions rely on original project docs/source, W3C semantics, and uploaded reference PDFs; repository catalogue annotations are high-level and not full audits.",
+  "sources": [
+    {
+      "id": "SRC001",
+      "category": "node_ts",
+      "title": "XState (statelyai/xstate)",
+      "url": "https://github.com/statelyai/xstate",
+      "screening": "included",
+      "architecture_pattern": "typed events, actor statecharts, transition utilities",
+      "concrete_design_implication": "Use named event-cell mapping and clear transition results; exclude actor runtime.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC002",
+      "category": "node_ts",
+      "title": "machina.js",
+      "url": "https://github.com/ifandelse/machina.js",
+      "screening": "included",
+      "architecture_pattern": "state-keyed event callback functions",
+      "concrete_design_implication": "Strong direct template for rows=states, columns=events, cells=callables.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC003",
+      "category": "node_ts",
+      "title": "Robot3",
+      "url": "https://github.com/matthewp/robot",
+      "screening": "included",
+      "architecture_pattern": "functional immutable transition definitions",
+      "concrete_design_implication": "Separate transition result from state mutation; retain compact state representation.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC004",
+      "category": "node_ts",
+      "title": "javascript-state-machine",
+      "url": "https://github.com/jakesgordon/javascript-state-machine",
+      "screening": "included",
+      "architecture_pattern": "declarative transitions and lifecycle hooks",
+      "concrete_design_implication": "Useful for table validation and exact legal transitions.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC005",
+      "category": "node_ts",
+      "title": "TypeState",
+      "url": "https://github.com/eonarheim/TypeState",
+      "screening": "included",
+      "architecture_pattern": "typed event and transition FSM",
+      "concrete_design_implication": "Use checkable states/events and reject absent transitions.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC006",
+      "category": "node_ts",
+      "title": "jssm",
+      "url": "https://github.com/StoneCypher/jssm",
+      "screening": "included",
+      "architecture_pattern": "compact FSM domain-language declarations",
+      "concrete_design_implication": "Readable and exportable model as a check on table completeness; no DSL parser required.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC007",
+      "category": "node_ts",
+      "title": "finity",
+      "url": "https://github.com/nickuraltsev/finity",
+      "screening": "included",
+      "architecture_pattern": "Node.js FSM DSL",
+      "concrete_design_implication": "Compare code complexity; no new DSL needed.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC008",
+      "category": "node_ts",
+      "title": "FSM-as-promised",
+      "url": "https://github.com/vstirbu/fsm-as-promised",
+      "screening": "included",
+      "architecture_pattern": "promise-based transitions",
+      "concrete_design_implication": "Do not allow asynchronous state mutation outside an atomic dispatch outcome.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC009",
+      "category": "node_ts",
+      "title": "Stately.js",
+      "url": "https://github.com/fschaefer/Stately.js",
+      "screening": "included",
+      "architecture_pattern": "Node.js/browser finite state machine",
+      "concrete_design_implication": "Compare conventional event dispatch to current keyword handlers.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC010",
+      "category": "node_ts",
+      "title": "nanostate",
+      "url": "https://github.com/choojs/nanostate",
+      "screening": "included",
+      "architecture_pattern": "minimal FSM",
+      "concrete_design_implication": "Favor compact registry over large frameworks.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC011",
+      "category": "node_ts",
+      "title": "typescript-fsm",
+      "url": "https://github.com/WebLegions/typescript-fsm",
+      "screening": "included",
+      "architecture_pattern": "typed async event-based FSM",
+      "concrete_design_implication": "Map error/timeout handling explicitly; avoid implicit async mutation.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; subset features verified in primary docs"
+    },
+    {
+      "id": "SRC012",
+      "category": "python",
+      "title": "transitions",
+      "url": "https://github.com/pytransitions/transitions",
+      "screening": "included",
+      "architecture_pattern": "trigger/state table; queues",
+      "concrete_design_implication": "Model run-to-completion and per-record serial dispatch; no hierarchy required.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC013",
+      "category": "python",
+      "title": "python-statemachine",
+      "url": "https://github.com/fgmacedo/python-statemachine",
+      "screening": "included",
+      "architecture_pattern": "SCXML-aligned event processing",
+      "concrete_design_implication": "Adopt deterministic event processing order and explicit callback boundary.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC014",
+      "category": "python",
+      "title": "Automat",
+      "url": "https://github.com/glyph/automat",
+      "screening": "included",
+      "architecture_pattern": "inputs/outputs separated from transitions",
+      "concrete_design_implication": "Keep handler function lookup separate from persistence and renderer.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC015",
+      "category": "python",
+      "title": "Sismic",
+      "url": "https://github.com/AlexandreDecan/sismic",
+      "screening": "included",
+      "architecture_pattern": "statechart interpreter with event queues",
+      "concrete_design_implication": "Use as contrast for event semantics; do not import hierarchy.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC016",
+      "category": "python",
+      "title": "django-fsm-2",
+      "url": "https://github.com/django-commons/django-fsm-2",
+      "screening": "included",
+      "architecture_pattern": "model-specific state transitions",
+      "concrete_design_implication": "Do not couple FSM engine to persistence framework.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC017",
+      "category": "python",
+      "title": "RAFCON",
+      "url": "https://github.com/DLR-RM/RAFCON",
+      "screening": "included",
+      "architecture_pattern": "hierarchical robotic execution graph",
+      "concrete_design_implication": "Contrast only; hierarchy/parallelism not required for flat 2D substrate.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC018",
+      "category": "python",
+      "title": "declarative-fsm",
+      "url": "https://github.com/thomasquintana/declarative-fsm",
+      "screening": "included",
+      "architecture_pattern": "declarative Python transition table",
+      "concrete_design_implication": "Affirms data-defined transition rows and event names.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC019",
+      "category": "python",
+      "title": "finite-state-machine (alysivji)",
+      "url": "https://github.com/alysivji/finite-state-machine",
+      "screening": "included",
+      "architecture_pattern": "decorator-based dispatch",
+      "concrete_design_implication": "Reference named functions instead of numeric state indices.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC020",
+      "category": "python",
+      "title": "xworkflows",
+      "url": "https://github.com/rbarrois/xworkflows",
+      "screening": "included",
+      "architecture_pattern": "Python workflow transition model",
+      "concrete_design_implication": "Distinguish task progression from substrate-level event handling.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC021",
+      "category": "python",
+      "title": "Machinist",
+      "url": "https://github.com/ScatterHQ/machinist",
+      "screening": "included",
+      "architecture_pattern": "Python finite machine construction",
+      "concrete_design_implication": "Use as cross-language minimalist comparison.",
+      "evidence_scope": "GitHub repository discovery and upstream project description; Sismic code directory independently inspected"
+    },
+    {
+      "id": "SRC022",
+      "category": "formal_academic",
+      "title": "W3C SCXML Recommendation",
+      "url": "https://www.w3.org/TR/scxml/",
+      "screening": "included",
+      "architecture_pattern": "run-to-completion; events",
+      "concrete_design_implication": "Process one event to completion before the next; explicit unhandled behavior.",
+      "evidence_scope": "Authoritative standard, university publication, or peer-reviewed paper"
+    },
+    {
+      "id": "SRC023",
+      "category": "formal_academic",
+      "title": "Harel (1987), Statecharts",
+      "url": "https://www.sciencedirect.com/science/article/pii/0167642387900359",
+      "screening": "included",
+      "architecture_pattern": "formal statecharts",
+      "concrete_design_implication": "Explain why hierarchy is optional and outside current flat substrate.",
+      "evidence_scope": "Authoritative standard, university publication, or peer-reviewed paper"
+    },
+    {
+      "id": "SRC024",
+      "category": "formal_academic",
+      "title": "OMG UML 2.5.1",
+      "url": "https://www.omg.org/spec/UML/2.5.1",
+      "screening": "included",
+      "architecture_pattern": "standard state semantics",
+      "concrete_design_implication": "Distinguish transitions from state entry/exit work.",
+      "evidence_scope": "Authoritative standard, university publication, or peer-reviewed paper"
+    },
+    {
+      "id": "SRC025",
+      "category": "formal_academic",
+      "title": "David Bernstein, Implementing State Machines",
+      "url": "https://users.cs.jmu.edu/simmonsj/ImplementingStateMachines.pdf",
+      "screening": "included",
+      "architecture_pattern": "tables of function pointers",
+      "concrete_design_implication": "Directly validates state-event dispatch table as executable structure.",
+      "evidence_scope": "Authoritative standard, university publication, or peer-reviewed paper"
+    },
+    {
+      "id": "SRC026",
+      "category": "formal_academic",
+      "title": "Petersen et al. (2015), systematic mapping guidelines",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0950584915000646",
+      "screening": "included",
+      "architecture_pattern": "research methodology",
+      "concrete_design_implication": "Predeclare selection, classification and synthesis criteria.",
+      "evidence_scope": "Authoritative standard, university publication, or peer-reviewed paper"
+    },
+    {
+      "id": "SRC027",
+      "category": "engineering_article",
+      "title": "Hunter, Function Pointer Based State Machine",
+      "url": "https://blog.mbedded.ninja/programming/design-patterns/state-machines/function-pointers/",
+      "screening": "included",
+      "architecture_pattern": "state/event transitions and function arrays",
+      "concrete_design_implication": "Split state/event dispatch from handler execution.",
+      "evidence_scope": "Engineering article or upstream vendor blog; technical claims cross-checked against source code/standards"
+    },
+    {
+      "id": "SRC028",
+      "category": "engineering_article",
+      "title": "Hunter, Event Driven State Machines",
+      "url": "https://blog.mbedded.ninja/programming/design-patterns/state-machines/event-driven/",
+      "screening": "included",
+      "architecture_pattern": "event-driven handlers",
+      "concrete_design_implication": "Limit callback execution and preserve deterministic state progression.",
+      "evidence_scope": "Engineering article or upstream vendor blog; technical claims cross-checked against source code/standards"
+    },
+    {
+      "id": "SRC029",
+      "category": "engineering_article",
+      "title": "LogRocket, Comparing XState vs Robot",
+      "url": "https://blog.logrocket.com/comparing-state-machines-xstate-vs-robot/",
+      "screening": "included",
+      "architecture_pattern": "functional FSM comparison",
+      "concrete_design_implication": "Favor small functional model for this 2D task.",
+      "evidence_scope": "Engineering article or upstream vendor blog; technical claims cross-checked against source code/standards"
+    },
+    {
+      "id": "SRC030",
+      "category": "engineering_article",
+      "title": "Stately, XState v6 beta release",
+      "url": "https://prod.stately.ai/blog/2026-11-05-xstate-v6-beta",
+      "screening": "included",
+      "architecture_pattern": "flat functional FSM and restore semantics",
+      "concrete_design_implication": "Function-driven transition and persistence formats support our choice; beta is not adopted.",
+      "evidence_scope": "Engineering article or upstream vendor blog; technical claims cross-checked against source code/standards"
+    },
+    {
+      "id": "SRC031",
+      "category": "engineering_article",
+      "title": "Embedded textbook, Table Driven State Machines",
+      "url": "https://ganeshkumara26.github.io/embedded-textbook/notebooks/01_C_From_Zero_to_Embedded_C.html",
+      "screening": "included",
+      "architecture_pattern": "dispatch table engineering",
+      "concrete_design_implication": "Table cells should directly carry function pointers, not procedural branching.",
+      "evidence_scope": "Engineering article or upstream vendor blog; technical claims cross-checked against source code/standards"
+    },
+    {
+      "id": "SRC032",
+      "category": "developer_discussion",
+      "title": "pytransitions issue #224, queue on failed event",
+      "url": "https://github.com/pytransitions/transitions/issues/224",
+      "screening": "included",
+      "architecture_pattern": "queue failure",
+      "concrete_design_implication": "Review queue-clearing and subsequent event behavior explicitly.",
+      "evidence_scope": "Original GitHub issue thread; used as risk signal, not claim of independently reproduced defect"
+    },
+    {
+      "id": "SRC033",
+      "category": "developer_discussion",
+      "title": "python-statemachine issue #443, multi-threaded asyncio",
+      "url": "https://github.com/fgmacedo/python-statemachine/issues/443",
+      "screening": "included",
+      "architecture_pattern": "async/thread interaction",
+      "concrete_design_implication": "Use per-nonce serialization rather than assumed async safety.",
+      "evidence_scope": "Original GitHub issue thread; used as risk signal, not claim of independently reproduced defect"
+    },
+    {
+      "id": "SRC034",
+      "category": "developer_discussion",
+      "title": "XState issue #4860, snapshot restoration after event",
+      "url": "https://github.com/statelyai/xstate/issues/4860",
+      "screening": "included",
+      "architecture_pattern": "restore and timer event",
+      "concrete_design_implication": "Replay must return saved projection, not regenerate on read.",
+      "evidence_scope": "Original GitHub issue thread; used as risk signal, not claim of independently reproduced defect"
+    },
+    {
+      "id": "SRC035",
+      "category": "developer_discussion",
+      "title": "XState issue #5228, restoring snapshot with global errors",
+      "url": "https://github.com/statelyai/xstate/issues/5228",
+      "screening": "included",
+      "architecture_pattern": "restore errors",
+      "concrete_design_implication": "Treat malformed or obsolete saved state deterministically.",
+      "evidence_scope": "Original GitHub issue thread; used as risk signal, not claim of independently reproduced defect"
+    },
+    {
+      "id": "SRC036",
+      "category": "excluded_candidate",
+      "title": "huggingface/transformers",
+      "url": "https://github.com/huggingface/transformers",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "AI transformers unrelated to FSM runtime",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    },
+    {
+      "id": "SRC037",
+      "category": "excluded_candidate",
+      "title": "ArcInstitute/state",
+      "url": "https://github.com/ArcInstitute/state",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "state name means ML model, not control FSM",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    },
+    {
+      "id": "SRC038",
+      "category": "excluded_candidate",
+      "title": "UKPLab/EasyNMT",
+      "url": "https://github.com/UKPLab/EasyNMT",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "translation models, not FSM",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    },
+    {
+      "id": "SRC039",
+      "category": "excluded_candidate",
+      "title": "statelyai/xstate-viz",
+      "url": "https://github.com/statelyai/xstate-viz",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "visualization only, not independent FSM engine",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    },
+    {
+      "id": "SRC040",
+      "category": "excluded_candidate",
+      "title": "leonardomso/awesome-fsm",
+      "url": "https://github.com/leonardomso/awesome-fsm",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "resource aggregator, not independent implementation",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    },
+    {
+      "id": "SRC041",
+      "category": "excluded_candidate",
+      "title": "evanw/fsm",
+      "url": "https://github.com/evanw/fsm",
+      "screening": "excluded",
+      "architecture_pattern": "search hit filtered",
+      "concrete_design_implication": "diagram designer, not primarily runtime dispatch engine",
+      "evidence_scope": "Search result inspected against scope; excluded as irrelevant/secondary"
+    }
+  ]
+}

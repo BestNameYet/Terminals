@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terminals MCP supervisor</title>
+<style>
+:root{color-scheme:dark;--bg:#101618;--panel:#182124;--line:#334346;--ink:#ecefeb;--muted:#a5b4b1;--active:#aee5bd;--warn:#ffcc8a;--bad:#ffafab}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Instrument Sans",system-ui,sans-serif}
+header,main{max-width:1500px;margin:auto;padding:20px clamp(14px,3vw,44px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(22px,4vw,34px);margin:0;font-weight:650;letter-spacing:-.04em}
+h2{font-size:16px;margin:0 0 12px}
+small, label, #meta, #empty{color:var(--muted)}
+#connection{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--active)}
+#notice{margin:0 0 14px;color:var(--warn)}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:10px;margin-bottom:14px}
+label{display:grid;gap:5px}
+input,select,button{min-width:0;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:8px;font:inherit}
+button{cursor:pointer;text-align:left}button[aria-pressed=true]{border-color:var(--active)}
+.layout{display:grid;grid-template-columns:minmax(290px,1fr) minmax(340px,1fr);gap:16px;align-items:start}
+section{min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:14px}
+.table{overflow:auto;max-height:70vh}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:7px 5px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500}td button{max-width:100%;overflow-wrap:anywhere}
+td:first-child,td:last-child{white-space:nowrap}
+pre{max-height:44vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:10px;background:var(--bg);border:1px solid var(--line);border-radius:5px}
+#meta{margin:0 0 10px;overflow-wrap:anywhere}
+.status-running,.status-succeeded{color:var(--active)}.status-retry,.status-interrupted,.status-timed_out{color:var(--warn)}.status-failed,.status-overflow{color:var(--bad)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><h1>Terminals MCP supervisor</h1><div id="connection" role="status">Connecting</div></header>
+<main>
+<p id="notice" role="status" hidden></p>
+<div class="filters">
+<label>Invocation ID or alias<input id="search" type="search"></label>
+<label>Mode<select id="mode"><option value="">Any</option><option>$</option><option>gh</option><option>@</option></select></label>
+<label>Status<select id="status"><option value="">Any</option><option value="running">Running</option><option value="succeeded">Succeeded</option><option value="retry">Retry</option><option value="failed">Failed</option><option value="timed_out">Timed out</option><option value="overflow">Output limit</option><option value="interrupted">Interrupted</option></select></label>
+<label>Procedure nonce<input id="nonce" type="search"></label>
+</div>
+<div class="layout">
+<section aria-labelledby="activity"><h2 id="activity">Call activity</h2><p id="empty">No calls to show.</p>
+<div class="table"><table><thead><tr><th>Started</th><th>Mode</th><th>Call</th><th>Status</th><th>Elapsed</th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+<section aria-labelledby="selection"><h2 id="selection">Call details</h2>
+<p id="meta">Select a call to inspect its input and response.</p>
+<button id="follow" hidden>Follow this procedure</button>
+<h2>Agent input</h2><pre id="request">—</pre>
+<h2>Server response</h2><pre id="response">—</pre>
+</section>
+</div>
+</main>
+<script>
+'use strict';
+const el = id => document.getElementById(id);
+const calls = new Map();
+const labels = { running: 'Running', succeeded: 'Succeeded', retry: 'Retry', failed: 'Failed', timed_out: 'Timed out', overflow: 'Output limit', interrupted: 'Interrupted' };
+let cursor = 0;
+let selected;
+let stream;
+let gap = false;
+let degraded = false;
+let reloadTimer;
+function apply(event) {
+  const call = calls.get(event.callId) ?? { id: event.callId };
+  if (event.type === 'call.started') call.start = event;
+  else {
+    call.start ??= event.started;
+    call.end = event;
+  }
+  calls.set(event.callId, call);
+}
+function procedure(call) {
+  return call.end?.procedure ?? call.start?.procedure;
+}
+function status(call) {
+  return call.end?.procedure?.outcome === 'retry' && call.end.status === 'succeeded' ? 'retry' : call.end?.status ?? 'running';
+}
+function title(call) {
+  const p = procedure(call);
+  if (!p) return call.start?.alias ?? call.start?.summary ?? call.start?.tool ?? 'Earlier call';
+  const step = p.before && p.after && p.before !== p.after ? p.before + ' → ' + p.after : p.after ?? p.before;
+  return ['Procedure', step, p.outcome].filter(Boolean).join(' · ');
+}
+function elapsed(call) {
+  const ms = call.end?.durationMs ?? (!call.end && call.start ? Date.now() - Date.parse(call.start.timestamp) : null);
+  return ms === null ? '—' : ms < 1000 ? ms + ' ms' : (ms / 1000).toFixed(1) + ' s';
+}
+function textCell(row, text) {
+  const cell = row.insertCell();
+  cell.textContent = text;
+  return cell;
+}
+function renderRows() {
+  const search = el('search').value.trim().toLowerCase();
+  const mode = el('mode').value;
+  const state = el('status').value;
+  const nonce = el('nonce').value.trim().toLowerCase();
+  const list = [...calls.values()].reverse();
+  for (const call of list.slice(300)) {
+    if (call.end && call.id !== selected) calls.delete(call.id);
+  }
+  el('rows').replaceChildren();
+  for (const call of [...calls.values()].reverse()) {
+    if (mode && call.start?.mode !== mode || state && status(call) !== state ||
+        nonce && !procedure(call)?.nonce?.toLowerCase().includes(nonce) ||
+        search && ![call.start?.forWhom, call.start?.alias, call.start?.tool].some(v => String(v ?? '').toLowerCase().includes(search))) continue;
+    const row = el('rows').insertRow();
+    textCell(row, call.start ? new Date(call.start.timestamp).toLocaleTimeString() : '—');
+    textCell(row, call.start?.mode ?? '—');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = title(call);
+    button.setAttribute('aria-pressed', String(call.id === selected));
+    button.addEventListener('click', () => {
+      selected = call.id;
+      for (const other of el('rows').querySelectorAll('button')) other.setAttribute('aria-pressed', String(other === button));
+      renderDetails();
+    });
+    row.insertCell().append(button);
+    textCell(row, labels[status(call)] ?? status(call)).className = 'status-' + status(call);
+    textCell(row, elapsed(call)).dataset.elapsed = call.id;
+  }
+  el('empty').hidden = el('rows').rows.length > 0;
+}
+function payload(item, fallback) {
+  return item ? item.text + (item.truncated ? '\n\n[Capture truncated]' : '') : fallback;
+}
+function renderDetails() {
+  const call = calls.get(selected);
+  if (!call) return;
+  const nonce = procedure(call)?.nonce;
+  el('meta').textContent = [title(call), 'Call ' + call.id, call.start?.tool, call.start?.forWhom, call.start?.timestamp, nonce && 'Nonce ' + nonce, call.end?.exitCode != null && 'Exit ' + call.end.exitCode].filter(Boolean).join(' · ');
+  el('follow').hidden = !nonce;
+  el('follow').onclick = () => { el('nonce').value = nonce; renderRows(); };
+  el('request').textContent = payload(call.start?.request, 'Request no longer retained.');
+  el('response').textContent = payload(call.end?.response, call.end ? 'Outcome unknown.' : 'Awaiting response…');
+}
+function updateNotice() {
+  el('notice').textContent = [gap && 'History gap: some earlier events are no longer available.', degraded && 'Capture degraded: journal history may be incomplete.'].filter(Boolean).join(' ');
+  el('notice').hidden = !gap && !degraded;
+}
+async function connect() {
+  clearTimeout(reloadTimer);
+  stream?.close();
+  try {
+    const response = await fetch('/snapshot');
+    if (!response.ok) throw Error('Snapshot unavailable');
+    const snapshot = await response.json();
+    const pinned = calls.get(selected);
+    calls.clear();
+    for (const event of snapshot.events) apply(event);
+    if (pinned && !calls.has(pinned.id)) {
+      pinned.end ??= { status: 'interrupted' };
+      calls.set(pinned.id, pinned);
+    }
+    cursor = snapshot.cursor;
+    degraded = snapshot.degraded;
+    gap ||= snapshot.floor > 0;
+    updateNotice();
+    renderRows();
+    renderDetails();
+    stream = new EventSource('/events?after=' + cursor);
+    stream.onopen = () => { el('connection').textContent = gap ? 'Live · history gap' : 'Live'; };
+    stream.onerror = () => { el('connection').textContent = 'Reconnecting'; };
+    stream.onmessage = ({ data }) => {
+      const event = JSON.parse(data);
+      if (event.id <= cursor) return;
+      cursor = event.id;
+      apply(event);
+      renderRows();
+      renderDetails();
+    };
+    stream.addEventListener('gap', () => {
+      gap = true;
+      updateNotice();
+      connect();
+    });
+    stream.addEventListener('degraded', () => { degraded = true; updateNotice(); });
+  } catch {
+    el('connection').textContent = 'Reconnecting';
+    reloadTimer = setTimeout(connect, 1500);
+  }
+}
+for (const id of ['search', 'mode', 'status', 'nonce']) el(id).addEventListener('input', renderRows);
+setInterval(() => {
+  for (const cell of el('rows').querySelectorAll('[data-elapsed]')) cell.textContent = elapsed(calls.get(cell.dataset.elapsed));
+}, 500);
+connect();
+</script>
+</body>
+</html>

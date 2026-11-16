@@ -7,12 +7,13 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { ListToolsRequestSchema, CallToolRequestSchema, ListResourcesRequestSchema, ReadResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { spawn, execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import {resolve} from 'node:path';
+import {join, resolve} from 'node:path';
 import { renderResponseContent, listResponseResources, readResponseResource } from './response-template.mjs';
 import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 import { EOTRecorder } from './eot-recorder.mjs';
 import { TurnJournal } from './turn-journal.mjs';
 import { Procedure } from './procedure.mjs';
+import { createSupervisor } from './supervisor.mjs';
 
 registerAlias('EOTRecorder', EOTRecorder);
 registerAlias('TurnJournal', TurnJournal);
@@ -25,7 +26,7 @@ const terminalView = {
   mimeType: 'text/html;profile=mcp-app',
 };
 
-function setup(){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
+function setup(supervisor){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
   { name: 'terminal_open', title: 'Open Codespace terminal', description: 'Show the terminal controls in ChatGPT.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: terminalView.uri } } },
   { name: 'terminal_execute', description: 'Execute a fresh Bash ($), GitHub CLI (gh), or registered convenience function (@) command.', inputSchema: schema },
@@ -38,11 +39,18 @@ server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
   }
   return { contents: [await readResponseResource(params.uri)] };
 });
-server.setRequestHandler(CallToolRequestSchema,async({params})=>{
+server.setRequestHandler(CallToolRequestSchema, ({ params }) => {
+  if (supervisor) return supervisor.observe(params, observer => callTool(params, observer));
+  return callTool(params);
+});
+return server;
+}
+
+async function callTool(params, onProcedureTransition) {
 if (params.name === 'terminal_open') return { content: await renderResponseContent(JSON.stringify({message:'Codespace terminal ready.'})) };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};
 if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh','@'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');
-if(a.runOn==='@'){const receipt=await dispatchAliasReceipt(a.whatPrompt);return {content:await renderResponseContent(JSON.stringify(receipt)),isError:receipt.exitCode!==0};}
+if(a.runOn==='@'){const receipt=await dispatchAliasReceipt(a.whatPrompt, undefined, onProcedureTransition);return {content:await renderResponseContent(JSON.stringify(receipt)),isError:receipt.exitCode!==0};}
 const prompt=a.runOn==='gh'&&!/^gh(?:\s|$)/.test(a.whatPrompt.trim())?'gh '+a.whatPrompt:a.whatPrompt;
 const child=spawn('bash',['-o','pipefail','-c',prompt],{cwd:terminalWorkspace,stdio:['ignore','pipe','pipe']});
 const chunks={stdout:[],stderr:[]};let size=0,overflow=false,timedOut=false;
@@ -53,15 +61,16 @@ const stdout=Buffer.concat(chunks.stdout).toString('utf8');
 const outputThat=stdout?stdout.split(/\r?\n/):[];if(stdout.endsWith('\n'))outputThat.pop();
 const resultText=JSON.stringify({inputThis:a.runOn+':'+a.whatPrompt,outputThat,stderr:Buffer.concat(chunks.stderr).toString('utf8'),...result,timedOut,overflow});
 return {content:await renderResponseContent(resultText),isError:result.exitCode!==0||timedOut||overflow};
-});return server}
-async function startMcpServer({publishPort,port=Number(process.env.PORT||3000)}={}){
+}
+async function startMcpServer({publishPort,port=Number(process.env.PORT||3000),supervisorOptions}={}){
   const name=process.env.CODESPACE_NAME;
   if(!Number.isInteger(port)||port<0||port>65535||(port===0&&!publishPort)) throw Error('Invalid PORT');
   if(!name) throw Error('CODESPACE_NAME is required');
   let published=false;
+  let supervisor;
   const handler=async(req,res)=>{const url=new URL(req.url,'http://localhost');if(await oauth(req,res,url))return;if(url.pathname==='/mcp'&&!authorize(req)){unauthorized(res);return}if(req.url!=='/mcp'){res.writeHead(404).end();return}if(req.method!=='POST'){res.writeHead(405).end();return}
 try{let raw='';for await(const part of req){raw+=part;if(raw.length>1048576)throw Error('Request too large')}const body=JSON.parse(raw);
-const server=setup();const transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined});
+const server=setup(supervisor);const transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined});
 await server.connect(transport);await transport.handleRequest(req,res,body);
 res.on('close',()=>{transport.close().catch(()=>{});server.close().catch(()=>{})});
 }catch(e){if(!res.headersSent)res.writeHead(400,{'content-type':'application/json'}).end(JSON.stringify({error:String(e)}))}};
@@ -90,6 +99,16 @@ res.on('close',()=>{transport.close().catch(()=>{});server.close().catch(()=>{})
     } else {
       await promisify(execFile)('gh',['codespace','ports','visibility',String(listeningPort)+':public','-c',name],{timeout:30000});
     }
+    if (supervisorOptions) {
+      try {
+        supervisor = await createSupervisor(supervisorOptions);
+        server.once('close', () => supervisor.close().catch(console.error));
+        const viewer = await supervisor.listen(supervisorOptions.port);
+        console.log('MCP_SUPERVISOR_READY', viewer.address().port);
+      } catch (error) {
+        console.error('MCP_SUPERVISOR_ERROR', error.message);
+      }
+    }
     published=true;
     console.log('MCP_READY',listeningPort);
     return server;
@@ -99,6 +118,13 @@ res.on('close',()=>{transport.close().catch(()=>{});server.close().catch(()=>{})
   }
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])) {
-  startMcpServer().catch(error=>{console.error('MCP_STARTUP_ERROR',error);process.exitCode=1;});
+  const supervisorOptions = {
+    port: Number(process.env.MCP_SUPERVISOR_PORT ?? 3001),
+    journalPath: process.env.MCP_SUPERVISOR_JOURNAL ??
+      join('/workspaces/.terminals-mcp', process.env.CODESPACE_NAME || 'local', 'supervisor', 'events.jsonl'),
+    limit: Number(process.env.MCP_SUPERVISOR_RETENTION ?? 300),
+    maxBytes: Number(process.env.MCP_SUPERVISOR_CAPTURE_BYTES ?? 65536)
+  };
+  startMcpServer({ supervisorOptions }).catch(error=>{console.error('MCP_STARTUP_ERROR',error);process.exitCode=1;});
 }
 export {startMcpServer};

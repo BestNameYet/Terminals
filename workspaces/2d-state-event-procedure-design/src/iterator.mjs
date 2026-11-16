@@ -40,23 +40,31 @@ export async function buildState(keyword, inputs) {
   return { keyword, next: definition.next, projection }
 }
 
-export async function create(nonce, { save, render }, keyword = "verbatim_request") {
+export async function create(nonce, { save, render, onTransition }, keyword = "verbatim_request") {
   const record = { state: await buildState(keyword, {}), inputs: {} }
   await save(nonce, record)
+  onTransition?.({ nonce, outcome: "started", after: keyword })
   return render(record.state.projection)
 }
 
-export async function f(agentInput, nonce, { load, save, render }) {
+export async function f(agentInput, nonce, { load, save, render, onTransition }) {
   const record = await load(nonce)
   if (!record?.state?.projection || !record.inputs) throw new ReferenceError("nonce")
-  if (record.completed) return record.completionReceipt ?? renderCompletion(nonce, record.inputs)
   const { state } = record
-  if (agentInput === undefined) return render(state.projection)
+  if (record.completed) {
+    onTransition?.({ nonce, outcome: "completion_replay", before: state.keyword })
+    return record.completionReceipt ?? renderCompletion(nonce, record.inputs)
+  }
+  if (agentInput === undefined) {
+    onTransition?.({ nonce, outcome: "replayed", before: state.keyword, after: state.keyword })
+    return render(state.projection)
+  }
   const read = key => record.inputs[key]
   const result = await handlers[state.keyword]({ error: null }, 0, read, agentInput, state.projection)
   if (!result.valid) {
     state.projection = withDiagnostic(state.keyword, state.projection, result.error)
     await save(nonce, record)
+    onTransition?.({ nonce, outcome: "retry", before: state.keyword, after: state.keyword })
     return render(state.projection)
   }
   record.inputs[state.keyword] = result.input[state.keyword]
@@ -64,9 +72,11 @@ export async function f(agentInput, nonce, { load, save, render }) {
     record.completed = true
     record.completionReceipt = renderCompletion(nonce, record.inputs)
     await save(nonce, record)
+    onTransition?.({ nonce, outcome: "completed", before: state.keyword })
     return record.completionReceipt
   }
   record.state = await buildState(state.next, record.inputs)
   await save(nonce, record)
+  onTransition?.({ nonce, outcome: "advanced", before: state.keyword, after: state.next })
   return render(record.state.projection)
 }

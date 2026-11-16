@@ -28,7 +28,7 @@ async function save(nonce, record) {
   await rename(temp, target);
 }
 
-export async function Procedure(args = {}) {
+export async function Procedure(args = {}, { onTransition } = {}) {
   if (!args || typeof args !== 'object' || Array.isArray(args)) {
     throw new TypeError('Procedure requires an argument object');
   }
@@ -41,10 +41,10 @@ export async function Procedure(args = {}) {
     if (Object.hasOwn(args, 'input')) throw new TypeError('Input requires nonce');
     const nonce = randomUUID();
     // The new run is persisted before its first projection is returned.
-    return create(nonce, { save, render: projection => ({ nonce, projection }) });
+    return create(nonce, { save, onTransition, render: projection => ({ nonce, projection }) });
   }
   if (Object.hasOwn(args, 'input')) {
-    return f(args.input, args.nonce, { load, save, render });
+    return f(args.input, args.nonce, { load, save, render, onTransition });
   }
-  return f(undefined, args.nonce, { load, save, render });
+  return f(undefined, args.nonce, { load, save, render, onTransition });
 }

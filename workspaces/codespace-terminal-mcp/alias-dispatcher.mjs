@@ -9,7 +9,7 @@ export function registerAlias(name, handler) {
   aliases.set(name, handler);
 }
 
-export async function dispatchAliasReceipt(whatPrompt, registry = aliases) {
+export async function dispatchAliasReceipt(whatPrompt, registry = aliases, onProcedureTransition) {
   const receipt = {
     inputThis: '@:' + whatPrompt,
     outputThat: [],
@@ -31,7 +31,10 @@ export async function dispatchAliasReceipt(whatPrompt, registry = aliases) {
     if (args === null || typeof args !== 'object' || Array.isArray(args)) {
       throw new Error('Alias arguments must be one JSON object');
     }
-    receipt.outputThat = [JSON.stringify(await handler(args) ?? null)];
+    const result = match[1] === 'Procedure' && onProcedureTransition
+      ? await handler(args, { onTransition: onProcedureTransition })
+      : await handler(args);
+    receipt.outputThat = [JSON.stringify(result ?? null)];
   } catch (error) {
     receipt.exitCode = 1;
     receipt.error = error.message;

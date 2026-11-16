@@ -1,0 +1,9 @@
+{
+  "inputThis": "$:set -euo pipefail\nCODESPACE=shiny-robot-v64x5jj4v4q2x96\nprintf 'Stopping %s\\n' \"$CODESPACE\"\ngh api --method POST \"user/codespaces/${CODESPACE}/stop\" >/dev/null\nprintf 'Starting %s\\n' \"$CODESPACE\"\ngh api --method POST \"user/codespaces/${CODESPACE}/start\" >/dev/null\nprintf 'Current status:\\n'\ngh api \"user/codespaces/${CODESPACE}\" --jq '{name: .name, state: .state}'",
+  "outputThat": [
+    "Stopping shiny-robot-v64x5jj4v4q2x96",
+    "Starting shiny-robot-v64x5jj4v4q2x96",
+    "Current status:",
+    "{\"name\":\"shiny-robot-v64x5jj4v4q2x96\",\"state\":\"Shutdown\"}"
+  ]
+}

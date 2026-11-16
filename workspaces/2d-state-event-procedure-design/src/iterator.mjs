@@ -1,69 +1,53 @@
-export function createProcedureIterator({ states, handlers, render, resume } = {}) {
-  if (!Array.isArray(states) || !Array.isArray(handlers) ||
-      states.length !== handlers.length ||
-      Array.from(states).some((state) => typeof state !== 'function') ||
-      Array.from(handlers).some((handler) => typeof handler !== 'function')) {
-    throw new TypeError('Each state needs a state function and an E_Return handler.');
-  }
-  if (typeof render !== 'function') {
-    throw new TypeError('A state renderer is required.');
+// Each step owns e[i] and can read the pending diagnostic with e.at(-1).
+export function createProcedureIterator({ steps, resume } = {}) {
+  if (!Array.isArray(steps) || [...steps].some((step) => typeof step !== 'function')) {
+    throw new TypeError('Steps must be an array of functions.');
   }
 
-  // The handler array is column 0 of the former dispatch table.
-  const stateFunctions = [...states];
-  const returnHandlers = [...handlers];
-  const initial = resume === undefined ? { i: 0, e: {} } : resume;
-  if (!initial || !Number.isInteger(initial.i) || initial.i < 0 ||
-      initial.i > stateFunctions.length || !isContext(initial.e)) {
-    throw new TypeError('Resume requires a valid zero-based index and context.');
+  const stepFunctions = [...steps];
+  const diagnosticIndex = stepFunctions.length;
+  let position = structuredClone(resume ?? { i: 0, e: Array(diagnosticIndex + 1).fill(null) });
+  if (!Number.isInteger(position.i) || position.i < 0 || position.i > diagnosticIndex ||
+      !Array.isArray(position.e) || position.e.length !== diagnosticIndex + 1) {
+    throw new TypeError('Resume requires a valid index and context array.');
   }
 
-  let position = structuredClone(initial);
-  let awaitingReturn = false;
+  let running = false;
 
-  function next(e = position.e, i = position.i) {
-    const context = structuredClone(e);
-    const done = i === stateFunctions.length;
-    const result = done ? { done } : { done, output: render(stateFunctions[i](context)) };
-    position = { ...position, i, e: context };
-    awaitingReturn = !done;
-    return result;
+  async function run() {
+    if (running) {
+      throw new Error('The procedure is already running.');
+    }
+
+    running = true;
+    try {
+      while (position.i < diagnosticIndex) {
+        const { i, e } = position;
+        const result = await stepFunctions[i](structuredClone(e));
+        if (typeof result?.valid !== 'boolean' ||
+            !Array.isArray(result.e) || result.e.length !== e.length) {
+          throw new TypeError('A step must return { valid, e } with a Boolean and a context array.');
+        }
+
+        const { valid, e: updated } = result;
+        if (!valid && (updated[diagnosticIndex]?.error !== true ||
+            typeof updated[diagnosticIndex].errortype !== 'string' ||
+            !updated[diagnosticIndex].errortype.trim())) {
+          throw new TypeError('A rejected reply requires a typed diagnostic in the last slot.');
+        }
+
+        // Only the active reply slot and the diagnostic slot can change in a step.
+        if (valid) {
+          e[i] = structuredClone(updated[i]);
+        }
+        e[diagnosticIndex] = valid ? null : structuredClone(updated[diagnosticIndex]);
+        position = { ...position, i: i + Number(valid) };
+      }
+      return structuredClone(position.e);
+    } finally {
+      running = false;
+    }
   }
 
-  function E_Return(e) {
-    const { i } = position;
-    if (i === stateFunctions.length) {
-      throw new Error('The procedure is complete.');
-    }
-    if (!awaitingReturn) {
-      throw new Error('Render the current state before submitting E_Return.');
-    }
-    if (!isContext(e)) {
-      throw new TypeError('E_Return requires the complete context object.');
-    }
-
-    const result = returnHandlers[i](structuredClone(e));
-    if (!Array.isArray(result) || result.length !== 2 ||
-        !isContext(result[0]) || typeof result[1] !== 'boolean') {
-      throw new TypeError('The handler must return [context, Boolean].');
-    }
-
-    const [updated, valid] = result;
-    if (!valid && updated.error?.error !== true) {
-      throw new TypeError('A rejected return requires a pending validation diagnostic.');
-    }
-    // A rejected submission cannot replace the previously accepted context.
-    const context = valid ? updated : { ...position.e, error: updated.error };
-    return next(context, i + Number(valid));
-  }
-
-  return {
-    next: () => next(),
-    E_Return,
-    snapshot: () => structuredClone(position),
-  };
-}
-
-function isContext(value) {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
+  return { run, snapshot: () => structuredClone(position) };
 }

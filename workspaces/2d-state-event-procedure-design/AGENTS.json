@@ -197,5 +197,54 @@
         "explanation": "This example violates the rule because the sentence does not explain what execution_order means, how the integer relates to other steps, or what the identifiers in action_ids reference. These meanings must be explained in complete sentences alongside the schema."
       }
     ]
+  },
+  {
+    "title": "Deterministic Event-Driven State Transitions and Context Argument Passing",
+    "applicability": "Every transition, agent-submitted event, event/context property, selected function, and state invocation in the interactive two-dimensional State × Event procedure machine, including validation retries and transitions between queue phases.",
+    "definitions": {
+      "ordered_deterministic_route": "The procedure follows an ordered route of states established by its transition contracts. For a given current state, received event, and input context, the selected function determines the next state according to specified rules rather than agent discretion or an implicit choice.",
+      "agent_event": "A procedure event is the agent's submission of its response to the current state's tool-response request. In this prototype, the agent returns E_RETURN(e), where e is the complete event/context object; the event type does not classify the input as valid or invalid.",
+      "context_address": "A context address is a unique, specified member name within e that identifies an independently recallable input. For example, e.e1 holds the verbatim user prompt and e.e2 holds the determination of user intent. Different independently addressable inputs must not compete for the same address.",
+      "selected_function": "The function pointer selected from the State × Event dispatch table for the current state and event. The selected function receives the event/context object e as an argument and operates on data from one or more specified members of that object.",
+      "state_arguments": "The arguments supplied to a state invocation normally come from the operations and results of the function invoking or returning to that state, including carried context and validation diagnostics. A state must declare which invocation forms and inputs it accepts."
+    },
+    "mandatory_behavior": {
+      "deterministic_transition_order": "Implement transitions along the explicitly defined ordered procedure route. Each transition must be initiated by the applicable agent-return event and resolved by the function pointer selected for the current state-event pair. When that function applies its specified validation or routing rules to the same state and context, it must select the same next state. Validation retries and other defined branches are part of the ordered route, not exceptions to it.",
+      "agent_input_drives_events": "Treat the agent's response to a rendered state's instruction and JSON return schema as the event input. The agent supplies e; the event does not itself select a transition or encode validation success or failure.",
+      "unique_specified_input_addresses": "Assign every separately recallable agent input a unique, explicitly specified property address in e before requesting the input. Store an accepted input at that address and retain its identity for subsequent states. If an input is a structured object or array, document its subordinate property names, types, and meanings in the corresponding state return schema and machine-dialect instruction.",
+      "function_event_argument": "Invoke the selected state-event function with e as an argument. The function must inspect or operate on at least one explicitly identified member of e for that event, and may also use other required members for validation or state derivation. If a required member is absent or empty despite the function's input contract requiring it, classify that as an implementation error rather than silently fabricating a value.",
+      "function_controls_next_state": "After operating on the specified context members, the selected function determines the next state under its defined validation and transition rules. A rejected agent input causes the function to return to the appropriate requesting state with diagnostics; an accepted input follows the prescribed forward transition or another explicitly defined branch.",
+      "state_receives_derived_arguments": "Pass to each invoked state the arguments produced or carried by the calling function, as specified by the destination state's input contract. Such arguments ordinarily include e and, when applicable, validation errors, accepted values, or other data resulting from function execution. Do not require an independently stored state value to supply ordinary inter-function context.",
+      "initial_invocation_contract": "The program's direct invocation of State_0() on startup is valid because its declared input contract permits no arguments. Re-entry as State_0(e) is also valid when the function passes the error-bearing context required by that invocation form. Other state invocations must likewise satisfy their own declared input contracts."
+    },
+    "examples": [
+      {
+        "title": "Accepted agent return follows the ordered route",
+        "sequence": [
+          "State_0() renders a request for the verbatim user prompt, assigning the response to e.e1.",
+          "The agent returns E_RETURN(e) with e.e1 populated.",
+          "Dispatch[State_0][E_RETURN] selects Function_1, which receives e, examines e.e1, and validates the required input.",
+          "Function_1 passes e to State_1(e), which renders the next instruction and requests an independently addressable user-intent response in e.e2."
+        ]
+      },
+      {
+        "title": "One event type supports a deterministic validation retry",
+        "sequence": [
+          "State_2(e) requests between seven and eleven question objects at the specified address e.e3.",
+          "The agent returns E_RETURN(e) containing four question objects in e.e3.",
+          "Function_3 receives e and determines that e.e3 does not satisfy the state-specific return schema.",
+          "Function_3 invokes State_2(e) with the validation error, and the state re-renders its request. The event remains E_RETURN in both accepted and rejected cases."
+        ]
+      },
+      {
+        "title": "State receives arguments derived by its caller",
+        "sequence": [
+          "Function_4 receives e, reads e.e3 to identify the required questions, and checks the agent's answers at e.e4.",
+          "On acceptance, Function_4 invokes State_4(e), passing the accumulated context needed to define the desired final system state.",
+          "If Function_4 instead rejects e.e4, it invokes State_3(e) with diagnostics describing the deficient answers. Neither invocation may omit context properties required by the destination state's contract."
+        ]
+      }
+    ],
+    "conformance": "An implementation conforms only when agent responses supply the event input, independently recallable inputs have distinct documented addresses in e, the state-event-selected function receives e and operates on at least one declared member, and that function passes contract-conforming arguments to the next state along the defined deterministic route. Deviations require correction rather than reinterpretation of the governing State × Event model."
   }
 ]

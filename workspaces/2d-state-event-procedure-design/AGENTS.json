@@ -23,7 +23,7 @@
       "function_pointer": "The dispatch table is indexed by (current_state, event_type), and each populated cell refers to a function that processes that pair. For the prototype, Dispatch[State_i][E_RETURN] selects Function_(i+1). The selected function receives e, validates the response according to the corresponding return schema and cross-property requirements, and determines the next state or correction path.",
       "context_object": "The object e is passed from operation to operation and supplies the independently addressable properties needed for recall, echoing, validation, planning, and subsequent actions. Each newly accepted response adds its designated property, while prior accepted properties remain available. A function may read only properties that its input contract guarantees are present and populated; operating on a missing or empty required property is an implementation error.",
       "transition": "The selected function, rather than the event or the agent's self-assessment, determines which state follows. A valid return advances to the designated next state. An invalid new response causes the function to re-enter the requesting state with specific validation diagnostics. Internal missing-context errors must be distinguished from invalid agent responses.",
-      "initialization": "The command-line program initiates State_0() directly before any agent event. State_0's input contract also permits State_0(e) for re-entry after a rejected response, where e contains the required validation diagnostics. Both invocation shapes are explicitly valid under the same state contract.",
+      "initialization": "The program starts by calling State_0() or explicitly providing an existing e. State_0 uses a default argument that initializes e to an empty context object when e is omitted, so the initial rendering always has a context object. The normal state-call contract is State_i(e, stateArgument), where the second argument is derived from the calling transition function. State_0's stateArgument can also have a default for initial rendering. On validation retry, the selected function calls State_0(e, errorArgument), passing the existing context and the error information separately.",
       "persistence_and_handoff": "The normal procedure passes e directly between functions, without requiring each transition to retrieve its working context from independent storage. The application persists the complete run and can transfer responsibility through a queue; when a run is resumed by another agent, its carried context and procedural position must continue to obey the same state-event dispatch rules. Persistence and queue transport must not redefine states, events, or function-pointer semantics."
     },
     "mandatory_behavior": {
@@ -42,34 +42,34 @@
       {
         "title": "Initial program entry and successful first response",
         "sequence": [
-          "The program starts by calling State_0() directly. No event has yet occurred and no validation error exists.",
+          "The program starts by calling State_0(), whose default parameter supplies an empty e object and an initial state argument when the caller supplies neither.",
           "State_0() returns a request for the verbatim user prompt and the return schema for e.e1.",
           "The agent returns E_RETURN(e) where e.e1 contains the verbatim prompt.",
-          "Dispatch[State_0][E_RETURN] selects Function_1. Function_1 validates e.e1 and, if accepted, invokes State_1(e).",
-          "State_1(e) echoes e.e1 and requests the user's intent in e.e2."
+          "Dispatch[State_0][E_RETURN] selects Function_1. Function_1 validates e.e1 and, if accepted, invokes State_1(e, e.e1), passing both the event/context object and the input expected by that state.",
+          "State_1(e, e.e1) echoes the prompt from its explicit second argument and requests the user's intent in e.e2."
         ]
       },
       {
         "title": "Invalid return without inventing a failure event",
         "sequence": [
-          "State_2(e) requests an array of 7 through 11 identified questions in e.e3.",
+          "State_2(e, { user_prompt: e.e1, user_intent: e.e2 }) requests an array of 7 through 11 identified questions in e.e3.",
           "The agent emits E_RETURN(e) with only four questions in e.e3. The event type remains E_RETURN.",
           "Dispatch[State_2][E_RETURN] selects Function_3. Function_3 rejects the e.e3 payload against the return schema.",
-          "Function_3 invokes State_2(e) with validation diagnostics. State_2 reissues the request with the error; no separate INVALID_EVENT or FAILURE_EVENT is dispatched."
+          "Function_3 invokes State_2(e, { error: 'e.e3 must contain 7–11 questions.' }) with both e and an explicit error argument. State_2 reissues its prompt with the error; no separate INVALID_EVENT or FAILURE_EVENT is dispatched."
         ]
       },
       {
         "title": "Independent context addresses and echoing",
         "sequence": [
           "After Function_2 accepts e.e2, e contains e.e1 for the original user prompt and e.e2 for the determined user intent.",
-          "State_2(e) reads and echoes e.e1 and e.e2 independently, then requests e.e3.",
+          "State_2(e, { user_prompt: e.e1, user_intent: e.e2 }) reads and echoes its explicit state argument, and e retains e.e1 and e.e2 at independent addresses, before requesting e.e3.",
           "Function_3 uses the expected e.e3 property after the response and must not silently substitute or reconstruct absent e.e1 or e.e2 values."
         ]
       },
       {
         "title": "Function-selected simulation transition",
         "sequence": [
-          "State_10(e) requests simulated command examples, proposed resulting source files, and predicted effects, decorating the existing procedure mappings.",
+          "State_10(e, e.e10) requests simulated command examples, proposed resulting source files, and predicted effects, decorating the existing procedure mappings.",
           "The agent returns E_RETURN(e) containing e.e11 without agent-assigned pass/fail grades.",
           "Dispatch[State_10][E_RETURN] selects Function_11. That function validates the schema and checks proposed commands and code according to applicable validation capabilities.",
           "Function_11 selects the next state or returns to State_10 with correction diagnostics. The agent's event type and its own predictions do not decide the transition."
@@ -93,7 +93,7 @@
       "state_meaning": "In this implementation, a state essentially refers to the rendered tool response generated for the agent. The runtime state identifier remains the row key in the State × Event dispatch table; the agent-facing state is the actual tool response containing the instruction and the expected return format.",
       "expected_input": "Every rendered state requests a specific agent return input and identifies that input unambiguously. The expected return is the context object e, preserving previously accepted independently addressable properties and supplying the newly requested property in the shape defined for that state.",
       "two_required_presentations": "Each rendered state must present the expected input twice, consistently: (1) a machine-dialect instruction statement in complete sentences explaining what the agent is to return, and (2) a displayed, syntactically valid JSON return schema specifying the same required input structure.",
-      "input_contract_boundary": "The schema presented to the agent governs the returned event payload. The state's own callable invocation contract remains a separate matter: for example State_0() is a valid initialization call and State_0(e) is a valid error re-entry when e satisfies its declared requirements. Both invocations can render the same expected agent return schema, with error diagnostics added as applicable."
+      "input_contract_boundary": "The schema presented to the agent governs the returned event payload. The state invocation contract is separate: each transition function passes e and a state-specific argument to the invoked state. The initial call State_0() uses default parameters to obtain an empty e and initial state argument when not supplied; an explicit initial context may instead be passed as State_0(e). When re-entering after rejection, the function invokes State_0(e, errorArgument). All invocation forms must satisfy the declared state contract and render the expected agent return schema."
     },
     "mandatory_behavior": {
       "machine_dialect_statement": "For each state, generate a sentence-form instruction applying machine-dialect requirements to identify the input being requested, the values the agent must derive or preserve, their relationships to preceding context e, and any relevant cardinality, identity, ordering, or allowed-value constraints. The statement must be sufficiently complete for an agent to construct the requested return without inferring undocumented meanings.",
@@ -206,7 +206,7 @@
       "agent_event": "A procedure event is the agent's submission of its response to the current state's tool-response request. In this prototype, the agent returns E_RETURN(e), where e is the complete event/context object; the event type does not classify the input as valid or invalid.",
       "context_address": "A context address is a unique, specified member name within e that identifies an independently recallable input. For example, e.e1 holds the verbatim user prompt and e.e2 holds the determination of user intent. Different independently addressable inputs must not compete for the same address.",
       "selected_function": "The function pointer selected from the State × Event dispatch table for the current state and event. The selected function receives the event/context object e as an argument and operates on data from one or more specified members of that object.",
-      "state_arguments": "The arguments supplied to a state invocation normally come from the operations and results of the function invoking or returning to that state, including carried context and validation diagnostics. A state must declare which invocation forms and inputs it accepts."
+      "state_arguments": "Each invoked state receives the event/context object e and a second state-specific argument derived from the transition function's operation, such as an accepted input value or validation error. In the initial State_0() call, default parameters supply the missing e and state argument. The destination state must declare the types, purposes and acceptable shapes of its invocation arguments."
     },
     "mandatory_behavior": {
       "deterministic_transition_order": "Implement transitions along the explicitly defined ordered procedure route. Each transition must be initiated by the applicable agent-return event and resolved by the function pointer selected for the current state-event pair. When that function applies its specified validation or routing rules to the same state and context, it must select the same next state. Validation retries and other defined branches are part of the ordered route, not exceptions to it.",
@@ -214,50 +214,89 @@
       "unique_specified_input_addresses": "Assign every separately recallable agent input a unique, explicitly specified property address in e before requesting the input. Store an accepted input at that address and retain its identity for subsequent states. If an input is a structured object or array, document its subordinate property names, types, and meanings in the corresponding state return schema and machine-dialect instruction.",
       "function_event_argument": "Invoke the selected state-event function with e as an argument. The function must inspect or operate on at least one explicitly identified member of e for that event, and may also use other required members for validation or state derivation. If a required member is absent or empty despite the function's input contract requiring it, classify that as an implementation error rather than silently fabricating a value.",
       "function_controls_next_state": "After operating on the specified context members, the selected function determines the next state under its defined validation and transition rules. A rejected agent input causes the function to return to the appropriate requesting state with diagnostics; an accepted input follows the prescribed forward transition or another explicitly defined branch.",
-      "state_receives_derived_arguments": "Pass to each invoked state the arguments produced or carried by the calling function, as specified by the destination state's input contract. Such arguments ordinarily include e and, when applicable, validation errors, accepted values, or other data resulting from function execution. Do not require an independently stored state value to supply ordinary inter-function context.",
-      "initial_invocation_contract": "The program's direct invocation of State_0() on startup is valid because its declared input contract permits no arguments. Re-entry as State_0(e) is also valid when the function passes the error-bearing context required by that invocation form. Other state invocations must likewise satisfy their own declared input contracts."
+      "state_receives_derived_arguments": "On either successful or rejected response validation, the selected function must pass two arguments to its destination state: first the complete event/context object e, and second the state-specific argument produced by the function, such as the accepted input required by the next state or validation diagnostics required by the preceding state. Do not use globals or implicit stored variables to move ordinary inter-function context.",
+      "initial_invocation_contract": "The startup invocation State_0() is valid because State_0 defines default parameters for both an initially empty context object e and an initial state argument. If e already exists, the caller can supply it explicitly. On validation rejection, Function_1 re-enters State_0(e, errorArgument). Thus both startup and re-entry have the same effective two-argument state contract after applying defaults."
     },
     "examples": [
       {
         "title": "Accepted agent return follows the ordered route",
         "sequence": [
-          "State_0() renders a request for the verbatim user prompt, assigning the response to e.e1.",
+          "State_0() initializes e to an empty object through its default parameter, renders the request for the verbatim user prompt, and assigns the requested response address e.e1.",
           "The agent returns E_RETURN(e) with e.e1 populated.",
           "Dispatch[State_0][E_RETURN] selects Function_1, which receives e, examines e.e1, and validates the required input.",
-          "Function_1 passes e to State_1(e), which renders the next instruction and requests an independently addressable user-intent response in e.e2."
+          "Function_1 passes both e and the accepted prompt e.e1 to State_1(e, e.e1), which renders the next instruction requesting an independently addressable user-intent response in e.e2."
         ]
       },
       {
         "title": "One event type supports a deterministic validation retry",
         "sequence": [
-          "State_2(e) requests between seven and eleven question objects at the specified address e.e3.",
+          "State_2(e, { user_prompt: e.e1, user_intent: e.e2 }) requests between seven and eleven question objects at the specified address e.e3.",
           "The agent returns E_RETURN(e) containing four question objects in e.e3.",
           "Function_3 receives e and determines that e.e3 does not satisfy the state-specific return schema.",
-          "Function_3 invokes State_2(e) with the validation error, and the state re-renders its request. The event remains E_RETURN in both accepted and rejected cases."
+          "Function_3 invokes State_2(e, { error: 'e.e3 must contain 7–11 questions.' }), passing the full context and validation error as separate arguments. The event remains E_RETURN in both accepted and rejected cases."
         ]
       },
       {
         "title": "State receives arguments derived by its caller",
         "sequence": [
           "Function_4 receives e, reads e.e3 to identify the required questions, and checks the agent's answers at e.e4.",
-          "On acceptance, Function_4 invokes State_4(e), passing the accumulated context needed to define the desired final system state.",
-          "If Function_4 instead rejects e.e4, it invokes State_3(e) with diagnostics describing the deficient answers. Neither invocation may omit context properties required by the destination state's contract."
+          "On acceptance, Function_4 invokes State_4(e, e.e4), passing both accumulated context e and the accepted answers as the state-specific argument needed to define the desired final system state.",
+          "If Function_4 rejects e.e4, it invokes State_3(e, { error: 'Answers do not conform to the return schema.' }); both arguments satisfy the destination state's input contract."
         ]
       },
       {
         "title": "Function returns the next state and its arguments for subsequent invocation",
         "implementation_style": "Deferred invocation: the selected function returns a function pointer referencing the destination state together with the arguments that must be supplied when it is called. The application invokes the returned function after the handler returns.",
-        "illustrative_javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return { nextState: State_0, args: [{ ...e, validation_error: 'e.e1 must be a nonempty string.' }] };\n  }\n  return { nextState: State_1, args: [e] };\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
-        "interpretation": "Function_1 examines the agent-returned e.e1, determines the destination, and returns a reference to State_1 and the context argument e. The next state is not executed inside Function_1; the application invokes it with the returned arguments and obtains its rendered tool response. The invalid-input branch similarly references State_0 and supplies validation diagnostics in e. The next state remains a function selected by the handler, not by the event."
+        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  // Render the request for e.e1, or include stateArgument.error.\n}\nfunction State_1(e, acceptedPrompt) {\n  // Render the request for e.e2 using acceptedPrompt and e.\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return {\n      nextState: State_0,\n      args: [e, { error: 'e.e1 must be a nonempty string.' }]\n    };\n  }\n  return { nextState: State_1, args: [e, e.e1] };\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
+        "interpretation": "Function_1 examines e.e1, chooses a destination state and returns that state function with both its required arguments. On success it returns State_1 with [e, e.e1]. On validation failure it returns State_0 with [e, { error: ... }]. The application subsequently invokes the returned function and obtains the rendered tool response. The initial direct call State_0() uses default values for its arguments, including e."
       },
       {
         "title": "Function directly calls the next state",
         "implementation_style": "Immediate invocation: the selected function calls the destination state itself and returns the rendered tool response produced by that state.",
-        "illustrative_javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0({ ...e, validation_error: 'e.e1 must be a nonempty string.' });\n  }\n  return State_1(e);\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst toolResponse = Function_1(e);",
-        "interpretation": "Function_1 examines e.e1, determines the destination, and immediately invokes State_1(e), passing the context as an argument. The return value is the tool response rendered by State_1, rather than a deferred function pointer and argument list. The invalid-input branch calls State_0(e) with an error-bearing context, as permitted by that state's input contract."
+        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  // Render the request for e.e1, or include stateArgument.error.\n}\nfunction State_1(e, acceptedPrompt) {\n  // Render the request for e.e2 using acceptedPrompt and e.\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0(e, { error: 'e.e1 must be a nonempty string.' });\n  }\n  return State_1(e, e.e1);\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst toolResponse = Function_1(e);",
+        "interpretation": "Function_1 receives e, reads e.e1 and directly invokes either State_0(e, errorArgument) or State_1(e, acceptedPrompt). The destination state receives both the context and the state-specific argument. The function returns the rendered tool response of that called state. On startup, State_0() uses its defaults rather than depending on global variables."
       }
     ],
     "conformance": "An implementation conforms only when agent responses supply the event input, independently recallable inputs have distinct documented addresses in e, the state-event-selected function receives e and operates on at least one declared member, and that function passes contract-conforming arguments to the next state along the defined deterministic route. Deviations require correction rather than reinterpretation of the governing State × Event model.",
     "implementation_choice_status": "The deferred return of a destination state function and arguments, and the immediate call of that state function, are alternative illustrations of state invocation. This document does not select or require either technique. The implementation may choose an invocation mechanism only if the current state and agent-return event still select the handler through the 2D dispatch table, the handler examines the required members of e, the handler determines the next state, and that state's input contract is satisfied."
+  },
+  {
+    "title": "State-Event Transition Function Invocation and Explicit State Arguments",
+    "applicability": "Every dispatch of an agent-return event to a transition function, its return-schema validation, and its invocation or return of a destination state in the interactive two-dimensional State × Event function-pointer procedure machine.",
+    "architectural_contract": {
+      "intersection_selection": "A transition function is invoked only by selecting the function pointer at the intersection of the current state and the received event in the two-dimensional dispatch table. For the initial agent-response event, Dispatch[State_i][E_RETURN] identifies the transition function that consumes the returned event/context object e.",
+      "event_consumption": "The selected transition function receives e as its input argument and operates on at least one state-declared member of e. The required response property represents the agent input requested by the preceding rendered state; older accepted properties remain accessible at their original addresses.",
+      "validation": "In the typical case, the transition function validates the preceding agent input against the JSON return schema displayed by the requesting state and the accompanying machine-dialect instructions. The function, not the agent or event name, determines whether that input conforms.",
+      "invalid_response_route": "If the agent input fails validation, the transition function chooses the same preceding/requesting state and invokes or returns it with both the current e and a separate error argument describing the validation failure. The error argument must contain actionable diagnostics for correcting the rejected input without treating an invalid agent response as a new event type.",
+      "valid_response_route": "If the agent input satisfies the expected return schema and required semantic checks, the transition function chooses the following state along the defined ordered deterministic procedure route and invokes or returns it with both the current e and the specific input argument that state needs for its purpose. The second argument is derived from the transition function's operations on the existing e.",
+      "functional_argument_passing": "Both transition outcomes must pass the complete context object e as the first destination-state argument and a state-specific value or diagnostic object as the second destination-state argument. State functions must use these explicit arguments rather than relying on tracked global variables to recover prior agent inputs, transition outputs, or validation errors.",
+      "startup_defaults": "On initial command-line program invocation, State_0() is permitted to have no explicit call arguments because its default parameters provide an empty context object e and an initial state-specific argument. An existing context object can be passed explicitly. The effective invocation contract after defaults is the same two-argument state contract as any subsequent transition; when retrying, Function_1 invokes State_0(e, errorArgument).",
+      "deferred_or_immediate_invocation": "The implementation may choose to have a transition function directly call the next state and return its tool response, or return a destination state function pointer plus [e, stateArgument] for the application to invoke. Both forms must preserve state-event dispatch, transition-function validation, and explicit argument passing. Neither is prescribed as the implementation strategy."
+    },
+    "mandatory_behavior": {
+      "deterministic_selection": "Use only the function pointer selected by the current (state, event) intersection to process the returned e and determine the next state; do not derive a new event class from schema validity or delegate transition selection to the agent.",
+      "schema_validation_and_retry": "For every agent response, validate the newly requested property and its applicable cross-property constraints. On failure, re-enter the requesting state with both e and a specific error argument; on acceptance, advance with both e and the next state's required argument.",
+      "separate_context_and_state_argument": "Treat e as the complete carried event/context object, and treat the second argument as the destination state's immediately relevant input or validation diagnostic. Neither argument substitutes for the other. A missing required member of e is an implementation error when the state/function contract guarantees it should exist.",
+      "no_global_state_dependency": "Do not depend on a global variable, module-level mutable context holder, hidden current-input register, or any other implicit process-local state to pass data between a transition function and its invoked state. The function and state receive what they need through explicit arguments.",
+      "initial_state_defaults": "Implement State_0 so a call without explicit arguments uses default values for e and the initial state-specific argument; initial rendering therefore always has an e object. This does not exempt State_0 from the same effective two-argument input contract used by other states."
+    },
+    "examples": [
+      {
+        "title": "Successful agent return advances to the following state using two arguments",
+        "javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0(e, { error: 'The verbatim prompt in e.e1 must be a nonempty string.' });\n  }\n  return State_1(e, e.e1);\n}",
+        "explanation": "The State_0 × E_RETURN dispatch entry selects Function_1. Function_1 reads and validates e.e1. On acceptance, it calls State_1 with the complete context e and the accepted prompt e.e1 as the second argument. On rejection, it calls State_0 with the complete e and an error object specifying the invalid property."
+      },
+      {
+        "title": "Equivalent transition by returning a state function pointer and arguments",
+        "javascript": "function Function_1(e) {\n  return typeof e.e1 === 'string' && e.e1.length > 0\n    ? { nextState: State_1, args: [e, e.e1] }\n    : { nextState: State_0, args: [e, { error: 'e.e1 must be a nonempty string.' }] };\n}\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
+        "explanation": "The handler still determines the destination. It returns a function reference plus two explicit arguments instead of invoking the destination immediately. The caller executes the returned state with those arguments. The selected dispatch cell and schema-validation responsibility are unchanged."
+      },
+      {
+        "title": "State_0 defaults context for initial entry but receives explicit context for retry",
+        "javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  return renderPromptRequest(e, stateArgument);\n}\nconst firstResponse = State_0();\n// On validation failure, the transition function can call:\nconst correctedResponse = State_0(e, { error: 'e.e1 must be a nonempty string.' });",
+        "explanation": "The first call has no explicit parameters, but State_0 initializes e and its second state argument through defaults. The retry supplies both e and the validation error explicitly. renderPromptRequest is an illustrative helper that formats the state's tool response; the example does not select a concrete rendering implementation."
+      }
+    ],
+    "conformance": "Every transition function must be selected by its State × Event cell, consume e, validate the preceding agent input against the applicable return schema, and provide both e and a purpose-specific argument to the state it chooses. Initial State_0() uses defaults to satisfy that effective contract. Any implementation that omits the carried context or second argument in a transition, relies on global state for either, or switches states outside the selected function violates the prescribed model."
   }
 ]

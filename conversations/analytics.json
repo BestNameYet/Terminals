@@ -32,5 +32,26 @@
         "outcome_assessment": "Synthetic recorder test input."
       }
     }
+  },
+  {
+    "entry_type": "BEGINNING_OF_TURN",
+    "content": {
+      "started_at_local": "2026-11-15T18:53-08:00",
+      "conversation_topics": [
+        "Terminals MCP",
+        "Imperatives",
+        "MCP read-only response"
+      ],
+      "topic_categories": [
+        "MCP integration",
+        "Operational instructions"
+      ],
+      "specific_immediate_topic": "Read-only terminal call and compliance with returned instructions",
+      "user_instruction_summary": "Make a read-only Terminal MCP tool call and follow every rule described therein exactly.",
+      "applicable_instructions_summary": "Read-only filesystem inspection; user-defined machine-readable imperatives; report verified success or specific failure; attempt recorder events if callable.",
+      "preceding_context": "Terminals project uses references/imperatives.json and registered EOTRecorder.",
+      "task_objective": "Obtain a normal read-only MCP response, examine applicable rules, report results and limitations.",
+      "initial_actions": "Attempted cat imperatives.json; integration returned INVALID_ARGUMENT before a normal result."
+    }
   }
 ]

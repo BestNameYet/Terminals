@@ -11,7 +11,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "cd workspaces/codespace-terminal-mcp && npm install",
+  "postCreateCommand": "npm ci --prefix workspaces/codespace-terminal-mcp && npm ci --prefix workspaces/2d-state-event-procedure-design",
   "waitFor": "postCreateCommand",
   "postStartCommand": "bash workspaces/codespace-terminal-mcp/start-mcp.sh",
   "containerEnv": {

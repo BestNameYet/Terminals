@@ -12,6 +12,11 @@ for name in MCP_GH_OAUTH_CLIENT_ID MCP_GH_OAUTH_CLIENT_SECRET MCP_ALLOWED_GITHUB
 done
 
 umask 077
+# Install the validator dependency for the procedure alias on existing Codespaces.
+procedure_dir="$(dirname -- "$PWD")/2d-state-event-procedure-design"
+if [[ ! -d "$procedure_dir/node_modules/ajv" ]]; then
+  npm ci --prefix "$procedure_dir"
+fi
 state_dir=$(dirname -- "$MCP_AUTH_STATE_FILE")
 mkdir -p -- "$state_dir"
 log="$state_dir/server.log"

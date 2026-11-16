@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "ce89606646635491fa3c2afef55861b12f37561b",
+  "source_commit": "1391b918596599281ebdf2e4a1dca8aa0732debe",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -54,9 +54,9 @@
       "role": "http_entrypoint",
       "read_condition": "http_start",
       "read_evidence": "Supervisor launches node http-server.mjs; Node loads this entrypoint",
-      "sha256": "d7aad40ace2291a75386f5fcb800907c2d2c143ab675ab00ad1a3b98b17a035d",
-      "git_blob_oid": "6964be077da5ccea5aee10baaf4dc946f33d1418",
-      "byte_length": 7057
+      "sha256": "1c2fbd53d513aef148e2545d9b87e1d36e558eb876175a5f0438b8bd476bf8d5",
+      "git_blob_oid": "4057e6c068798f742170957696b2ce1490cfff85",
+      "byte_length": 8228
     },
     {
       "path": "workspaces/codespace-terminal-mcp/oauth.mjs",
@@ -117,9 +117,9 @@
       "role": "function_dispatcher",
       "read_condition": "http_or_stdio_start",
       "read_evidence": "Imported by both MCP terminal_execute entrypoints for @ dispatch",
-      "sha256": "b220aa21580019d7af15c6db10fac404d59dcdaf10f2b4a07c4a22a2ebd35d26",
-      "git_blob_oid": "6baedf2fe5064d4c427a325d2907c8a4138254af",
-      "byte_length": 1577
+      "sha256": "5b2336034678ad8f5b39bd21a4abd357675ac62c202416c76941c99ed9008477",
+      "git_blob_oid": "bf52790a30b91a5a5abfdc5d41c5b038aeb4c70b",
+      "byte_length": 1754
     },
     {
       "path": "workspaces/codespace-terminal-mcp/eot-recorder.mjs",

@@ -1,0 +1,4 @@
+{
+  "inputThis": "$:set -e\ngh codespace start -c shiny-robot-v64x5jj4v4q2x96\ngh codespace list --json name,state --jq '.[] | select(.name==\"shiny-robot-v64x5jj4v4q2x96\")' ",
+  "outputThat": []
+}

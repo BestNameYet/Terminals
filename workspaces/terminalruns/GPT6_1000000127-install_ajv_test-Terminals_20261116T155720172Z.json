@@ -1,0 +1,23 @@
+{
+  "inputThis": "$:gh codespace ssh -c shiny-robot-v64x5jj4v4q2x96 -- bash -s <<'REMOTE_FILESYSTEM'\nset -e\ncd /workspaces/Terminals\nprintf 'HEAD '; git rev-parse --short HEAD\nnpm ci --prefix workspaces/2d-state-event-procedure-design\nnode -e \"const p=require.resolve('ajv/dist/2020.js',{paths:['/workspaces/Terminals/workspaces/2d-state-event-procedure-design']});console.log('AJV_RESOLVED='+p)\"\nnode --test workspaces/codespace-terminal-mcp/procedure.test.mjs\nREMOTE_FILESYSTEM",
+  "outputThat": [
+    "HEAD 4d03e16",
+    "",
+    "added 5 packages, and audited 6 packages in 642ms",
+    "",
+    "2 packages are looking for funding",
+    "  run `npm fund` for details",
+    "",
+    "found 0 vulnerabilities",
+    "AJV_RESOLVED=/workspaces/Terminals/workspaces/2d-state-event-procedure-design/node_modules/ajv/dist/2020.js",
+    "✔ Procedure accepts no argument and makes nonce replay available (116.280053ms)",
+    "ℹ tests 1",
+    "ℹ suites 0",
+    "ℹ pass 1",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 184.585127"
+  ]
+}

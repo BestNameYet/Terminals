@@ -1,4 +1,4 @@
-export async function iterate(steps, returnSchemas) {
+export async function iterate(steps, returnSchemas, exchange) {
   const e = Array(steps.length).fill(null)
   const keywordIndexes = new Map()
 
@@ -18,9 +18,13 @@ export async function iterate(steps, returnSchemas) {
 
   let i = 0
   while (i < steps.length) {
-    e[i] = await steps[i](e, i, read)
+    const result = await steps[i](e, i, read, exchange)
+    if (typeof result?.valid !== "boolean") {
+      throw new TypeError("valid")
+    }
+    e[i] = result
 
-    if (e[i].valid) {
+    if (result.valid) {
       i += 1
     }
   }

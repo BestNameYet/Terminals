@@ -1,17 +1,17 @@
-async function captureVerbatimRequest(e, i) {
-  const keyword = "verbatim_request"
-  const schema = await returnSchema(keyword)
+import { renderState } from "./render_state.mjs"
+import { validateReturnSchema } from "./validate_return_schema.mjs"
 
-  const state = {
-    instruction: await instruction(keyword),
-    return_schema: schema
+const keyword = "verbatim_request"
+
+export default async function captureVerbatimRequest(e, _index, _read, exchange) {
+  const previousError = e.error
+  e.error = null
+  const { input, issuedSchema } = await renderState(keyword, {}, previousError, exchange)
+  const { valid, errors } = validateReturnSchema(input, issuedSchema)
+  e.error = valid ? null : {
+    error: true,
+    errortype: `${keyword}.input_error`,
+    diagnostic_data: errors
   }
-
-  const previousError = e[i]?.error
-  if (previousError) {
-    state.error_message = previousError
-  }
-
-  const input = await render(state)
-  return validate(input, schema)
+  return { valid, input: valid ? input : null, error: e.error }
 }

@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "1391b918596599281ebdf2e4a1dca8aa0732debe",
+  "source_commit": "c62d32d2251436a3aee7dc4644524f19a6b8c688",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -117,9 +117,9 @@
       "role": "function_dispatcher",
       "read_condition": "http_or_stdio_start",
       "read_evidence": "Imported by both MCP terminal_execute entrypoints for @ dispatch",
-      "sha256": "5b2336034678ad8f5b39bd21a4abd357675ac62c202416c76941c99ed9008477",
-      "git_blob_oid": "bf52790a30b91a5a5abfdc5d41c5b038aeb4c70b",
-      "byte_length": 1754
+      "sha256": "3053975d6c707448a6b6511cfebab5c71a14b7a1c4fb22548907ce51d2e6efda",
+      "git_blob_oid": "4e1274b444678ada0823808f63456846d120db4a",
+      "byte_length": 2702
     },
     {
       "path": "workspaces/codespace-terminal-mcp/eot-recorder.mjs",

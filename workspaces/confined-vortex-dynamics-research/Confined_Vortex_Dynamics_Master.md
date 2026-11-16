@@ -458,3 +458,13 @@ The present edition contains a **verified seed catalog** and an extensive analyt
 
 For every substantive revision, record date, previous claim, new claim, reason, evidence identity, change in confidence, affected geometries, and any previously accepted result that was superseded. When a dimension or operating condition is missing, use Unknown and a sensitivity relation, not a fabricated central value. Where a proposed named mode cannot be discriminated, retain competing hypotheses and specify the smallest test.
 
+
+
+## 14. Edition 0.2 — APG and fluidic-oscillator expansion (2026-11-16)
+The source-driven P1A-01/APG-01 supplement is `P1A_01_Historical_and_APG_Oscillator_Batch.md`. This extends rather than replaces M01–M12/G01–G16.
+
+**New tags:** M13 = adverse-pressure-gradient boundary-layer separation, reattachment and diffuser load; M14 = passive flow-state bistability, Coanda switching, feedback and time-delay. G17 = streamwise APG diffuser or external separated surface; G18 = jet-driven acoustic cavity/Helmholtz element; G19 = feedback-free interacting-jet chamber.
+
+**Causal division:** dp_e/ds > 0 along local near-wall external flow may promote separation but does not guarantee it. Keep it distinct from radial swirl pressure balance and device total pressure loss. Feedback-loop oscillators, interacting-jet self-oscillators, captive-vortex spin-up/delay elements, jet-driven acoustic cavities and steady APG-separated flows require separate port/topology diagrams, feedback paths, pressure/velocity maps and smallest discriminating tests. A fluidic oscillator can energize a separately located external adverse-gradient boundary layer without establishing APG inside its own chamber. Preserve geometry, alternative stationary states, flow reversal/blockage, source-defined parameters, measurement uncertainty and matched acoustic baseline.
+
+**Provenance:** F01–F09 catalog entries include first-page-inspected user PDF archive sources, publisher-verified papers, and patent disclosures. No original numerical threshold or named acoustic mode is transferred to the project apparatus without matching geometry, forcing and observables.

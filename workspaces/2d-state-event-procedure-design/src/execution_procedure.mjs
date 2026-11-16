@@ -1,9 +1,9 @@
-import { renderState } from "./render_state.mjs"
+import { buildProjection } from "./render_state.mjs"
 import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "execution_procedure"
 
-export default async function captureExecutionProcedure(e, _index, read, render, undefined, record) {
+export default async function captureExecutionProcedure(e, _index, read, agentInput, projection) {
   const context = {
     required_changes: read("required_changes"),
     agent_actions: read("agent_actions"),
@@ -31,12 +31,11 @@ export default async function captureExecutionProcedure(e, _index, read, render,
     return schema
   }
 
-  const record = e[_index] ?? (e[_index] = {})
-  const previousError = e.error
-  e.error = null
-  const { input } = await renderState(
-    keyword, context, previousError, render, deriveSchema, record)
-  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
+  if (agentInput === undefined) {
+    return buildProjection(keyword, context, e.error, deriveSchema)
+  }
+  const input = agentInput
+  let { valid, errors } = validateReturnSchema(input, projection.final_schema)
 
   if (valid) {
     const seenSteps = new Set()
@@ -94,5 +93,5 @@ export default async function captureExecutionProcedure(e, _index, read, render,
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { ...record, valid, input: valid ? input : null, error: e.error }
+  return { valid, input: valid ? input : null, error: e.error }
 }

@@ -1,9 +1,9 @@
-import { renderState } from "./render_state.mjs"
+import { buildProjection } from "./render_state.mjs"
 import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "agent_actions"
 
-export default async function captureAgentActions(e, _index, read, render, undefined, record) {
+export default async function captureAgentActions(e, _index, read, agentInput, projection) {
   const required_changes = read("required_changes")
   if (required_changes === undefined) {
     throw new ReferenceError("required_changes")
@@ -20,12 +20,11 @@ export default async function captureAgentActions(e, _index, read, render, undef
     return schema
   }
 
-  const record = e[_index] ?? (e[_index] = {})
-  const previousError = e.error
-  e.error = null
-  const { input } = await renderState(
-    keyword, { required_changes }, previousError, render, deriveSchema, record)
-  const shape = validateReturnSchema(input, record.issuedSchema)
+  if (agentInput === undefined) {
+    return buildProjection(keyword, { required_changes }, e.error, deriveSchema)
+  }
+  const input = agentInput
+  const shape = validateReturnSchema(input, projection.final_schema)
   const errors = shape.valid ? checkActions(input[keyword], changeIds) : shape.errors
   const valid = shape.valid && errors.length === 0
 
@@ -34,7 +33,7 @@ export default async function captureAgentActions(e, _index, read, render, undef
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { ...record, valid, input: valid ? input : null, error: e.error }
+  return { valid, input: valid ? input : null, error: e.error }
 }
 
 function checkActions(actions, changeIds) {

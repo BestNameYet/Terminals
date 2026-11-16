@@ -1,9 +1,9 @@
-import { renderState } from "./render_state.mjs"
+import { buildProjection } from "./render_state.mjs"
 import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "required_changes"
 
-export default async function captureRequiredChanges(e, _index, read, render, undefined, record) {
+export default async function captureRequiredChanges(e, _index, read, agentInput, projection) {
   const context = {
     desired_state: read("desired_state"),
     current_state: read("current_state")
@@ -22,11 +22,11 @@ export default async function captureRequiredChanges(e, _index, read, render, un
     return schema
   }
 
-  const record = e[_index] ?? (e[_index] = {})
-  const previousError = e.error
-  e.error = null
-  const { input } = await renderState(keyword, context, previousError, render, deriveSchema, record)
-  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
+  if (agentInput === undefined) {
+    return buildProjection(keyword, context, e.error, deriveSchema)
+  }
+  const input = agentInput
+  let { valid, errors } = validateReturnSchema(input, projection.final_schema)
   if (valid) {
     const ids = new Set()
     for (const { id } of input[keyword]) {
@@ -43,5 +43,5 @@ export default async function captureRequiredChanges(e, _index, read, render, un
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { ...record, valid, input: valid ? input : null, error: e.error }
+  return { valid, input: valid ? input : null, error: e.error }
 }

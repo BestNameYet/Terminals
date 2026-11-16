@@ -1,19 +1,19 @@
-import { renderState } from "./render_state.mjs"
+import { buildProjection } from "./render_state.mjs"
 import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "clarifying_questions"
 
-export default async function captureClarifyingQuestions(e, _index, read, render, undefined, record) {
+export default async function captureClarifyingQuestions(e, _index, read, agentInput, projection) {
   const verbatim_request = read("verbatim_request")
   const user_intent = read("user_intent")
   if (verbatim_request === undefined || user_intent === undefined) {
     throw new ReferenceError(verbatim_request === undefined ? "verbatim_request" : "user_intent")
   }
-  const record = e[_index] ?? (e[_index] = {})
-  const previousError = e.error
-  e.error = null
-  const { input } = await renderState(keyword, { verbatim_request, user_intent }, previousError, render, undefined, record)
-  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
+  if (agentInput === undefined) {
+    return buildProjection(keyword, { verbatim_request, user_intent }, e.error, undefined)
+  }
+  const input = agentInput
+  let { valid, errors } = validateReturnSchema(input, projection.final_schema)
   if (valid) {
     const ids = input[keyword].map(question => question.id)
     const duplicateId = ids.find((id, position) => ids.indexOf(id) !== position)
@@ -27,5 +27,5 @@ export default async function captureClarifyingQuestions(e, _index, read, render
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { ...record, valid, input: valid ? input : null, error: e.error }
+  return { valid, input: valid ? input : null, error: e.error }
 }

@@ -5,7 +5,7 @@
   "application_version": "0.1.0",
   "repository": "BestNameYet/Terminals",
   "authoritative_branch": "main",
-  "source_commit": "57ac6cb50395f71f2e417a8fb66c68f649b8540b",
+  "source_commit": "6592304386ad1564e3f6e9ee8188214ef4cbf0a0",
   "scope": {
     "definition": "Repository-maintained files read by the MCP application's HTTP or alternative stdio lifecycle, startup, package resolution, configured resources, or Codespaces initialization.",
     "source_of_evidence": "Static trace of committed entrypoints, import statements, shell scripts, Codespace configuration, and explicit filesystem read operations; conditional reads are included, not asserted observed in a live request.",
@@ -18,9 +18,9 @@
       "role": "codespace_environment",
       "read_condition": "codespace_build_or_rebuild",
       "read_evidence": "Codespaces creation or rebuild reads container settings and lifecycle commands",
-      "sha256": "990a2a13fcfd431ebb060022b960c4a21a72b39304afc6a0713c0ca2c3851cfb",
-      "git_blob_oid": "d49883d0bb8ea00fa4b63fb01807b43d15f82c6a",
-      "byte_length": 647
+      "sha256": "ad599e1704902b3f4c60f2b5763ec860d6963365e13d8c244b49f3eced4c76be",
+      "git_blob_oid": "f2c7f3131917825d95ace8f807519a53b48645be",
+      "byte_length": 707
     },
     {
       "path": "workspaces/codespace-terminal-mcp/package.json",
@@ -36,9 +36,9 @@
       "role": "startup_script",
       "read_condition": "codespace_start",
       "read_evidence": "Codespace postStartCommand executes the startup script",
-      "sha256": "e4d6dd3af21d40222dc35dab29d19959b284d4ad62630586908a4634c07c89a7",
-      "git_blob_oid": "3f32e73822275106aa1c60d3e2cef71d010edfca",
-      "byte_length": 931
+      "sha256": "af218e54da47cc6ec4bd4b62b04e6e04d31e3f71a752adac498ee5a6fede9e39",
+      "git_blob_oid": "accd3bf075a0f81de40d386e8e1b8368ddace6d2",
+      "byte_length": 1175
     },
     {
       "path": "workspaces/codespace-terminal-mcp/supervise-mcp.sh",

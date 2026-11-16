@@ -1,0 +1,7 @@
+{
+  "name": "terminals-procedure-design",
+  "private": true,
+  "dependencies": {
+    "ajv": "8.20.0"
+  }
+}

@@ -1,3 +1,5 @@
+import { validateReturnSchema } from "./validate_return_schema.mjs"
+
 export const keyword = "clarifying_questions"
 
 const source = new URL("../state-instructions-and-return-schemas.json", import.meta.url).href
@@ -29,7 +31,7 @@ function reject(e, diagnostic_data) {
   return [e, false]
 }
 
-export async function validateReturn(e, input, issuedSchema, validate) {
+export async function validateReturn(e, input, issuedSchema, validate = validateReturnSchema) {
   const result = await validate(input, issuedSchema)
   if (typeof result?.valid !== "boolean") {
     throw new TypeError("valid")

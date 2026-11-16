@@ -85,5 +85,117 @@
       }
     ],
     "conformance_test": "A proposed design or implementation conforms only if its actual dispatch keys are state and event, its dispatch cells select the validating transition functions, agent returns carry e without validity-coded event types, required e properties are available under their declared input contracts, and queue/persistence operations preserve these semantics. Any departure constitutes an architecture violation requiring correction before acceptance."
+  },
+  {
+    "title": "State Tool-Response Input Instructions and JSON Return-Schema Alignment",
+    "applicability": "Every state rendered to an agent through the MCP-based two-dimensional State × Event procedure machine, including initial entry, re-entry after validation errors, queue-resumed interactions, and subsequent procedure phases.",
+    "model_definition": {
+      "state_meaning": "In this implementation, a state essentially refers to the rendered tool response generated for the agent. The runtime state identifier remains the row key in the State × Event dispatch table; the agent-facing state is the actual tool response containing the instruction and the expected return format.",
+      "expected_input": "Every rendered state requests a specific agent return input and identifies that input unambiguously. The expected return is the context object e, preserving previously accepted independently addressable properties and supplying the newly requested property in the shape defined for that state.",
+      "two_required_presentations": "Each rendered state must present the expected input twice, consistently: (1) a machine-dialect instruction statement in complete sentences explaining what the agent is to return, and (2) a displayed, syntactically valid JSON return schema specifying the same required input structure.",
+      "input_contract_boundary": "The schema presented to the agent governs the returned event payload. The state's own callable invocation contract remains a separate matter: for example State_0() is a valid initialization call and State_0(e) is a valid error re-entry when e satisfies its declared requirements. Both invocations can render the same expected agent return schema, with error diagnostics added as applicable."
+    },
+    "mandatory_behavior": {
+      "machine_dialect_statement": "For each state, generate a sentence-form instruction applying machine-dialect requirements to identify the input being requested, the values the agent must derive or preserve, their relationships to preceding context e, and any relevant cardinality, identity, ordering, or allowed-value constraints. The statement must be sufficiently complete for an agent to construct the requested return without inferring undocumented meanings.",
+      "valid_json_return_schema": "In the same rendered tool response, display a real, syntactically valid JSON return schema as JSON, not pseudo-JSON, TypeScript notation, abbreviated field declarations, or an unexplained example payload. The schema must specify the expected object structure, data types, required properties, and applicable structural constraints so the submitted agent return can be validated.",
+      "mandatory_sentence_for_every_nontrivial_key": "For every non-trivial key present anywhere in the JSON return schema, including nested object properties and array-item properties, the machine-dialect instruction statement must include at least one complete sentence explaining that key's intended value and expected input shape. The explanation must state what belongs in the field, not merely repeat the field name or JSON type.",
+      "cross_representation_alignment": "The machine-dialect statement and the displayed JSON return schema must describe the same expected agent input. Every required field, nested relationship, array size limitation, enumeration, identifier reference, and other significant schema constraint must be represented consistently in the statement; no statement may request a structurally incompatible return and no schema may silently impose an unexplained non-trivial requirement.",
+      "full_context_preservation": "Each state must specify how the agent returns the complete context object e with prior accepted values retained, while adding the requested state-specific value. Later state schemas must not silently discard or reassign previously accepted addresses.",
+      "validation_responsibility": "The state-event-selected function validates the returned e against the displayed return schema and its documented semantic constraints, then determines the next state. The event itself remains an agent return without a validity classification. Missing context that an implementation promised to supply to a function is an implementation error, not an agent response-validation failure.",
+      "nonconformance": "A rendered state is nonconforming when it omits either required input presentation, displays invalid JSON as the return schema, leaves a non-trivial schema key without a sentence-form explanation, or gives machine-dialect and schema definitions that disagree. Correct the rendered state contract before treating it as an acceptable procedure-machine state."
+    },
+    "examples": [
+      {
+        "title": "Conforming State_2 tool response requesting an identified question array",
+        "rendered_machine_dialect_instruction": "Read e.e1 as the previously accepted verbatim user prompt. Read e.e2 as the previously accepted user-intent object; its intent field is one statement of user purpose, its objectives field is an array of goal strings, its constraints field is an array of limitation strings, and its requested_outcome field is one description of the desired result. Preserve e.e1 and e.e2 without changing their accepted values. Add e.e3 as an array of no fewer than seven and no more than eleven objects containing questions needed to fulfill the user's prompt and intent. In each question object, id must be a unique, stable question identifier string such as Q1; question must be a complete question sentence as a string. Return the complete e object including all three properties. The selected state-event handler checks identifier uniqueness in addition to structural JSON Schema validation.",
+        "displayed_json_return_schema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "required": [
+            "e1",
+            "e2",
+            "e3"
+          ],
+          "properties": {
+            "e1": {
+              "type": "string"
+            },
+            "e2": {
+              "type": "object",
+              "required": [
+                "intent",
+                "objectives",
+                "constraints",
+                "requested_outcome"
+              ],
+              "properties": {
+                "intent": {
+                  "type": "string"
+                },
+                "objectives": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "constraints": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "requested_outcome": {
+                  "type": "string"
+                }
+              }
+            },
+            "e3": {
+              "type": "array",
+              "minItems": 7,
+              "maxItems": 11,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "question"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "question": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "implementation_interpretation": "The example demonstrates a real JSON Schema data structure. Its field-by-field prose explains each non-trivial key, and its unique-id semantic check is explicitly documented rather than incorrectly implied to be enforced by the displayed JSON Schema."
+      },
+      {
+        "title": "Nonconforming unexplained nested key",
+        "rendered_machine_dialect_instruction": "Return the execution procedure.",
+        "displayed_json_return_schema": {
+          "type": "object",
+          "properties": {
+            "execution_order": {
+              "type": "integer"
+            },
+            "action_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "execution_order",
+            "action_ids"
+          ]
+        },
+        "explanation": "This example violates the rule because the sentence does not explain what execution_order means, how the integer relates to other steps, or what the identifiers in action_ids reference. These meanings must be explained in complete sentences alongside the schema."
+      }
+    ]
   }
 ]

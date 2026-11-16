@@ -18,7 +18,7 @@
     "applicability": "Governs the design, implementation, extension, validation, execution, queuing, resumption, and testing of every procedure-machine state, event, dispatch table, function pointer, transition handler, and associated context exchange developed in this workspace.",
     "architectural_definition": {
       "dimensions": "The two independent dispatch dimensions are the current state and the received event type. The function is not a dimension: it is the handler selected by the function pointer located at the intersection of those two dimensions.",
-      "state": "A state is a callable operation that produces a tool response containing the agent's current instruction and required return schema. It may echo previously accepted context properties and, when re-entered after rejection, report the applicable validation error. A state must not be treated as an event classification or as an independently persisted context value.",
+      "state": "A state represents the agent-facing tool-response specification for the current stage. A state function receives its declared arguments and produces a state object containing the instructional content and return schema; it does not render the tool response itself. A separate renderer receives the state object and produces the actual tool response shown to the agent. A state may include previously accepted context values or validation diagnostics as required by its contract. The state identifier remains a row key in the two-dimensional State × Event dispatch table.",
       "event": "An event represents a response returned by an agent. In the initial prototype the event type is E_RETURN, with the complete context object e as its payload. The event is agnostic to whether the response is valid or invalid; validity, success, and failure are outcomes assessed by the selected handler, not separate event types.",
       "function_pointer": "The dispatch table is indexed by (current_state, event_type), and each populated cell refers to a function that processes that pair. For the prototype, Dispatch[State_i][E_RETURN] selects Function_(i+1). The selected function receives e, validates the response according to the corresponding return schema and cross-property requirements, and determines the next state or correction path.",
       "context_object": "The object e is passed from operation to operation and supplies the independently addressable properties needed for recall, echoing, validation, planning, and subsequent actions. Each newly accepted response adds its designated property, while prior accepted properties remain available. A function may read only properties that its input contract guarantees are present and populated; operating on a missing or empty required property is an implementation error.",
@@ -90,7 +90,7 @@
     "title": "State Tool-Response Input Instructions and JSON Return-Schema Alignment",
     "applicability": "Every state rendered to an agent through the MCP-based two-dimensional State × Event procedure machine, including initial entry, re-entry after validation errors, queue-resumed interactions, and subsequent procedure phases.",
     "model_definition": {
-      "state_meaning": "In this implementation, a state essentially refers to the rendered tool response generated for the agent. The runtime state identifier remains the row key in the State × Event dispatch table; the agent-facing state is the actual tool response containing the instruction and the expected return format.",
+      "state_meaning": "In this implementation, a state essentially denotes the agent-facing tool response associated with a procedural stage, but the state function itself does not perform rendering. The state function produces a state object containing the machine-dialect instruction and JSON return schema; a separate renderer consumes that object to generate the tool response. The runtime state identifier remains the State dimension's dispatch-table key.",
       "expected_input": "Every rendered state requests a specific agent return input and identifies that input unambiguously. The expected return is the context object e, preserving previously accepted independently addressable properties and supplying the newly requested property in the shape defined for that state.",
       "two_required_presentations": "Each rendered state must present the expected input twice, consistently: (1) a machine-dialect instruction statement in complete sentences explaining what the agent is to return, and (2) a displayed, syntactically valid JSON return schema specifying the same required input structure.",
       "input_contract_boundary": "The schema presented to the agent governs the returned event payload. The state invocation contract is separate: each transition function passes e and a state-specific argument to the invoked state. The initial call State_0() uses default parameters to obtain an empty e and initial state argument when not supplied; an explicit initial context may instead be passed as State_0(e). When re-entering after rejection, the function invokes State_0(e, errorArgument). All invocation forms must satisfy the declared state contract and render the expected agent return schema."
@@ -221,10 +221,10 @@
       {
         "title": "Accepted agent return follows the ordered route",
         "sequence": [
-          "State_0() initializes e to an empty object through its default parameter, renders the request for the verbatim user prompt, and assigns the requested response address e.e1.",
+          "State_0() initializes e to an empty object through its default parameter, returns a state object requesting the verbatim user prompt at e.e1, and the separate renderer turns that object into the agent-facing tool response.",
           "The agent returns E_RETURN(e) with e.e1 populated.",
           "Dispatch[State_0][E_RETURN] selects Function_1, which receives e, examines e.e1, and validates the required input.",
-          "Function_1 passes both e and the accepted prompt e.e1 to State_1(e, e.e1), which renders the next instruction requesting an independently addressable user-intent response in e.e2."
+          "Function_1 passes both e and the accepted prompt e.e1 to State_1(e, e.e1), which returns a state object requesting the user intent in e.e2; the separate renderer produces the next tool response."
         ]
       },
       {
@@ -247,14 +247,14 @@
       {
         "title": "Function returns the next state and its arguments for subsequent invocation",
         "implementation_style": "Deferred invocation: the selected function returns a function pointer referencing the destination state together with the arguments that must be supplied when it is called. The application invokes the returned function after the handler returns.",
-        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  // Render the request for e.e1, or include stateArgument.error.\n}\nfunction State_1(e, acceptedPrompt) {\n  // Render the request for e.e2 using acceptedPrompt and e.\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return {\n      nextState: State_0,\n      args: [e, { error: 'e.e1 must be a nonempty string.' }]\n    };\n  }\n  return { nextState: State_1, args: [e, e.e1] };\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
-        "interpretation": "Function_1 examines e.e1, chooses a destination state and returns that state function with both its required arguments. On success it returns State_1 with [e, e.e1]. On validation failure it returns State_0 with [e, { error: ... }]. The application subsequently invokes the returned function and obtains the rendered tool response. The initial direct call State_0() uses default values for its arguments, including e."
+        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  return { state_id: 'State_0', context: e, instruction: 'Return the verbatim user prompt in e.e1', error: stateArgument.error ?? null, return_schema: { type: 'object', required: ['e1'], properties: { e1: { type: 'string', minLength: 1 } } } };\n}\nfunction State_1(e, acceptedPrompt) {\n  return { state_id: 'State_1', context: e, instruction: 'Determine user intent using the accepted prompt', prompt: acceptedPrompt, return_schema: { type: 'object', required: ['e1', 'e2'], properties: { e1: { type: 'string' }, e2: { type: 'object' } } } };\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return {\n      nextState: State_0,\n      args: [e, { error: 'e.e1 must be a nonempty string.' }]\n    };\n  }\n  return { nextState: State_1, args: [e, e.e1] };\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst transition = Function_1(e);\nconst stateObject = transition.nextState(...transition.args);\nconst toolResponse = renderer(stateObject);",
+        "interpretation": "Function_1 examines e.e1, chooses a destination state and returns that state function with both its required arguments. On success it returns State_1 with [e, e.e1]. On failure it returns State_0 with [e, { error: ... }]. The application invokes the returned state function to obtain a state object; the separate renderer converts the state object into the tool response. The initial direct call State_0() uses default arguments, including e."
       },
       {
         "title": "Function directly calls the next state",
-        "implementation_style": "Immediate invocation: the selected function calls the destination state itself and returns the rendered tool response produced by that state.",
-        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  // Render the request for e.e1, or include stateArgument.error.\n}\nfunction State_1(e, acceptedPrompt) {\n  // Render the request for e.e2 using acceptedPrompt and e.\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0(e, { error: 'e.e1 must be a nonempty string.' });\n  }\n  return State_1(e, e.e1);\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst toolResponse = Function_1(e);",
-        "interpretation": "Function_1 receives e, reads e.e1 and directly invokes either State_0(e, errorArgument) or State_1(e, acceptedPrompt). The destination state receives both the context and the state-specific argument. The function returns the rendered tool response of that called state. On startup, State_0() uses its defaults rather than depending on global variables."
+        "implementation_style": "Immediate invocation: the selected function calls the destination state itself and returns that state's state object. The separate renderer later converts the returned object to a tool response.",
+        "illustrative_javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  return { state_id: 'State_0', context: e, instruction: 'Return the verbatim user prompt in e.e1', error: stateArgument.error ?? null, return_schema: { type: 'object', required: ['e1'], properties: { e1: { type: 'string', minLength: 1 } } } };\n}\nfunction State_1(e, acceptedPrompt) {\n  return { state_id: 'State_1', context: e, instruction: 'Determine user intent using the accepted prompt', prompt: acceptedPrompt, return_schema: { type: 'object', required: ['e1', 'e2'], properties: { e1: { type: 'string' }, e2: { type: 'object' } } } };\n}\nfunction Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0(e, { error: 'e.e1 must be a nonempty string.' });\n  }\n  return State_1(e, e.e1);\n}\n\n// Called by the State_0 × E_RETURN dispatcher:\nconst stateObject = Function_1(e);\nconst toolResponse = renderer(stateObject);",
+        "interpretation": "Function_1 receives e, reads e.e1 and invokes either State_0(e, errorArgument) or State_1(e, acceptedPrompt). The destination state receives both arguments and returns its state object. Function_1 passes that object back to the caller, and a separate renderer generates the tool response. On startup, State_0() uses its defaults instead of globals."
       }
     ],
     "conformance": "An implementation conforms only when agent responses supply the event input, independently recallable inputs have distinct documented addresses in e, the state-event-selected function receives e and operates on at least one declared member, and that function passes contract-conforming arguments to the next state along the defined deterministic route. Deviations require correction rather than reinterpretation of the governing State × Event model.",
@@ -271,7 +271,7 @@
       "valid_response_route": "If the agent input satisfies the expected return schema and required semantic checks, the transition function chooses the following state along the defined ordered deterministic procedure route and invokes or returns it with both the current e and the specific input argument that state needs for its purpose. The second argument is derived from the transition function's operations on the existing e.",
       "functional_argument_passing": "Both transition outcomes must pass the complete context object e as the first destination-state argument and a state-specific value or diagnostic object as the second destination-state argument. State functions must use these explicit arguments rather than relying on tracked global variables to recover prior agent inputs, transition outputs, or validation errors.",
       "startup_defaults": "On initial command-line program invocation, State_0() is permitted to have no explicit call arguments because its default parameters provide an empty context object e and an initial state-specific argument. An existing context object can be passed explicitly. The effective invocation contract after defaults is the same two-argument state contract as any subsequent transition; when retrying, Function_1 invokes State_0(e, errorArgument).",
-      "deferred_or_immediate_invocation": "The implementation may choose to have a transition function directly call the next state and return its tool response, or return a destination state function pointer plus [e, stateArgument] for the application to invoke. Both forms must preserve state-event dispatch, transition-function validation, and explicit argument passing. Neither is prescribed as the implementation strategy."
+      "deferred_or_immediate_invocation": "The implementation may choose to have a transition function call the next state and return its state object, or return a destination state function pointer plus [e, stateArgument] for the runner to invoke. In either case the resulting state object is passed to a separate renderer to produce the agent-facing tool response. Both alternatives preserve State × Event dispatch, transition-function validation, and explicit argument passing; neither invocation style is prescribed."
     },
     "mandatory_behavior": {
       "deterministic_selection": "Use only the function pointer selected by the current (state, event) intersection to process the returned e and determine the next state; do not derive a new event class from schema validity or delegate transition selection to the agent.",
@@ -284,17 +284,17 @@
       {
         "title": "Successful agent return advances to the following state using two arguments",
         "javascript": "function Function_1(e) {\n  if (typeof e.e1 !== 'string' || e.e1.length === 0) {\n    return State_0(e, { error: 'The verbatim prompt in e.e1 must be a nonempty string.' });\n  }\n  return State_1(e, e.e1);\n}",
-        "explanation": "The State_0 × E_RETURN dispatch entry selects Function_1. Function_1 reads and validates e.e1. On acceptance, it calls State_1 with the complete context e and the accepted prompt e.e1 as the second argument. On rejection, it calls State_0 with the complete e and an error object specifying the invalid property."
+        "explanation": "The State_0 × E_RETURN dispatch entry selects Function_1. Function_1 reads and validates e.e1. On acceptance it calls State_1 with e and the accepted prompt; on rejection it calls State_0 with e and an error object. The called state returns a state object that the separate renderer will display as a tool response."
       },
       {
         "title": "Equivalent transition by returning a state function pointer and arguments",
-        "javascript": "function Function_1(e) {\n  return typeof e.e1 === 'string' && e.e1.length > 0\n    ? { nextState: State_1, args: [e, e.e1] }\n    : { nextState: State_0, args: [e, { error: 'e.e1 must be a nonempty string.' }] };\n}\nconst transition = Function_1(e);\nconst toolResponse = transition.nextState(...transition.args);",
-        "explanation": "The handler still determines the destination. It returns a function reference plus two explicit arguments instead of invoking the destination immediately. The caller executes the returned state with those arguments. The selected dispatch cell and schema-validation responsibility are unchanged."
+        "javascript": "function Function_1(e) {\n  return typeof e.e1 === 'string' && e.e1.length > 0\n    ? { nextState: State_1, args: [e, e.e1] }\n    : { nextState: State_0, args: [e, { error: 'e.e1 must be a nonempty string.' }] };\n}\nconst transition = Function_1(e);\nconst stateObject = transition.nextState(...transition.args);\nconst toolResponse = renderer(stateObject);",
+        "explanation": "The handler determines the destination, returning a function reference and two explicit arguments instead of invoking the destination immediately. The caller executes that state function and obtains a state object for the separate renderer; the selected dispatch cell and validation responsibility remain unchanged."
       },
       {
         "title": "State_0 defaults context for initial entry but receives explicit context for retry",
-        "javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  return renderPromptRequest(e, stateArgument);\n}\nconst firstResponse = State_0();\n// On validation failure, the transition function can call:\nconst correctedResponse = State_0(e, { error: 'e.e1 must be a nonempty string.' });",
-        "explanation": "The first call has no explicit parameters, but State_0 initializes e and its second state argument through defaults. The retry supplies both e and the validation error explicitly. renderPromptRequest is an illustrative helper that formats the state's tool response; the example does not select a concrete rendering implementation."
+        "javascript": "function State_0(e = {}, stateArgument = { initial: true }) {\n  return {\n    state_id: 'State_0',\n    context: e,\n    instruction: 'Return the verbatim user prompt in e.e1.',\n    error: stateArgument.error ?? null,\n    return_schema: {\n      type: 'object',\n      required: ['e1'],\n      properties: { e1: { type: 'string', minLength: 1 } }\n    }\n  };\n}\nconst initialStateObject = State_0();\nconst initialToolResponse = renderer(initialStateObject);\n// On validation failure the selected function can call:\nconst retryStateObject = State_0(e, { error: 'e.e1 must be a nonempty string.' });\nconst retryToolResponse = renderer(retryStateObject);",
+        "explanation": "The first call omits explicit parameters, so State_0 initializes e and its second argument through defaults. The retry supplies both e and the error argument. In both cases the state returns a state object, which a separate renderer transforms into the actual agent-facing tool response. The illustrative renderer function is an interface placeholder, not a committed implementation."
       }
     ],
     "conformance": "Every transition function must be selected by its State × Event cell, consume e, validate the preceding agent input against the applicable return schema, and provide both e and a purpose-specific argument to the state it chooses. Initial State_0() uses defaults to satisfy that effective contract. Any implementation that omits the carried context or second argument in a transition, relies on global state for either, or switches states outside the selected function violates the prescribed model."
@@ -412,5 +412,84 @@
       ]
     },
     "implementation_boundary": "This instruction specifies required queue behavior and relationships, not a queue storage format, claim protocol, scheduling policy, MCP tool naming convention, or specific implementation strategy. Those decisions must be made separately without changing the stated interactive two-phase behavior."
+  },
+  {
+    "title": "Runner, State-Event Dispatcher, State-Object Renderer, and Two Interactive Applications",
+    "applicability": "Architecture of the MCP-based procedure system, including starting a procedure, resolving State × Event transitions, presenting state instructions, creating queued procedures, reviewing and executing queued jobs, post-execution review, and access to completed jobs.",
+    "design_requirements": {
+      "runner": {
+        "purpose": "Use a specific runner component to coordinate the program's lifecycle and invoke the components needed to progress through the procedure. The runner is the application-level coordinator; it is not the two-dimensional function-pointer table and does not substitute its own transition decisions for those of the table's selected functions.",
+        "required_behavior": "The runner initiates the first state, calls the separate dispatcher when a state and event must be resolved, invokes the function or function-reference returned under the selected transition design, and calls the separate renderer with the resulting state object. The runner must preserve the context e and any state-specific arguments across these operations.",
+        "expected_interface": "The runner must supply the current state identifier, event type, and event/context object to the appropriate dispatch operation, then pass the resulting state object to the renderer. The exact module boundaries, lifecycle calls, and function signatures are not fixed by this requirement."
+      },
+      "state_event_dispatcher": {
+        "purpose": "Provide a separate function or script that resolves the intersection of the current state and event in the two-dimensional function-pointer table.",
+        "required_behavior": "Given the current state, the event type, and the event object e, look up the designated function pointer at that intersection and invoke its selected transition function with the required event/context argument. The dispatch operation must not invent next-state rules, replace the chosen function, or mix its lookup responsibility with rendering the agent-facing response.",
+        "expected_interface": "Accept the current state identifier, the received event type, and e, and invoke the associated handler using the correct argument contract. The handler validates the agent input and determines the next state; the dispatcher resolves which handler receives it."
+      },
+      "state_object_construction": {
+        "purpose": "Keep state-specific instructional content separate from tool-response rendering.",
+        "required_behavior": "Each state function receives the context e and its purpose-specific argument, using defaults for the initial State_0() call when values are omitted. It constructs and returns a state object containing the state identifier, machine-dialect instruction, expected JSON return schema, and any needed context echoes or validation diagnostics. State functions must not independently render or transmit tool responses.",
+        "expected_interface": "The output of a state function is a state object suitable for consumption by the separate renderer. A returned state object must retain enough information for the renderer to produce both required input presentations without reconstructing the state's instructional logic."
+      },
+      "renderer": {
+        "purpose": "Use a separate rendering function or script to transform a state object into the agent-facing tool response.",
+        "required_behavior": "Receive the state object supplied by the runner and render the machine-dialect instruction, valid JSON return schema, and relevant context or validation diagnostics for the agent. The renderer must not decide state transitions, choose a function pointer, validate the returned agent response, or invent content that a state object failed to specify.",
+        "expected_interface": "Accept a state object as input and return or emit its rendered tool-response representation. The rendering format and implementation language are not decided here."
+      },
+      "applications": {
+        "minimum_separation": "Implement at least two distinct applications using the shared procedure architecture. They must not be collapsed into a single indistinguishable workflow that obscures the two interactive queue phases.",
+        "procedure_creation_application": {
+          "purpose": "Provide the interactive application through which an agent creates a procedure to satisfy a user request.",
+          "required_behavior": "Present successive state instructions through the runner and renderer, collect agent return-schema responses, derive file-level changes and mapped agent actions, and develop and simulate the procedure. At the defined handoff it must make the prepared procedure available as a queued job, preserving its context and mappings."
+        },
+        "job_review_execution_application": {
+          "purpose": "Provide the interactive application through which an agent accesses queued jobs, inspects their prepared procedures, carries out their actions, performs post-execution review, and accesses completed jobs.",
+          "required_behavior": "Display available queued jobs and permit selecting a job for interactive review and execution through state responses. Present the prepared procedure and retained context, run its execution phase, and conduct the post-procedure diagnostic. Mark the job complete according to the defined completion condition after post-execution review, and support listing and displaying completed jobs and their recorded results."
+        }
+      }
+    },
+    "responsibility_boundaries": [
+      {
+        "component": "Runner",
+        "responsibility": "Coordinate program and state-response execution, invoking the dispatcher and renderer."
+      },
+      {
+        "component": "State × Event dispatcher",
+        "responsibility": "Resolve the table intersection and invoke the selected transition handler with e."
+      },
+      {
+        "component": "Transition handler",
+        "responsibility": "Validate the agent response and select the next state, passing e and the state-specific argument."
+      },
+      {
+        "component": "State function",
+        "responsibility": "Construct and return the state object describing the next agent-facing instruction and return schema."
+      },
+      {
+        "component": "Renderer",
+        "responsibility": "Render the state object as the agent-facing tool response without choosing transitions."
+      },
+      {
+        "component": "Procedure-creation application",
+        "responsibility": "Interactively produce and queue procedures."
+      },
+      {
+        "component": "Job review/execution application",
+        "responsibility": "Display queued and completed jobs and interactively review, execute, diagnose, and complete jobs."
+      }
+    ],
+    "illustrative_flow": [
+      "The procedure-creation application asks the runner to start the first procedure state.",
+      "State_0() constructs an initial state object using its default context e. The runner passes that state object to the renderer, which produces the agent-facing instruction and JSON return schema.",
+      "The agent returns E_RETURN(e) to the MCP interface. The runner supplies the current state, event type and e to the separate State × Event dispatcher.",
+      "The dispatcher identifies the intersection's function pointer and invokes the corresponding transition handler with e.",
+      "The handler validates the specific member requested by the preceding state and selects the subsequent or retry state, passing e and its required state-specific argument.",
+      "The called state constructs a new state object, or its function pointer and arguments are returned for the runner to invoke if the deferred form is selected. The renderer displays the resulting state object.",
+      "When the creation phase has produced the prepared procedure, the application places it into the interactive job queue without losing e or the change-to-action mappings.",
+      "The separate job review/execution application displays queued jobs, resumes the selected job through the same runner, dispatcher and renderer model, and supports interactive review, execution, and post-execution diagnostics.",
+      "Once the applicable completion conditions are met, the job review/execution application marks the job complete and makes its completed run accessible for display."
+    ],
+    "unresolved_implementation_decisions": "Do not infer a concrete programming language, module and script names, process topology, job-list presentation format, queue storage structure, job ownership policy, persistence serialization, or job-completion status protocol from this architectural entry. These details remain to be specified. This entry fixes component responsibilities and the minimum application separation without selecting those implementation details."
   }
 ]

@@ -1,3 +1,4 @@
+import { COMPLETE, compileTable, createDispatcher, notify } from "./fsm2d.mjs"
 import handler0 from "./verbatim_request.mjs"
 import handler1 from "./user_intent.mjs"
 import handler2 from "./clarifying_questions.mjs"
@@ -43,40 +44,33 @@ export async function buildState(keyword, inputs) {
 export async function create(nonce, { save, render, onTransition }, keyword = "verbatim_request") {
   const record = { state: await buildState(keyword, {}), inputs: {} }
   await save(nonce, record)
-  onTransition?.({ nonce, outcome: "started", after: keyword })
+  notify(onTransition, { nonce, outcome: "started", after: keyword })
   return render(record.state.projection)
 }
 
-export async function f(agentInput, nonce, { load, save, render, onTransition }) {
-  const record = await load(nonce)
-  if (!record?.state?.projection || !record.inputs) throw new ReferenceError("nonce")
-  const { state } = record
-  if (record.completed) {
-    onTransition?.({ nonce, outcome: "completion_replay", before: state.keyword })
-    return record.completionReceipt ?? renderCompletion(nonce, record.inputs)
-  }
-  if (agentInput === undefined) {
-    onTransition?.({ nonce, outcome: "replayed", before: state.keyword, after: state.keyword })
-    return render(state.projection)
-  }
-  const read = key => record.inputs[key]
-  const result = await handlers[state.keyword]({ error: null }, 0, read, agentInput, state.projection)
-  if (!result.valid) {
-    state.projection = withDiagnostic(state.keyword, state.projection, result.error)
-    await save(nonce, record)
-    onTransition?.({ nonce, outcome: "retry", before: state.keyword, after: state.keyword })
-    return render(state.projection)
-  }
-  record.inputs[state.keyword] = result.input[state.keyword]
-  if (state.next === null) {
-    record.completed = true
-    record.completionReceipt = renderCompletion(nonce, record.inputs)
-    await save(nonce, record)
-    onTransition?.({ nonce, outcome: "completed", before: state.keyword })
-    return record.completionReceipt
-  }
-  record.state = await buildState(state.next, record.inputs)
-  await save(nonce, record)
-  onTransition?.({ nonce, outcome: "advanced", before: state.keyword, after: state.next })
-  return render(record.state.projection)
+
+const transitions = {
+  verbatim_request: "user_intent",
+  user_intent: "clarifying_questions",
+  clarifying_questions: "question_answers",
+  question_answers: "desired_state",
+  desired_state: "current_state",
+  current_state: "required_changes",
+  required_changes: "agent_actions",
+  agent_actions: "change_action_mapping",
+  change_action_mapping: "execution_procedure",
+  execution_procedure: "simulation_results",
+  simulation_results: "execution_results",
+  execution_results: "post_execution_diagnostic",
+  post_execution_diagnostic: COMPLETE
 }
+
+export const table = compileTable(handlers, transitions)
+for (const keyword of Object.keys(handlers)) {
+  const next = getDefinition(keyword).next ?? COMPLETE
+  if (!Object.values(table[keyword].E_RETURN.routes).some(route => route.next === next)) {
+    throw new Error(`Projection binding disagrees with the procedure table for ${keyword}`)
+  }
+}
+
+export const f = createDispatcher({ table, buildState, renderCompletion, withDiagnostic })

@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as legacy from '../2d-state-event-procedure-design/src/iterator.mjs';
 
@@ -8,6 +8,19 @@ import * as legacy from '../2d-state-event-procedure-design/src/iterator.mjs';
 // Procedure {"nonce":"...","input":{...}} validates and advances it.
 const root = process.env.MCP_PROCEDURE_STATE_DIR
   ?? join('/workspaces/.terminals-mcp', process.env.CODESPACE_NAME || 'local', 'procedures');
+
+const pendingMutations = new Map();
+
+async function serializeMutation(key, mutate) {
+  const previous = pendingMutations.get(key) ?? Promise.resolve();
+  const current = previous.catch(() => {}).then(mutate);
+  pendingMutations.set(key, current);
+  try {
+    return await current;
+  } finally {
+    if (pendingMutations.get(key) === current) pendingMutations.delete(key);
+  }
+}
 
 function fileFor(directory, nonce) {
   if (typeof nonce !== 'string' || !/^[a-f0-9-]{36}$/.test(nonce)) {
@@ -26,8 +39,13 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
     await mkdir(directory, { recursive: true });
     const target = fileFor(directory, nonce);
     const temp = join(directory, nonce + '.' + randomUUID() + '.tmp');
-    await writeFile(temp, JSON.stringify(record), { mode: 0o600 });
-    await rename(temp, target);
+    try {
+      await writeFile(temp, JSON.stringify(record), { mode: 0o600 });
+      await rename(temp, target);
+    } catch (error) {
+      await rm(temp, { force: true }).catch(() => {});
+      throw error;
+    }
   };
   if (!args || typeof args !== 'object' || Array.isArray(args)) {
     throw new TypeError('Procedure requires an argument object');
@@ -44,7 +62,8 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
     return create(nonce, { save, onTransition, render: projection => ({ nonce, projection }) });
   }
   if (Object.hasOwn(args, 'input')) {
-    return f(args.input, args.nonce, { load, save, render, onTransition });
+    return serializeMutation(fileFor(directory, args.nonce), () =>
+      f(args.input, args.nonce, { load, save, render, onTransition }));
   }
   return f(undefined, args.nonce, { load, save, render, onTransition });
 }

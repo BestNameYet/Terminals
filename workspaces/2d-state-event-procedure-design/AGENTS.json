@@ -365,65 +365,65 @@
     "implementation_boundary": "The requirement specifies interactive queue behavior and continuity, not queue storage format, claim protocol, scheduling policy, or MCP tool name. The selected runtime architecture does fix the persistence of current projection and accepted keyword inputs under a reusable nonce; other queue design choices remain unspecified."
   },
   {
-    "title": "Runner, Step Selection, State-Object Renderer, and Two Interactive Applications",
+    "title": "Runner, Keyword State Selection, Stored Projection Renderer, and Two Interactive Applications",
     "applicability": "Architecture of the MCP-based procedure system, including starting a procedure, resolving step transitions, presenting state instructions, creating queued procedures, reviewing and executing queued jobs, post-execution review, and access to completed jobs.",
     "design_requirements": {
       "runner": {
-        "purpose": "Coordinate the program lifecycle and the indexed iterator. The iterator, not a transition handler or renderer, is the sole controller of progression and retry, while the current step handles validation.",
-        "required_behavior": "Initialize or restore the zero-based index and access to the run's accepted-value source. Call the step at the current index once per attempt. Store accepted output by keyword and use the step's Boolean result to advance or retry.",
-        "expected_interface": "Supply the active step with read(keyword), the interaction service and run-local diagnostic access. Pass the agent's current reply to the running step through the interaction."
+        "purpose": "Coordinate no-argument procedure creation, nonce-only projection replay, nonce-plus-input processing, persistence and the two interactive applications.",
+        "required_behavior": "Create a nonce and first state projection, or load the existing nonce record. Validate input against the saved final_schema through its state-specific handler; save accepted inputs by keyword and generate state.next on acceptance, or save a diagnostic on the same projection on rejection.",
+        "expected_interface": "Use create(nonce, {save,render}) for initialization and f(agentInput, nonce, {load,save,render}) for processing or replay. The interactive MCP alias supplies the nonce and optional input."
       },
       "state_event_dispatcher": {
-        "purpose": "Select the step file using only the iterator index.",
-        "required_behavior": "Invoke the selected state function once per attempt. Step selection does not change the index, render a state object, or validate a reply.",
-        "expected_interface": "Use the current index to invoke the selected step and obtain its validation result for the iterator."
+        "purpose": "Resolve the current state-specific processing handler by record.state.keyword.",
+        "required_behavior": "For a nonce-plus-input call, dispatch once to the current handler using its saved final_schema and declared previously accepted inputs. Never derive schema or render during input validation.",
+        "expected_interface": "Load the current state and look up its handler by semantic keyword; use state.next solely for accepted transitions."
       },
       "state_object_construction": {
-        "purpose": "Keep state-specific instruction and schema references separate from presentation.",
-        "required_behavior": "The state function reads required earlier values by keyword, snapshots and clears any pending diagnostic, constructs the state object, and calls the separate renderer with it. The same state function validates the subsequent reply using the schema issued by that interaction.",
-        "expected_interface": "Pass the renderer the state keyword, external content references or derived schema, and only the runtime data needed for this presentation."
+        "purpose": "Generate a complete, persistable state and projection from keyword-addressed definitions.",
+        "required_behavior": "The projection builder resolves declared earlier accepted values, complete instruction, base JSON Schema and optional schema derivation function; it builds the concrete final_schema and projection exactly once for the new active state and saves them under the nonce before rendering.",
+        "expected_interface": "buildState(keyword, inputs) resolves the appropriate keyword-addressed reference and returns state.keyword, state.next, and the generated projection with instruction, final_schema and required context."
       },
       "renderer": {
-        "purpose": "Use a separate rendering function or script to transform a state object into the agent-facing tool response.",
-        "required_behavior": "Resolve all external content references from the state object. In error mode, conspicuously display the diagnostic before the full unchanged normal state instruction and JSON schema. In normal mode, display the instruction and schema. Never decide validation or transitions or hardcode system-authored text.",
-        "expected_interface": "Accept a state object containing content references and runtime values; load the referenced configuration values from files external to executable scripts and return or emit the rendered tool response. The exact configuration format, file paths, rendering format, and implementation language are undecided."
+        "purpose": "Present the already saved projection as an agent-facing MCP response.",
+        "required_behavior": "Output the persisted full instruction and concrete final_schema without resolving definitions, deriving a schema, collecting input or modifying transitions. On validation failure, conspicuously present the additive saved diagnostic before unchanged normal instruction and schema.",
+        "expected_interface": "Accept the complete saved projection and return or emit it without changing its content. Projection configuration lookup belongs to the builder, not the renderer."
       },
       "applications": {
         "minimum_separation": "Implement at least two distinct applications using the shared procedure architecture. They must not be collapsed into a single indistinguishable workflow that obscures the two interactive queue phases.",
         "procedure_creation_application": {
           "purpose": "Provide the interactive application through which an agent creates a procedure to satisfy a user request.",
-          "required_behavior": "Present successive state instructions through the runner and renderer, collect agent return-schema responses, derive file-level changes and mapped agent actions, and develop and simulate the procedure. At the defined handoff it must make the prepared procedure available as a queued job, preserving its context and mappings."
+          "required_behavior": "Start a nonce-persisted procedure, render successive stored projections, accept separate nonce-plus-input submissions, derive file-level changes and mapped agent actions, and build and simulate the procedure. At handoff queue the existing nonce and prepared procedure with complete accepted context and mappings."
         },
         "job_review_execution_application": {
           "purpose": "Provide the interactive application through which an agent accesses queued jobs, inspects their prepared procedures, carries out their actions, performs post-execution review, and accesses completed jobs.",
-          "required_behavior": "Display available queued jobs and permit selecting a job for interactive review and execution through state responses. Present the prepared procedure and retained context, run its execution phase, and conduct the post-procedure diagnostic. Mark the job complete according to the defined completion condition after post-execution review, and support listing and displaying completed jobs and their recorded results."
+          "required_behavior": "List queued jobs, select an existing nonce-persisted procedure, replay its current projection, and interactively process review, execution and post-execution input with saved final_schema validation. Complete jobs only under the defined completion conditions; retain results and access to completed jobs."
         }
       }
     },
     "responsibility_boundaries": [
       {
         "component": "Runner",
-        "responsibility": "Coordinate procedure startup, agent return handling, iterator and step calls, persistence and interactive application lifecycle."
+        "responsibility": "Coordinate procedure startup, nonce-based replay, independent agent input processing, state.next transitions, persistence, queue handoff and interactive application lifecycle."
       },
       {
-        "component": "Indexed iterator",
-        "responsibility": "Maintain the zero-based index, invoke one state function per attempt, record accepted input and apply the Boolean result."
+        "component": "Nonce execution controller",
+        "responsibility": "Load and save the complete current execution record; validate against saved final_schema through the selected state handler; follow state.next only after success; attach diagnostics on rejection."
       },
       {
-        "component": "Step selection",
-        "responsibility": "Select the step file by the iterator index."
+        "component": "Keyword state binding",
+        "responsibility": "Resolve the current validation handler, state successor and schema-derivation reference by semantic keyword; never maintain a persistent numeric index."
       },
       {
-        "component": "Validation function Function_i",
-        "responsibility": "The active state function validates the current keyword reply against its issued schema and returns its Boolean result and any diagnostic."
+        "component": "State-specific validation handler",
+        "responsibility": "Validate the submitted current-keyword object against the saved final_schema and substantive constraints; return acceptance and input or a structured diagnostic."
       },
       {
-        "component": "State function State_i",
-        "responsibility": "Read required inputs by keyword, prepare the state object, and call the renderer before validating the reply."
+        "component": "Projection builder",
+        "responsibility": "Read required accepted values by keyword, resolve full externally configured instruction and schema, optionally derive the concrete final_schema, and construct the successor projection before persistence."
       },
       {
         "component": "Renderer",
-        "responsibility": "Resolve referenced templates and schema; display error diagnostic before unchanged normal instruction when error mode is selected."
+        "responsibility": "Render the saved complete projection and any additive diagnostic; do not resolve references, derive schema, validate input or choose transitions."
       },
       {
         "component": "Procedure-creation application",
@@ -435,15 +435,15 @@
       }
     ],
     "illustrative_flow": [
-      "The application initializes or restores the iterator index and the run's accepted-value source.",
-      "The active state function reads required earlier values, captures and clears any pending diagnostic, and passes the state object to the renderer.",
-      "The renderer resolves the state object's references and displays either the normal instruction and schema or a conspicuous diagnostic followed by that same complete normal instruction and schema.",
-      "The agent later returns the current keyword as E_RETURN(input). The same state function validates the reply against the schema issued with the instruction and returns its result to the iterator.",
-      "The iterator applies i += Number(valid), then invokes the step at the resulting index.",
-      "The creation application queues the prepared procedure with a reference to the run, preserving the accepted values, index, history and mappings.",
-      "The review/execution application uses the same iterator and step-selection behavior, records execution and post-execution diagnostics, and makes completed jobs available after defined completion conditions are satisfied."
+      "A no-argument procedure invocation creates a nonce, resolves the initial keyword definition, generates its projection with concrete final_schema, persists the record and renders it.",
+      "A nonce-only invocation loads and returns the exact previously generated projection without regenerating any reference or schema.",
+      "In a separate nonce-plus-input invocation, the current state handler validates the agent's one-keyword input against its persisted final_schema and applicable semantic constraints.",
+      "On rejection the controller adds an externally configured diagnostic to the existing projection, persists it, and renders the same full instruction and final_schema.",
+      "On acceptance the controller saves record.inputs[state.keyword], constructs the successor specified by state.next using prior keyword inputs, persists the same nonce record, then renders the generated projection.",
+      "The procedure-creation application queues the prepared procedure and the existing nonce, with accepted values and mappings intact.",
+      "The review/execution application resumes that nonce and continues the interactive execution and post-execution diagnostic phase before publishing completed jobs."
     ],
-    "unresolved_implementation_decisions": "Do not infer a concrete programming language, module and script names, process topology, job-list presentation format, queue storage structure, job ownership policy, persistence serialization, or job-completion status protocol from this architectural entry. These details remain to be specified. This entry fixes component responsibilities and the minimum application separation without selecting those implementation details."
+    "unresolved_implementation_decisions": "Do not infer additional queue scheduling, claim, ownership, completion-status or UI protocols. The selected architecture specifies a nonce-keyed persistent execution record, keyword-addressed projection references, saved final_schema validation and output-only rendering; the two distinct interactive applications remain required."
   },
   {
     "title": "External Addressable Content and Reference-Only Rendering",

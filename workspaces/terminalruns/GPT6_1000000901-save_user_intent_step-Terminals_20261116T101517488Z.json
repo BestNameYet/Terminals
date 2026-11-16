@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail\napi=repos/BestNameYet/Terminals/contents/workspaces/2d-state-event-procedure-design/src/user_intent.mjs\nexpected=26cb8a8683daa279ad5d47fa299df58e991c9f3d\ncontent=$(base64 -w0 <<'STEP_SOURCE'\nasync function captureUserIntent(e, i, read) {\n  const keyword = \"user_intent\"\n  const schema = await returnSchema(keyword)\n\n  const state = {\n    instruction: await instruction(keyword),\n    return_schema: schema,\n    context: { verbatim_request: read(\"verbatim_request\") }\n  }\n\n  const previousError = e[i]?.error\n  if (previousError) {\n    state.error_message = previousError\n  }\n\n  const input = await render(state)\n  return validate(input, schema)\n}\nSTEP_SOURCE\n)\ncommit=$(gh api --method PUT \"$api\" -f branch=main -f message='Save user_intent step template' -f content=\"$content\" --jq .commit.sha)\ntest \"$(gh api \"$api?ref=$commit\" --jq .sha)\" = \"$expected\"\ntest \"$(gh api \"$api?ref=main\" --jq .sha)\" = \"$expected\"\nprintf 'published_commit=%s\\npublished_blob=%s\\n' \"$commit\" \"$expected\"",
+  "outputThat": [
+    "published_commit=522e548f9d48d0fb07522062e0beac27ffcb7d29",
+    "published_blob=26cb8a8683daa279ad5d47fa299df58e991c9f3d"
+  ]
+}

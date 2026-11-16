@@ -3,7 +3,7 @@ import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "desired_state"
 
-export default async function captureDesiredState(e, _index, read, exchange) {
+export default async function captureDesiredState(e, _index, read, render, undefined, record) {
   const context = {
     verbatim_request: read("verbatim_request"),
     user_intent: read("user_intent"),
@@ -14,10 +14,11 @@ export default async function captureDesiredState(e, _index, read, exchange) {
     throw new ReferenceError(missing)
   }
 
+  const record = e[_index] ?? (e[_index] = {})
   const previousError = e.error
   e.error = null
-  const { input, issuedSchema } = await renderState(keyword, context, previousError, exchange)
-  let { valid, errors } = validateReturnSchema(input, issuedSchema)
+  const { input } = await renderState(keyword, context, previousError, render, undefined, record)
+  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
   if (valid) {
     const ids = new Set()
     for (const { id } of input[keyword].conditions) {
@@ -34,5 +35,5 @@ export default async function captureDesiredState(e, _index, read, exchange) {
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { valid, input: valid ? input : null, error: e.error }
+  return { ...record, valid, input: valid ? input : null, error: e.error }
 }

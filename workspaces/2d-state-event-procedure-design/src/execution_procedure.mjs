@@ -3,7 +3,7 @@ import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "execution_procedure"
 
-export default async function captureExecutionProcedure(e, _index, read, exchange) {
+export default async function captureExecutionProcedure(e, _index, read, render, undefined, record) {
   const context = {
     required_changes: read("required_changes"),
     agent_actions: read("agent_actions"),
@@ -31,12 +31,12 @@ export default async function captureExecutionProcedure(e, _index, read, exchang
     return schema
   }
 
+  const record = e[_index] ?? (e[_index] = {})
   const previousError = e.error
   e.error = null
-  const { input, issuedSchema } = await renderState(
-    keyword, context, previousError, exchange, deriveSchema
-  )
-  let { valid, errors } = validateReturnSchema(input, issuedSchema)
+  const { input } = await renderState(
+    keyword, context, previousError, render, deriveSchema, record)
+  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
 
   if (valid) {
     const seenSteps = new Set()
@@ -94,5 +94,5 @@ export default async function captureExecutionProcedure(e, _index, read, exchang
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { valid, input: valid ? input : null, error: e.error }
+  return { ...record, valid, input: valid ? input : null, error: e.error }
 }

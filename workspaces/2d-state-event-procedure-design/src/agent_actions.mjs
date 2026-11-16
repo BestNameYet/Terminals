@@ -3,7 +3,7 @@ import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "agent_actions"
 
-export default async function captureAgentActions(e, _index, read, exchange) {
+export default async function captureAgentActions(e, _index, read, render, undefined, record) {
   const required_changes = read("required_changes")
   if (required_changes === undefined) {
     throw new ReferenceError("required_changes")
@@ -20,12 +20,12 @@ export default async function captureAgentActions(e, _index, read, exchange) {
     return schema
   }
 
+  const record = e[_index] ?? (e[_index] = {})
   const previousError = e.error
   e.error = null
-  const { input, issuedSchema } = await renderState(
-    keyword, { required_changes }, previousError, exchange, deriveSchema
-  )
-  const shape = validateReturnSchema(input, issuedSchema)
+  const { input } = await renderState(
+    keyword, { required_changes }, previousError, render, deriveSchema, record)
+  const shape = validateReturnSchema(input, record.issuedSchema)
   const errors = shape.valid ? checkActions(input[keyword], changeIds) : shape.errors
   const valid = shape.valid && errors.length === 0
 
@@ -34,7 +34,7 @@ export default async function captureAgentActions(e, _index, read, exchange) {
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { valid, input: valid ? input : null, error: e.error }
+  return { ...record, valid, input: valid ? input : null, error: e.error }
 }
 
 function checkActions(actions, changeIds) {

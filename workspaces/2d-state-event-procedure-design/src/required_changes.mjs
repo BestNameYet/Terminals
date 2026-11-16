@@ -3,7 +3,7 @@ import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "required_changes"
 
-export default async function captureRequiredChanges(e, _index, read, exchange) {
+export default async function captureRequiredChanges(e, _index, read, render, undefined, record) {
   const context = {
     desired_state: read("desired_state"),
     current_state: read("current_state")
@@ -22,10 +22,11 @@ export default async function captureRequiredChanges(e, _index, read, exchange) 
     return schema
   }
 
+  const record = e[_index] ?? (e[_index] = {})
   const previousError = e.error
   e.error = null
-  const { input, issuedSchema } = await renderState(keyword, context, previousError, exchange, deriveSchema)
-  let { valid, errors } = validateReturnSchema(input, issuedSchema)
+  const { input } = await renderState(keyword, context, previousError, render, deriveSchema, record)
+  let { valid, errors } = validateReturnSchema(input, record.issuedSchema)
   if (valid) {
     const ids = new Set()
     for (const { id } of input[keyword]) {
@@ -42,5 +43,5 @@ export default async function captureRequiredChanges(e, _index, read, exchange) 
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { valid, input: valid ? input : null, error: e.error }
+  return { ...record, valid, input: valid ? input : null, error: e.error }
 }

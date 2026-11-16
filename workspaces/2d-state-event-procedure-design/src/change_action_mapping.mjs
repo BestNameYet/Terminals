@@ -3,7 +3,7 @@ import { validateReturnSchema } from "./validate_return_schema.mjs"
 
 const keyword = "change_action_mapping"
 
-export default async function captureChangeActionMapping(e, _index, read, exchange) {
+export default async function captureChangeActionMapping(e, _index, read, render, undefined, record) {
   const context = {
     desired_state: read("desired_state"),
     current_state: read("current_state"),
@@ -50,10 +50,11 @@ export default async function captureChangeActionMapping(e, _index, read, exchan
     return schema
   }
 
+  const record = e[_index] ?? (e[_index] = {})
   const previousError = e.error
   e.error = null
-  const { input, issuedSchema } = await renderState(keyword, context, previousError, exchange, deriveSchema)
-  const shape = validateReturnSchema(input, issuedSchema)
+  const { input } = await renderState(keyword, context, previousError, render, deriveSchema, record)
+  const shape = validateReturnSchema(input, record.issuedSchema)
   const errors = shape.valid
     ? checkMappings(input[keyword].mappings, expectedActionsByChange)
     : shape.errors
@@ -64,7 +65,7 @@ export default async function captureChangeActionMapping(e, _index, read, exchan
     errortype: `${keyword}.input_error`,
     diagnostic_data: errors
   }
-  return { valid, input: valid ? input : null, error: e.error }
+  return { ...record, valid, input: valid ? input : null, error: e.error }
 }
 
 function checkMappings(mappings, expectedActionsByChange) {

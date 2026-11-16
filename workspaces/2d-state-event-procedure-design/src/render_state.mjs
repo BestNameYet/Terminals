@@ -5,12 +5,17 @@ const { states } = JSON.parse(readFileSync(
 ))
 const definitions = new Map(states.map(state => [state.keyword, state]))
 
-export async function renderState(keyword, context, previousError, exchange, deriveSchema) {
+export async function renderState(keyword, context, previousError, render, deriveSchema, record) {
   const definition = definitions.get(keyword)
   if (!definition) {
     throw new ReferenceError(keyword)
   }
-  const issuedSchema = deriveSchema
+  if (!record || typeof record !== "object") {
+    throw new TypeError("step_record")
+  }
+  record.keyword = keyword
+  record.read_keywords = definition.read_keywords ?? []
+  record.issuedSchema ??= deriveSchema
     ? deriveSchema(structuredClone(definition.return_schema))
     : definition.return_schema
   const diagnostic = {}
@@ -21,12 +26,12 @@ export async function renderState(keyword, context, previousError, exchange, der
       diagnostic.error_message.message = message
     }
   }
-  const input = await exchange({
+  const input = await render({
     ...diagnostic,
     keyword,
     instruction: definition.compact_instruction_projection,
-    return_schema: structuredClone(issuedSchema),
+    return_schema: record.issuedSchema,
     context: structuredClone(context)
   })
-  return { input, issuedSchema }
+  return { input }
 }

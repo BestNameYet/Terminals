@@ -608,5 +608,74 @@
       "superseded_index_convention": "Use zero-based correspondence between State_i, Function_i, and e.e_i. Earlier examples with State_0/Function_1/e.e1 do not define the active indexing convention.",
       "reconciliation_requirement": "Maintain one authoritative iterator and transition mechanism across all current instruction objects and implementation examples; do not leave competing active direct-invocation contracts."
     }
+  },
+  {
+    "title": "State Object Composition and Context-Derived Return Schemas",
+    "applicability": "Every State_i(e) function in the indexed State × Event procedure machine when constructing the JSON state object that will be presented through the renderer, including normal and validation-error responses.",
+    "purpose": "Specify the mandatory and conditional content members of a state object and permit a state-local helper function to derive its return schema from one or more independently addressable properties of the accumulated context e without hardcoding rendered content.",
+    "definitions": {
+      "state_object": "The JSON object constructed and returned by State_i(e) for the current state. It contains two mandatory content members, instruction and return_schema, and may contain one additional content member, error_message, when a validation diagnostic is pending.",
+      "instruction": "The mandatory content member describing the current state's agent-facing instruction. Its system-authored wording is obtained through the externally configured content mechanism; it must not be hardcoded into the state function.",
+      "return_schema": "The mandatory content member specifying the syntactically valid JSON return schema governing the input requested from the agent by the current state. The schema can be obtained from an external configured resource or derived at runtime by the state's schema helper using declared inputs from e.",
+      "error_message": "The conditional content member containing or referencing the diagnostic for a pending validation failure. It accompanies, rather than replaces, the mandatory instruction and return_schema members.",
+      "state_local_schema_helper": "An optional function defined within State_i that receives one or more specified properties of e and computes the current state's return schema from their accepted values. Its output is used as the return_schema component of the constructed state object."
+    },
+    "mandatory_behavior": {
+      "mandatory_components": "State_i(e) must construct a JSON state object containing both instruction and return_schema on every invocation, whether or not a validation error exists. Neither component may be omitted, substituted by error_message, or replaced with a mere statement that the component will be produced later.",
+      "conditional_error_component": "Include error_message when e.error indicates a pending validation error. Capture the diagnostic needed for error presentation before clearing e.error according to the existing iterator rule. When no validation error exists, omit the error_message content member.",
+      "normal_and_error_composition": "A normal response includes instruction and return_schema. An error response includes error_message in addition to the same complete normal instruction and return_schema; the error message is displayed conspicuously before the normal instruction by the existing rendering mechanism.",
+      "instruction_content_source": "The instruction member must identify or carry the state-specific instruction obtained from externally addressable configuration content. Constructing the JSON state object does not authorize hardcoding any system-authored instruction wording in executable source.",
+      "schema_source_selection": "For each state invocation, supply a return_schema from either an externally configured schema definition or a dynamically constructed schema. Dynamic construction must produce a concrete, syntactically valid JSON Schema for the input requested at the current State_i, not an unexplained placeholder or abbreviated pseudo-schema.",
+      "optional_state_local_helper": "A State_i function may define a dedicated schema-construction helper inside its own function body. When used, the helper must receive one or more explicitly identified properties of e as inputs and derive the return_schema from their values. The helper is optional; the requirement does not force dynamic construction where an externally configured schema suffices.",
+      "context_derivation": "The helper must use the declared input values in e to determine the applicable fields, types and constraints of the return schema. Its logic must preserve the semantics of previously accepted context properties and must not alter those properties merely to construct a schema.",
+      "schema_instruction_alignment": "Whether loaded or derived, return_schema must describe the same expected agent response as instruction, including the newly requested e.e_i and any required previously accepted context values. The schema used to validate the subsequent agent return must correspond to the schema presented for that state interaction.",
+      "separate_rendering_responsibility": "State_i constructs and returns the JSON state object; the separate renderer presents its components to the agent. The state function's object construction is not permission to hardcode rendered prose, render the MCP tool response itself, validate the agent's later return, or advance the iterator index.",
+      "preserve_existing_architecture": "This entry governs state-object composition and schema derivation only. It does not replace the State × Event dispatch table, Boolean validation branching, error-clearing procedure, reference-only restriction on hardcoded rendered text, or the existing iterator progression contract."
+    },
+    "composition_examples": [
+      {
+        "title": "Normal state object",
+        "content_members": {
+          "instruction": "Reference or resolved value of the externally configured state instruction",
+          "return_schema": {
+            "type": "object",
+            "properties": {
+              "e0": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "e0"
+            ]
+          }
+        },
+        "interpretation": "The instruction and JSON return schema are present; error_message is omitted because no validation error is pending. The schema is illustrative content, not an instruction to hardcode it into executable source."
+      },
+      {
+        "title": "Error-mode state object",
+        "content_members": {
+          "instruction": "Reference or resolved value of the same externally configured state instruction",
+          "return_schema": {
+            "type": "object",
+            "properties": {
+              "e0": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "e0"
+            ]
+          },
+          "error_message": "Reference or resolved diagnostic captured from e.error"
+        },
+        "interpretation": "The pending diagnostic is additional to the two mandatory components. The renderer places the diagnostic conspicuously before the unchanged normal instruction and schema."
+      },
+      {
+        "title": "State-local helper deriving a schema from context",
+        "illustrative_javascript": "function State_3(e) {\n  function deriveReturnSchema(questions) {\n    return schemaBuilderFromAcceptedQuestions(questions);\n  }\n  const return_schema = deriveReturnSchema(e.e2);\n  const pendingError = e.error?.error === true ? { ...e.error } : null;\n  e.error = null;\n  const stateObject = {\n    instruction: instructionReferenceForState(3),\n    return_schema\n  };\n  if (pendingError) {\n    stateObject.error_message = errorReferenceAndData(pendingError);\n  }\n  return stateObject;\n}",
+        "interpretation": "This is illustrative control logic: the helper receives accepted questions at e.e2 and derives a state-specific JSON Schema without embedding a fixed rendered schema or instruction. Referenced instruction and diagnostic wording remain in external resources. The concrete helper implementation and naming are not prescribed."
+      }
+    ],
+    "conformance": "A state object conforms when it always contains instruction and a valid return_schema; includes error_message only when a pending diagnostic exists; preserves the full normal instruction and schema in error mode; and uses external content references or runtime derivation rather than hardcoding rendered instruction, diagnostic, or fixed schema content in executable code."
   }
 ]

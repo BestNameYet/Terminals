@@ -2,7 +2,7 @@
   {
     "title": "Workspace Purpose",
     "applicability": "Introduces the purpose of the 2D state-event procedure design workspace in BestNameYet/Terminals.",
-    "purpose": "Design and document an MCP-based, interactive indexed, keyword-defined procedure machine. Its prototype uses schema-governed agent returns, a context object passed between state functions, and two interactive queue phases for procedure preparation and review/execution, while preserving a complete persisted run record."
+    "purpose": "Design and document an MCP-based interactive procedure with indexed step selection, keyword-addressed accepted inputs, two interactive queue phases, and a complete persisted run record."
   },
   {
     "title": "Machine-Dialect Requirements for Workspace Agent Instructions",
@@ -18,159 +18,130 @@
     "applicability": "Governs the design, implementation, extension, validation, execution, queuing, resumption, and testing of every procedure-machine state, event, step file, instruction and schema pair, transition handler, and associated context exchange developed in this workspace.",
     "architectural_definition": {
       "dimensions": "The zero-based index i gives the iterator the position of a step file in the procedure. A semantic keyword identifies the instruction and return-schema pair within the procedure independently of its position or storage index.",
-      "state": "A state is a callable operation State_i(e) invoked by the iterator at the current zero-based index i. At entry the state checks e.error, captures any pending diagnostic, selects normal or additive error mode, clears the pending error indicator, and returns a state object with references to externally configurable instruction, schema, and diagnostic content. It never renders the response. The step file supplies the semantic keyword for its state.",
-      "event": "An event represents a response returned by an agent. In the initial prototype the event type is E_RETURN, with the complete context object e as its payload. The event is agnostic to whether the response is valid or invalid; validity, success, and failure are outcomes assessed by the selected handler, not separate event types.",
-      "function_pointer": "The iterator selects the step file as steps[i]. The step validates the agent's input against the specific return schema paired with the rendered instruction by keyword. The step must have the schema or be able to resolve it from that keyword. On rejection, the step populates e.error. It returns (e, valid) for the iterator to apply.",
-      "context_object": "The complete context object e passes between the iterator, state functions, event handlers and renderer. Independently addressable accepted properties retain their original addresses: State_i requests e.e_i in the indexed prototype. A failed validation may add a diagnostic at e.error. A state captures a pending diagnostic before clearing e.error. Missing required previously accepted context is an implementation error, distinct from an invalid newly submitted property.",
-      "transition": "Upon E_RETURN(e), the current step receives the returned input. Function_i independently validates the input and returns (e, true) on acceptance or (e, false) with e.error populated on rejection. The iterator sets i_next = i + Number(valid). True advances exactly one index; false retains i so next(e) rerenders the same state with additive error diagnostic. Neither the event nor agent self-assessment determines validity or destination.",
-      "initialization": "The iterator initializes i=0 and e={} unless explicit persisted position and context are provided. It invokes next(e), which calls State_i(e), constructs the state object, and renders it through the separate renderer. The default State_0 argument may supply {} on first entry; retry is initiated by next(e), not a call from Function_0. State functions consume e; no validation-handler-supplied second state argument is required.",
-      "persistence_and_handoff": "A procedure preserves the complete accepted context e, current iterator index i, pending diagnostic, and run history across queue handoff, suspension and resumption. The resumed iterator continues at the same position and uses the same ordered step files; transport does not redefine states, events, validation functions, or Boolean-controlled advancement."
+      "state": "The iterator invokes one callable from the current step file. The state function identifies its keyword, reads the accepted values it needs, prepares its state object, calls the separate renderer, and validates the resulting agent reply against the schema issued for that interaction.",
+      "event": "E_RETURN(input) is the agent's submission of the current step's input. The input is an object containing the current response keyword and its value. The response reaches the active state function through the interaction; the event itself carries no validity decision.",
+      "function_pointer": "The iterator selects the callable as steps[i]. That state function calls the separate renderer and validates the returned input against the exact schema issued with the rendered instruction. It supplies an application-determined Boolean result for the iterator to apply.",
+      "context_object": "Earlier accepted inputs stay in a run-scoped source outside the step. The state function retrieves the values it needs through read(keyword). Only the current input is returned by the agent. Run-local control state may carry a pending diagnostic separately from the accepted values.",
+      "transition": "When the active state function receives the reply, it validates the current keyword and returns the validation result. The iterator sets i_next = i + Number(valid). Acceptance advances one index and rejection repeats the active step with an additive diagnostic.",
+      "initialization": "Initialize the iterator at index zero for a new run, or restore the saved index and access to the run's accepted-value source. Invoke the callable at the current index for the first or resumed interaction.",
+      "persistence_and_handoff": "Preserve the run's accepted keyword values, current index, pending diagnostic, and history across queue handoff, suspension, and resumption. Give the resumed run access to the same values by keyword."
     },
     "mandatory_behavior": {
       "non_deviation": "Every state, agent return, validation function, iterator step, retry, rendering action, queue handoff and continuation must preserve the zero-based iterator contract and keyword-bound instruction and schema pairs. The only index transition after an agent return is i_next = i + Number(valid). Do not substitute direct state calls inside Function_i, validity-coded event types, agent-selected next states, or a monolithic switch that replaces dispatch.",
-      "schema_contracts": "Every state must issue a return schema describing the new data expected from the agent, and the tool-response instruction must explain the expected input shape of every non-obvious key, including nested fields and references. The agent returns the complete updated e.",
-      "handler_contracts": "Each dedicated Function_i validates the agent-return context e independently against its referenced schema and semantic constraints, returns e and an application-determined Boolean valid, and sets e.error on validation failure. It does not invoke a state or alter i. The iterator is responsible for applying the Boolean and invoking next(e).",
+      "schema_contracts": "Each rendered instruction and JSON return schema must describe the input for the current step keyword. The agent returns one object containing that keyword and its value. Earlier accepted inputs are retrieved from the run's source by keyword.",
+      "handler_contracts": "The state function calls the separate renderer, validates the reply against the issued schema and applicable semantic constraints, and returns the Boolean result with the accepted input or the rejection diagnostic. The iterator controls the index.",
       "continuity": "Accepted properties of e must remain available under their original independent addresses for later states. Subsequent procedure, simulation, execution, and diagnostic representations must preserve existing change-to-action associations and decorate them rather than independently recreating parallel lists.",
       "prohibited_substitution": "Use only the resulting index i_next to select the next step file. The iterator uses the current step's Boolean validation result without inspecting the input, selecting a schema, or looking up an event column."
     },
     "dispatch_notation": {
       "table_cell": "steps[i] identifies the current step file.",
-      "invocation": "Function_i(e) validates e.e_i and returns (e, valid); the iterator computes i += Number(valid) and calls next(e).",
+      "invocation": "steps[i] handles the interaction and returns a validation result. The iterator applies i += Number(valid) and invokes the step at the resulting index.",
       "interpretation": "Step order is positional. A keyword identifies the instruction and schema by their meaning in the procedure and retains that association when the step moves to a different position."
     },
     "examples": [
       {
         "title": "Initialization and accepted first return",
         "sequence": [
-          "Set i=0 and e={}; next(e) calls State_0(e), which requests e.e0 through externally referenced instruction and JSON schema content.",
-          "The renderer displays the normal instruction and schema, and the agent returns E_RETURN(e) containing e.e0.",
-          "steps[0] selects Function_0. Function_0 validates e.e0 and returns (e, true).",
-          "The iterator increments i from zero to one and calls next(e), which invokes State_1(e)."
+          "The iterator starts at index zero.",
+          "The state function calls the renderer with the instruction and schema for verbatim_request. The agent returns an object containing verbatim_request.",
+          "The state function validates the reply. The iterator records the accepted value and advances to index one."
         ]
       },
       {
         "title": "Rejected input stays at the same index",
         "sequence": [
-          "At index i=2, State_2(e) requests e.e2 and the agent returns E_RETURN(e) containing an invalid e.e2.",
-          "steps[2] selects Function_2, which sets e.error={error:true,errortype:'state_2.input_error'} with appropriate reference or structured diagnostic data and returns (e, false).",
-          "The iterator leaves i=2 and calls next(e). State_2 captures e.error, selects additive error mode, clears the pending error indicator, and returns the state object.",
-          "The renderer displays the error conspicuously before the complete unchanged normal instruction and JSON schema. The event remains E_RETURN, not an INVALID event."
+          "At index two, the agent returns invalid clarifying_questions.",
+          "The state function returns a rejection and a diagnostic.",
+          "The iterator retains index two. The next invocation captures and clears the pending diagnostic, and the renderer presents it before the same instruction and schema."
         ]
       },
       {
-        "title": "Independent context addresses",
+        "title": "Read accepted values by keyword",
         "sequence": [
-          "After accepted states zero and one, e.e0 retains the original prompt and e.e1 retains the user intent.",
-          "State_2(e) reads those prior addresses and requests questions at e.e2.",
-          "Function_2 validates e.e2 without reconstructing or overwriting the prior accepted values."
+          "The run stores the accepted verbatim_request and user_intent values.",
+          "The clarifying_questions state retrieves those values by keyword and asks the agent to return clarifying_questions.",
+          "A valid reply adds only the clarifying_questions value to the run."
         ]
       },
       {
         "title": "Simulation validation",
         "sequence": [
-          "State_10(e) requests the state-specific simulation input e.e10 while preserving the existing action-to-change mappings.",
-          "The agent returns E_RETURN(e); Function_10 is selected at steps[10] and checks the return schema and supported validations.",
-          "Function_10 returns (e, true) for acceptance or (e, false) with a diagnostic; only the iterator advances or retries."
+          "The simulation_results step reads the prepared procedure and desired state by keyword.",
+          "The state function calls the renderer, receives the simulation_results reply and validates it against the issued schema.",
+          "The iterator advances or retries according to the state's Boolean result."
         ]
       },
       {
         "title": "Queue continuation",
         "sequence": [
-          "The application persists the entire run context and iterator index for interactive handoff.",
-          "A second agent resumes at the carried index, sees the referenced state instruction and schema, and returns E_RETURN(e).",
-          "steps[i] selects Function_i; the iterator applies its Boolean and preserves the carried run record."
+          "The application preserves the run's accepted values, index and history.",
+          "The resumed step reads its required accepted values by keyword and requests only its current input.",
+          "The iterator applies the active step's validation result at the saved index."
         ]
       }
     ],
-    "conformance_test": "Conformance requires: zero-based State_i/Function_i/e.e_i correspondence; step-file selection by index alone and validation against the schema paired by keyword with the rendered instruction; agent submissions as E_RETURN(e) without validity-coded event types; Function_i returning (e, valid) and setting e.error upon rejection; iterator-only Boolean index update and next(e); additive error rendering with single-use error reset; and preservation of context, index and run across handoffs."
+    "conformance_test": "Conformance requires indexed step selection, a separate renderer called by the active state function, a one-keyword agent reply, keyword lookup for prior values, validation by the state function against the issued schema, and iterator-only advancement or retry."
   },
   {
     "title": "State Tool-Response Input Instructions and JSON Return-Schema Alignment",
     "applicability": "Every state rendered to an agent through the MCP-based indexed procedure machine, including initial entry, re-entry after validation errors, queue-resumed interactions, and subsequent procedure phases.",
     "model_definition": {
       "state_meaning": "State_i(e) denotes a state object generated by an iterator-invoked state function. The state checks e.error before selecting normal or additive error mode, preserves pending diagnostics in the returned object, clears the error indicator, and references externally stored instructions and JSON return schema. The renderer resolves references without deciding mode or progression.",
-      "expected_input": "The expected agent return is the complete context e with existing accepted properties retained and the newly requested e.e_i property populated for current zero-based State_i. In a validation retry the same property e.e_i is requested again.",
+      "expected_input": "The agent returns one object containing the keyword requested by the active step. The run retains accepted values under their semantic keywords. A retry requests a corrected value under the same keyword.",
       "two_required_presentations": "Every rendered state presents its expected input in two consistent forms: (1) a complete machine-dialect instruction in sentences and (2) a syntactically valid JSON return schema. Both presentations are authored in addressable external configuration files, selected by references contained in the state object, and assembled by the renderer. Neither is hardcoded as display text inside a script.",
-      "input_contract_boundary": "State invocation and returned-agent-input validation have separate contracts. next(e) invokes State_i(e) at the current index; the state returns a referenced normal or additive error-mode object. The agent returns E_RETURN(e) meeting the current state's schema. steps[i] selects Function_i to validate e.e_i and return (e, valid), after which the iterator changes or retains i. The function does not supply a second argument or directly invoke the destination state."
+      "input_contract_boundary": "The iterator calls the active state function once per attempt. The state function prepares the state object and calls a separate renderer, which resolves and presents the instruction and its corresponding schema. The state function validates the subsequent E_RETURN(input) against that same schema before returning its validation result."
     },
     "mandatory_behavior": {
-      "machine_dialect_statement": "For each state, generate a sentence-form instruction applying machine-dialect requirements to identify the input being requested, the values the agent must derive or preserve, their relationships to preceding context e, and any relevant cardinality, identity, ordering, or allowed-value constraints. The statement must be sufficiently complete for an agent to construct the requested return without inferring undocumented meanings.",
+      "machine_dialect_statement": "For each state, generate a sentence-form instruction applying machine-dialect requirements to identify the input being requested, the values the agent must derive or preserve, their relationships to earlier accepted values referenced by keyword, and any relevant cardinality, identity, ordering, or allowed-value constraints. The statement must be sufficiently complete for an agent to construct the requested return without inferring undocumented meanings.",
       "valid_json_return_schema": "In the same rendered tool response, display a real, syntactically valid JSON return schema as JSON, not pseudo-JSON, TypeScript notation, abbreviated field declarations, or an unexplained example payload. The schema must specify the expected object structure, data types, required properties, and applicable structural constraints so the submitted agent return can be validated.",
       "mandatory_sentence_for_every_nontrivial_key": "For every non-trivial key present anywhere in the JSON return schema, including nested object properties and array-item properties, the machine-dialect instruction statement must include at least one complete sentence explaining that key's intended value and expected input shape. The explanation must state what belongs in the field, not merely repeat the field name or JSON type. For worked examples illustrating complete sentence-form explanations of schema keys, including nested object properties and array-item properties, use the state instruction and return-schema pairs in the referenced workspace file: https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/state-instructions-and-return-schemas.json. The referenced examples illustrate this requirement and do not replace the instruction or schema for the current runtime state.",
       "cross_representation_alignment": "The machine-dialect statement and the displayed JSON return schema must describe the same expected agent input. Every required field, nested relationship, array size limitation, enumeration, identifier reference, and other significant schema constraint must be represented consistently in the statement; no statement may request a structurally incompatible return and no schema may silently impose an unexplained non-trivial requirement.",
-      "full_context_preservation": "At State_i the rendered instruction and schema must require e with previously accepted properties retained and e.e_i newly supplied. Error-mode retries request the same property again with the same normal schema and instruction, preceded by the diagnostic.",
-      "validation_responsibility": "The current step's Function_i validates e.e_i and the documented semantic constraints and returns (e, valid). The iterator updates the index; State_i detects and clears its pending e.error during state-object construction. Missing previously guaranteed context is an implementation error, not automatically a validation error for newly requested input.",
+      "full_context_preservation": "Require only the current keyword in the rendered return schema. Retrieve earlier accepted values with read(keyword) from the run's source. Retry the same keyword with the unchanged instruction and schema and an additive diagnostic.",
+      "validation_responsibility": "The active state function validates the currently requested value against the issued schema and applicable semantic constraints. A missing prerequisite from read(keyword) is an implementation error, distinct from a rejected agent reply.",
       "nonconformance": "A rendered state is nonconforming when it omits either required input presentation, displays invalid JSON as the return schema, leaves a non-trivial schema key without a sentence-form explanation, or gives machine-dialect and schema definitions that disagree. Correct the rendered state contract before treating it as an acceptable procedure-machine state.",
       "instruction_schema_pair": "Give each instruction and its expected return schema a shared semantic keyword within the procedure. When rendering the instruction, resolve its schema by that keyword and issue the two together. Validate the subsequent input against the same schema that was issued, including any constraints derived for that interaction. The pair is identified by its keyword regardless of where either definition is stored or where the step appears in the procedure."
     },
     "examples": [
       {
-        "title": "Conforming State_2 response requesting identified question array at e.e2",
-        "rendered_machine_dialect_instruction": "Read e.e0 as the previously accepted verbatim user prompt. Read e.e1 as the previously accepted user-intent object; its intent field is a statement of user purpose, objectives is an array of goal strings, constraints is an array of limitation strings, and requested_outcome describes the desired result. Preserve e.e0 and e.e1 unchanged. Add e.e2 as an array containing seven to eleven question objects. In each object, id must be a unique stable question identifier string such as Q1, and question must be a complete question sentence. Return all three properties in e. Function_2 checks identifier uniqueness in addition to JSON Schema validation.",
+        "title": "Clarifying questions use one keyword",
+        "rendered_machine_dialect_instruction": "Read `verbatim_request` and `user_intent`. Return `clarifying_questions` as an array of 7–11 questions necessary to fulfill the request. Each `id` is a unique stable question identifier such as Q1. Each `question` is a complete interrogative sentence.",
         "displayed_json_return_schema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
-          "required": [
-            "e0",
-            "e1",
-            "e2"
-          ],
+          "description": "Response object containing the current state input under the semantic keyword clarifying_questions. Earlier accepted inputs remain in the iterator's separate indexed records.",
           "properties": {
-            "e0": {
-              "type": "string"
-            },
-            "e1": {
-              "type": "object",
-              "required": [
-                "intent",
-                "objectives",
-                "constraints",
-                "requested_outcome"
-              ],
-              "properties": {
-                "intent": {
-                  "type": "string"
-                },
-                "objectives": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "constraints": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "requested_outcome": {
-                  "type": "string"
-                }
-              }
-            },
-            "e2": {
+            "clarifying_questions": {
               "type": "array",
-              "minItems": 7,
-              "maxItems": 11,
+              "description": "The `clarifying_questions` property is an array containing between seven and eleven question objects needed to fulfill the user request.",
               "items": {
                 "type": "object",
+                "description": "Each object in `clarifying_questions` represents one question and contains its identifier and full question text.",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The `clarifying_questions[].id` property is a string uniquely identifying the question, such as Q1."
+                  },
+                  "question": {
+                    "type": "string",
+                    "description": "The `clarifying_questions[].question` property is a string containing a complete interrogative sentence identifying information needed to fulfill the request."
+                  }
+                },
                 "required": [
                   "id",
                   "question"
                 ],
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "question": {
-                    "type": "string"
-                  }
-                }
-              }
+                "additionalProperties": false
+              },
+              "minItems": 7,
+              "maxItems": 11
             }
-          }
+          },
+          "required": [
+            "clarifying_questions"
+          ],
+          "additionalProperties": false
         },
-        "implementation_interpretation": "The real JSON schema and the field-by-field prose describe State_2 requesting e.e2. Function_2 performs any additional documented semantic checks and returns a Boolean to the iterator. The state itself does not validate the agent return."
+        "implementation_interpretation": "The state retrieves verbatim_request and user_intent by keyword and gives those values to the separate renderer as needed. The reply contains only clarifying_questions. The same state function checks identifier uniqueness in addition to JSON Schema validation."
       },
       {
         "title": "Nonconforming unexplained nested key",
@@ -202,47 +173,47 @@
     "applicability": "Every transition, agent-submitted event, event/context property, selected function, and state invocation in the interactive indexed procedure machine, including validation retries and transitions between queue phases.",
     "definitions": {
       "ordered_deterministic_route": "The procedure follows zero-based indexed states. The current index i is advanced by exactly one when the current step's Function_i returns true and retained when it returns false. Both outcomes deterministically invoke next(e).",
-      "agent_event": "A procedure event is the agent's submission of its response to the current state's tool-response request. In this prototype, the agent returns E_RETURN(e), where e is the complete event/context object; the event type does not classify the input as valid or invalid.",
-      "context_address": "A context address is an independently recallable member of e; in the indexed prototype e.e0 holds the verbatim prompt, e.e1 holds user intent, and State_i requests e.e_i. These addresses remain stable when later values accumulate.",
-      "selected_function": "At the current index i, the step file provides Function_i. It validates the newly requested property against the schema paired with the rendered instruction, returns (e, valid), and never directly invokes state functions.",
-      "state_arguments": "State_i is invoked by next(e) with the complete context e. A pending validation diagnostic is communicated in e.error rather than a second handler-generated state argument. The state captures the diagnostic before clearing it."
+      "agent_event": "E_RETURN(input) identifies the agent's reply to the active state. Its payload is the object containing the current keyword.",
+      "context_address": "An accepted input is addressed by its semantic keyword in the run's source. For example, read('verbatim_request') retrieves the accepted original prompt.",
+      "selected_function": "The iterator invokes the step file at index i. Its state function calls the renderer and validates the reply for the current keyword.",
+      "state_arguments": "Give the state function access to read(keyword), the renderer, and any run-local control data required for a diagnostic. Do not require a complete context object."
     },
     "mandatory_behavior": {
-      "deterministic_transition_order": "For any E_RETURN(e) at index i, invoke Function_i for the current step file. Apply the returned Boolean by i_next=i+Number(valid). Invoke next(e) at the resulting index. A failed validation retains i and triggers additive error-mode rendering of the same state.",
+      "deterministic_transition_order": "After the active state function returns a Boolean result, update i by Number(valid). Acceptance advances once and rejection retries the same index with the pending diagnostic.",
       "agent_input_drives_events": "Treat the agent's response to a rendered state's instruction and JSON return schema as the event input. The agent supplies e; the event does not itself select a transition or encode validation success or failure.",
-      "unique_specified_input_addresses": "Assign the new input for State_i to e.e_i, with i zero-based, and document its shape in the state instruction and return schema. Preserve earlier accepted e.e0 through e.e_(i-1) under their original addresses.",
-      "function_event_argument": "Invoke the selected state-event function with e as an argument. The function must inspect or operate on at least one explicitly identified member of e for that event, and may also use other required members for validation or state derivation. If a required member is absent or empty despite the function's input contract requiring it, classify that as an implementation error rather than silently fabricating a value.",
+      "unique_specified_input_addresses": "Assign each requested input a stable semantic keyword. Preserve earlier accepted values in the run's source under their existing keywords.",
+      "function_event_argument": "Deliver E_RETURN(input) to the active state function. It validates the current input and resolves any previously accepted values it needs by keyword.",
       "function_controls_next_state": "Function_i controls the validation outcome but does not directly choose or invoke a destination state. Its true/false return is the sole input to the iterator's prescribed one-step advance or same-state retry; the iterator makes the index transition.",
-      "state_receives_derived_arguments": "The iterator passes e explicitly to State_i, including any diagnostic at e.error. State_i reads prior accepted values directly from documented e addresses, snapshots the pending error for rendering, and clears e.error. Transition functions must not supply hidden globals or second arguments as an alternative carrier.",
-      "initial_invocation_contract": "The iterator initializes i=0 and e={} unless resuming an existing run, then calls next(e) to invoke State_0(e). State_0 may accept a default empty e for the initial call. Reentry after rejection occurs through the iterator retaining i and invoking next(e), not through Function_i directly calling a state."
+      "state_receives_derived_arguments": "Read only the prior accepted inputs required for the current step. Snapshot and clear any pending diagnostic and supply the separate renderer with the state object.",
+      "initial_invocation_contract": "On a new run the iterator starts at index zero. On resumption it starts at the saved index with access to earlier accepted values by keyword."
     },
     "examples": [
       {
         "title": "Accepted input advances exactly once",
         "sequence": [
-          "At i=0 the iterator invokes State_0(e), which requests e.e0.",
-          "The agent returns E_RETURN(e), and steps[0] invokes Function_0 to validate e.e0.",
-          "Function_0 returns (e, true), so the iterator increments i to 1 and invokes next(e), which calls State_1(e)."
+          "The iterator selects the verbatim_request step.",
+          "The step calls the renderer and validates the reply under verbatim_request.",
+          "The iterator stores the accepted value and advances to user_intent."
         ]
       },
       {
         "title": "Validation retry does not change event type",
         "sequence": [
-          "At i=2 the agent returns an invalid e.e2 in E_RETURN(e).",
-          "steps[2] selects Function_2; it adds e.error, returns (e,false), and does not invoke a state.",
-          "The iterator retains i=2 and invokes next(e); State_2 snapshots and clears the pending error and constructs the error-mode state object."
+          "The clarifying_questions step receives an invalid reply.",
+          "The state function returns false with a diagnostic.",
+          "The iterator invokes the same step again; the state function supplies the diagnostic to the renderer."
         ]
       },
       {
-        "title": "Context is passed through e",
+        "title": "Previous values remain available by keyword",
         "sequence": [
-          "State_3(e) may read accepted e.e0, e.e1 and e.e2 and request e.e3.",
-          "Function_3 validates the new e.e3 and returns the full e together with a Boolean.",
-          "Both success and retry pass e directly into the iterator's next(e), preserving prior accepted properties."
+          "The question_answers step reads clarifying_questions by keyword.",
+          "It derives the return schema from the accepted questions, then calls the separate renderer.",
+          "It validates only the question_answers reply against the issued schema and retains the original questions in the run's source."
         ]
       }
     ],
-    "conformance": "Every transition must invoke Function_i for the current step file; operate on the indexed input e.e_i; return (e, valid); and let only the iterator update i by Number(valid), invoking next(e). Previously accepted context addresses and additive error-mode behavior must remain intact.",
+    "conformance": "Each selected state function calls a separate renderer and validates the current input. The iterator alone advances or retries. Earlier accepted input is recoverable by keyword.",
     "implementation_choice_status": "The selected implementation is zero-based indexed iterator advancement. Earlier direct state-invocation and deferred next-state-pointer examples are superseded; neither is an implementation alternative to this contract."
   },
   {
@@ -250,68 +221,63 @@
     "applicability": "Every dispatch of an agent-return event to a transition function, its return-schema validation, and its invocation or return of a destination state in the interactive indexed function-pointer procedure machine.",
     "architectural_contract": {
       "intersection_selection": "The current step file at index i provides Function_i for the input requested by that step's instruction.",
-      "event_consumption": "Function_i receives the complete returned context e, validates the newly requested property e.e_i and necessary cross-property constraints, and preserves earlier accepted properties at their original addresses.",
-      "validation": "Function_i independently checks the referenced JSON return schema and documented semantics. It returns (e, true) only on acceptance or (e, false) after setting e.error on a validation failure.",
-      "invalid_response_route": "A rejection populates e.error with error=true and errortype plus externally resolved diagnostic references or structured diagnostic facts, and returns (e, false). The iterator retains i and invokes next(e). State_i selects error mode, captures and clears the diagnostic, and requests e.e_i again.",
-      "valid_response_route": "An accepted input returns (e, true); the iterator increments i exactly once and invokes next(e), causing State_(i+1) to construct its state object. Function_i does not call State_(i+1).",
-      "functional_argument_passing": "The context e is the explicit argument to Function_i, next(e) and State_i. Pending diagnostics travel in e.error. No second state argument or implicit global state is used to convey validation results.",
-      "startup_defaults": "The iterator initializes i=0, e={} unless resuming a saved run, then calls next(e). State_0 may define a default e={} for direct initial invocation; retries are always handled through the iterator retaining the index.",
-      "deferred_or_immediate_invocation": "The selected behavior is neither a direct handler call to a destination state nor a deferred state-pointer return. A handler returns only (e, valid). The iterator alone updates the index and invokes the current state via next(e)."
+      "event_consumption": "The state function receives the current reply and accesses earlier accepted values by keyword when necessary.",
+      "validation": "Validate the reply against the exact issued schema and applicable semantics. Return true on acceptance or false with a diagnostic on rejection.",
+      "invalid_response_route": "On rejection, preserve the diagnostic for the next invocation and return false. The next attempt calls the renderer with that diagnostic and the same instruction and schema.",
+      "valid_response_route": "On acceptance, return true with the accepted input. The iterator advances exactly once and invokes the next step file.",
+      "functional_argument_passing": "Use a run-scoped keyword lookup for accepted values. Keep diagnostic control data separate from the agent payload.",
+      "startup_defaults": "Start at index zero on a new run or at the saved index on resumption with the same keyword source.",
+      "deferred_or_immediate_invocation": "The state function returns a validation result. The iterator alone selects and invokes the next step by index."
     },
     "mandatory_behavior": {
       "deterministic_selection": "Use the current step file's Function_i to determine the Boolean from the returned input and the schema issued with that step's instruction. The agent's return does not determine the Boolean or choose a destination.",
-      "schema_validation_and_retry": "Validate e.e_i with the current state's schema and semantic constraints. On failure, set e.error and return (e,false), resulting in a same-index error-mode retry; on success return (e,true), resulting in advancement by one.",
-      "separate_context_and_state_argument": "The complete context e alone carries accepted inputs and the optional e.error diagnostic to the state; no destination-specific second state argument is required under the iterator contract.",
-      "no_global_state_dependency": "Pass all ordinary inter-operation context explicitly through e. The iterator index belongs to persisted procedure-position data, not an inferred or agent-selected next state. Do not rely on hidden globals to move accepted inputs or errors.",
-      "initial_state_defaults": "State_0 may default its e parameter to {}, while next(e) supplies the same context explicitly on every normal start, retry, or continuation."
+      "schema_validation_and_retry": "The active state function validates the reply for its current keyword against the issued schema. Return a rejection diagnostic when validation fails.",
+      "separate_context_and_state_argument": "Provide read(keyword) for earlier accepted values and supply only the state-specific rendering data to the renderer.",
+      "no_global_state_dependency": "Scope keyword reads to the active run. Keep persisted position and validation diagnostics under run control.",
+      "initial_state_defaults": "The iterator starts with an empty accepted-value source for a new run unless the run has a saved position and source."
     },
     "examples": [
       {
-        "title": "Function_0 returns validation result without calling a state",
-        "javascript": "function Function_0(e) {\n  const result = validateReturn(issuedSchema, e);\n  if (!result.valid) {\n    e.error = { error: true, errortype: 'state_0.input_error', diagnostic_data: result.errors };\n    return [e, false];\n  }\n  return [e, true];\n}",
-        "explanation": "The dispatcher chooses Function_0 from the current step file. The validation function returns e and a Boolean; the iterator handles progression. The step retains issuedSchema from the instruction and schema it rendered."
+        "title": "One state callable uses a separate renderer",
+        "javascript": "async function state(read, render) {\n  const { input, issuedSchema } = await render({ keyword: 'user_intent', context: { verbatim_request: read('verbatim_request') } });\n  const { valid, errors } = validateReturnSchema(input, issuedSchema);\n  return { valid, input: valid ? input : null, error: valid ? null : { error: true, errortype: 'user_intent.input_error', diagnostic_data: errors } };\n}",
+        "explanation": "The renderer resolves and presents the instruction and schema. The state function receives and validates the reply. In the procedure, the state also supplies any pending diagnostic and formats failures as structured diagnostic data."
       },
       {
-        "title": "Iterator applies Boolean and renders the next state",
-        "javascript": "function receiveAgentReturn(e) {\n  const validate = steps[i].validateReturn;\n  const [updatedE, valid] = validate(e);\n  i += Number(valid);\n  return next(updatedE);\n}",
-        "explanation": "Both valid and invalid agent returns remain E_RETURN. The iterator advances only for a true Boolean; a false Boolean repeats the same state with e.error."
-      },
-      {
-        "title": "State captures an error before clearing",
-        "javascript": "function State_0(e = {}) {\n  const diagnostic = e.error?.error === true ? { ...e.error } : null;\n  const mode = diagnostic ? 'error' : 'normal';\n  e.error = null;\n  return { state_id: 'State_0', mode, context: e, instruction_ref: 'state_0.instruction', schema_ref: 'state_0.return_schema', diagnostic_ref: diagnostic?.errortype ?? null, diagnostic_data: diagnostic?.diagnostic_data ?? null };\n}",
-        "explanation": "Error mode adds the error diagnostic before the unchanged normal instruction and schema; externally configured content is rendered separately."
+        "title": "The iterator controls the next index",
+        "javascript": "const result = await steps[i](e, i, read, exchange);\ni += Number(result.valid);",
+        "explanation": "The active state function determines validity. The iterator advances for true or repeats for false."
       }
     ],
-    "conformance": "Conformance requires a dedicated Function_i selected by State_i × E_RETURN, zero-based e.e_i validation, return of (e,valid), pending e.error on failure, iterator-controlled i advancement or retention, and no direct state invocation by the validator."
+    "conformance": "Each step has one callable which invokes the separate renderer and validates the current keyword reply. The iterator uses the returned Boolean to advance or repeat."
   },
   {
-    "title": "Agent Event Representation and Context Property Accumulation",
-    "applicability": "Applies to agent response events and the named input properties in the context/event object e during the interactive indexed procedure.",
+    "title": "Agent Return and Accepted Inputs by Keyword",
+    "applicability": "Applies to agent replies and to the run-scoped source of previously accepted inputs.",
     "requirements": [
       {
         "title": "Event representation",
-        "required_behavior": "Represent an agent's submitted response as the event E_RETURN(e), where E_RETURN identifies the occurrence of the agent returning its response and e is the complete context/event object containing the response values. Event presentation must preserve the distinction between the event occurrence and the object carried by that event."
+        "required_behavior": "Represent an agent submission as E_RETURN(input), where input contains only the value under the keyword requested by the current step."
       },
       {
         "title": "Unique input addresses",
-        "required_behavior": "Assign each independently recallable input its own address. In the indexed prototype, State_0 requests e.e0 for the verbatim prompt, State_1 requests e.e1 for intent, and each State_i requests e.e_i; these accepted addresses remain stable in later context."
+        "required_behavior": "Assign each independently recallable input its own semantic keyword. Resolve earlier accepted values through read(keyword)."
       },
       {
         "title": "Context accumulation",
-        "required_behavior": "When e.e_i is accepted, preserve earlier accepted properties e.e0 through e.e_(i-1) and append or update the accepted value at e.e_i. e.error is a transient validation diagnostic consumed during the next state construction, not a replacement for an accepted input."
+        "required_behavior": "After acceptance, record the new value by keyword in the active run. Keep earlier accepted values intact. Keep retry diagnostics separate from accepted inputs."
       },
       {
         "title": "Property ownership",
-        "required_behavior": "For each State_i document exactly what the agent must supply at e.e_i and its shape in the externally referenced instruction and JSON schema. Function_i, selected by steps[i], validates that property and returns (e,valid) to the iterator."
+        "required_behavior": "For each step document the one keyword the agent supplies. The state function invokes the renderer and then validates the reply against the schema issued for that keyword."
       }
     ],
     "example": {
-      "title": "Indexed event and accumulated independent input addresses",
+      "title": "Keyword-addressed agent replies",
       "sequence": [
-        "State_0 requests e.e0; the agent returns E_RETURN(e) with e.e0 populated.",
-        "Function_0 accepts e.e0 and the iterator advances to State_1, which requests intent at e.e1.",
-        "The agent returns E_RETURN(e) with preserved e.e0 and newly populated e.e1.",
-        "Function_1 validates e.e1 and returns (e, valid) without selecting or invoking a state."
+        "The agent returns {verbatim_request: ...} and the run records it by keyword.",
+        "The user_intent step reads verbatim_request and calls the renderer.",
+        "The agent returns {user_intent: ...}.",
+        "The same step validates the reply and the iterator records user_intent separately."
       ]
     }
   },
@@ -378,20 +344,20 @@
     "applicability": "The application workflow that uses the indexed machine to develop a procedure with an initial agent, place the resulting procedure into a queue, and continue interactively with a second agent for review, execution, and post-execution diagnostics.",
     "purpose": "Establish that both sides of the queued handoff are interactive procedures, not an issue-comment job processor or an offline batch execution, so future queue design and implementation preserve the intended agent-facing MCP interaction.",
     "required_behavior": {
-      "first_phase_interactive_procedure": "The first agent follows successive iterator-rendered State_i instructions from i=0, returning e.e_i as requested. The active step handles the agent return through Function_i; the iterator advances on true or retries the same state on false. The agent identifies required changes, maps them to actions, builds a procedure and simulates its commands, code and predicted effects.",
-      "queue_handoff": "After the procedure-preparation phase reaches its defined handoff, the application places that prepared procedure and its accumulated context e into the queue for a second agent. The handoff must preserve the existing file-change identifiers, action identifiers, mapping relationships, return data, and other information required for continuation; the second agent must not have to reconstruct the procedure independently from a summary.",
+      "first_phase_interactive_procedure": "The first agent responds to successive states from index zero with the current requested keyword. Each active state function calls the separate renderer and validates the reply. The iterator advances on acceptance or retries on rejection. The agent identifies required changes, maps them to actions, builds a procedure and simulates its commands, code and predicted effects.",
+      "queue_handoff": "After procedure preparation, queue the prepared procedure and continuation information with access to the same run's accepted values by keyword. Preserve file-change identifiers, action identifiers, mappings and accepted data for the second agent.",
       "second_phase_interactive_procedure": "The second agent receives the queued procedure and continues through its own interactive procedure exchanges. That phase comprises reviewing the prepared procedure, executing the associated actions, and completing the post-execution diagnostic against the existing desired-state requirements and checklist. The second agent's interactive responses remain subject to state-specific machine-dialect instructions, JSON return schemas, and function-selected transitions.",
       "mcp_based_queue": "Expose the queue and both interactive procedure phases through the application's MCP-based interface. Treat IssueStack's issue-backed queue only as historical design context, not as a required implementation or an execution dependency; an Issue-comment-triggered workflow is not a substitute for the intended interactive MCP queue.",
-      "preserve_machine_architecture": "Queue transport, assignment, suspension, resumption and phase transfer preserve the ordered step files, the instruction and return-schema pairs, the zero-based iterator index, the accumulated context e, the schema-governed agent-return event, and the Boolean validation function that controls iterator advancement. The queue does not invent an alternate state-transition system.",
+      "preserve_machine_architecture": "Preserve the ordered files, keyword-bound instruction and schema pairs, zero-based index, access to the run's accepted inputs, and Boolean-controlled advancement across queue transport, assignment, suspension, resumption and phase transfer.",
       "retain_full_run": "Ensure the application's complete run record encompasses both interactive phases, the queue handoff, actual execution results, and post-execution diagnostics. The queue must preserve continuity of the same procedure rather than treating the second phase as a new unrelated request."
     },
     "example": {
       "title": "Interactive procedure authoring followed by interactive review and execution",
       "sequence": [
-        "Agent 1 responds to the MCP-rendered State_0 request at e.e0 and the subsequent State_i requests at e.e_i, with each agent return validated by the dedicated Function_i selected by State_i × E_RETURN.",
+        "Agent 1 responds to each MCP-rendered step with that step's requested keyword. The active state function validates the reply.",
         "Agent 1 produces a file-level change-to-action mapping and decorates that mapping with the stepwise procedure and a proposed simulation containing commands, code and predicted effects.",
-        "The application queues that prepared procedure together with its existing context e and the information needed to continue its run.",
-        "Agent 2 receives the queued work with its saved index and context, reviews the proposed procedure through the same iterator-controlled procedure exchanges, and preserves the complete accumulated run.",
+        "The application queues the prepared procedure, saved index and reference to the run's accepted inputs.",
+        "Agent 2 resumes at the saved index, retrieves earlier inputs by keyword, and continues the same run.",
         "Agent 2 executes the reviewed procedure and interactively supplies actual execution observations and the decorated post-execution diagnostic checklist.",
         "The application retains the complete record spanning both agents and the handoff."
       ]
@@ -404,18 +370,18 @@
     "design_requirements": {
       "runner": {
         "purpose": "Coordinate the program lifecycle and the indexed iterator. The iterator, not a transition handler or renderer, is the sole controller of progression and retry, while the current step handles validation.",
-        "required_behavior": "Initialize or restore the zero-based iterator index and e, invoke next(e), and render the state object. When E_RETURN(e) arrives, invoke the current step's Function_i, receive (e,valid), update i by Number(valid), and invoke next(e) again. Do not directly route to a state from within a validation handler.",
-        "expected_interface": "Coordinate initial and resumed execution, passing index i and context e to the iterator and the response context e to the current step's validation function. A rendered state waits for the next agent return; no synchronous waiting within next(e) is implied."
+        "required_behavior": "Initialize or restore the zero-based index and access to the run's accepted-value source. Call the step at the current index once per attempt. Store accepted output by keyword and use the step's Boolean result to advance or retry.",
+        "expected_interface": "Supply the active step with read(keyword), the interaction service and run-local diagnostic access. Pass the agent's current reply to the running step through the interaction."
       },
       "state_event_dispatcher": {
-        "purpose": "Select the step file using the current iterator index and invoke its validation function when the return arrives.",
-        "required_behavior": "Use the current step file to invoke Function_i(e). Step selection does not alter i, render text, validate content itself, or choose a destination state.",
-        "expected_interface": "Accept the current step index and e and return the validation function's (e,valid) result to the iterator for Boolean-controlled progression."
+        "purpose": "Select the step file using only the iterator index.",
+        "required_behavior": "Invoke the selected state function once per attempt. Step selection does not change the index, render a state object, or validate a reply.",
+        "expected_interface": "Use the current index to invoke the selected step and obtain its validation result for the iterator."
       },
       "state_object_construction": {
-        "purpose": "Keep state-specific instructional content separate from tool-response rendering.",
-        "required_behavior": "State_i(e) first checks e.error, snapshots pending diagnostic data, selects error or normal mode, clears e.error, and returns a state object containing external instruction, schema and optional error-presentation references with the context required for rendering. It does not render or change i.",
-        "expected_interface": "Receive the complete e from next(e); return a state object with state ID, mode, external content references and runtime data, including an error snapshot when one existed. No transition-handler-supplied second argument is required."
+        "purpose": "Keep state-specific instruction and schema references separate from presentation.",
+        "required_behavior": "The state function reads required earlier values by keyword, snapshots and clears any pending diagnostic, constructs the state object, and calls the separate renderer with it. The same state function validates the subsequent reply using the schema issued by that interaction.",
+        "expected_interface": "Pass the renderer the state keyword, external content references or derived schema, and only the runtime data needed for this presentation."
       },
       "renderer": {
         "purpose": "Use a separate rendering function or script to transform a state object into the agent-facing tool response.",
@@ -441,19 +407,19 @@
       },
       {
         "component": "Indexed iterator",
-        "responsibility": "Maintain zero-based i, call State_i(e) through next(e), apply i+=Number(valid), and render the selected state."
+        "responsibility": "Maintain the zero-based index, invoke one state function per attempt, record accepted input and apply the Boolean result."
       },
       {
         "component": "Step selection",
-        "responsibility": "Use the iterator index to select the step file and invoke its validation function with e."
+        "responsibility": "Select the step file by the iterator index."
       },
       {
         "component": "Validation function Function_i",
-        "responsibility": "Validate e.e_i, set e.error on rejection, return (e,valid); never invoke a destination state or modify i."
+        "responsibility": "The active state function validates the current keyword reply against its issued schema and returns its Boolean result and any diagnostic."
       },
       {
         "component": "State function State_i",
-        "responsibility": "Capture and clear pending e.error, select normal or additive error mode, and return referenced state-object content."
+        "responsibility": "Read required inputs by keyword, prepare the state object, and call the renderer before validating the reply."
       },
       {
         "component": "Renderer",
@@ -469,12 +435,12 @@
       }
     ],
     "illustrative_flow": [
-      "The procedure-creation application initializes or restores iterator index i and context e. A new procedure begins with i=0 and e={}.",
-      "The iterator calls next(e); next invokes State_i(e). State_i checks e.error, captures any pending diagnostic, selects the rendering mode, clears the pending error marker, and returns a state object referencing external instruction, return-schema and optional diagnostic content.",
+      "The application initializes or restores the iterator index and the run's accepted-value source.",
+      "The active state function reads required earlier values, captures and clears any pending diagnostic, and passes the state object to the renderer.",
       "The renderer resolves the state object's references and displays either the normal instruction and schema or a conspicuous diagnostic followed by that same complete normal instruction and schema.",
-      "The agent later returns E_RETURN(e). The current step invokes Function_i, which validates e.e_i and returns (e,valid), populating e.error on rejection.",
-      "The iterator sets i to i+Number(valid). A false result repeats the same state with additive error rendering; a true result advances exactly one state. It then invokes next(e).",
-      "The creation application queues its prepared procedure along with the accepted context, index, history and mappings so a second agent can resume without reconstructing the work.",
+      "The agent later returns the current keyword as E_RETURN(input). The same state function validates the reply against the schema issued with the instruction and returns its result to the iterator.",
+      "The iterator applies i += Number(valid), then invokes the step at the resulting index.",
+      "The creation application queues the prepared procedure with a reference to the run, preserving the accepted values, index, history and mappings.",
       "The review/execution application uses the same iterator and step-selection behavior, records execution and post-execution diagnostics, and makes completed jobs available after defined completion conditions are satisfied."
     ],
     "unresolved_implementation_decisions": "Do not infer a concrete programming language, module and script names, process topology, job-list presentation format, queue storage structure, job ownership policy, persistence serialization, or job-completion status protocol from this architectural entry. These details remain to be specified. This entry fixes component responsibilities and the minimum application separation without selecting those implementation details."
@@ -501,119 +467,118 @@
     },
     "example": {
       "title": "State snapshots pending diagnostic and renderer resolves external content",
-      "illustrative_javascript": "function State_0(e = {}) {\n  const error = e.error?.error === true ? { ...e.error } : null;\n  const mode = error ? 'error' : 'normal';\n  e.error = null;\n  return { state_id: 'State_0', mode, context: e, instruction_ref: 'state_0.instruction', schema_ref: 'state_0.return_schema', diagnostic_ref: error?.errortype ?? null, diagnostic_data: error?.diagnostic_data ?? null };\n}\nfunction renderer(stateObject, contentStore) {\n  const instruction = contentStore.resolve(stateObject.instruction_ref);\n  const schema = contentStore.resolve(stateObject.schema_ref);\n  const diagnostic = stateObject.diagnostic_ref ? contentStore.resolve(stateObject.diagnostic_ref) : null;\n  return formatResponse({ mode: stateObject.mode, diagnostic, instruction, schema, data: stateObject });\n}",
-      "interpretation": "Only identifiers and control logic are in script. In error mode the externally supplied formatResponse configuration shows the resolved diagnostic before the full unchanged normal instruction and schema. The diagnostic remains available after e.error is cleared because the state captured it in the returned object."
+      "illustrative_javascript": "function prepareState(e = {}) {\n  const error = e.error?.error === true ? { ...e.error } : null;\n  const mode = error ? 'error' : 'normal';\n  e.error = null;\n  return { state_id: 'State_0', mode, instruction_ref: 'verbatim_request.instruction', schema_ref: 'verbatim_request.return_schema', diagnostic_ref: error?.errortype ?? null, diagnostic_data: error?.diagnostic_data ?? null };\n}\nfunction renderer(stateObject, contentStore) {\n  const instruction = contentStore.resolve(stateObject.instruction_ref);\n  const schema = contentStore.resolve(stateObject.schema_ref);\n  const diagnostic = stateObject.diagnostic_ref ? contentStore.resolve(stateObject.diagnostic_ref) : null;\n  return formatResponse({ mode: stateObject.mode, diagnostic, instruction, schema, data: stateObject });\n}",
+      "interpretation": "Only identifiers and control logic are in script. In error mode the externally supplied formatResponse configuration shows the resolved diagnostic before the full unchanged normal instruction and schema. The diagnostic remains available after e.error is cleared because the state captured it in the state object supplied to the separate renderer."
     },
     "implementation_boundary": "This entry requires reference-only configuration-driven rendering but does not decide which configuration file format, directory, resource loader, caching method, template engine or renderer implementation to use. Those decisions are separate from the non-negotiable prohibition on hardcoded rendered text."
   },
   {
     "title": "Step Validation Functions and Iterator-Controlled State Invocation",
     "applicability": "Each step file, its Function_i, validation outcomes, error production and iterator-controlled State_i invocation in the two interactive procedure applications.",
-    "architecture_decision": "Each step file provides a function for validating its return against the specific schema associated with its rendered instruction. The iterator selects the file by index. Function_i returns (e,valid), and the iterator advances or retries according to that Boolean.",
+    "architecture_decision": "Each step file provides one state callable. It calls a separate renderer and validates the current keyword reply against the exact schema issued with its instruction. The iterator advances or retries using the callable's Boolean result.",
     "mandatory_behavior": {
       "dedicated_handler_per_cell": "Every step supplies the returned input and the specific schema issued with its instruction to validation. A shared validation routine may check that pair without receiving or inferring the position of the step.",
-      "invalid_input": "On schema or semantic validation failure, Function_i populates e.error with error=true, an errortype identifying externally configured diagnostic presentation, and any structured supporting data; it returns (e,false). The iterator retains i and calls next(e).",
-      "accepted_input": "On successful validation, Function_i returns (e,true); the iterator increments i by exactly one and calls next(e). The handler does not select or invoke State_(i+1).",
-      "state_builds_not_renders": "The iterator invokes State_i(e). The state captures e.error when present, selects an additive error-mode or normal-mode object, clears e.error, and returns external references and runtime data. It never renders.",
+      "invalid_input": "On schema or applicable semantic validation failure, the state function returns false and a pending diagnostic with an externally configured type and structured details. The iterator retains the index.",
+      "accepted_input": "On successful validation, the state function returns true and the new accepted input. The iterator records that value and advances one index.",
+      "state_builds_not_renders": "The state function captures and clears a pending diagnostic, builds its state object with references and runtime data, and calls the separate renderer. Rendering the state object is the renderer's responsibility. The state function validates the resulting reply.",
       "renderer_outputs_state_object": "The renderer displays resolved error material conspicuously before the full unchanged normal instruction and JSON schema when mode is error. It does not validate, change i, or choose a function pointer.",
       "preserve_reference_only_text": "All displayed state instructions, error messages, schema content, labels and formatting are externally configured and addressed by reference. Function and state identifiers used for program control are not rendered instruction strings.",
       "procedure_specific_behavior": "Validation functions contain only the validation and diagnostic logic applicable to their instruction and return-schema pairs. Their Boolean drives the iterator's only index branch, and no additional transition mechanisms are introduced without separate procedural specification."
     },
     "illustrative_example": {
-      "purpose": "When State_2 receives E_RETURN, Function_2 validates e.e2, returning (e,false) with e.error on rejection or (e,true) on acceptance; the iterator renders State_2 again or advances to State_3.",
-      "javascript": "function Function_2(e) {\n  const validation = validateReturn(issuedSchema, e);\n  if (!validation.valid) {\n    e.error = { error: true, errortype: 'state_2.input_error', diagnostic_data: validation.errors };\n    return [e, false];\n  }\n  return [e, true];\n}\nconst [updatedE, valid] = steps[i].validateReturn(e);\ni += Number(valid);\nreturn next(updatedE);",
-      "interpretation": "The handler has no arbitrary state switch and does not invoke a state. The iterator changes only the index and invokes next(e). A rejected return is still E_RETURN(e), and the rendered diagnostic is resolved from external content. The step retains issuedSchema, the exact schema issued with the rendered instruction."
+      "purpose": "A single clarifying_questions invocation calls the renderer, validates the reply, and returns a result. The iterator controls the next invocation.",
+      "javascript": "async function clarifyingQuestions(read, render) {\n  const context = { verbatim_request: read('verbatim_request'), user_intent: read('user_intent') };\n  const { input, issuedSchema } = await render({ keyword: 'clarifying_questions', context });\n  const { valid, errors } = validateReturnSchema(input, issuedSchema);\n  return { valid, input: valid ? input : null, error: valid ? null : { error: true, errortype: 'clarifying_questions.input_error', diagnostic_data: errors } };\n}",
+      "interpretation": "The example shows structural validation and the result shape. The state function also applies any applicable state-specific checks and supplies pending retry diagnostics to the renderer."
     },
     "implementation_selection": "The zero-based indexed iterator with Boolean-controlled state advancement replaces the former direct preceding/following state invocation design. Historical direct-call examples elsewhere are superseded and must be reconciled rather than treated as active alternatives."
   },
   {
     "title": "Indexed Procedure Iterator, Boolean Validation Branching, and Additive Error-Mode Rendering",
     "applicability": "Every initialization, state invocation, agent-return event, validation operation, index transition, retry, state rendering, and procedure continuation governed by the indexed procedure in this workspace.",
-    "purpose": "Define a deterministic iterator that invokes state functions in index order, uses the Boolean result of the state-event-selected validation function to advance or repeat the current state, and communicates validation failures through a single-use error property in the accumulated context object e.",
+    "purpose": "Define deterministic indexed step invocation and retry, with keyword access to accepted inputs and a single-use diagnostic on rejection.",
     "definitions": {
       "iterator_index": "The nonnegative integer i identifies the current procedure position. The initial index is zero. State_i and Function_i correspond to the same index i.",
-      "context_object": "The object e carries previously accepted agent inputs, the current agent response, and any pending validation diagnostic. The context is passed explicitly between procedural operations.",
-      "state_function": "State_i(e) constructs and returns the state object corresponding to procedure index i. It checks for a pending validation error before selecting its rendering mode.",
-      "validation_function": "Function_i(e) validates the agent response at e.e_i against the schema and semantic constraints issued by State_i. It returns the context object and a Boolean validation result.",
+      "context_object": "Accepted inputs are held in a run-scoped source and retrieved through read(keyword). Local control state may carry a pending diagnostic.",
+      "state_function": "One callable at step index i prepares the state object, calls the renderer and validates the current reply.",
+      "validation_function": "Validation occurs inside the active state function after rendering. The state function uses the issued schema and applicable semantic constraints and returns a Boolean result.",
       "validation_boolean": "The Boolean returned by Function_i is true when the requested input is accepted and false when rejected. This Boolean is determined by application validation rather than by the agent.",
       "error_property": "The property e.error is reserved for validation diagnostics. A populated error object identifies a failed validation and supplies error type and diagnostic information required for rendering.",
       "normal_mode": "The rendering mode that displays the complete ordinary instruction and JSON return schema associated with the current state.",
       "error_mode": "The rendering mode that conspicuously displays the pending validation diagnostic before the complete, unchanged normal instruction and JSON return schema for the same state."
     },
     "mandatory_behavior": {
-      "initialization": "Initialize iterator index i=0 and e={} unless an existing procedure context and index have explicitly been supplied for continuation. Invoke next(e) to render the initial state.",
-      "state_invocation": "When next(e) executes, invoke State_i(e) at the current index. The state function receives the full context and constructs a state object with external content references and runtime data for the separate renderer.",
+      "initialization": "Initialize i at zero for a new run or restore the saved index and access to the run's accepted-value source.",
+      "state_invocation": "Invoke the state function at the current index once per attempt. The function reads prerequisites by keyword and calls the separate renderer with its state object.",
       "error_detection": "At the beginning of State_i(e), inspect e.error. A populated validation error object with error=true selects error mode; an absent, null or cleared marker selects normal mode.",
-      "error_snapshot_and_reset": "When a pending validation error exists, preserve its diagnostic data in the returned state object before clearing e.error. Use null or false as the final cleared representation according to the implementation's selected error-value contract. Resetting does not change the index or previously accepted context.",
+      "error_snapshot_and_reset": "Preserve a pending diagnostic in the state object before clearing its run-local value. Clearing it does not change the index or earlier accepted inputs.",
       "normal_rendering": "In normal mode, construct a state object referencing the complete machine-dialect instruction and JSON return schema for State_i. The renderer resolves these from externally configured resources.",
       "error_rendering": "In error mode, construct a state object referencing the same unchanged normal instruction and JSON return schema plus an additional conspicuous error presentation before them. Do not replace, abbreviate or modify the normal instruction or schema.",
-      "agent_response": "After rendering the state object, receive the agent's later response as E_RETURN(e). Its event type must not encode validity. The response carries the complete context and the input e.e_i requested by the current state's schema.",
+      "agent_response": "The reply arrives as E_RETURN(input) for the running state function. Its payload contains the current requested keyword and value. Validity is determined by the state function.",
       "function_selection": "Select the step file at index i. The step provides Function_i and the return schema associated with its rendered instruction. Use only i_next to select the next step file after validation.",
-      "input_validation": "Function_i independently validates e.e_i against the referenced JSON return schema and applicable semantic constraints, not against an agent-generated pass/fail judgment.",
-      "validation_success": "When the current input is accepted, Function_i returns the complete accepted e and Boolean true. The iterator increments i exactly once and invokes next(e).",
-      "validation_failure": "When the current input fails validation, Function_i populates e.error with an object having error=true and errortype identifying the validation failure, supplemented by externally configured diagnostic references and structured facts as required. It returns (e,false).",
-      "index_retention": "When Function_i returns false, retain i and invoke next(e). The same State_i captures the pending diagnostic, clears e.error and constructs an error-mode state object requesting corrected e.e_i.",
+      "input_validation": "The active state function validates the current keyword against the issued schema and applicable semantic constraints.",
+      "validation_success": "Return true and the accepted input. The iterator records that input by keyword and advances exactly one index.",
+      "validation_failure": "Return false with a diagnostic including error=true, errortype and structured details as applicable. Keep it available for the next attempt.",
+      "index_retention": "On false, retain i and invoke the same step. It captures and clears the pending diagnostic and calls the renderer for the retry.",
       "boolean_transition": "Compute i_next=i+Number(valid), with true contributing 1 and false contributing 0. Neither agent input nor renderer may independently advance the index.",
-      "recursive_continuation": "After a validation result and index update, invoke next(e). Each call constructs and renders exactly the state at the current index, preparing the next agent interaction.",
-      "interaction_boundary": "Rendering a state and receiving the agent's subsequent response are distinct interaction phases. Do not assume the response is synchronously available inside next(e); continuation occurs when the agent submits E_RETURN(e).",
-      "context_preservation": "Preserve accepted properties at their original e.e_i addresses. Failed validation must not erase earlier accepted inputs. e.error is transient and must not become a new dispatch event type.",
-      "function_responsibility_boundary": "Function_i validates the current input, records diagnostic context on failure, and returns (e,valid). It must not directly invoke State_i, State_(i+1), render, or change the index.",
+      "recursive_continuation": "After validation, choose the next step file by the resulting index. Each attempt requests the input for one semantic keyword.",
+      "interaction_boundary": "The state function calls the separate renderer to present its state object and awaits the subsequent agent reply. It then validates the reply within the same invocation. Rendering and receiving the reply are distinct interaction phases.",
+      "context_preservation": "Keep earlier accepted values in the run's keyword source. Rejections do not replace accepted values.",
+      "function_responsibility_boundary": "The state function calls the separate renderer, validates the reply and returns the result. It does not present the response itself, invoke a destination state, or modify the index.",
       "renderer_responsibility_boundary": "The renderer resolves externally configured templates and schemas and produces output. It does not validate returns, select transition functions, change i, or independently determine error state.",
-      "persistence_and_handoff": "Preserve the current iterator index, accepted context, pending diagnostic and run identity when suspending, queuing or resuming. Continue at the saved procedure position without constructing an unrelated run.",
+      "persistence_and_handoff": "Preserve the run identity, iterator index, accepted-value source and pending diagnostic across suspension, queue handoff and resumption.",
       "non_deviation": "Do not substitute direct destination-state calls, agent-chosen routing, validity-coded event types or monolithic conditional dispatch for Boolean-controlled index advancement. Use the step file's own instruction and return-schema pair."
     },
     "interface_contracts": {
-      "iterator_entry": "next(e) invokes the state function identified by current i and sends its state object to the renderer.",
+      "iterator_entry": "The iterator selects steps[i] and calls it once per attempt.",
       "dispatch_entry": "steps[i] identifies the step file. Its semantic keyword identifies the instruction and return-schema pair.",
-      "validation_return": "Function_i(e) returns the complete context object and one Boolean validity value.",
+      "validation_return": "The state function returns { valid, input, error }. valid is a Boolean. input contains the accepted reply on success and is null on rejection. error contains the diagnostic on rejection and is null on success.",
       "failure_error_shape": {
         "error": true,
         "errortype": "An identifier for an applicable externally configured validation diagnostic, with structured data as needed."
       },
       "index_update": "i_next = i + Number(valid)",
-      "continuation": "After the index update, invoke next(e) with the context returned by Function_i."
+      "continuation": "After applying the Boolean result, invoke the step at the resulting index."
     },
     "execution_examples": [
       {
         "title": "Initial successful validation",
         "sequence": [
-          "Initialize i=0 and e={}.",
-          "next(e) invokes State_0(e), which returns a normal-mode state object; the renderer requests e.e0 using the normal instruction and JSON schema.",
-          "The agent returns E_RETURN(e) containing e.e0.",
-          "steps[0] selects Function_0, which accepts e.e0 and returns (e,true).",
-          "The iterator increments i from zero to one and invokes next(e), producing State_1 normal mode."
+          "Start at index zero with no accepted values.",
+          "The verbatim_request step calls the renderer and receives the reply under its keyword.",
+          "The state function validates the reply and returns true with the input.",
+          "The iterator records the accepted value and advances to index one."
         ]
       },
       {
         "title": "Failed validation and same-state retry",
         "sequence": [
-          "At i=2 the agent returns invalid e.e2 after the State_2 instruction.",
-          "steps[2] selects Function_2, which sets e.error with error=true and errortype, returning (e,false).",
-          "The iterator retains i=2 and calls next(e).",
-          "State_2 captures e.error into its state object, selects error mode, and clears the error marker.",
-          "The renderer conspicuously displays the diagnostic followed by the full unchanged normal instruction and JSON schema for State_2."
+          "The clarifying_questions state receives an invalid reply.",
+          "The state function returns false with a diagnostic.",
+          "The iterator retries the same step.",
+          "The step captures and clears the diagnostic before calling the renderer.",
+          "The renderer presents it before the unchanged instruction and schema."
         ]
       },
       {
         "title": "Successful correction after retry",
         "sequence": [
-          "The agent returns corrected e.e2 in another E_RETURN(e).",
-          "Function_2 validates and returns (e,true); the iterator increments i from 2 to 3.",
-          "next(e) invokes State_3 normally, preserving e.e0, e.e1 and accepted e.e2."
+          "The step receives a corrected reply containing clarifying_questions.",
+          "The state function validates the reply and returns true.",
+          "The iterator records the value and advances. The next step reads it by keyword."
         ]
       }
     ],
     "relationship_to_existing_workspace_instructions": {
-      "preserved_requirements": "Preserve the indexed step-file sequence, dedicated validation functions, external rendering resources, full context accumulation, machine-dialect instructions, aligned JSON return schemas, persistent run records and interactive two-phase queue design.",
-      "superseded_transition_behavior": "Replace requirements that Function_i directly invoke preceding/following state functions. Function_i instead returns (e,valid), and the iterator selects the current state by index.",
-      "superseded_index_convention": "Use zero-based correspondence between State_i, Function_i, and e.e_i. Earlier examples with State_0/Function_1/e.e1 do not define the active indexing convention.",
+      "preserved_requirements": "Preserve indexed step selection, external rendering resources, keyword-addressed accepted values, aligned return schemas, Boolean-controlled transitions, persisted run records and the interactive two-phase queue.",
+      "superseded_transition_behavior": "The active state function calls the separate renderer and validates its reply. The iterator alone invokes the following or repeated step.",
+      "superseded_index_convention": "Use a zero-based index for step selection and semantic keywords for accepted values and schema lookup.",
       "reconciliation_requirement": "Maintain one authoritative iterator and transition mechanism across all current instruction objects and implementation examples; do not leave competing active direct-invocation contracts."
     }
   },
   {
     "title": "State Object Composition and Context-Derived Return Schemas",
-    "applicability": "Every State_i(e) function in the indexed indexed procedure machine when constructing the JSON state object that will be presented through the renderer, including normal and validation-error responses.",
-    "purpose": "Specify the mandatory and conditional content members of a state object and permit a state-local helper function to derive its return schema from one or more independently addressable properties of the accumulated context e without hardcoding rendered content.",
+    "applicability": "Every state function preparing a state object for the separate renderer, including validation-error retries.",
+    "purpose": "Specify state-object components and allow derivation of a return schema from earlier accepted values read by keyword.",
     "definitions": {
       "state_object": "The JSON object constructed and returned by State_i(e) for the current state. It contains two mandatory content members, instruction and return_schema, and may contain one additional content member, error_message, when a validation diagnostic is pending.",
       "instruction": "The mandatory content member describing the current state's agent-facing instruction. Its system-authored wording is obtained through the externally configured content mechanism; it must not be hardcoded into the state function.",
@@ -628,9 +593,9 @@
       "instruction_content_source": "The instruction member must identify or carry the state-specific instruction obtained from externally addressable configuration content. Constructing the JSON state object does not authorize hardcoding any system-authored instruction wording in executable source.",
       "schema_source_selection": "For each state invocation, supply a return_schema from either an externally configured schema definition or a dynamically constructed schema. Dynamic construction must produce a concrete, syntactically valid JSON Schema for the input requested at the current State_i, not an unexplained placeholder or abbreviated pseudo-schema.",
       "optional_state_local_helper": "A State_i function may define a dedicated schema-construction helper inside its own function body. When used, the helper must receive one or more explicitly identified properties of e as inputs and derive the return_schema from their values. The helper is optional; the requirement does not force dynamic construction where an externally configured schema suffices.",
-      "context_derivation": "The helper must use the declared input values in e to determine the applicable fields, types and constraints of the return schema. Its logic must preserve the semantics of previously accepted context properties and must not alter those properties merely to construct a schema.",
-      "schema_instruction_alignment": "Whether loaded or derived, return_schema must describe the same expected agent response as instruction, including the newly requested e.e_i and any required previously accepted context values. The schema used to validate the subsequent agent return must correspond to the schema presented for that state interaction.",
-      "separate_rendering_responsibility": "State_i constructs and returns the JSON state object; the separate renderer presents its components to the agent. The state function's object construction is not permission to hardcode rendered prose, render the MCP tool response itself, validate the agent's later return, or advance the iterator index.",
+      "context_derivation": "Use declared inputs retrieved by keyword to derive the applicable fields, types and constraints. Preserve earlier accepted values.",
+      "schema_instruction_alignment": "The instruction and schema describe the same one-keyword response. Any derived constraints come from the accepted values retrieved by keyword. The state function validates the reply against the schema issued with that instruction.",
+      "separate_rendering_responsibility": "The state function constructs the state object, supplies it to the separate renderer, and validates the later reply. The renderer resolves and presents the content.",
       "preserve_existing_architecture": "The indexed iterator governs step order, and the semantic keyword identifies the instruction and return-schema pair. State-object composition and schema derivation follow the existing Boolean validation, single-use diagnostic and external-content contracts."
     },
     "composition_examples": [
@@ -641,12 +606,12 @@
           "return_schema": {
             "type": "object",
             "properties": {
-              "e0": {
+              "verbatim_request": {
                 "type": "string"
               }
             },
             "required": [
-              "e0"
+              "verbatim_request"
             ]
           }
         },
@@ -659,12 +624,12 @@
           "return_schema": {
             "type": "object",
             "properties": {
-              "e0": {
+              "verbatim_request": {
                 "type": "string"
               }
             },
             "required": [
-              "e0"
+              "verbatim_request"
             ]
           },
           "error_message": "Reference or resolved diagnostic captured from e.error"
@@ -673,8 +638,8 @@
       },
       {
         "title": "State-local helper deriving a schema from context",
-        "illustrative_javascript": "function State_3(e) {\n  function deriveReturnSchema(questions) {\n    return schemaBuilderFromAcceptedQuestions(questions);\n  }\n  const return_schema = deriveReturnSchema(e.e2);\n  const pendingError = e.error?.error === true ? { ...e.error } : null;\n  e.error = null;\n  const stateObject = {\n    instruction: instructionReferenceForState(3),\n    return_schema\n  };\n  if (pendingError) {\n    stateObject.error_message = errorReferenceAndData(pendingError);\n  }\n  return stateObject;\n}",
-        "interpretation": "This is illustrative control logic: the helper receives accepted questions at e.e2 and derives a state-specific JSON Schema without embedding a fixed rendered schema or instruction. Referenced instruction and diagnostic wording remain in external resources. The concrete helper implementation and naming are not prescribed."
+        "illustrative_javascript": "async function questionAnswers(read, render) {\n  const questions = read('clarifying_questions');\n  const stateObject = { keyword: 'question_answers', instruction: instructionReference('question_answers'), context: { clarifying_questions: questions }, return_schema: schemaBuilderFromAcceptedQuestions(questions) };\n  const { input, issuedSchema } = await render(stateObject);\n  return validateReturnSchema(input, issuedSchema);\n}",
+        "interpretation": "The state reads accepted clarifying_questions by keyword, derives the question_answers schema, and calls the separate renderer. The reply contains question_answers and is checked against the issued schema."
       }
     ],
     "conformance": "A state object conforms when it always contains instruction and a valid return_schema; includes error_message only when a pending diagnostic exists; preserves the full normal instruction and schema in error mode; and uses external content references or runtime derivation rather than hardcoding rendered instruction, diagnostic, or fixed schema content in executable code."

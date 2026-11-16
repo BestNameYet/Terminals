@@ -341,28 +341,28 @@
   },
   {
     "title": "Two-Phase Interactive MCP Procedure Queue and Agent Handoff",
-    "applicability": "The application workflow that uses the indexed machine to develop a procedure with an initial agent, place the resulting procedure into a queue, and continue interactively with a second agent for review, execution, and post-execution diagnostics.",
+    "applicability": "The two-phase interactive MCP workflow that creates a procedure with a first agent, queues it, and resumes the same nonce-persisted run with a second agent for review, execution and post-execution diagnostics.",
     "purpose": "Establish that both sides of the queued handoff are interactive procedures, not an issue-comment job processor or an offline batch execution, so future queue design and implementation preserve the intended agent-facing MCP interaction.",
     "required_behavior": {
-      "first_phase_interactive_procedure": "The first agent responds to successive states from index zero with the current requested keyword. Each active state function calls the separate renderer and validates the reply. The iterator advances on acceptance or retries on rejection. The agent identifies required changes, maps them to actions, builds a procedure and simulates its commands, code and predicted effects.",
-      "queue_handoff": "After procedure preparation, queue the prepared procedure and continuation information with access to the same run's accepted values by keyword. Preserve file-change identifiers, action identifiers, mappings and accepted data for the second agent.",
-      "second_phase_interactive_procedure": "The second agent receives the queued procedure and continues through its own interactive procedure exchanges. That phase comprises reviewing the prepared procedure, executing the associated actions, and completing the post-execution diagnostic against the existing desired-state requirements and checklist. The second agent's interactive responses remain subject to state-specific machine-dialect instructions, JSON return schemas, and function-selected transitions.",
+      "first_phase_interactive_procedure": "The first agent starts with a no-argument call that generates a nonce and initial projection. Each subsequent nonce-plus-input call validates the current keyword against the saved final_schema and substantive rules. Acceptance generates the state.next projection; rejection saves an additive diagnostic on the same projection. The agent identifies changes, maps actions, builds a procedure, and simulates commands, code and predicted effects.",
+      "queue_handoff": "After procedure preparation, queue the prepared procedure together with the existing nonce and access to its persisted record.inputs and current complete projection. Preserve file-change identifiers, action identifiers, mapping, schema and accepted data for the second agent; do not start an unrelated execution record.",
+      "second_phase_interactive_procedure": "The second agent retrieves the queued nonce and replays the same stored projection. Its subsequent nonce-plus-input calls review and execute the prepared procedure, and complete post-execution diagnostics against the original desired state and checklist. Each submitted state is validated against its saved schema and semantic rules; state.next controls advancement.",
       "mcp_based_queue": "Expose the queue and both interactive procedure phases through the application's MCP-based interface. Treat IssueStack's issue-backed queue only as historical design context, not as a required implementation or an execution dependency; an Issue-comment-triggered workflow is not a substitute for the intended interactive MCP queue.",
-      "preserve_machine_architecture": "Preserve the ordered files, keyword-bound instruction and schema pairs, zero-based index, access to the run's accepted inputs, and Boolean-controlled advancement across queue transport, assignment, suspension, resumption and phase transfer.",
+      "preserve_machine_architecture": "Across queue transport, assignment, suspension, resumption and phase transfer preserve the nonce, current keyword, successor, complete stored projection with final_schema, accepted inputs by keyword, mapped file/action identities and deterministic retry/transition behavior. Do not persist or reconstruct a numeric iterator index.",
       "retain_full_run": "Ensure the application's complete run record encompasses both interactive phases, the queue handoff, actual execution results, and post-execution diagnostics. The queue must preserve continuity of the same procedure rather than treating the second phase as a new unrelated request."
     },
     "example": {
       "title": "Interactive procedure authoring followed by interactive review and execution",
       "sequence": [
-        "Agent 1 responds to each MCP-rendered step with that step's requested keyword. The active state function validates the reply.",
+        "Agent 1 starts a procedure and responds to each saved projection using its nonce; the active state-specific handler validates each keyword submission.",
         "Agent 1 produces a file-level change-to-action mapping and decorates that mapping with the stepwise procedure and a proposed simulation containing commands, code and predicted effects.",
-        "The application queues the prepared procedure, saved index and reference to the run's accepted inputs.",
-        "Agent 2 resumes at the saved index, retrieves earlier inputs by keyword, and continues the same run.",
+        "The application queues the prepared procedure and its existing nonce, retaining accepted inputs, identifiers, mappings and current projection.",
+        "Agent 2 uses the same nonce to replay the saved projection, then submits the current keyword under that nonce to continue the same run.",
         "Agent 2 executes the reviewed procedure and interactively supplies actual execution observations and the decorated post-execution diagnostic checklist.",
         "The application retains the complete record spanning both agents and the handoff."
       ]
     },
-    "implementation_boundary": "This instruction specifies required queue behavior and relationships, not a queue storage format, claim protocol, scheduling policy, MCP tool naming convention, or specific implementation strategy. Those decisions must be made separately without changing the stated interactive two-phase behavior."
+    "implementation_boundary": "The requirement specifies interactive queue behavior and continuity, not queue storage format, claim protocol, scheduling policy, or MCP tool name. The selected runtime architecture does fix the persistence of current projection and accepted keyword inputs under a reusable nonce; other queue design choices remain unspecified."
   },
   {
     "title": "Runner, Step Selection, State-Object Renderer, and Two Interactive Applications",

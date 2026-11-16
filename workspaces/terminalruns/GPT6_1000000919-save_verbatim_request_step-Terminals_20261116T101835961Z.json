@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail\napi=repos/BestNameYet/Terminals/contents/workspaces/2d-state-event-procedure-design/src/verbatim_request.mjs\nexpected=621a6a42592c34490b63a358204fdd4f4b978e51\ncontent=$(base64 -w0 <<'STEP_SOURCE'\nasync function captureVerbatimRequest(e, i) {\n  const keyword = \"verbatim_request\"\n  const schema = await returnSchema(keyword)\n\n  const state = {\n    instruction: await instruction(keyword),\n    return_schema: schema\n  }\n\n  const previousError = e[i]?.error\n  if (previousError) {\n    state.error_message = previousError\n  }\n\n  const input = await render(state)\n  return validate(input, schema)\n}\nSTEP_SOURCE\n)\ncommit=$(gh api --method PUT \"$api\" -f branch=main -f message='Add verbatim_request step template' -f content=\"$content\" --jq .commit.sha)\ntest \"$(gh api \"$api?ref=$commit\" --jq .sha)\" = \"$expected\"\ntest \"$(gh api \"$api?ref=main\" --jq .sha)\" = \"$expected\"\nprintf 'published_commit=%s\\npublished_blob=%s\\n' \"$commit\" \"$expected\"",
+  "outputThat": [
+    "published_commit=88f3c50db7773e6f9cd4c765cca4796f8616e313",
+    "published_blob=621a6a42592c34490b63a358204fdd4f4b978e51"
+  ]
+}

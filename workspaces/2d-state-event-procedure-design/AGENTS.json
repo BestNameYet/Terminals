@@ -298,5 +298,36 @@
       }
     ],
     "conformance": "Every transition function must be selected by its State × Event cell, consume e, validate the preceding agent input against the applicable return schema, and provide both e and a purpose-specific argument to the state it chooses. Initial State_0() uses defaults to satisfy that effective contract. Any implementation that omits the carried context or second argument in a transition, relies on global state for either, or switches states outside the selected function violates the prescribed model."
+  },
+  {
+    "title": "Agent Event Representation and Context Property Accumulation",
+    "applicability": "Applies to agent response events and the named input properties in the context/event object e during the interactive State × Event procedure.",
+    "requirements": [
+      {
+        "title": "Event representation",
+        "required_behavior": "Represent an agent's submitted response as the event E_RETURN(e), where E_RETURN identifies the occurrence of the agent returning its response and e is the complete context/event object containing the response values. Event presentation must preserve the distinction between the event occurrence and the object carried by that event."
+      },
+      {
+        "title": "Unique input addresses",
+        "required_behavior": "Assign each independently recallable agent input a unique and explicitly identified member address in e, such as e.e1 for the verbatim user prompt and e.e2 for the determined user intent. Use the specified address consistently when subsequent states and transition functions refer to that input."
+      },
+      {
+        "title": "Context accumulation",
+        "required_behavior": "When a newly requested input is accepted, retain previously accepted members of e under their existing addresses and add the accepted value at its assigned address. Subsequent states and functions can thereby recall each accumulated input independently from the context object passed through the procedure."
+      },
+      {
+        "title": "Property ownership",
+        "required_behavior": "For each rendered state, identify the specific member of e that the agent must populate in its response and describe that member's intended contents in the state's machine-dialect instruction and JSON return schema. The transition function selected by the state-event intersection validates the returned value at that specified member against the requesting state's return contract."
+      }
+    ],
+    "example": {
+      "title": "Separate event occurrence and accumulated input addresses",
+      "sequence": [
+        "State_0 requests the verbatim user prompt at e.e1; the agent returns E_RETURN(e) with e.e1 populated.",
+        "The selected transition function accepts e.e1 and advances to State_1, which requests the user intent at e.e2.",
+        "The agent returns E_RETURN(e) carrying both the previously accepted e.e1 and the new e.e2.",
+        "The transition function validates e.e2 as the property requested by State_1; e.e1 remains independently addressable for later states."
+      ]
+    }
   }
 ]

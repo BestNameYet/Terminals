@@ -1,0 +1,212 @@
+{
+  "schema": "terminals.procedure.fsm2d.matrix.v1",
+  "design_status": "research specification, not deployed",
+  "state_axis": [
+    "verbatim_request",
+    "user_intent",
+    "clarifying_questions",
+    "question_answers",
+    "desired_state",
+    "current_state",
+    "required_changes",
+    "agent_actions",
+    "change_action_mapping",
+    "execution_procedure",
+    "simulation_results",
+    "execution_results",
+    "post_execution_diagnostic",
+    "COMPLETE"
+  ],
+  "event_axis": [
+    "E_RETURN",
+    "E_REPLAY"
+  ],
+  "initial_state": "verbatim_request",
+  "terminal_state": "COMPLETE",
+  "cells": {
+    "verbatim_request": {
+      "E_RETURN": {
+        "function_ref": "./src/verbatim_request.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "user_intent",
+        "schema_derivation": null
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "user_intent": {
+      "E_RETURN": {
+        "function_ref": "./src/user_intent.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "clarifying_questions",
+        "schema_derivation": null
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "clarifying_questions": {
+      "E_RETURN": {
+        "function_ref": "./src/clarifying_questions.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "question_answers",
+        "schema_derivation": null
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "question_answers": {
+      "E_RETURN": {
+        "function_ref": "./src/question_answers.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "desired_state",
+        "schema_derivation": "question_answers.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "desired_state": {
+      "E_RETURN": {
+        "function_ref": "./src/desired_state.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "current_state",
+        "schema_derivation": null
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "current_state": {
+      "E_RETURN": {
+        "function_ref": "./src/current_state.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "required_changes",
+        "schema_derivation": null
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "required_changes": {
+      "E_RETURN": {
+        "function_ref": "./src/required_changes.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "agent_actions",
+        "schema_derivation": "required_changes.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "agent_actions": {
+      "E_RETURN": {
+        "function_ref": "./src/agent_actions.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "change_action_mapping",
+        "schema_derivation": "agent_actions.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "change_action_mapping": {
+      "E_RETURN": {
+        "function_ref": "./src/change_action_mapping.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "execution_procedure",
+        "schema_derivation": "change_action_mapping.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "execution_procedure": {
+      "E_RETURN": {
+        "function_ref": "./src/execution_procedure.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "simulation_results",
+        "schema_derivation": "execution_procedure.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "simulation_results": {
+      "E_RETURN": {
+        "function_ref": "./src/simulation_results.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "execution_results",
+        "schema_derivation": "simulation_results.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "execution_results": {
+      "E_RETURN": {
+        "function_ref": "./src/execution_results.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "post_execution_diagnostic",
+        "schema_derivation": "execution_results.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "post_execution_diagnostic": {
+      "E_RETURN": {
+        "function_ref": "./src/post_execution_diagnostic.mjs#default",
+        "result_contract": "ACCEPT(value) | REJECT(diagnostic)",
+        "on_accept": "COMPLETE",
+        "schema_derivation": "post_execution_diagnostic.deriveSchema"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayStored",
+        "result_contract": "REPLAY"
+      }
+    },
+    "COMPLETE": {
+      "E_RETURN": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayCompletion",
+        "result_contract": "REPLAY_COMPLETE"
+      },
+      "E_REPLAY": {
+        "function_ref": "./src/fsm2d-handlers.mjs#replayCompletion",
+        "result_contract": "REPLAY_COMPLETE"
+      }
+    }
+  },
+  "handling_rules": {
+    "E_RETURN": "Call current state validator against saved projection; accepted value writes under keyword, then on_accept selects next; rejected input preserves state and saved schema with additive diagnostic.",
+    "E_REPLAY": "Do not validate, generate or modify; return saved projection, or saved terminal receipt."
+  },
+  "boundary_adapter": {
+    "no_nonce": "CREATE_INITIAL_RECORD",
+    "nonce_without_input": "E_REPLAY",
+    "nonce_with_input": "E_RETURN"
+  },
+  "invariants": [
+    "28 cells, all resolvable",
+    "No external state mutations by handlers",
+    "Only table directs accepted successor",
+    "Save before response",
+    "Preserve prior accepted values",
+    "Terminal replay idempotence"
+  ],
+  "origin_revision": "d5c8a2b07b5e4c137e259403787b562abf801a87"
+}

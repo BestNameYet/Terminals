@@ -252,32 +252,32 @@
   },
   {
     "title": "Agent Return and Accepted Inputs by Keyword",
-    "applicability": "Applies to agent replies and to the run-scoped source of previously accepted inputs.",
+    "applicability": "Applies to agent input submitted with a procedure nonce and to previously accepted keyword values persisted in the same nonce execution record.",
     "requirements": [
       {
         "title": "Event representation",
-        "required_behavior": "Represent an agent submission as E_RETURN(input), where input contains only the value under the keyword requested by the current step."
+        "required_behavior": "Represent the agent submission as E_RETURN(input) in a separate nonce-plus-input invocation. Its object contains only the current state keyword and corresponding value; the event does not include validation status or a requested next state."
       },
       {
         "title": "Unique input addresses",
-        "required_behavior": "Assign each independently recallable input its own semantic keyword. Resolve earlier accepted values through read(keyword)."
+        "required_behavior": "Assign each independently recallable input a stable semantic keyword. Store it as record.inputs[keyword] and resolve declared prior inputs by keyword when building a new projection."
       },
       {
         "title": "Context accumulation",
-        "required_behavior": "After acceptance, record the new value by keyword in the active run. Keep earlier accepted values intact. Keep retry diagnostics separate from accepted inputs."
+        "required_behavior": "After validation against the saved final_schema and semantic rules, persist the accepted value by keyword under the same nonce. Preserve all earlier accepted values. Keep rejection diagnostics in the current stored projection rather than treating them as accepted inputs or as a separate pending state."
       },
       {
         "title": "Property ownership",
-        "required_behavior": "For each step document the one keyword the agent supplies. The state function invokes the renderer and then validates the reply against the schema issued for that keyword."
+        "required_behavior": "Document the one keyword expected at each state. The projection builder resolves its complete instruction and derived final_schema before persistence; the state-specific handler later validates the agent return against that same stored schema. Rendering never receives agent input."
       }
     ],
     "example": {
       "title": "Keyword-addressed agent replies",
       "sequence": [
-        "The agent returns {verbatim_request: ...} and the run records it by keyword.",
-        "The user_intent step reads verbatim_request and calls the renderer.",
-        "The agent returns {user_intent: ...}.",
-        "The same step validates the reply and the iterator records user_intent separately."
+        "A new Procedure call returns a nonce and saved verbatim_request projection.",
+        "The agent submits {verbatim_request: ...} with that nonce; the handler validates the stored final_schema and record.inputs.verbatim_request is saved.",
+        "The controller builds and saves user_intent using state.next and the accepted original prompt.",
+        "The agent separately returns {user_intent: ...} with the same nonce; the handler validates it and record.inputs.user_intent is stored independently."
       ]
     }
   },

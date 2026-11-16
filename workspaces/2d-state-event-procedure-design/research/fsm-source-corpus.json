@@ -289,7 +289,7 @@
       "id": "SRC028",
       "category": "engineering_article",
       "title": "Hunter, Event Driven State Machines",
-      "url": "https://blog.mbedded.ninja/programming/design-patterns/state-machines/event-driven/",
+      "url": "https://blog.mbedded.ninja/programming/design-patterns/state-machines/event-driven-hierarchical/",
       "screening": "included",
       "architecture_pattern": "event-driven handlers",
       "concrete_design_implication": "Limit callback execution and preserve deterministic state progression.",

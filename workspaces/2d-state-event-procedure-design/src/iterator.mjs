@@ -30,7 +30,9 @@ export function initializeIterator(steps, returnSchemas, checkpoint = null) {
     e.error = checkpoint.pending_error
   }
 
-  return { e, keywordIndexes, i }
+  return checkpoint && Object.hasOwn(checkpoint, "state_object")
+    ? { e, keywordIndexes, i, stateObject: checkpoint.state_object }
+    : { e, keywordIndexes, i }
 }
 
 export async function iterate(
@@ -39,7 +41,12 @@ export async function iterate(
   render,
   initialize = () => initializeIterator(steps, returnSchemas)
 ) {
-  const { e, keywordIndexes, i: initialIndex } = initialize()
+  const restored = initialize()
+  const { e, keywordIndexes, i: initialIndex } = restored
+
+  if (Object.hasOwn(restored, "stateObject")) {
+    return render(restored.stateObject)
+  }
 
   function read(keyword) {
     const index = keywordIndexes.get(keyword)

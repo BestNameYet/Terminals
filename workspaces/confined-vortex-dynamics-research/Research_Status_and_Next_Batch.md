@@ -1,21 +1,33 @@
 # Confined Vortex Dynamics — Research Status and Next Batch
 
-**Edition:** 0.2 (2026-11-16). **Procedure nonce:** 27a9b12e-8586-45d5-9fbb-7d1750cb9d5b. Base: master v0.1, 15 academic/patent seeds.
+**Edition:** 0.3 (2026-11-16). **Procedure nonce:** 22d3429e-f470-43a0-b991-6df216b9ea39. **Prior state:** edition 0.2, commit 5c20c58. **Batch report:** P1A_01b_APG_02_Source_Batch.md.
 
 ## Verified screening checkpoint
-- **Historical P1A-01: PARTIAL** — H01–H15 = 15 unique bibliographic records, but H15 is expanded revision of H01. **14 independently counted original historical works** toward the first 20-work limit. Original Helmholtz/Kelvin seeds remain excluded.
-- **APG-01: INITIAL SCREEN COMPLETE** — F01–F09 = nine source records: seven publications/reviews and two patents. Multiple Tesař papers represent one investigator lineage.
-- Source_Catalog.csv total **39 entries**, including the original 15. New additions 24. All at screening level; **zero systematically fully extracted quantitative studies**, **zero comprehensively analyzed patent families**.
-- Master Section 14 adds M13/M14 and G17/G18/G19 APG and oscillator tags. The mechanism matrix and original-source identity are in P1A_01_Historical_and_APG_Oscillator_Batch.md.
-- The controlling project PDF and secondary verbose instruction were consulted. Geometry-specific and audio claims are not made for any new project apparatus.
-- Terminal watchdog run 43976772695 was successful; Terminal MCP responded live.
+- **P1A-01 historical discovery limit reached:** H01–H21 = 21 historic bibliographic entries, of which H15 is a revision of H01. **20 distinct original historic works** screened. The A01–A02 Helmholtz/Kelvin initial seeds are not included as new originals.
+- **APG-01 + APG-02 discovery checkpoint complete:** F01–F29 = **29 screened source records**, including 20 newly screened entries F10–F29 (**16 publications and four patent disclosures**), subject to repeated-investigator lineage caution.
+- **Total Source_Catalog.csv rows: 65** (15 original master seeds + 21 historical entries + 29 APG records). All identifiers unique; patent family publications tracked under family grouping.
+- **Full original-paper quantitative extractions this program: 0.** Fully processed patent claims/families: **0**. Independent experimental validation of individual patent performance: **0**. Historical and APG discoveries are screened bibliographic and publisher abstract/description records.
+- **Master edition 0.3:** Section 15; companion new batch report has physics, research matrix, hypothesis tests and explicit negative transfer cases.
 
-## Next exact P1A task
-**CVD-P1A-01b:** screen up to six additional genuine original 1858–1949 sources not overlapping A01/A02 or H01–H15; prioritize physically relevant viscous-core analyses (Oseen/Burgers lineages), early confined wall boundary cases, and negative counterexamples. Do not substitute editions/reviews to fill the limit. Original years versus later scans/translations must stay distinct.
+## Task ledger
+| Task | Scope | Verified status | Next |
+|---|---|---|---|
+| P0 | Master research program and first 15 seed identities | Complete with gaps | Later systematic re-audit |
+| P1A-01 | First historic original-work discovery | Complete at 20-original screening checkpoint (H01-H21 excluding H15 edition) | P1A-02 |
+| APG-01 | First APG/fluidic-oscillator source pack F01-F09 | Screened | APG-03 |
+| APG-02 | Additional 20 APG/oscillator records F10-F29 | Screened, 20 records | APG-03 |
+| P1A-02 | Historically confined walls, viscous core and original translations plus negative comparisons | Not started | Next independently bounded 20-candidate batch |
+| APG-03 | Original full-text quantitative geometry and pressure/topology extraction | Next | Up to 5 complete original works |
+| P2 | Patent family claims and geometry tracing | Pending | Start with F26-F29; verify Zalmanzon lineage |
+| P4-P7 | Independent-source synthesis, contradictions, experimental atlas and publication audit | Pending | After measured-source extraction |
 
-## Next APG work
-**CVD-APG-02:** a new 20-candidate discovery batch across multiple truly independent investigators and patent families, with feedback loops, no-feedback paired jets, Coanda states, acoustic cavities and external APG control. Directly inspect patent priority-family data/claims and full geometry later; do not infer APG inside a cavity merely from an application.
-**CVD-APG-03:** up to five full-text quantitative extractions with source-defined Re/St, pressure-gradient measurement locations, wall-shear/reattachment or oscillation phase data and geometry/origin distinctions.
+## Next exact step — CVD-APG-03
+Select up to **five** different primary studies across distinct mechanism families: one actual diffuser/APG separation dataset, one phase-resolved dual-feedback oscillator experiment, one compressible channel pressure-wave work, one forced external separation-control experiment, and one distinct no-feedback or delay/patent-disclosure geometry. Read their original full texts and inspect figures/tables, source-defined pressure stations and pressure-gradient signs, Re/St definitions, flow/source conditions, cavity and feedback topology, hydraulic/aperture dimensions, time series, measurement uncertainty and negative/bistable states. Make **separate configuration records** for each tested geometry; don't assume a universal threshold or transfer sound peak identity from device to device. Report exact measured points and any inaccessible source/figure and distinguish numerical inference from experiment. Five is the upper limit, not a quota.
 
-## Open risks
-P1A remains below the 20 independent-work discovery ceiling. Full text figures/tables not yet processed. Patent performance not validated. Oscillator test geometry and pressure maps cannot yet be treated as baseline project-device measurements. Procedure completion and GitHub publication need separate verification.
+## Parallel later step — CVD-P1A-02
+Recheck Oseen's original vortex work and pre-1950 wall-confined studies. Trace translation/version dates and directly measured results, emphasizing the difference between semi-infinite rotating-plane theories, curved-pipe secondary vortices, true enclosed cavity, and external concave-wall instability. Avoid counting editions as independent investigations.
+
+## Boundary and source cautions
+APG sign is dp_e/ds>0 only for declared flow-oriented s; a radial pressure gradient and inlet/outlet pressure loss are different. A fluidic oscillator may be used to manipulate **external** APG flow while not itself exhibiting the same APG. No named vortex or acoustic instability is established from a sound/spectrum alone. Publications sharing the same laboratory or later reviews do not establish independent confirmation. Patent titles and claims do not measure achieved performance.
+
+All previous repository files outside these four research artifacts are intentionally untouched. Procedure state-machine completion and independently verified GitHub publication are separate checks.

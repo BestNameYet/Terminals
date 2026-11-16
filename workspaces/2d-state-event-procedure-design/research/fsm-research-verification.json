@@ -1,0 +1,74 @@
+{
+  "schema": "terminals.procedure.fsm2d.research-verification.v1",
+  "review_date": "2026-11-16",
+  "procedure_nonce": "f008d9a9-6cb0-4dd1-9b63-05cf92e7e5f5",
+  "phase": "research and concrete design, not implementation",
+  "status": "PASS",
+  "source_quotas": {
+    "candidate_at_least_40": true,
+    "retained_at_least_30": true,
+    "node_ts_at_least_8": true,
+    "python_at_least_8": true,
+    "formal_at_least_4": true,
+    "engineering_at_least_4": true,
+    "forums_at_least_4": true
+  },
+  "artifacts": [
+    {
+      "file": "fsm-landscape-protocol.md",
+      "url": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/research/fsm-landscape-protocol.md",
+      "sha": "34598ce403d9eb146fc22c218edb0f58bfb146f6",
+      "bytes": 5050,
+      "readback_status": "verified_present_on_main"
+    },
+    {
+      "file": "fsm-source-corpus.json",
+      "url": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/research/fsm-source-corpus.json",
+      "sha": "735f081676322fc1c7a34831254e94f9b22e37fc",
+      "bytes": 21114,
+      "readback_status": "verified_present_on_main",
+      "candidate_count": 41,
+      "included_count": 35,
+      "category_counts": {
+        "node_ts": 11,
+        "python": 10,
+        "formal_academic": 5,
+        "engineering_article": 5,
+        "developer_discussion": 4,
+        "excluded": 6
+      },
+      "duplicate_url_count": 0
+    },
+    {
+      "file": "2d-fsm-substrate-design.md",
+      "url": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/research/2d-fsm-substrate-design.md",
+      "sha": "9d702345b523089a4a6bea5ca9472b9eb57cbb32",
+      "bytes": 13390,
+      "readback_status": "verified_present_on_main"
+    },
+    {
+      "file": "fsm2d-matrix.json",
+      "url": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/research/fsm2d-matrix.json",
+      "sha": "f41bd7372240f68cad36f0af27376e3b14636a23",
+      "bytes": 7093,
+      "readback_status": "verified_present_on_main",
+      "state_count": 14,
+      "event_count": 2,
+      "cell_count": 28,
+      "complete": true
+    },
+    {
+      "file": "2d-fsm-evidence-assessment.md",
+      "url": "https://github.com/BestNameYet/Terminals/blob/main/workspaces/2d-state-event-procedure-design/research/2d-fsm-evidence-assessment.md",
+      "sha": "05c4f55520e11e672ccfb06ee11abccc19d8d0e6",
+      "bytes": 6039,
+      "readback_status": "verified_present_on_main"
+    }
+  ],
+  "limitations": [
+    "Source catalog includes discovery-level GitHub projects not all analyzed at source-code level.",
+    "Machine-readable function references in fsm2d-matrix.json are symbolic design bindings, not deployed code pointers.",
+    "No 2D runtime refactor or regression tests were executed.",
+    "The full four PDFs were used as background, and technical details are cross-checked with upstream sources where possible."
+  ]
+}

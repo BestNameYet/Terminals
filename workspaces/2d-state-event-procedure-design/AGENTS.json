@@ -169,52 +169,52 @@
     ]
   },
   {
-    "title": "Deterministic Event-Driven State Transitions and Context Argument Passing",
-    "applicability": "Every transition, agent-submitted event, event/context property, selected function, and state invocation in the interactive indexed procedure machine, including validation retries and transitions between queue phases.",
+    "title": "Deterministic Nonce-Based State Transitions and Context Argument Passing",
+    "applicability": "Every transition, agent-submitted input, keyword-addressed previous value, projection generation, validation retry and queue continuation in the nonce-persisted interactive procedure.",
     "definitions": {
-      "ordered_deterministic_route": "The procedure follows zero-based indexed states. The current index i is advanced by exactly one when the current step's Function_i returns true and retained when it returns false. Both outcomes deterministically invoke next(e).",
-      "agent_event": "E_RETURN(input) identifies the agent's reply to the active state. Its payload is the object containing the current keyword.",
-      "context_address": "An accepted input is addressed by its semantic keyword in the run's source. For example, read('verbatim_request') retrieves the accepted original prompt.",
-      "selected_function": "The iterator invokes the step file at index i. Its state function calls the renderer and validates the reply for the current keyword.",
-      "state_arguments": "Give the state function access to read(keyword), the renderer, and any run-local control data required for a diagnostic. Do not require a complete context object."
+      "ordered_deterministic_route": "The current nonce record contains the active state and its successor keyword state.next. Acceptance generates and persists the successor; rejection retains the state and adds a diagnostic without changing its final_schema. A null successor denotes completion.",
+      "agent_event": "E_RETURN(input) is the subsequent nonce-plus-input submission, containing only the current state keyword and value; it does not determine validity or a destination.",
+      "context_address": "An accepted input is stored in record.inputs under its semantic keyword. For example, record.inputs.verbatim_request holds the accepted original prompt.",
+      "selected_function": "The current state keyword selects its validation handler; the projection builder resolves the next keyword definition and optional derivation function using the projection reference.",
+      "state_arguments": "Give the validator access to the persisted final_schema and the current run's accepted values by keyword. Give projection generation only its declared prerequisite inputs. Rendering receives the complete already-built projection."
     },
     "mandatory_behavior": {
-      "deterministic_transition_order": "After the active state function returns a Boolean result, update i by Number(valid). Acceptance advances once and rejection retries the same index with the pending diagnostic.",
-      "agent_input_drives_events": "Treat the agent's response to a rendered state's instruction and JSON return schema as the event input. The agent supplies e; the event does not itself select a transition or encode validation success or failure.",
-      "unique_specified_input_addresses": "Assign each requested input a stable semantic keyword. Preserve earlier accepted values in the run's source under their existing keywords.",
-      "function_event_argument": "Deliver E_RETURN(input) to the active state function. It validates the current input and resolves any previously accepted values it needs by keyword.",
-      "function_controls_next_state": "Function_i controls the validation outcome but does not directly choose or invoke a destination state. Its true/false return is the sole input to the iterator's prescribed one-step advance or same-state retry; the iterator makes the index transition.",
-      "state_receives_derived_arguments": "Read only the prior accepted inputs required for the current step. Snapshot and clear any pending diagnostic and supply the separate renderer with the state object.",
-      "initial_invocation_contract": "On a new run the iterator starts at index zero. On resumption it starts at the saved index with access to earlier accepted values by keyword."
+      "deterministic_transition_order": "On valid input, persist record.inputs[state.keyword], generate the keyword named in state.next, and persist the new projection under the same nonce before rendering. On invalid input, retain the current state, attach the diagnostic and render its unchanged instruction and final_schema.",
+      "agent_input_drives_events": "Treat the agent response in a separate nonce-plus-input invocation as the event payload. The agent supplies the current keyword and value; the application validates it and chooses the result, never the agent.",
+      "unique_specified_input_addresses": "Assign each requested input a stable semantic keyword. Preserve earlier accepted values in record.inputs under their existing keywords.",
+      "function_event_argument": "Deliver E_RETURN(input) to the handler selected by the current persisted state.keyword; validate with its final_schema and applicable semantic constraints while resolving required prior values from record.inputs.",
+      "function_controls_next_state": "The handler controls acceptance or rejection, not the destination. The controller follows persisted state.next only after acceptance; rejected input cannot advance or change the keyword.",
+      "state_receives_derived_arguments": "During new projection construction resolve only the declared prior keyword inputs and schema-derivation function. Do not derive a schema when validating, replaying, or rendering; retain a rejection diagnostic on the saved projection.",
+      "initial_invocation_contract": "Create and save the initial verbatim_request projection when called without a procedure argument. On nonce-only resumption load and return the saved projection without recalculation."
     },
     "examples": [
       {
         "title": "Accepted input advances exactly once",
         "sequence": [
-          "The iterator selects the verbatim_request step.",
-          "The step calls the renderer and validates the reply under verbatim_request.",
-          "The iterator stores the accepted value and advances to user_intent."
+          "The initial no-argument invocation persists the verbatim_request projection under a newly generated nonce.",
+          "The agent later submits its verbatim_request input with that nonce and the handler validates the saved final_schema.",
+          "The controller saves the accepted value and generates user_intent from the current state.next."
         ]
       },
       {
         "title": "Validation retry does not change event type",
         "sequence": [
-          "The clarifying_questions step receives an invalid reply.",
-          "The state function returns false with a diagnostic.",
-          "The iterator invokes the same step again; the state function supplies the diagnostic to the renderer."
+          "The clarifying_questions state receives invalid input through its nonce.",
+          "The state-specific handler returns rejection and a diagnostic.",
+          "The controller saves the same state and adds the diagnostic to the projection before rendering it again, with its instruction and final_schema unchanged."
         ]
       },
       {
         "title": "Previous values remain available by keyword",
         "sequence": [
-          "The question_answers step reads clarifying_questions by keyword.",
-          "It derives the return schema from the accepted questions, then calls the separate renderer.",
-          "It validates only the question_answers reply against the issued schema and retains the original questions in the run's source."
+          "The question_answers projection builder retrieves clarifying_questions from the nonce record by keyword.",
+          "It derives the concrete final_schema from the accepted questions, persists the state and renders the projection.",
+          "A subsequent call validates only question_answers against the saved final_schema and leaves earlier inputs intact."
         ]
       }
     ],
-    "conformance": "Each selected state function calls a separate renderer and validates the current input. The iterator alone advances or retries. Earlier accepted input is recoverable by keyword.",
-    "implementation_choice_status": "The selected implementation is zero-based indexed iterator advancement. Earlier direct state-invocation and deferred next-state-pointer examples are superseded; neither is an implementation alternative to this contract."
+    "conformance": "The current nonce record selects a handler and stores the derived final_schema; separate input validation produces acceptance or a diagnostic; the controller follows state.next only on acceptance and replays the current saved projection unchanged when no input is supplied.",
+    "implementation_choice_status": "Nonce-keyed persistent execution records and keyword-addressed projection definitions replace indexed iterator advancement and deferred state pointers. No additional step-index map or pending-diagnostic state is part of the active contract."
   },
   {
     "title": "State-Event Transition Function Invocation and Explicit State Arguments",

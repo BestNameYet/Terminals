@@ -1,0 +1,982 @@
+{
+  "title": "Revised Terminals Procedure projections",
+  "completion_message": "Revised procedure complete. See post_execution_diagnostic for verification results.",
+  "states": [
+    {
+      "state": "verbatim_request",
+      "instruction": "Return `verbatim_request` as a single string containing the original user prompt verbatim, without changing its wording.",
+      "return_schema_notation": "verbatim_request: string",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword verbatim_request. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "verbatim_request": {
+            "type": "string",
+            "description": "The `verbatim_request` property is a string containing the original user prompt verbatim, without changing any of its wording."
+          }
+        },
+        "required": [
+          "verbatim_request"
+        ],
+        "additionalProperties": false
+      },
+      "instruction_explanation_coverage": {
+        "output_keyword": "verbatim_request",
+        "described_schema_nodes": 1,
+        "prior_context": "Previous accepted inputs are retrieved by semantic keyword through read(keyword).",
+        "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
+      },
+      "keyword": "verbatim_request",
+      "read_keywords": [],
+      "compact_instruction_projection": "Return `verbatim_request` as a single string containing the original user prompt verbatim, without changing its wording.",
+      "schema_derivation": {
+        "input_keywords": [],
+        "runtime_constraints": [],
+        "mode": "static_base_schema"
+      }
+    },
+    {
+      "state": "user_intent",
+      "instruction": "Read `verbatim_request`. Return `user_intent` as an object. `intent` is one clear statement of the user's purpose. `objectives` is an array of individually identifiable goals. `constraints` is an array of explicit limitations or requirements. `requested_outcome` describes the result the user wants.",
+      "return_schema_notation": "user_intent: {intent: string, objectives: string[], constraints: string[], requested_outcome: string}",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword user_intent. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "user_intent": {
+            "type": "object",
+            "description": "The `user_intent` property is an object describing the user's intent, objectives, constraints, and requested outcome.",
+            "properties": {
+              "intent": {
+                "type": "string",
+                "description": "The `user_intent.intent` property is a string stating the user's purpose in one clear statement."
+              },
+              "objectives": {
+                "type": "array",
+                "description": "The `user_intent.objectives` property is an array of strings, each naming one independently identifiable user goal.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `user_intent.objectives` identifies one goal from the user's request."
+                }
+              },
+              "constraints": {
+                "type": "array",
+                "description": "The `user_intent.constraints` property is an array of strings describing the request's explicit limitations and requirements.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `user_intent.constraints` states one explicit limitation or requirement."
+                }
+              },
+              "requested_outcome": {
+                "type": "string",
+                "description": "The `user_intent.requested_outcome` property is a string describing the result the user wants."
+              }
+            },
+            "required": [
+              "intent",
+              "objectives",
+              "constraints",
+              "requested_outcome"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "user_intent"
+        ],
+        "additionalProperties": false
+      },
+      "instruction_explanation_coverage": {
+        "output_keyword": "user_intent",
+        "described_schema_nodes": 7,
+        "prior_context": "Previous accepted inputs are retrieved by semantic keyword through read(keyword).",
+        "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
+      },
+      "keyword": "user_intent",
+      "read_keywords": [
+        "verbatim_request"
+      ],
+      "compact_instruction_projection": "Read `verbatim_request`. Return `user_intent` as an object. `intent` is one clear statement of the user's purpose. `objectives` is an array of individually identifiable goals. `constraints` is an array of explicit limitations or requirements. `requested_outcome` describes the result the user wants.",
+      "schema_derivation": {
+        "input_keywords": [
+          "verbatim_request"
+        ],
+        "runtime_constraints": [],
+        "mode": "static_base_schema"
+      }
+    },
+    {
+      "state": "current_state",
+      "instruction": "Inspect the relevant system or authoritative sources without changing them. Return current_state with a factual description, observations with unique IDs and concrete evidence locators, and unresolved facts in unknowns. Use the goal and constraints to bound inspection.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword current_state. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "current_state": {
+            "type": "object",
+            "description": "The `current_state` property is an object describing the observed current system state and explicitly unresolved facts.",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The `current_state.description` property is a string factually summarizing the current system state."
+              },
+              "observations": {
+                "type": "array",
+                "description": "The `current_state.observations` property is an array of current-state observations and their evidence.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `current_state.observations` records one fact about the current system and its supporting evidence.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `current_state.observations[].id` property is a string uniquely identifying one observed system-state fact."
+                    },
+                    "condition": {
+                      "type": "string",
+                      "description": "The `current_state.observations[].condition` property is a string describing the system condition observed."
+                    },
+                    "evidence": {
+                      "type": "string",
+                      "description": "The `current_state.observations[].evidence` property is a string stating how the observation was established."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "condition",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "unknowns": {
+                "type": "array",
+                "description": "The `current_state.unknowns` property is an array of strings identifying specific unknown facts, or an empty array if no such unknowns remain.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `current_state.unknowns` identifies a particular current-state fact that could not be determined."
+                }
+              }
+            },
+            "required": [
+              "description",
+              "observations",
+              "unknowns"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "current_state"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "current_state",
+      "read_keywords": [
+        "user_intent"
+      ],
+      "compact_instruction_projection": "Inspect the relevant system or authoritative sources without changing them. Return current_state with a factual description, observations with unique IDs and concrete evidence locators, and unresolved facts in unknowns. Use the goal and constraints to bound inspection.",
+      "schema_derivation": {
+        "input_keywords": [
+          "desired_state"
+        ],
+        "runtime_constraints": [],
+        "mode": "static_base_schema"
+      }
+    },
+    {
+      "state": "clarifying_questions",
+      "instruction": "Read the inspected observations and unknowns. Return zero or more clarifying_questions. Each has a unique id, a question, and the decision its answer could change. Omit questions whose answers would not affect scope, approach, or verification. Investigate available evidence before asking the user.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword clarifying_questions. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "clarifying_questions": {
+            "type": "array",
+            "description": "Questions that can affect scope, approach, or verification. An empty array is valid.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `clarifying_questions` represents one question and contains its identifier and full question text.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `clarifying_questions[].id` property is a string uniquely identifying the question, such as Q1."
+                },
+                "question": {
+                  "type": "string",
+                  "description": "The `clarifying_questions[].question` property is a string containing a complete interrogative sentence identifying information needed to fulfill the request."
+                },
+                "decision": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "question",
+                "decision"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "clarifying_questions"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "clarifying_questions",
+      "read_keywords": [
+        "verbatim_request",
+        "user_intent",
+        "current_state"
+      ],
+      "compact_instruction_projection": "Read the inspected observations and unknowns. Return zero or more clarifying_questions. Each has a unique id, a question, and the decision its answer could change. Omit questions whose answers would not affect scope, approach, or verification. Investigate available evidence before asking the user.",
+      "schema_derivation": {
+        "input_keywords": [
+          "verbatim_request",
+          "user_intent"
+        ],
+        "runtime_constraints": [],
+        "mode": "static_base_schema"
+      }
+    },
+    {
+      "state": "question_answers",
+      "instruction": "Answer each original question in order, preserving its ID and text. Cite observations or source locators in each answer where available. Mark unresolved when essential evidence is unavailable. Never silently assume a decision that could change authorized scope.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword question_answers. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "question_answers": {
+            "type": "array",
+            "description": "The `question_answers` array contains exactly one answer per `clarifying_questions` entry in the same order, with each original ID and question text preserved.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `question_answers` contains an answer to exactly one previously identified question.",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "description": "The `question_answers[].question_id` property is a string matching the exact identifier of the question being answered in `clarifying_questions[].id`."
+                },
+                "question": {
+                  "type": "string",
+                  "description": "The `question_answers[].question` property is the exact original question text from the corresponding `clarifying_questions[].question`."
+                },
+                "answer": {
+                  "type": "string",
+                  "description": "The `question_answers[].answer` property is a string containing a substantive explanation addressing its referenced question."
+                },
+                "unresolved": {
+                  "type": "boolean",
+                  "description": "The `question_answers[].unresolved` property is a Boolean that is true if necessary information remains unavailable for a reliable answer, and false otherwise."
+                }
+              },
+              "required": [
+                "question_id",
+                "question",
+                "answer",
+                "unresolved"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "question_answers"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "question_answers",
+      "read_keywords": [
+        "clarifying_questions",
+        "current_state"
+      ],
+      "compact_instruction_projection": "Answer each original question in order, preserving its ID and text. Cite observations or source locators in each answer where available. Mark unresolved when essential evidence is unavailable. Never silently assume a decision that could change authorized scope.",
+      "schema_derivation": {
+        "input_keywords": [
+          "clarifying_questions"
+        ],
+        "runtime_constraints": [
+          "Set the exact answer count from clarifying_questions.",
+          "Derive one positional schema per original question and require its exact question_id and question text at the same position as in clarifying_questions."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "desired_state",
+      "instruction": "Use the original request, accepted intent and constraints, observations, and any answers. Return desired_state with a description and independently verifiable conditions. Each condition has a unique id, a requirement, and an observable verification method. Preserve the authorized scope.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword desired_state. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "desired_state": {
+            "type": "object",
+            "description": "The `desired_state` property is an object describing the desired final system state and the conditions that would establish its achievement.",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The `desired_state.description` property is a string summarizing the desired final system state."
+              },
+              "conditions": {
+                "type": "array",
+                "description": "The `desired_state.conditions` property is an array of independently verifiable desired-state requirements.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `desired_state.conditions` defines one independently verifiable desired-state requirement.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `desired_state.conditions[].id` property is a string uniquely identifying one desired-state requirement."
+                    },
+                    "requirement": {
+                      "type": "string",
+                      "description": "The `desired_state.conditions[].requirement` property is a string specifying what must be true in the desired final system state."
+                    },
+                    "verification": {
+                      "type": "string",
+                      "description": "The `desired_state.conditions[].verification` property is a string describing observable evidence or a test establishing whether the requirement is met."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "requirement",
+                    "verification"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "description",
+              "conditions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "desired_state"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "desired_state",
+      "read_keywords": [
+        "verbatim_request",
+        "user_intent",
+        "current_state",
+        "question_answers"
+      ],
+      "compact_instruction_projection": "Use the original request, accepted intent and constraints, observations, and any answers. Return desired_state with a description and independently verifiable conditions. Each condition has a unique id, a requirement, and an observable verification method. Preserve the authorized scope.",
+      "schema_derivation": {
+        "input_keywords": [
+          "verbatim_request",
+          "user_intent",
+          "question_answers"
+        ],
+        "runtime_constraints": [],
+        "mode": "static_base_schema"
+      }
+    },
+    {
+      "state": "required_changes",
+      "instruction": "Read `desired_state` and `current_state`. Return `required_changes` as an array of necessary system changes. Each `id` uniquely identifies a change. `operation` is exactly `create`, `delete`, or `modify`. `target` identifies the specific affected resource. `required_change` describes its exact transformation. `condition_ids` is an array of identifiers referencing the conditions in `desired_state` that this change fulfills.",
+      "return_schema_notation": "required_changes: {id: string, operation: \"create\" | \"delete\" | \"modify\", target: string, required_change: string, condition_ids: string[]}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword required_changes. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "required_changes": {
+            "type": "array",
+            "description": "The `required_changes` property is an array of change objects derived by comparing `current_state` with `desired_state`.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `required_changes` identifies one necessary system change and the desired-state conditions it fulfills.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `required_changes[].id` property is a string uniquely identifying one required system change."
+                },
+                "operation": {
+                  "type": "string",
+                  "enum": [
+                    "create",
+                    "delete",
+                    "modify"
+                  ],
+                  "description": "The `required_changes[].operation` property is a string with exactly one of the values create, delete, or modify, identifying the file or resource operation."
+                },
+                "target": {
+                  "type": "string",
+                  "description": "The `required_changes[].target` property is a string identifying the specific file or other affected resource."
+                },
+                "required_change": {
+                  "type": "string",
+                  "description": "The `required_changes[].required_change` property is a string specifying the exact transformation required for that target."
+                },
+                "condition_ids": {
+                  "type": "array",
+                  "description": "The `required_changes[].condition_ids` property is an array of strings referring to desired-state requirement identifiers in `desired_state.conditions`.",
+                  "items": {
+                    "type": "string",
+                    "description": "Each string in `required_changes[].condition_ids` must match an identifier in `desired_state.conditions[].id` for a desired-state requirement satisfied by the change."
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "operation",
+                "target",
+                "required_change",
+                "condition_ids"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "required_changes"
+        ],
+        "additionalProperties": false
+      },
+      "instruction_explanation_coverage": {
+        "output_keyword": "required_changes",
+        "described_schema_nodes": 8,
+        "prior_context": "Previous accepted inputs are retrieved by semantic keyword through read(keyword).",
+        "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
+      },
+      "keyword": "required_changes",
+      "read_keywords": [
+        "desired_state",
+        "current_state"
+      ],
+      "compact_instruction_projection": "Read `desired_state` and `current_state`. Return `required_changes` as an array of necessary system changes. Each `id` uniquely identifies a change. `operation` is exactly `create`, `delete`, or `modify`. `target` identifies the specific affected resource. `required_change` describes its exact transformation. `condition_ids` is an array of identifiers referencing the conditions in `desired_state` that this change fulfills.",
+      "schema_derivation": {
+        "input_keywords": [
+          "desired_state",
+          "current_state"
+        ],
+        "runtime_constraints": [
+          "Restrict condition_ids to the accepted desired_state.conditions identifiers and check references substantively."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "agent_actions",
+      "instruction": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action. Each action must list at least one accepted change ID, with no repeated IDs within that action. Cover every accepted required change. If there are no required changes, return an empty array.",
+      "return_schema_notation": "agent_actions: {id: string, change_ids: string[], action: string, target: string, expected_result: string}[]",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword agent_actions. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "agent_actions": {
+            "type": "array",
+            "description": "The `agent_actions` property is an array of actionable operation objects mapped to changes in `required_changes`.",
+            "items": {
+              "type": "object",
+              "description": "Each object in `agent_actions` identifies one action needed to implement a mapped system change.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The `agent_actions[].id` property is a string uniquely identifying one required agent action."
+                },
+                "change_ids": {
+                  "type": "array",
+                  "description": "The `agent_actions[].change_ids` property is an array of strings identifying the required changes in `required_changes` that this action implements.",
+                  "items": {
+                    "type": "string",
+                    "description": "Each string in `agent_actions[].change_ids` references an existing change identifier in `required_changes[].id` that the action implements."
+                  }
+                },
+                "action": {
+                  "type": "string",
+                  "description": "The `agent_actions[].action` property is a string describing the precise executable operation the agent must perform."
+                },
+                "target": {
+                  "type": "string",
+                  "description": "The `agent_actions[].target` property is a string specifying the resource or execution surface on which the action operates."
+                },
+                "expected_result": {
+                  "type": "string",
+                  "description": "The `agent_actions[].expected_result` property is a string describing the observable outcome expected after the action executes."
+                }
+              },
+              "required": [
+                "id",
+                "change_ids",
+                "action",
+                "target",
+                "expected_result"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "agent_actions"
+        ],
+        "additionalProperties": false
+      },
+      "instruction_explanation_coverage": {
+        "output_keyword": "agent_actions",
+        "described_schema_nodes": 8,
+        "prior_context": "Previous accepted inputs are retrieved by semantic keyword through read(keyword).",
+        "explanation_source": "The compact instruction projection defines the fields in complete sentences, with additional details in return_schema descriptions."
+      },
+      "keyword": "agent_actions",
+      "diagnostics": {
+        "agent_actions.input_error": "Correct the agent_actions return using the validation details below. Use unique action IDs and cover every required change using accepted change IDs."
+      },
+      "read_keywords": [
+        "required_changes"
+      ],
+      "compact_instruction_projection": "Read `required_changes`. Return `agent_actions` as an array of exact executable operations. Each `id` uniquely identifies an action. `change_ids` is an array of identifiers referencing changes in `required_changes`. `action` describes the operation the agent must perform. `target` identifies the execution surface or resource. `expected_result` describes the observable outcome expected from the action. Each action must list at least one accepted change ID, with no repeated IDs within that action. Cover every accepted required change. If there are no required changes, return an empty array.",
+      "schema_derivation": {
+        "input_keywords": [
+          "required_changes"
+        ],
+        "runtime_constraints": [
+          "Require each action to reference one or more distinct accepted required_changes identifiers. Verify unique action identifiers and coverage of all accepted changes."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "execution_procedure",
+      "instruction": "Use the required changes and agent actions. Return ordered steps with unique IDs, linked change and action IDs, concrete operations, expected changes, verification, and depends_on containing only earlier prerequisite step IDs. If repair is present, address its failed steps, discrepancies, or revisions before resubmitting.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword execution_procedure. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "execution_procedure": {
+            "type": "object",
+            "description": "The `execution_procedure` property is an object containing the ordered executable procedure.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `execution_procedure.steps` property is an array of procedure steps ordered by execution sequence.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `execution_procedure.steps` is an executable procedure step with traceability to actions and required changes.",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The `execution_procedure.steps[].id` property is a string uniquely identifying a step in the executable procedure."
+                    },
+                    "change_ids": {
+                      "type": "array",
+                      "description": "The `execution_procedure.steps[].change_ids` property is an array of strings identifying the changes produced by the step.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `execution_procedure.steps[].change_ids` references an affected change identifier in `required_changes[].id`."
+                      }
+                    },
+                    "action_ids": {
+                      "type": "array",
+                      "description": "The `execution_procedure.steps[].action_ids` property is an array of strings identifying the actions carried out in this step.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `execution_procedure.steps[].action_ids` references an agent action identifier in `agent_actions[].id`."
+                      }
+                    },
+                    "action": {
+                      "type": "string",
+                      "description": "The `execution_procedure.steps[].action` property is a string describing precisely what the agent must do in the step."
+                    },
+                    "expected_change": {
+                      "type": "string",
+                      "description": "The `execution_procedure.steps[].expected_change` property is a string describing the system modification expected to result from the step."
+                    },
+                    "verification": {
+                      "type": "string",
+                      "description": "The `execution_procedure.steps[].verification` property is a string describing a concrete observable test of successful step completion."
+                    },
+                    "depends_on": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true,
+                      "description": "IDs of earlier steps whose results this step requires."
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "change_ids",
+                    "action_ids",
+                    "action",
+                    "expected_change",
+                    "verification",
+                    "depends_on"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "steps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "execution_procedure"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "execution_procedure",
+      "read_keywords": [
+        "required_changes",
+        "agent_actions"
+      ],
+      "compact_instruction_projection": "Use the required changes and agent actions. Return ordered steps with unique IDs, linked change and action IDs, concrete operations, expected changes, verification, and depends_on containing only earlier prerequisite step IDs. If repair is present, address its failed steps, discrepancies, or revisions before resubmitting.",
+      "schema_derivation": {
+        "input_keywords": [
+          "required_changes",
+          "agent_actions",
+          "change_action_mapping"
+        ],
+        "runtime_constraints": [
+          "Restrict change_ids and action_ids to accepted identifiers and check steps against change_action_mapping."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "simulation_results",
+      "instruction": "Read `execution_procedure` and `desired_state`. Simulate the procedure without modifying the system. Return `simulation_results` as an object. `steps` contains one simulated record per procedure step. Each `step_id` identifies that step, `simulated_result` describes its predicted outcome, and `passed` is the agent's Boolean prediction of whether it meets expectations. `checklist` contains one evaluation per desired-state condition. Each `condition_id` identifies that condition, `expected` describes its requirement, `simulated` describes the predicted result, `passed` is the agent's Boolean comparison, and `discrepancy` describes any predicted difference or is an empty string if none exists. `matches_desired_state` is true only when all required conditions are predicted satisfied. `revisions` lists specific pre-execution corrections, or is empty if none are required. Use read-only checks where useful. A failed step, failed condition, or requested revision returns the run to plan repair before any execution.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword simulation_results. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "simulation_results": {
+            "type": "object",
+            "description": "The `simulation_results` property is an object containing simulated procedure results, predicted requirement coverage, and possible revisions.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `simulation_results.steps` property is an array containing a simulated result for every procedure step in `execution_procedure.steps`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `simulation_results.steps` records a prediction for one step in the existing executable procedure.",
+                  "properties": {
+                    "step_id": {
+                      "type": "string",
+                      "description": "The `simulation_results.steps[].step_id` property is a string matching an existing procedure-step identifier in `execution_procedure.steps[].id`."
+                    },
+                    "simulated_result": {
+                      "type": "string",
+                      "description": "The `simulation_results.steps[].simulated_result` property is a string describing the predicted result of simulating that step without making system changes."
+                    },
+                    "passed": {
+                      "type": "boolean",
+                      "description": "The `simulation_results.steps[].passed` property is a Boolean recording the agent's predicted assessment of whether the simulated outcome meets that step's expectations, not the validating function's judgment."
+                    }
+                  },
+                  "required": [
+                    "step_id",
+                    "simulated_result",
+                    "passed"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "checklist": {
+                "type": "array",
+                "description": "The `simulation_results.checklist` property is an array containing one simulated evaluation for every desired-state requirement in `desired_state.conditions`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `simulation_results.checklist` compares one desired-state condition against the simulated outcome.",
+                  "properties": {
+                    "condition_id": {
+                      "type": "string",
+                      "description": "The `simulation_results.checklist[].condition_id` property is a string matching a desired-state requirement identifier in `desired_state.conditions[].id`."
+                    },
+                    "expected": {
+                      "type": "string",
+                      "description": "The `simulation_results.checklist[].expected` property is a string describing the required condition for the referenced desired-state requirement."
+                    },
+                    "simulated": {
+                      "type": "string",
+                      "description": "The `simulation_results.checklist[].simulated` property is a string describing the system condition predicted after simulated procedure execution."
+                    },
+                    "passed": {
+                      "type": "boolean",
+                      "description": "The `simulation_results.checklist[].passed` property is a Boolean indicating the agent's predicted comparison of the simulated and expected conditions, not application-level validation."
+                    },
+                    "discrepancy": {
+                      "type": "string",
+                      "description": "The `simulation_results.checklist[].discrepancy` property is a string explaining any predicted difference between expected and simulated results, or an empty string if no difference is predicted."
+                    }
+                  },
+                  "required": [
+                    "condition_id",
+                    "expected",
+                    "simulated",
+                    "passed",
+                    "discrepancy"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "matches_desired_state": {
+                "type": "boolean",
+                "description": "The `simulation_results.matches_desired_state` property is a Boolean representing whether the agent predicts that every required condition is satisfied, not whether Function_10 has validated its response."
+              },
+              "revisions": {
+                "type": "array",
+                "description": "The `simulation_results.revisions` property is an array of strings describing required pre-execution revisions, or an empty array if none are required.",
+                "items": {
+                  "type": "string",
+                  "description": "Each string in `simulation_results.revisions` describes one concrete correction recommended before the procedure is executed."
+                }
+              }
+            },
+            "required": [
+              "steps",
+              "checklist",
+              "matches_desired_state",
+              "revisions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "simulation_results"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "simulation_results",
+      "read_keywords": [
+        "execution_procedure",
+        "desired_state"
+      ],
+      "compact_instruction_projection": "Read `execution_procedure` and `desired_state`. Simulate the procedure without modifying the system. Return `simulation_results` as an object. `steps` contains one simulated record per procedure step. Each `step_id` identifies that step, `simulated_result` describes its predicted outcome, and `passed` is the agent's Boolean prediction of whether it meets expectations. `checklist` contains one evaluation per desired-state condition. Each `condition_id` identifies that condition, `expected` describes its requirement, `simulated` describes the predicted result, `passed` is the agent's Boolean comparison, and `discrepancy` describes any predicted difference or is an empty string if none exists. `matches_desired_state` is true only when all required conditions are predicted satisfied. `revisions` lists specific pre-execution corrections, or is empty if none are required. Use read-only checks where useful. A failed step, failed condition, or requested revision returns the run to plan repair before any execution.",
+      "schema_derivation": {
+        "input_keywords": [
+          "execution_procedure",
+          "desired_state"
+        ],
+        "runtime_constraints": [
+          "Derive permitted step_id values and exact step count from execution_procedure.steps; derive condition_id values and exact checklist count from desired_state.conditions."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "execution_results",
+      "instruction": "Read `execution_procedure` and `simulation_results`. Execute the validated procedure in order. Return `execution_results` as an object whose `steps` contains one record per procedure step. Each `step_id` identifies the original procedure step. `actions_performed` is an array of operations actually attempted. `observed_result` describes the actual outcome. `status` is exactly `success`, `failed`, or `skipped`. `evidence` is an array of observations, command outputs, or verification references supporting the result. Stay within the stated scope. For design-only tasks, produce and verify the design artifact. For successful steps, provide tool receipts, readback, or other observable evidence.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword execution_results. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "execution_results": {
+            "type": "object",
+            "description": "The `execution_results` property is an object recording execution outcomes and supporting evidence.",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "description": "The `execution_results.steps` property is an array containing one execution-result record for every procedure step in `execution_procedure.steps`.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `execution_results.steps` records what actually occurred during one procedure step.",
+                  "properties": {
+                    "step_id": {
+                      "type": "string",
+                      "description": "The `execution_results.steps[].step_id` property is a string matching one step identifier in `execution_procedure.steps[].id`."
+                    },
+                    "actions_performed": {
+                      "type": "array",
+                      "description": "The `execution_results.steps[].actions_performed` property is an array of strings describing the agent operations actually attempted.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `execution_results.steps[].actions_performed` identifies an operation actually attempted during the referenced step."
+                      }
+                    },
+                    "observed_result": {
+                      "type": "string",
+                      "description": "The `execution_results.steps[].observed_result` property is a string describing the actual outcome observed after the referenced step."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "failed",
+                        "skipped"
+                      ],
+                      "description": "The `execution_results.steps[].status` property is a string with exactly one of success, failed, or skipped, identifying the observed execution result."
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "description": "The `execution_results.steps[].evidence` property is an array of strings containing supporting observations, outputs, or verification references.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `execution_results.steps[].evidence` identifies an observable result, command output, or verification reference supporting the reported execution outcome."
+                      }
+                    }
+                  },
+                  "required": [
+                    "step_id",
+                    "actions_performed",
+                    "observed_result",
+                    "status",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "steps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "execution_results"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "execution_results",
+      "read_keywords": [
+        "execution_procedure",
+        "simulation_results"
+      ],
+      "compact_instruction_projection": "Read `execution_procedure` and `simulation_results`. Execute the validated procedure in order. Return `execution_results` as an object whose `steps` contains one record per procedure step. Each `step_id` identifies the original procedure step. `actions_performed` is an array of operations actually attempted. `observed_result` describes the actual outcome. `status` is exactly `success`, `failed`, or `skipped`. `evidence` is an array of observations, command outputs, or verification references supporting the result. Stay within the stated scope. For design-only tasks, produce and verify the design artifact. For successful steps, provide tool receipts, readback, or other observable evidence.",
+      "schema_derivation": {
+        "input_keywords": [
+          "execution_procedure",
+          "simulation_results"
+        ],
+        "runtime_constraints": [
+          "Derive permitted step_id values and exact result count from execution_procedure.steps."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    },
+    {
+      "state": "post_execution_diagnostic",
+      "instruction": "Read `simulation_results` and `execution_results`. Return `post_execution_diagnostic` as an object decorating the existing simulated checklist without regenerating its items. `checklist` retains the same entries in the same order. Each `condition_id`, `expected`, and `simulated` preserves the original value, and `passed` preserves the simulation's Boolean prediction. `actual` describes the observed condition. `status` is exactly `pass`, `fail`, or `unverified`. `discrepancy` describes differences between expected and actual results, or is empty if none exists; it supersedes the earlier predicted discrepancy. `evidence` is an array of supporting observations or verification results. `overall_result` is `pass` only when every item passes, `fail` when a verified discrepancy exists, or `incomplete` when verification remains unresolved without an established failure. Verify the actual deliverable against the accepted requirements. Report failures and unresolved requirements explicitly.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "description": "Response object containing the current state input under the semantic keyword post_execution_diagnostic. Earlier accepted inputs remain in the iterator's separate indexed records.",
+        "properties": {
+          "post_execution_diagnostic": {
+            "type": "object",
+            "description": "The `post_execution_diagnostic` property is an object containing post-execution diagnostic outcomes and the overall result.",
+            "properties": {
+              "checklist": {
+                "type": "array",
+                "description": "The `post_execution_diagnostic.checklist` property is an array containing every item of `simulation_results.checklist` in the same order, with preserved prior values and added observed results.",
+                "items": {
+                  "type": "object",
+                  "description": "Each object in `post_execution_diagnostic.checklist` preserves a prior simulated checklist item and decorates it with actual post-execution observations.",
+                  "properties": {
+                    "condition_id": {
+                      "type": "string",
+                      "description": "The `post_execution_diagnostic.checklist[].condition_id` property is a string preserved exactly from the corresponding `simulation_results.checklist[].condition_id`."
+                    },
+                    "expected": {
+                      "type": "string",
+                      "description": "The `post_execution_diagnostic.checklist[].expected` property is a string preserved exactly from the corresponding `simulation_results.checklist[].expected`."
+                    },
+                    "simulated": {
+                      "type": "string",
+                      "description": "The `post_execution_diagnostic.checklist[].simulated` property is a string preserved exactly from the corresponding `simulation_results.checklist[].simulated`."
+                    },
+                    "passed": {
+                      "type": "boolean",
+                      "description": "The post_execution_diagnostic.checklist item passed property preserves the original Boolean simulation prediction for this checklist condition."
+                    },
+                    "actual": {
+                      "type": "string",
+                      "description": "The `post_execution_diagnostic.checklist[].actual` property is a string describing the observed post-execution condition."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pass",
+                        "fail",
+                        "unverified"
+                      ],
+                      "description": "The `post_execution_diagnostic.checklist[].status` property is a string with exactly one of pass, fail, or unverified, describing whether the actual result satisfies the requirement."
+                    },
+                    "discrepancy": {
+                      "type": "string",
+                      "description": "The `post_execution_diagnostic.checklist[].discrepancy` property is a string explaining any actual discrepancy from the required condition, or an empty string when none exists."
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "description": "The `post_execution_diagnostic.checklist[].evidence` property is an array of strings recording evidence for the assessed condition.",
+                      "items": {
+                        "type": "string",
+                        "description": "Each string in `post_execution_diagnostic.checklist[].evidence` describes an observation or verification result supporting the post-execution assessment."
+                      }
+                    }
+                  },
+                  "required": [
+                    "condition_id",
+                    "expected",
+                    "simulated",
+                    "passed",
+                    "actual",
+                    "status",
+                    "discrepancy",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "overall_result": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "fail",
+                  "incomplete"
+                ],
+                "description": "The `post_execution_diagnostic.overall_result` property is a string set to pass when every checklist item passes, fail when a verified failure exists, or incomplete when some verification remains unresolved without an established failure."
+              }
+            },
+            "required": [
+              "checklist",
+              "overall_result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "post_execution_diagnostic"
+        ],
+        "additionalProperties": false
+      },
+      "keyword": "post_execution_diagnostic",
+      "read_keywords": [
+        "simulation_results",
+        "execution_results"
+      ],
+      "compact_instruction_projection": "Read `simulation_results` and `execution_results`. Return `post_execution_diagnostic` as an object decorating the existing simulated checklist without regenerating its items. `checklist` retains the same entries in the same order. Each `condition_id`, `expected`, and `simulated` preserves the original value, and `passed` preserves the simulation's Boolean prediction. `actual` describes the observed condition. `status` is exactly `pass`, `fail`, or `unverified`. `discrepancy` describes differences between expected and actual results, or is empty if none exists; it supersedes the earlier predicted discrepancy. `evidence` is an array of supporting observations or verification results. `overall_result` is `pass` only when every item passes, `fail` when a verified discrepancy exists, or `incomplete` when verification remains unresolved without an established failure. Verify the actual deliverable against the accepted requirements. Report failures and unresolved requirements explicitly.",
+      "schema_derivation": {
+        "input_keywords": [
+          "simulation_results",
+          "execution_results"
+        ],
+        "runtime_constraints": [
+          "Derive checklist length and preserved values from simulation_results.checklist; compare the new actual outcomes with execution_results."
+        ],
+        "mode": "context_derived_constraints_on_base_schema"
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
 import { join } from 'node:path';
-import { create, f } from '../2d-state-event-procedure-design/src/iterator.mjs';
+import * as legacy from '../2d-state-event-procedure-design/src/iterator.mjs';
 
 // One nonce identifies one saved execution record throughout the procedure.
 // A bare Procedure starts a run. Procedure {"nonce":"..."} replays it.
@@ -9,26 +9,26 @@ import { create, f } from '../2d-state-event-procedure-design/src/iterator.mjs';
 const root = process.env.MCP_PROCEDURE_STATE_DIR
   ?? join('/workspaces/.terminals-mcp', process.env.CODESPACE_NAME || 'local', 'procedures');
 
-function fileFor(nonce) {
+function fileFor(directory, nonce) {
   if (typeof nonce !== 'string' || !/^[a-f0-9-]{36}$/.test(nonce)) {
     throw new TypeError('Invalid procedure nonce');
   }
-  return join(root, nonce + '.json');
+  return join(directory, nonce + '.json');
 }
 
-async function load(nonce) {
-  return JSON.parse(await readFile(fileFor(nonce), 'utf8'));
-}
-
-async function save(nonce, record) {
-  await mkdir(root, { recursive: true });
-  const target = fileFor(nonce);
-  const temp = join(root, nonce + '.' + randomUUID() + '.tmp');
-  await writeFile(temp, JSON.stringify(record), { mode: 0o600 });
-  await rename(temp, target);
-}
-
-export async function Procedure(args = {}, { onTransition } = {}) {
+export async function Procedure(args = {}, { revised = false, onTransition } = {}) {
+  const directory = revised ? join(root, 'revised') : root;
+  const { create, f } = revised
+    ? await import('../revised-procedure/src/iterator.mjs')
+    : legacy;
+  const load = async nonce => JSON.parse(await readFile(fileFor(directory, nonce), 'utf8'));
+  const save = async (nonce, record) => {
+    await mkdir(directory, { recursive: true });
+    const target = fileFor(directory, nonce);
+    const temp = join(directory, nonce + '.' + randomUUID() + '.tmp');
+    await writeFile(temp, JSON.stringify(record), { mode: 0o600 });
+    await rename(temp, target);
+  };
   if (!args || typeof args !== 'object' || Array.isArray(args)) {
     throw new TypeError('Procedure requires an argument object');
   }

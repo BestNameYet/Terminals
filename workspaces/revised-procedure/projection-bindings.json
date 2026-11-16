@@ -1,0 +1,62 @@
+{
+  "verbatim_request": {
+    "next": "user_intent",
+    "process": "./src/verbatim_request.mjs",
+    "derive_schema": null
+  },
+  "user_intent": {
+    "next": "current_state",
+    "process": "./src/user_intent.mjs",
+    "derive_schema": null
+  },
+  "clarifying_questions": {
+    "next": "question_answers",
+    "process": "./src/clarifying_questions.mjs",
+    "derive_schema": null
+  },
+  "question_answers": {
+    "next": "desired_state",
+    "process": "./src/question_answers.mjs",
+    "derive_schema": "question_answers.deriveSchema"
+  },
+  "desired_state": {
+    "next": "required_changes",
+    "process": "./src/desired_state.mjs",
+    "derive_schema": null
+  },
+  "current_state": {
+    "next": "clarifying_questions",
+    "process": "./src/current_state.mjs",
+    "derive_schema": null
+  },
+  "required_changes": {
+    "next": "agent_actions",
+    "process": "./src/required_changes.mjs",
+    "derive_schema": "required_changes.deriveSchema"
+  },
+  "agent_actions": {
+    "next": "execution_procedure",
+    "process": "./src/agent_actions.mjs",
+    "derive_schema": "agent_actions.deriveSchema"
+  },
+  "execution_procedure": {
+    "next": "simulation_results",
+    "process": "./src/execution_procedure.mjs",
+    "derive_schema": "execution_procedure.deriveSchema"
+  },
+  "simulation_results": {
+    "next": "execution_results",
+    "process": "./src/simulation_results.mjs",
+    "derive_schema": "simulation_results.deriveSchema"
+  },
+  "execution_results": {
+    "next": "post_execution_diagnostic",
+    "process": "./src/execution_results.mjs",
+    "derive_schema": "execution_results.deriveSchema"
+  },
+  "post_execution_diagnostic": {
+    "next": null,
+    "process": "./src/post_execution_diagnostic.mjs",
+    "derive_schema": "post_execution_diagnostic.deriveSchema"
+  }
+}

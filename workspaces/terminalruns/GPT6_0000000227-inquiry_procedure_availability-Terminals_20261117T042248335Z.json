@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -e\np=user/codespaces/shiny-robot-v64x5jj4v4q2x96\nstate=$(gh api \"$p\" --jq .state)\necho \"$state\"\nif [ \"$state\" = Shutdown ]; then gh api --method POST \"$p/start\" --jq .state; fi",
+  "outputThat": [
+    "Shutdown",
+    "{\"message\":\"You may have too many codespaces starting at the same time. Please stop some and try again.\",\"documentation_url\":\"https://docs.github.com/rest/codespaces/codespaces#start-a-codespace-for-the-authenticated-user\",\"status\":\"400\"}"
+  ]
+}

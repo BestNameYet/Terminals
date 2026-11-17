@@ -1,0 +1,9 @@
+{
+  "schema": "chatgpt.extractor.execution.v1",
+  "request_id": "reconstruct-task-6afc13cf-20261117",
+  "run_id": "44058278695",
+  "run_attempt": 1,
+  "stage": "OUTPUTS_VALIDATED",
+  "precommit_status": "ready_for_publication",
+  "errors": []
+}

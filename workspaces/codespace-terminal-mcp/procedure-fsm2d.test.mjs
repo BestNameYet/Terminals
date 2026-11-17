@@ -28,14 +28,15 @@ function makeScratchNote(context, readiness = 'ready') {
 test('both tables contain callable cells and preserve the original research matrix', async () => {
   const matrix = JSON.parse(await readFile(new URL(
     '../2d-state-event-procedure-design/research/fsm2d-matrix.json', import.meta.url), 'utf8'));
-  assert.deepEqual(Object.keys(original.table), matrix.state_axis);
-  for (const [profile, count] of [[original, 14], [revised, 13]]) {
+  assert.deepEqual(Object.keys(original.table).filter(key => !key.startsWith('inquiry_')), matrix.state_axis);
+  for (const [profile, count] of [[original, 18], [revised, 17]]) {
     assert.equal(Object.keys(profile.table).length, count);
     for (const [state, row] of Object.entries(profile.table)) {
       assert.deepEqual(Object.keys(row), matrix.event_axis);
       for (const cell of Object.values(row)) assert.equal(typeof cell.handle, 'function');
-      if (profile === original && state !== 'COMPLETE') {
-        assert.equal(row.E_RETURN.routes.default.next, matrix.cells[state].E_RETURN.on_accept);
+      if (profile === original && state !== 'COMPLETE' && !state.startsWith('inquiry_')) {
+        const route = state === 'question_answers' ? 'legacy' : 'default';
+        assert.equal(row.E_RETURN.routes[route].next, matrix.cells[state].E_RETURN.on_accept);
       }
     }
   }
@@ -60,7 +61,7 @@ test('mutation serializes against the latest saved state and ignores observer fa
   assert.ok(second.projection.error_message);
 });
 
-test('revised alias skips optional questions and repairs a failed preflight', async t => {
+test('legacy revised record skips optional questions and repairs a failed preflight', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'procedure-revised-matrix-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   process.env.MCP_PROCEDURE_STATE_DIR = dir;
@@ -72,6 +73,10 @@ test('revised alias skips optional questions and repairs a failed preflight', as
     return JSON.parse(result.outputThat[0]);
   };
   const { nonce } = await call('Procedure -r --scratchpad=mandatory');
+  const path = join(dir, 'revised', nonce + '.json');
+  const legacy = JSON.parse(await readFile(path, 'utf8'));
+  delete legacy.inputs.inquiry;
+  await writeFile(path, JSON.stringify(legacy));
   const command = 'Procedure -r ' + nonce;
   const submitWithoutNote = input => call(command + ' ' + JSON.stringify(input));
   const submit = async input => {
@@ -86,7 +91,6 @@ test('revised alias skips optional questions and repairs a failed preflight', as
   await submit({ current_state: { description: 'Observed', observations: [], unknowns: [] } });
   assert.equal((await submit({ clarifying_questions: [] })).projection.keyword, 'desired_state');
 
-  const path = join(dir, 'revised', nonce + '.json');
   const { inputs, scratchpad } = JSON.parse(await readFile(path, 'utf8'));
   assert.deepEqual(inputs.question_answers, []);
   const step = {

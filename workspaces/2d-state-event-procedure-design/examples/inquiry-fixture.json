@@ -1,0 +1,3189 @@
+{
+  "description": "Synthetic integration-test record. Validates deterministic mechanics; these canned answers are not a model-quality experiment.",
+  "alias": "Procedure",
+  "nonce": "ae75eea2-c7e7-4e48-aa2a-c09b517d24c7",
+  "outcome": "Inquiry completed; desired_state projected",
+  "sample_packets": [
+    {
+      "keyword": "inquiry_questions",
+      "instruction": "Read the current case, its source pair, ancestry, the task and the available source pairs. Apply the assigned perspective instruction to generate the configured number of questions that would help fulfill the request. Return case_id exactly as issued. questions is an ordered array. Each question is a complete primary question to be answered separately. Its source_pair_ids lists the pairs that led to it and must include the current parent pair. Cite other available pairs when an interaction matters. The server assigns question IDs after validation. Explore the assigned perspective even when you can already answer its question. Anchor each question in a concrete claim or gap in its source answer. Use prior_questions_for_pair to pursue a distinct issue or a more specific test rather than merely restating an earlier question.",
+      "final_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_questions": {
+            "type": "object",
+            "properties": {
+              "case_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the issued pair and perspective case.",
+                "const": "r1.c1"
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S",
+                      "description": "The complete primary question for a derivative answering case."
+                    },
+                    "source_pair_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S",
+                        "description": "A saved pair identifier selected from the issued source set.",
+                        "enum": [
+                          "r0.p1",
+                          "r0.p2",
+                          "r0.p3"
+                        ]
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "contains": {
+                        "const": "r0.p1"
+                      },
+                      "minContains": 1
+                    }
+                  },
+                  "required": [
+                    "question",
+                    "source_pair_ids"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "case_id",
+              "questions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_questions"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "context": {
+        "verbatim_request": "Exercise a source-linked Q&A cascade, then use its record to plan.",
+        "user_intent": {
+          "intent": "Exercise the inquiry protocol",
+          "objectives": [
+            "Observe deterministic traversal"
+          ],
+          "constraints": [
+            "Synthetic answers test mechanics, not model quality"
+          ],
+          "requested_outcome": "A saved inquiry entering planning"
+        },
+        "depth": 1,
+        "case": {
+          "id": "r1.c1",
+          "parent_pair_id": "r0.p1",
+          "perspective": {
+            "id": "assumptions",
+            "name": "Assumptions",
+            "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+          },
+          "questions": []
+        },
+        "source_pair": {
+          "id": "r0.p1",
+          "depth": 0,
+          "parent_pair_id": null,
+          "question_id": "Q1",
+          "question": "What constitutes a completed inquiry?",
+          "answer": "Fixture proposal: save and validate every issued case before planning.",
+          "unresolved": false
+        },
+        "ancestry": [],
+        "available_source_pairs": [
+          {
+            "id": "r0.p1",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q1",
+            "question": "What constitutes a completed inquiry?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p2",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q2",
+            "question": "How are answers associated with the questions that prompted them?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p3",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q3",
+            "question": "How does inquiry influence the subsequent plan?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          }
+        ],
+        "prior_questions_for_pair": [],
+        "question_count": 1
+      }
+    },
+    {
+      "keyword": "inquiry_answers",
+      "instruction": "Answer the primary_question in the pending case using the supplied source_pairs, task and ancestry. Return question_id exactly as issued, answer as the substantive response, evidence as source references with findings or explicitly identified assumptions, and unresolved as true if a necessary point remains unsettled. Inspect or retrieve evidence when needed. These sources are prior statements whose accuracy may need checking. The server attaches the answer to the saved question and source references. Every issued question requires a return.",
+      "final_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_answers": {
+            "type": "object",
+            "properties": {
+              "question_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the pending derivative question.",
+                "const": "r1.c1.q1"
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "A substantive answer to the primary question using its supplied source pairs."
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "A source locator and its relevant finding, or an explicit statement of an assumption."
+                },
+                "minItems": 0
+              },
+              "unresolved": {
+                "type": "boolean",
+                "description": "True when a point needed for a reliable answer remains unresolved."
+              }
+            },
+            "required": [
+              "question_id",
+              "answer",
+              "evidence",
+              "unresolved"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_answers"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "context": {
+        "verbatim_request": "Exercise a source-linked Q&A cascade, then use its record to plan.",
+        "user_intent": {
+          "intent": "Exercise the inquiry protocol",
+          "objectives": [
+            "Observe deterministic traversal"
+          ],
+          "constraints": [
+            "Synthetic answers test mechanics, not model quality"
+          ],
+          "requested_outcome": "A saved inquiry entering planning"
+        },
+        "depth": 1,
+        "case": {
+          "id": "r1.c1",
+          "parent_pair_id": "r0.p1",
+          "perspective": {
+            "id": "assumptions",
+            "name": "Assumptions",
+            "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+          }
+        },
+        "question_id": "r1.c1.q1",
+        "primary_question": "For source r0.p1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pairs": [
+          {
+            "id": "r0.p1",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q1",
+            "question": "What constitutes a completed inquiry?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p2",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q2",
+            "question": "How are answers associated with the questions that prompted them?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          }
+        ],
+        "ancestry": []
+      }
+    },
+    {
+      "keyword": "inquiry_questions",
+      "instruction": "Read the current case, its source pair, ancestry, the task and the available source pairs. Apply the assigned perspective instruction to generate the configured number of questions that would help fulfill the request. Return case_id exactly as issued. questions is an ordered array. Each question is a complete primary question to be answered separately. Its source_pair_ids lists the pairs that led to it and must include the current parent pair. Cite other available pairs when an interaction matters. The server assigns question IDs after validation. Explore the assigned perspective even when you can already answer its question. Anchor each question in a concrete claim or gap in its source answer. Use prior_questions_for_pair to pursue a distinct issue or a more specific test rather than merely restating an earlier question.",
+      "final_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_questions": {
+            "type": "object",
+            "properties": {
+              "case_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the issued pair and perspective case.",
+                "const": "r1.c2"
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S",
+                      "description": "The complete primary question for a derivative answering case."
+                    },
+                    "source_pair_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S",
+                        "description": "A saved pair identifier selected from the issued source set.",
+                        "enum": [
+                          "r0.p1",
+                          "r0.p2",
+                          "r0.p3"
+                        ]
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "contains": {
+                        "const": "r0.p1"
+                      },
+                      "minContains": 1
+                    }
+                  },
+                  "required": [
+                    "question",
+                    "source_pair_ids"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "case_id",
+              "questions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_questions"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "context": {
+        "verbatim_request": "Exercise a source-linked Q&A cascade, then use its record to plan.",
+        "user_intent": {
+          "intent": "Exercise the inquiry protocol",
+          "objectives": [
+            "Observe deterministic traversal"
+          ],
+          "constraints": [
+            "Synthetic answers test mechanics, not model quality"
+          ],
+          "requested_outcome": "A saved inquiry entering planning"
+        },
+        "depth": 1,
+        "case": {
+          "id": "r1.c2",
+          "parent_pair_id": "r0.p1",
+          "perspective": {
+            "id": "evidence",
+            "name": "Evidence",
+            "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+          },
+          "questions": []
+        },
+        "source_pair": {
+          "id": "r0.p1",
+          "depth": 0,
+          "parent_pair_id": null,
+          "question_id": "Q1",
+          "question": "What constitutes a completed inquiry?",
+          "answer": "Fixture proposal: save and validate every issued case before planning.",
+          "unresolved": false
+        },
+        "ancestry": [],
+        "available_source_pairs": [
+          {
+            "id": "r0.p1",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q1",
+            "question": "What constitutes a completed inquiry?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p2",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q2",
+            "question": "How are answers associated with the questions that prompted them?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p3",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q3",
+            "question": "How does inquiry influence the subsequent plan?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          }
+        ],
+        "prior_questions_for_pair": [
+          {
+            "question": "For source r0.p1, what does Assumptions reveal about completion and source matching (probe 1)?",
+            "perspective": "Assumptions"
+          }
+        ],
+        "question_count": 1
+      }
+    },
+    {
+      "keyword": "inquiry_answers",
+      "instruction": "Answer the primary_question in the pending case using the supplied source_pairs, task and ancestry. Return question_id exactly as issued, answer as the substantive response, evidence as source references with findings or explicitly identified assumptions, and unresolved as true if a necessary point remains unsettled. Inspect or retrieve evidence when needed. These sources are prior statements whose accuracy may need checking. The server attaches the answer to the saved question and source references. Every issued question requires a return.",
+      "final_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_answers": {
+            "type": "object",
+            "properties": {
+              "question_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the pending derivative question.",
+                "const": "r1.c2.q1"
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "A substantive answer to the primary question using its supplied source pairs."
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "A source locator and its relevant finding, or an explicit statement of an assumption."
+                },
+                "minItems": 0
+              },
+              "unresolved": {
+                "type": "boolean",
+                "description": "True when a point needed for a reliable answer remains unresolved."
+              }
+            },
+            "required": [
+              "question_id",
+              "answer",
+              "evidence",
+              "unresolved"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_answers"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "context": {
+        "verbatim_request": "Exercise a source-linked Q&A cascade, then use its record to plan.",
+        "user_intent": {
+          "intent": "Exercise the inquiry protocol",
+          "objectives": [
+            "Observe deterministic traversal"
+          ],
+          "constraints": [
+            "Synthetic answers test mechanics, not model quality"
+          ],
+          "requested_outcome": "A saved inquiry entering planning"
+        },
+        "depth": 1,
+        "case": {
+          "id": "r1.c2",
+          "parent_pair_id": "r0.p1",
+          "perspective": {
+            "id": "evidence",
+            "name": "Evidence",
+            "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+          }
+        },
+        "question_id": "r1.c2.q1",
+        "primary_question": "For source r0.p1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pairs": [
+          {
+            "id": "r0.p1",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q1",
+            "question": "What constitutes a completed inquiry?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          },
+          {
+            "id": "r0.p2",
+            "depth": 0,
+            "parent_pair_id": null,
+            "question_id": "Q2",
+            "question": "How are answers associated with the questions that prompted them?",
+            "answer": "Fixture proposal: save and validate every issued case before planning.",
+            "unresolved": false
+          }
+        ],
+        "ancestry": []
+      }
+    }
+  ],
+  "inquiry": {
+    "version": 1,
+    "config": {
+      "version": 1,
+      "root_question_count": 3,
+      "max_depth": 2,
+      "questions_per_case": 1,
+      "root_instruction": "Given this request and the available context, what questions would help you fulfill it? Return the configured number of questions. Each id uniquely identifies a question and each question contains its complete text. You will answer these questions yourself in the next state. Questions can surface useful knowledge already available in context.",
+      "perspectives": [
+        {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        }
+      ]
+    },
+    "pairs": [
+      {
+        "id": "r0.p1",
+        "depth": 0,
+        "parent_pair_id": null,
+        "question_id": "Q1",
+        "question": "What constitutes a completed inquiry?",
+        "answer": "Fixture proposal: save and validate every issued case before planning.",
+        "unresolved": false
+      },
+      {
+        "id": "r0.p2",
+        "depth": 0,
+        "parent_pair_id": null,
+        "question_id": "Q2",
+        "question": "How are answers associated with the questions that prompted them?",
+        "answer": "Fixture proposal: save and validate every issued case before planning.",
+        "unresolved": false
+      },
+      {
+        "id": "r0.p3",
+        "depth": 0,
+        "parent_pair_id": null,
+        "question_id": "Q3",
+        "question": "How does inquiry influence the subsequent plan?",
+        "answer": "Fixture proposal: save and validate every issued case before planning.",
+        "unresolved": false
+      },
+      {
+        "id": "r1.c1.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p1",
+        "case_id": "r1.c1",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r0.p1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p1",
+          "r0.p2"
+        ],
+        "question_id": "r1.c1.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c2.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p1",
+        "case_id": "r1.c2",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r0.p1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p1",
+          "r0.p2"
+        ],
+        "question_id": "r1.c2.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c3.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p1",
+        "case_id": "r1.c3",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r0.p1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p1",
+          "r0.p2"
+        ],
+        "question_id": "r1.c3.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c4.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p1",
+        "case_id": "r1.c4",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r0.p1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p1",
+          "r0.p2"
+        ],
+        "question_id": "r1.c4.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c5.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p2",
+        "case_id": "r1.c5",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r0.p2, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p2",
+          "r0.p1"
+        ],
+        "question_id": "r1.c5.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c6.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p2",
+        "case_id": "r1.c6",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r0.p2, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p2",
+          "r0.p1"
+        ],
+        "question_id": "r1.c6.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c7.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p2",
+        "case_id": "r1.c7",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r0.p2, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p2",
+          "r0.p1"
+        ],
+        "question_id": "r1.c7.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c8.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p2",
+        "case_id": "r1.c8",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r0.p2, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p2",
+          "r0.p1"
+        ],
+        "question_id": "r1.c8.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c9.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p3",
+        "case_id": "r1.c9",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r0.p3, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p3",
+          "r0.p1"
+        ],
+        "question_id": "r1.c9.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c10.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p3",
+        "case_id": "r1.c10",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r0.p3, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p3",
+          "r0.p1"
+        ],
+        "question_id": "r1.c10.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c11.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p3",
+        "case_id": "r1.c11",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r0.p3, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p3",
+          "r0.p1"
+        ],
+        "question_id": "r1.c11.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r1.c12.q1",
+        "depth": 1,
+        "parent_pair_id": "r0.p3",
+        "case_id": "r1.c12",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r0.p3, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r0.p3",
+          "r0.p1"
+        ],
+        "question_id": "r1.c12.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c1.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c1.q1",
+        "case_id": "r2.c1",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c1.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c1.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c1.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c2.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c1.q1",
+        "case_id": "r2.c2",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c1.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c1.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c2.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c3.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c1.q1",
+        "case_id": "r2.c3",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c1.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c1.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c3.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c4.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c1.q1",
+        "case_id": "r2.c4",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c1.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c1.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c4.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c5.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c2.q1",
+        "case_id": "r2.c5",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c2.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c2.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c5.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c6.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c2.q1",
+        "case_id": "r2.c6",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c2.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c2.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c6.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c7.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c2.q1",
+        "case_id": "r2.c7",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c2.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c2.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c7.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c8.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c2.q1",
+        "case_id": "r2.c8",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c2.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c2.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c8.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c9.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c3.q1",
+        "case_id": "r2.c9",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c3.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c3.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c9.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c10.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c3.q1",
+        "case_id": "r2.c10",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c3.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c3.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c10.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c11.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c3.q1",
+        "case_id": "r2.c11",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c3.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c3.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c11.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c12.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c3.q1",
+        "case_id": "r2.c12",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c3.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c3.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c12.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c13.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c4.q1",
+        "case_id": "r2.c13",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c4.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c4.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c13.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c14.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c4.q1",
+        "case_id": "r2.c14",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c4.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c4.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c14.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c15.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c4.q1",
+        "case_id": "r2.c15",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c4.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c4.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c15.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c16.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c4.q1",
+        "case_id": "r2.c16",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c4.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c4.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c16.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c17.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c5.q1",
+        "case_id": "r2.c17",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c5.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c5.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c17.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c18.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c5.q1",
+        "case_id": "r2.c18",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c5.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c5.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c18.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c19.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c5.q1",
+        "case_id": "r2.c19",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c5.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c5.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c19.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c20.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c5.q1",
+        "case_id": "r2.c20",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c5.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c5.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c20.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c21.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c6.q1",
+        "case_id": "r2.c21",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c6.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c6.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c21.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c22.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c6.q1",
+        "case_id": "r2.c22",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c6.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c6.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c22.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c23.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c6.q1",
+        "case_id": "r2.c23",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c6.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c6.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c23.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c24.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c6.q1",
+        "case_id": "r2.c24",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c6.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c6.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c24.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c25.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c7.q1",
+        "case_id": "r2.c25",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c7.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c7.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c25.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c26.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c7.q1",
+        "case_id": "r2.c26",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c7.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c7.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c26.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c27.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c7.q1",
+        "case_id": "r2.c27",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c7.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c7.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c27.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c28.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c7.q1",
+        "case_id": "r2.c28",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c7.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c7.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c28.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c29.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c8.q1",
+        "case_id": "r2.c29",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c8.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c8.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c29.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c30.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c8.q1",
+        "case_id": "r2.c30",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c8.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c8.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c30.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c31.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c8.q1",
+        "case_id": "r2.c31",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c8.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c8.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c31.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c32.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c8.q1",
+        "case_id": "r2.c32",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c8.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c8.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c32.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c33.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c9.q1",
+        "case_id": "r2.c33",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c9.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c9.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c33.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c34.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c9.q1",
+        "case_id": "r2.c34",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c9.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c9.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c34.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c35.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c9.q1",
+        "case_id": "r2.c35",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c9.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c9.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c35.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c36.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c9.q1",
+        "case_id": "r2.c36",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c9.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c9.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c36.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c37.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c10.q1",
+        "case_id": "r2.c37",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c10.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c10.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c37.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c38.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c10.q1",
+        "case_id": "r2.c38",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c10.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c10.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c38.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c39.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c10.q1",
+        "case_id": "r2.c39",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c10.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c10.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c39.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c40.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c10.q1",
+        "case_id": "r2.c40",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c10.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c10.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c40.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c41.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c11.q1",
+        "case_id": "r2.c41",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c11.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c11.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c41.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c42.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c11.q1",
+        "case_id": "r2.c42",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c11.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c11.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c42.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c43.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c11.q1",
+        "case_id": "r2.c43",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c11.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c11.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c43.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c44.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c11.q1",
+        "case_id": "r2.c44",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c11.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c11.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c44.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c45.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c12.q1",
+        "case_id": "r2.c45",
+        "perspective": {
+          "id": "assumptions",
+          "name": "Assumptions",
+          "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+        },
+        "question": "For source r1.c12.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c12.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c45.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c46.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c12.q1",
+        "case_id": "r2.c46",
+        "perspective": {
+          "id": "evidence",
+          "name": "Evidence",
+          "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+        },
+        "question": "For source r1.c12.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c12.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c46.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c47.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c12.q1",
+        "case_id": "r2.c47",
+        "perspective": {
+          "id": "alternatives",
+          "name": "Alternatives",
+          "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+        },
+        "question": "For source r1.c12.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c12.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c47.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      },
+      {
+        "id": "r2.c48.q1",
+        "depth": 2,
+        "parent_pair_id": "r1.c12.q1",
+        "case_id": "r2.c48",
+        "perspective": {
+          "id": "failure",
+          "name": "Failure cases",
+          "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+        },
+        "question": "For source r1.c12.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+        "source_pair_ids": [
+          "r1.c12.q1",
+          "r0.p1"
+        ],
+        "question_id": "r2.c48.q1",
+        "answer": "Synthetic fixture response: retain explicit identifiers, inspect the saved mapping, and test the stated condition.",
+        "evidence": [
+          "Assumption: these canned responses exercise protocol mechanics only."
+        ],
+        "unresolved": true
+      }
+    ],
+    "rounds": [
+      {
+        "depth": 1,
+        "nominations": [
+          {
+            "pair_id": "r0.p1",
+            "additional": []
+          },
+          {
+            "pair_id": "r0.p2",
+            "additional": []
+          },
+          {
+            "pair_id": "r0.p3",
+            "additional": []
+          }
+        ],
+        "cases": [
+          {
+            "id": "r1.c1",
+            "parent_pair_id": "r0.p1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r1.c1.q1",
+                "question": "For source r0.p1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p1",
+                  "r0.p2"
+                ],
+                "answer_pair_id": "r1.c1.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c2",
+            "parent_pair_id": "r0.p1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r1.c2.q1",
+                "question": "For source r0.p1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p1",
+                  "r0.p2"
+                ],
+                "answer_pair_id": "r1.c2.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c3",
+            "parent_pair_id": "r0.p1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r1.c3.q1",
+                "question": "For source r0.p1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p1",
+                  "r0.p2"
+                ],
+                "answer_pair_id": "r1.c3.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c4",
+            "parent_pair_id": "r0.p1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r1.c4.q1",
+                "question": "For source r0.p1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p1",
+                  "r0.p2"
+                ],
+                "answer_pair_id": "r1.c4.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c5",
+            "parent_pair_id": "r0.p2",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r1.c5.q1",
+                "question": "For source r0.p2, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p2",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c5.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c6",
+            "parent_pair_id": "r0.p2",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r1.c6.q1",
+                "question": "For source r0.p2, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p2",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c6.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c7",
+            "parent_pair_id": "r0.p2",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r1.c7.q1",
+                "question": "For source r0.p2, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p2",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c7.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c8",
+            "parent_pair_id": "r0.p2",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r1.c8.q1",
+                "question": "For source r0.p2, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p2",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c8.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c9",
+            "parent_pair_id": "r0.p3",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r1.c9.q1",
+                "question": "For source r0.p3, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p3",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c9.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c10",
+            "parent_pair_id": "r0.p3",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r1.c10.q1",
+                "question": "For source r0.p3, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p3",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c10.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c11",
+            "parent_pair_id": "r0.p3",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r1.c11.q1",
+                "question": "For source r0.p3, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p3",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c11.q1"
+              }
+            ]
+          },
+          {
+            "id": "r1.c12",
+            "parent_pair_id": "r0.p3",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r1.c12.q1",
+                "question": "For source r0.p3, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r0.p3",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r1.c12.q1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 2,
+        "nominations": [
+          {
+            "pair_id": "r1.c1.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c2.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c3.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c4.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c5.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c6.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c7.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c8.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c9.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c10.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c11.q1",
+            "additional": []
+          },
+          {
+            "pair_id": "r1.c12.q1",
+            "additional": []
+          }
+        ],
+        "cases": [
+          {
+            "id": "r2.c1",
+            "parent_pair_id": "r1.c1.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c1.q1",
+                "question": "For source r1.c1.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c1.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c1.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c2",
+            "parent_pair_id": "r1.c1.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c2.q1",
+                "question": "For source r1.c1.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c1.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c2.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c3",
+            "parent_pair_id": "r1.c1.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c3.q1",
+                "question": "For source r1.c1.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c1.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c3.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c4",
+            "parent_pair_id": "r1.c1.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c4.q1",
+                "question": "For source r1.c1.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c1.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c4.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c5",
+            "parent_pair_id": "r1.c2.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c5.q1",
+                "question": "For source r1.c2.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c2.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c5.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c6",
+            "parent_pair_id": "r1.c2.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c6.q1",
+                "question": "For source r1.c2.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c2.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c6.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c7",
+            "parent_pair_id": "r1.c2.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c7.q1",
+                "question": "For source r1.c2.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c2.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c7.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c8",
+            "parent_pair_id": "r1.c2.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c8.q1",
+                "question": "For source r1.c2.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c2.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c8.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c9",
+            "parent_pair_id": "r1.c3.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c9.q1",
+                "question": "For source r1.c3.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c3.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c9.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c10",
+            "parent_pair_id": "r1.c3.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c10.q1",
+                "question": "For source r1.c3.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c3.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c10.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c11",
+            "parent_pair_id": "r1.c3.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c11.q1",
+                "question": "For source r1.c3.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c3.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c11.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c12",
+            "parent_pair_id": "r1.c3.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c12.q1",
+                "question": "For source r1.c3.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c3.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c12.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c13",
+            "parent_pair_id": "r1.c4.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c13.q1",
+                "question": "For source r1.c4.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c4.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c13.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c14",
+            "parent_pair_id": "r1.c4.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c14.q1",
+                "question": "For source r1.c4.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c4.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c14.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c15",
+            "parent_pair_id": "r1.c4.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c15.q1",
+                "question": "For source r1.c4.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c4.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c15.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c16",
+            "parent_pair_id": "r1.c4.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c16.q1",
+                "question": "For source r1.c4.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c4.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c16.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c17",
+            "parent_pair_id": "r1.c5.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c17.q1",
+                "question": "For source r1.c5.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c5.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c17.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c18",
+            "parent_pair_id": "r1.c5.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c18.q1",
+                "question": "For source r1.c5.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c5.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c18.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c19",
+            "parent_pair_id": "r1.c5.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c19.q1",
+                "question": "For source r1.c5.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c5.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c19.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c20",
+            "parent_pair_id": "r1.c5.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c20.q1",
+                "question": "For source r1.c5.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c5.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c20.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c21",
+            "parent_pair_id": "r1.c6.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c21.q1",
+                "question": "For source r1.c6.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c6.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c21.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c22",
+            "parent_pair_id": "r1.c6.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c22.q1",
+                "question": "For source r1.c6.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c6.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c22.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c23",
+            "parent_pair_id": "r1.c6.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c23.q1",
+                "question": "For source r1.c6.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c6.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c23.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c24",
+            "parent_pair_id": "r1.c6.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c24.q1",
+                "question": "For source r1.c6.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c6.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c24.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c25",
+            "parent_pair_id": "r1.c7.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c25.q1",
+                "question": "For source r1.c7.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c7.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c25.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c26",
+            "parent_pair_id": "r1.c7.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c26.q1",
+                "question": "For source r1.c7.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c7.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c26.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c27",
+            "parent_pair_id": "r1.c7.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c27.q1",
+                "question": "For source r1.c7.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c7.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c27.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c28",
+            "parent_pair_id": "r1.c7.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c28.q1",
+                "question": "For source r1.c7.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c7.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c28.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c29",
+            "parent_pair_id": "r1.c8.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c29.q1",
+                "question": "For source r1.c8.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c8.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c29.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c30",
+            "parent_pair_id": "r1.c8.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c30.q1",
+                "question": "For source r1.c8.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c8.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c30.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c31",
+            "parent_pair_id": "r1.c8.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c31.q1",
+                "question": "For source r1.c8.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c8.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c31.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c32",
+            "parent_pair_id": "r1.c8.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c32.q1",
+                "question": "For source r1.c8.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c8.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c32.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c33",
+            "parent_pair_id": "r1.c9.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c33.q1",
+                "question": "For source r1.c9.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c9.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c33.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c34",
+            "parent_pair_id": "r1.c9.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c34.q1",
+                "question": "For source r1.c9.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c9.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c34.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c35",
+            "parent_pair_id": "r1.c9.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c35.q1",
+                "question": "For source r1.c9.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c9.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c35.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c36",
+            "parent_pair_id": "r1.c9.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c36.q1",
+                "question": "For source r1.c9.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c9.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c36.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c37",
+            "parent_pair_id": "r1.c10.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c37.q1",
+                "question": "For source r1.c10.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c10.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c37.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c38",
+            "parent_pair_id": "r1.c10.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c38.q1",
+                "question": "For source r1.c10.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c10.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c38.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c39",
+            "parent_pair_id": "r1.c10.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c39.q1",
+                "question": "For source r1.c10.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c10.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c39.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c40",
+            "parent_pair_id": "r1.c10.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c40.q1",
+                "question": "For source r1.c10.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c10.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c40.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c41",
+            "parent_pair_id": "r1.c11.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c41.q1",
+                "question": "For source r1.c11.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c11.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c41.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c42",
+            "parent_pair_id": "r1.c11.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c42.q1",
+                "question": "For source r1.c11.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c11.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c42.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c43",
+            "parent_pair_id": "r1.c11.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c43.q1",
+                "question": "For source r1.c11.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c11.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c43.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c44",
+            "parent_pair_id": "r1.c11.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c44.q1",
+                "question": "For source r1.c11.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c11.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c44.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c45",
+            "parent_pair_id": "r1.c12.q1",
+            "perspective": {
+              "id": "assumptions",
+              "name": "Assumptions",
+              "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+            },
+            "questions": [
+              {
+                "id": "r2.c45.q1",
+                "question": "For source r1.c12.q1, what does Assumptions reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c12.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c45.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c46",
+            "parent_pair_id": "r1.c12.q1",
+            "perspective": {
+              "id": "evidence",
+              "name": "Evidence",
+              "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+            },
+            "questions": [
+              {
+                "id": "r2.c46.q1",
+                "question": "For source r1.c12.q1, what does Evidence reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c12.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c46.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c47",
+            "parent_pair_id": "r1.c12.q1",
+            "perspective": {
+              "id": "alternatives",
+              "name": "Alternatives",
+              "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+            },
+            "questions": [
+              {
+                "id": "r2.c47.q1",
+                "question": "For source r1.c12.q1, what does Alternatives reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c12.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c47.q1"
+              }
+            ]
+          },
+          {
+            "id": "r2.c48",
+            "parent_pair_id": "r1.c12.q1",
+            "perspective": {
+              "id": "failure",
+              "name": "Failure cases",
+              "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+            },
+            "questions": [
+              {
+                "id": "r2.c48.q1",
+                "question": "For source r1.c12.q1, what does Failure cases reveal about completion and source matching (probe 1)?",
+                "source_pair_ids": [
+                  "r1.c12.q1",
+                  "r0.p1"
+                ],
+                "answer_pair_id": "r2.c48.q1"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "depth": 2,
+    "caseIndex": 47,
+    "questionIndex": 0
+  },
+  "synthesis": [
+    {
+      "root_pair_id": "r0.p1",
+      "finding": "The protocol preserved this source branch; substantive effectiveness remains untested.",
+      "pair_ids": [
+        "r0.p1",
+        "r1.c1.q1",
+        "r1.c2.q1",
+        "r1.c3.q1",
+        "r1.c4.q1"
+      ],
+      "implications": [
+        "Measure solution quality separately from structural completeness."
+      ]
+    },
+    {
+      "root_pair_id": "r0.p2",
+      "finding": "The protocol preserved this source branch; substantive effectiveness remains untested.",
+      "pair_ids": [
+        "r0.p2",
+        "r1.c5.q1",
+        "r1.c6.q1",
+        "r1.c7.q1",
+        "r1.c8.q1"
+      ],
+      "implications": [
+        "Measure solution quality separately from structural completeness."
+      ]
+    },
+    {
+      "root_pair_id": "r0.p3",
+      "finding": "The protocol preserved this source branch; substantive effectiveness remains untested.",
+      "pair_ids": [
+        "r0.p3",
+        "r1.c9.q1",
+        "r1.c10.q1",
+        "r1.c11.q1",
+        "r1.c12.q1"
+      ],
+      "implications": [
+        "Measure solution quality separately from structural completeness."
+      ]
+    }
+  ]
+}

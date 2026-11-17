@@ -1,3 +1,4 @@
+import { inquiryDefinitions } from "./inquiry.mjs"
 import { readFileSync } from "node:fs"
 
 const { states, completion_message } = JSON.parse(readFileSync(
@@ -9,6 +10,7 @@ const bindings = JSON.parse(readFileSync(
 ))
 
 export function getDefinition(keyword) {
+  if (inquiryDefinitions[keyword]) return inquiryDefinitions[keyword]
   const definition = definitions[keyword]
   if (!definition) throw new ReferenceError(keyword)
   const binding = bindings[keyword]

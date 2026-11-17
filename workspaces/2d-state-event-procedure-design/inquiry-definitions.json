@@ -1,0 +1,317 @@
+{
+  "config": {
+    "version": 1,
+    "root_question_count": 3,
+    "max_depth": 2,
+    "questions_per_case": 1,
+    "root_instruction": "Given this request and the available context, what questions would help you fulfill it? Return the configured number of questions. Each id uniquely identifies a question and each question contains its complete text. You will answer these questions yourself in the next state. Questions can surface useful knowledge already available in context.",
+    "perspectives": [
+      {
+        "id": "assumptions",
+        "name": "Assumptions",
+        "instruction": "What must be true for this answer to hold? Generate a question that brings an unstated dependency into view."
+      },
+      {
+        "id": "evidence",
+        "name": "Evidence",
+        "instruction": "What observation or source would support, qualify or overturn a claim in this answer? Generate a concrete question."
+      },
+      {
+        "id": "alternatives",
+        "name": "Alternatives",
+        "instruction": "What other explanation, interpretation or approach could address the original question? Generate a question that explores one."
+      },
+      {
+        "id": "failure",
+        "name": "Failure cases",
+        "instruction": "Under what conditions could acting on this answer produce an undesired result? Generate a question about a concrete case."
+      }
+    ]
+  },
+  "states": [
+    {
+      "keyword": "inquiry_perspectives",
+      "instruction": "Read the frontier Q&A pairs with the original request and ancestry. For every frontier pair, nominate additional domains or perspectives that would help interrogate its answer. Return one item per pair in the issued order. pair_id identifies that pair. additional is an array, which may be empty, of name and instruction objects. name names the additional perspective. instruction explains how to examine an answer from that perspective. Fixed perspectives are already supplied and always run. Each additional name must be distinct from the fixed names and other additional names for that pair.",
+      "compact_instruction_projection": "Read the frontier Q&A pairs with the original request and ancestry. For every frontier pair, nominate additional domains or perspectives that would help interrogate its answer. Return one item per pair in the issued order. pair_id identifies that pair. additional is an array, which may be empty, of name and instruction objects. name names the additional perspective. instruction explains how to examine an answer from that perspective. Fixed perspectives are already supplied and always run. Each additional name must be distinct from the fixed names and other additional names for that pair.",
+      "return_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_perspectives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pair_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "A saved pair identifier selected from the issued source set."
+                },
+                "additional": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S",
+                        "description": "The name of an additional perspective specific to this pair."
+                      },
+                      "instruction": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S",
+                        "description": "A reusable instruction telling the question generator what this perspective examines."
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "instruction"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "pair_id",
+                "additional"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_perspectives"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_questions",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_questions",
+      "instruction": "Read the current case, its source pair, ancestry, the task and the available source pairs. Apply the assigned perspective instruction to generate the configured number of questions that would help fulfill the request. Return case_id exactly as issued. questions is an ordered array. Each question is a complete primary question to be answered separately. Its source_pair_ids lists the pairs that led to it and must include the current parent pair. Cite other available pairs when an interaction matters. The server assigns question IDs after validation. Explore the assigned perspective even when you can already answer its question. Anchor each question in a concrete claim or gap in its source answer. Use prior_questions_for_pair to pursue a distinct issue or a more specific test rather than merely restating an earlier question.",
+      "compact_instruction_projection": "Read the current case, its source pair, ancestry, the task and the available source pairs. Apply the assigned perspective instruction to generate the configured number of questions that would help fulfill the request. Return case_id exactly as issued. questions is an ordered array. Each question is a complete primary question to be answered separately. Its source_pair_ids lists the pairs that led to it and must include the current parent pair. Cite other available pairs when an interaction matters. The server assigns question IDs after validation. Explore the assigned perspective even when you can already answer its question. Anchor each question in a concrete claim or gap in its source answer. Use prior_questions_for_pair to pursue a distinct issue or a more specific test rather than merely restating an earlier question.",
+      "return_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_questions": {
+            "type": "object",
+            "properties": {
+              "case_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the issued pair and perspective case."
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S",
+                      "description": "The complete primary question for a derivative answering case."
+                    },
+                    "source_pair_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S",
+                        "description": "A saved pair identifier selected from the issued source set."
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "question",
+                    "source_pair_ids"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "case_id",
+              "questions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_questions"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_answers",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_answers",
+      "instruction": "Answer the primary_question in the pending case using the supplied source_pairs, task and ancestry. Return question_id exactly as issued, answer as the substantive response, evidence as source references with findings or explicitly identified assumptions, and unresolved as true if a necessary point remains unsettled. Inspect or retrieve evidence when needed. These sources are prior statements whose accuracy may need checking. The server attaches the answer to the saved question and source references. Every issued question requires a return.",
+      "compact_instruction_projection": "Answer the primary_question in the pending case using the supplied source_pairs, task and ancestry. Return question_id exactly as issued, answer as the substantive response, evidence as source references with findings or explicitly identified assumptions, and unresolved as true if a necessary point remains unsettled. Inspect or retrieve evidence when needed. These sources are prior statements whose accuracy may need checking. The server attaches the answer to the saved question and source references. Every issued question requires a return.",
+      "return_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_answers": {
+            "type": "object",
+            "properties": {
+              "question_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "The exact identifier of the pending derivative question."
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "description": "A substantive answer to the primary question using its supplied source pairs."
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "A source locator and its relevant finding, or an explicit statement of an assumption."
+                },
+                "minItems": 0
+              },
+              "unresolved": {
+                "type": "boolean",
+                "description": "True when a point needed for a reliable answer remains unresolved."
+              }
+            },
+            "required": [
+              "question_id",
+              "answer",
+              "evidence",
+              "unresolved"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inquiry_answers"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_perspectives",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_synthesis",
+      "instruction": "Read the complete inquiry record. Return one item per root pair in the original order. root_pair_id identifies the root. finding records conclusions and remaining uncertainties. pair_ids cites the saved pairs supporting the finding and must include the root. implications names consequences for planning, execution or verification. Preserve conflicting findings and label assumptions. Every original branch must be represented.",
+      "compact_instruction_projection": "Read the complete inquiry record. Return one item per root pair in the original order. root_pair_id identifies the root. finding records conclusions and remaining uncertainties. pair_ids cites the saved pairs supporting the finding and must include the root. implications names consequences for planning, execution or verification. Preserve conflicting findings and label assumptions. Every original branch must be represented.",
+      "return_schema": {
+        "type": "object",
+        "properties": {
+          "inquiry_synthesis": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "root_pair_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "A saved pair identifier selected from the issued source set."
+                },
+                "finding": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "The conclusions and uncertainties developed along this root branch."
+                },
+                "pair_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "A saved pair identifier selected from the issued source set."
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "implications": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "A concrete implication for subsequent planning, execution or verification."
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "root_pair_id",
+                "finding",
+                "pair_ids",
+                "implications"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_synthesis"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "desired_state",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    }
+  ]
+}

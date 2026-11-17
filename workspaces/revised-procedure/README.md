@@ -23,3 +23,5 @@ Both profiles store scratchpad notes under the run's nonce. The default mode is 
 For a revised run, read notes with `Procedure -r <nonce> --scratchpad` and append with `Procedure -r <nonce> --scratchpad {"note":"Record an observation."}`. For an original run, use the same scratchpad commands without `-r`. State submissions continue to use each profile's existing syntax.
 
 Mandatory mode requires one note for the active projection revision before advancement. Retries keep the revision. An accepted transition that issues a new projection, including a repair revisit, starts a fresh revision. Read the full history even after completion.
+
+A scratchpad append takes a JSON object with one nonblank `note` string. The server supplies the sequence number, timestamp, state keyword, and revision. Record an observation, open question, dependency, failed check, or handoff detail that will help at a later step. See the **Nonce-Scoped Procedure Scratchpad** rule in [the account instructions](../../references/account-custom-instructions.json) for examples and the [minimum schema](../2d-state-event-procedure-design/scratchpad-return-schema.json).

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Procedure scratchpad append input",
+  "type": "object",
+  "properties": {
+    "note": {
+      "type": "string",
+      "pattern": "\\S",
+      "description": "A task-relevant note with at least one non-whitespace character."
+    }
+  },
+  "required": ["note"],
+  "additionalProperties": false
+}

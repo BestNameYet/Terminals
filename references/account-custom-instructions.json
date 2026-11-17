@@ -596,6 +596,20 @@
     }
   },
   {
+    "title": "Revised Terminal MCP Procedure",
+    "applicability": "Use this reference when the user selects @Procedure -r.",
+    "invocation": {
+      "runOn": "@",
+      "start": "Procedure -r",
+      "replay": "Procedure -r <nonce>",
+      "submit_example": "Procedure -r <nonce> {\"verbatim_request\":\"Design a report\"}"
+    },
+    "submission": "Reuse the nonce returned at start and submit one JSON object with the keyword and value requested by the active projection. Replay returns the saved projection or completion receipt.",
+    "workflow": "Inspect before asking questions. Ask questions that resolve material uncertainty about the requested outcome. Skip redundant or already answered questions, and submit an empty list when no material question remains. Steps name earlier prerequisites in depends_on. Failed preflight checks return to planning with the discrepancies before execution can proceed.",
+    "compatibility": "The original @Procedure uses its existing JSON syntax and separate nonce records.",
+    "reference": "workspaces/revised-procedure/README.md"
+  },
+  {
     "title": "Nonce-Scoped Procedure Scratchpad",
     "applicability": "Applies to both @Procedure and @Procedure -r through Terminals MCP with runOn set to @.",
     "commands": {
@@ -613,6 +627,25 @@
       ]
     },
     "behavior": "Use the same nonce and profile as the run. A bare start uses optional mode. Append notes containing task observations or handoff information. Each append preserves the active projection and prior notes. A mandatory run requires a note for the current projection revision before advancement. Retries reuse the revision, and a new projection, including a repair revisit, requires a fresh note.",
+    "return_schema": "workspaces/2d-state-event-procedure-design/scratchpad-return-schema.json",
+    "entry_instruction": "Submit one JSON object with a nonblank note string and no other fields. Record the most useful task information to carry forward: a sourced observation, an unresolved question, a dependency or assumption, a failed check and next action, or handoff context. Label assumptions and unresolved facts clearly. Refer to accepted inputs or evidence by ID or locator when available. Use the state submission for the requested structured result. The server supplies sequence, timestamp, state keyword, and projection revision.",
+    "examples": {
+      "inspection": {
+        "note": "Observed: the sample export contains daily totals. Evidence: fixtures/export.csv, granularity column."
+      },
+      "clarification": {
+        "note": "Open question: what timezone defines the reporting day? The source contract does not specify it."
+      },
+      "planning": {
+        "note": "Dependency: confirm the report timezone before implementing the grouping step."
+      },
+      "repair": {
+        "note": "Preflight found that the grouping step assumes hourly data. Recheck the input granularity and revise that step."
+      },
+      "handoff": {
+        "note": "Verified the input format from the sample export. Next: check the required output columns against C2."
+      }
+    },
     "completion": "Read the full history at any step or after completion. Completion closes the scratchpad to appends."
   }
 ]

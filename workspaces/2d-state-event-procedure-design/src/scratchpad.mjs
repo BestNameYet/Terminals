@@ -1,3 +1,12 @@
+import { readFileSync } from "node:fs"
+import { validateReturnSchema } from "./validate_return_schema.mjs"
+
+const schema = JSON.parse(readFileSync(new URL("../scratchpad-return-schema.json", import.meta.url), "utf8"))
+
+export function validateScratchpadNote(input) {
+  return validateReturnSchema(input, schema).valid
+}
+
 export function scratchpadFor(record) {
   return record.scratchpad ?? { mode: "optional", revision: 1, entries: [] }
 }

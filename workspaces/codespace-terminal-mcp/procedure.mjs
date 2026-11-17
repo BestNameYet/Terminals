@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { appendNote, scratchpadFor, scratchpadSummary } from '../2d-state-event-procedure-design/src/scratchpad.mjs';
+import { appendNote, scratchpadFor, scratchpadSummary, validateScratchpadNote } from '../2d-state-event-procedure-design/src/scratchpad.mjs';
 import * as legacy from '../2d-state-event-procedure-design/src/iterator.mjs';
 
 // One nonce identifies one saved execution record throughout the procedure.
@@ -78,8 +78,7 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
       return { nonce, completed: Boolean(record.completed), scratchpad: scratchpadFor(record) };
     }
     const request = args.scratchpad;
-    if (!request || typeof request !== 'object' || Array.isArray(request) ||
-        Object.keys(request).length !== 1 || typeof request.note !== 'string' || !request.note.trim()) {
+    if (!validateScratchpadNote(request)) {
       throw new TypeError('Scratchpad append requires one nonempty note string');
     }
     return serializeMutation(key, async () => {

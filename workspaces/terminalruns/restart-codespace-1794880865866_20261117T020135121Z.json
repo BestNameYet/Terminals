@@ -1,0 +1,7 @@
+{
+  "inputThis": "$:set -euo pipefail\nendpoint=user/codespaces/shiny-robot-v64x5jj4v4q2x96\nstate() { gh api \"$endpoint\" --jq .state; }\ncurrent=$(state)\nif [ \"$current\" != Shutdown ]; then\n  if [ \"$current\" != ShuttingDown ]; then\n    gh api --method POST \"$endpoint/stop\" >/dev/null\n  fi\n  for attempt in {1..25}; do\n    current=$(state)\n    [ \"$current\" = Shutdown ] && break\n    sleep 4\n  done\n  [ \"$current\" = Shutdown ] || { echo \"Stop timed out: $current\"; exit 1; }\nfi\necho \"Stopped: $current\"\ngh api --method POST \"$endpoint/start\" >/dev/null\nfor attempt in {1..30}; do\n  current=$(state)\n  if [ \"$current\" = Available ]; then echo \"Restarted: $current\"; exit 0; fi\n  sleep 4\ndone\necho \"Start timed out: $current\"\nexit 1",
+  "outputThat": [
+    "Stopped: Shutdown",
+    "Restarted: Available"
+  ]
+}

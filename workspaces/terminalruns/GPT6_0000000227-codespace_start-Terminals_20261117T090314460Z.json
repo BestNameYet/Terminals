@@ -1,0 +1,10 @@
+{
+  "inputThis": "$:set -euo pipefail\np=user/codespaces/shiny-robot-v64x5jj4v4q2x96\ngh api --method POST \"$p/start\" --jq .state\nfor i in $(seq 1 24); do s=$(gh api \"$p\" --jq .state); echo \"START_CHECK=$s\"; [ \"$s\" = Available ] && exit 0; sleep 5; done\necho START_TIMEOUT\nexit 1",
+  "outputThat": [
+    "Shutdown",
+    "START_CHECK=Shutdown",
+    "START_CHECK=Queued",
+    "START_CHECK=Queued",
+    "START_CHECK=Available"
+  ]
+}

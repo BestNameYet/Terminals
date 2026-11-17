@@ -1,80 +1,53 @@
-# Experimental inquiry cascade
+# Array-wise inquiry cascade revision
 
-This branch adds a shared Q&A cascade to new `Procedure` and `Procedure -r` runs. It treats self-generated questions as a way to make useful context explicit, including knowledge the agent can already answer. It is not limited to questions requiring the user to supply missing information.
+**Status:** Approved implementation plan for Procedure and Procedure -r.
+**Compatibility:** New runs use inquiry schema version 2. Saved version-1 runs and runs without an inquiry record retain their existing routes and persisted projections.
 
-## The operator
+## Design
 
-A saved pair contains its question, answer, identity and unresolved status. Each derivative pair also contains its parent, assigned perspective and the source-pair IDs selected when its question was generated. A source pair records what was said; its presence does not establish the truth of the answer.
+The procedure runs a fixed set of stage transitions over whole arrays. Array order is the canonical presentation order; identifiers and explicit parent links determine identity and association.
 
-For a frontier of pairs at depth d, the next operator:
+For the default supplied Base-0 mode, the sequence is:
 
-1. Presents the request, intent, frontier pairs, their ancestors, and the fixed perspectives. The revised profile also supplies its saved current-state observations. The agent nominates additional perspectives separately for every pair, or explicitly returns an empty additional array.
-2. Freezes the ordered product of each pair with the fixed and its nominated perspectives. A case has one parent pair and one perspective instruction. The controller assigns its ID.
-3. Presents each case for question generation. The agent receives the complete parent Q&A, ancestry, all source pairs from earlier depths, and earlier questions already generated for this parent in the current round. It returns the configured number of complete questions with source IDs. Every question must cite its parent; cross-branch citations are allowed.
-4. Presents each generated question as the primary question of an answering case. The controller supplies that question's exact source pairs and ancestry. The agent returns the issued question ID, answer, evidence references or explicitly marked assumptions, and unresolved flag. Every issued question requires an answer; unresolved answers are retained.
-5. Appends each resulting pair to the persistent record. At the next depth, the resulting pairs become the new frontier and the agent is asked for additional perspectives again.
-6. At the configured depth, requests a synthesis covering every root. Each finding cites saved pair IDs and identifies implications for planning, execution or verification. Subsequent projections contain both the synthesis and the complete inquiry record.
+1. Present the six configured Base-0 questions and accept all six answers in one transition.
+2. For every parent Q&A and every active perspective row, generate the configured perspective questions in one array. The default is four perspectives and one question per perspective.
+3. After accepting that question array, present its exact members with answer inputs and accept all answers in one array.
+4. Synthesize the perspective answers into one statement per parent Q&A.
+5. Generate exactly one final question per parent using the parent Q&A and its synthesis.
+6. After accepting the final-question array, present those exact questions with answer inputs and accept all answers in one array.
+7. If a deeper level is configured, use the completed final Q&A records as the next parent frontier and repeat steps 2–6. The default depth is one perspective/synthesis/final-question level.
 
-The fixed perspectives are assumptions, evidence, alternatives and failure cases. They are complementary prompts; mathematical independence or semantic completeness is not asserted. Earlier questions help the agent distinguish later probes, but the validator cannot establish semantic novelty.
+Generated Base-0 mode adds one question-generation stage before step 1. It selects labeled topic slots from a static catalog, chooses an exact configured count between five and seven before the agent transition, and assigns each question ID before generating the text. Supplied mode is the default and skips that generator stage.
 
-Only four new state keywords are needed: `inquiry_perspectives`, `inquiry_questions`, `inquiry_answers`, and `inquiry_synthesis`. The question and answer states loop over persisted cases. Further depths reuse those same states. Existing scratchpad notes remain mandatory for each accepted transition.
+Each return schema is constructed when its stage is entered. A question-generation schema contains only the questions for that stage. Its accepted return is saved unchanged before an answer projection is built. That answer schema contains only those accepted questions and their corresponding answer inputs. Synthesis and final-question schemas are likewise derived only from the current parent array. No future-stage answer slots or generator fields are included.
 
-## Configuration and growth
+## Configuration and catalogs
 
-`inquiry-definitions.json` holds the instructions, base schemas and configuration. New runs copy the configuration into their record. Changing the file affects new runs after module reload; it does not change an existing run's copied settings. This branch does not add command-line configuration flags.
+The new src/inquiry-catalog.mjs owns separate static arrays for supplied Base-0 questions, generated Base-0 topic slots, perspectives, category labels, question-prompt variants, and final-question instructions. Separately declared count values feed config objects that reference those arrays.
 
-| Parameter | Default | Meaning |
-| --- | --- | --- |
-| `root_question_count` | 3 | Number of initial questions, answered in original order |
-| `questions_per_case` | 1 | Questions generated for each parent/perspective case |
-| `max_depth` | 2 | Derivative rounds after the initial answers |
-| `perspectives` | 4 | Fixed perspective instructions applied to every frontier pair |
+The default configuration is six supplied Base-0 questions, four perspectives, one question per perspective, one final question per parent, and one derivative level. Configuration can change the Base-0 mode and count, perspective count, per-perspective question counts, pool selection modes, sampling scope, replacement policy, maximum depth, and seed.
 
-The three numeric settings must be positive integers. With n root pairs, p fixed perspectives, q questions per case and d derivative rounds, no nominated extras, the pair count is n times the sum of (p times q)^k for k from 0 through d. The default yields 3 + 12 + 48 = **63 pairs**. Additional perspectives increase the count. These are experimental defaults, not an empirically selected optimum.
+The new src/question-generator-prompt.mjs exports the shared buildQuestionGeneratorPrompt(config) function. Every question-generation stage calls it with only that stage's task wording, selected generator rows, count, style, pool rule, lineage rule, and return rule. Changing this function changes the common presentation of generated questions without editing individual state handlers.
 
-The request boundary ends each state call. This implementation does not create a clean model context or an independently answer-blind verifier. Omitting an answer from a later packet in the same conversation would not achieve that isolation. External retrieval, observation, or a separate-context factual check must be reported as such when actually performed.
+A stage manifest freezes selected topic, perspective, generator-prompt, and category IDs; labels; ordering; configured counts; sampling policy; and seed. The manifest is saved with the nonce record before the question projection is returned. Retries reuse the same manifest and question IDs. A configuration that requests more entries than a pool supports is rejected before the agent transition.
 
-## Concrete source matching
+## Identity, lineage, and validation
 
-Suppose root `r0.p1` asks “How should the watchdog decide to start?” and its answer proposes checking whether the Codespace is stopped. Root `r0.p2` discusses the schedule.
+Every question has a stable question ID. Every answer echoes that ID and the exact question text. Derivative questions and answers also carry the parent Q&A ID, perspective or category IDs and labels, and source-anchor IDs. Synthesis records carry their parent Q&A ID and the IDs of the perspective questions they combine. Final questions carry both their parent Q&A ID and synthesis ID. Array position never establishes these relationships.
 
-| Case | Agent-generated primary question | Supplied answer context |
-| --- | --- | --- |
-| `r1.c1`, assumptions of `r0.p1` | What assumption about freshness of the status response is necessary for that decision? | Exact `r0.p1` Q&A and the request |
-| `r1.c2`, evidence of `r0.p1` | What observation would distinguish a stopped Codespace from a failed status request? | Exact `r0.p1` Q&A and the request |
-| An agent-nominated interactions case | What happens if two scheduled invocations both observe stopped before either sends start? | Exact `r0.p1` and `r0.p2` Q&As, selected in `source_pair_ids` |
+Question IDs are assigned before generation from the run ID, depth, parent Q&A ID, generator/perspective ID, and selected catalog slot ID. Root IDs use the configured Base-0 slot ID. Synthesis and final-question IDs use their parent IDs.
 
-Question `r1.c1.q1` gets an answer only when the return contains that exact ID. Its saved pair can then be the parent of a second-round case. That case sees the new Q&A and the original root as ancestry. The agent nominates perspectives for this new pair afresh; it is not simply told to run the next label against the original answer.
+Validation checks the exact current schema, required array cardinality, stable IDs, labels, echoed question text, and complete ID coverage. The controller associates answers and parents by IDs. It does not add a separate semantic-review gate; exploration quality remains the agent's responsibility.
 
-The example is illustrative. It makes no claim about the current Codespace service or the actual watchdog's behavior.
+## Implementation plan
 
-## Persistence and validation
+1. Add static catalogs, independent count constants, default config objects, and the shared question-prompt builder.
+2. Extend inquiry-definitions.json with the version-2 stage instructions and base schemas while retaining version-1 definitions for saved runs.
+3. Refactor src/inquiry.mjs to initialize and freeze version-2 manifests, derive just-in-time schemas, save each full returned array, and transition by stage and configured depth. Preserve the existing version-1 handlers and routing.
+4. Update both iterator initializers to create version-2 inquiry records keyed by the procedure nonce. Update the revised profile's empty-clarification route so a new inquiry run still enters its configured Base-0 stage; keep the historical route unchanged.
+5. Replace the old sequential-cascade description with the versioned design and record the profile-specific source bindings.
+6. Review the final diff, preserve unrelated untracked workspace data, and commit only task files on the feature branch.
 
-The nonce record stores `inputs.inquiry.config`, `pairs`, `rounds`, and queue cursors. Every round keeps its nominations, cases, questions and answer-pair links. Repeated state keywords retain their latest accepted value in the normal input map, while the inquiry record preserves the full history.
+## Compatibility and scope
 
-Return schemas pin the ordered frontier IDs, current case ID, pending question ID, and allowed source IDs. They reject missing, reordered or duplicate frontier entries, references to unknown sources, missing parent citations, duplicate source IDs, and mismatched answers. Perspective names must be distinct within each parent's list, compared case-insensitively after trimming. A rejected input preserves the state, schema, queue and accepted history. Nonce replay returns the saved projection.
-
-The controller's route selector receives the saved record, so cursor progression and depth transitions are determined by accepted persisted state. Queue indices address cases within the current state; they are not a replacement for keyword-based state dispatch.
-
-All new runs have `inputs.inquiry`. Historical runs lacking it retain their old Q&A path and saved projections. The revised profile's historical empty-question route remains available only to those records. For new runs this document and `inquiry-definitions.json` supersede the old root question counts and skip instructions. The remaining semantic states, validation and scratchpad contracts continue to apply.
-
-## Verification and example record
-
-`workspaces/codespace-terminal-mcp/procedure-inquiry.test.mjs` exercises both normal alias entrypoints and the disk-backed Procedure API. Its fixtures cover both derivative rounds, nominations at both depths, cross-source references, multiple questions per case, retry/replay, wrong identifiers, omitted cases, retained context in planning, and legacy continuity.
-
-`examples/inquiry-fixture.json` is an actual saved output of that integration test with 63 pairs and representative request packets. Its answers are explicitly synthetic. It establishes the traversal and binding behavior, not that this inquiry improves real task outcomes.
-
-Run the Procedure tests from the repository root:
-
-```sh
-node --test workspaces/codespace-terminal-mcp/procedure*.test.mjs
-```
-
-To regenerate the fixture:
-
-```sh
-QA_CASCADE_EXAMPLE_PATH="$PWD/workspaces/2d-state-event-procedure-design/examples/inquiry-fixture.json" \
-  node --test workspaces/codespace-terminal-mcp/procedure-inquiry.test.mjs
-```
-
-The experimental branch is intended for separate-checkout evaluation. The active MCP server must load this branch's code before its `@ Procedure` aliases use the new cascade; publishing the branch alone does not change the running server.
+The original and revised iterators share the inquiry controller, so the batched stage implementation is shared. Existing top-level planning, execution, simulation, and diagnostic states keep their current keyword transitions. Version-1 inquiry records continue through the old case/question cursors; records without inputs.inquiry keep their historical path. Only new runs use the new catalog and array-wise stages.

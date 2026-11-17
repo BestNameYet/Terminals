@@ -45,7 +45,7 @@ export async function buildState(keyword, inputs) {
 }
 
 export async function create(nonce, { save, render, onTransition, scratchpadMode = "mandatory" }, keyword = "verbatim_request") {
-  const inputs = { inquiry: createInquiry() }
+  const inputs = { inquiry: createInquiry(nonce) }
   const record = { state: await buildState(keyword, inputs), inputs, scratchpad: { mode: scratchpadMode, revision: 1, entries: [] } }
   await save(nonce, record)
   notify(onTransition, { nonce, outcome: "started", after: keyword })

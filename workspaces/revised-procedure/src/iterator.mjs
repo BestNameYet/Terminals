@@ -47,7 +47,7 @@ export async function buildState(keyword, inputs, repair) {
 }
 
 export async function create(nonce, { save, render, onTransition, scratchpadMode = "mandatory" }, keyword = "verbatim_request") {
-  const inputs = { inquiry: createInquiry() }
+  const inputs = { inquiry: createInquiry(nonce) }
   const record = { state: await buildState(keyword, inputs), inputs, scratchpad: { mode: scratchpadMode, revision: 1, entries: [] } }
   await save(nonce, record)
   notify(onTransition, { nonce, outcome: "started", after: keyword })
@@ -61,9 +61,18 @@ const transitions = {
   user_intent: "current_state",
   current_state: "clarifying_questions",
   clarifying_questions: {
-    selectRoute: questions => questions.length ? "answer" : "skip",
+    selectRoute(questions, record) {
+      if (questions.length) return "answer"
+      const inquiry = record.inputs.inquiry
+      if (inquiry?.version === 2) {
+        return inquiry.config.baseQuestionConfig.mode === "generated" ? "base_generated" : "base_supplied"
+      }
+      return "skip"
+    },
     routes: {
       answer: { next: "question_answers" },
+      base_generated: { next: "inquiry_base_questions" },
+      base_supplied: { next: "inquiry_base_answers" },
       skip: {
         next: "desired_state",
         apply(record) {

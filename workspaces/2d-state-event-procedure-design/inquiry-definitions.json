@@ -312,6 +312,701 @@
       "optional_read_keywords": [
         "current_state"
       ]
+    },
+    {
+      "keyword": "inquiry_base_questions",
+      "instruction": "Use the supplied original request and review context. Fill every preassigned Base-0 topic slot with one distinct concrete question. Preserve its question_id, slot_id, and labels exactly. Do not answer the questions.",
+      "compact_instruction_projection": "Use the supplied original request and review context. Fill every preassigned Base-0 topic slot with one distinct concrete question. Preserve its question_id, slot_id, and labels exactly. Do not answer the questions.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_base_questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable question identifier assigned before question generation."
+                },
+                "slot_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable selected catalog slot identifier."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Perspective, category, abstraction-level, or topic label."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Complete question text."
+                }
+              },
+              "required": [
+                "question_id",
+                "slot_id",
+                "labels",
+                "question"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_base_questions"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_base_answers",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_base_answers",
+      "instruction": "Answer every exact Base-0 question in one array. Preserve each question_id, slot_id, labels, and question text exactly. Include source_anchor_ids and mark unresolved when an essential point remains unsettled. Do not omit or regenerate a question.",
+      "compact_instruction_projection": "Answer every exact Base-0 question in one array. Preserve each question_id, slot_id, labels, and question text exactly. Include source_anchor_ids and mark unresolved when an essential point remains unsettled. Do not omit or regenerate a question.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_base_answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable question identifier."
+                },
+                "slot_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable Base-0 topic slot identifier."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Configured Base-0 category labels."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Exact supplied or generated question text."
+                },
+                "answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Substantive answer to the exact question."
+                },
+                "source_anchor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Source or evidence anchor associated with this answer."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "unresolved": {
+                  "type": "boolean",
+                  "description": "True when an essential point remains unsettled."
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A source locator and finding or an explicitly identified assumption."
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "question_id",
+                "slot_id",
+                "labels",
+                "question",
+                "answer",
+                "source_anchor_ids",
+                "unresolved",
+                "evidence"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_base_answers"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_perspective_questions",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_perspective_questions",
+      "instruction": "For every parent Q&A and active perspective row in the frozen stage manifest, generate the configured number of concrete questions. Use each selected generator instruction and prompt variant, tailor the question to its parent, and preserve parent Q&A IDs, perspective IDs, labels, prompt IDs, and source anchors. Return all active question slots in one array. Do not answer any question.",
+      "compact_instruction_projection": "For every parent Q&A and active perspective row in the frozen stage manifest, generate the configured number of concrete questions. Use each selected generator instruction and prompt variant, tailor the question to its parent, and preserve parent Q&A IDs, perspective IDs, labels, prompt IDs, and source anchors. Return all active question slots in one array. Do not answer any question.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_perspective_questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable question identifier assigned before generation."
+                },
+                "parent_qa_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable parent Q&A identifier."
+                },
+                "perspective_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable selected perspective identifier."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Perspective and category labels."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "prompt_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable selected question-prompt catalog identifier."
+                },
+                "source_anchor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Exact source anchors inherited from the parent Q&A."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Complete perspective-specific question."
+                },
+                "slot_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Stable selected prompt-slot identifier within its parent perspective."
+                }
+              },
+              "required": [
+                "question_id",
+                "slot_id",
+                "parent_qa_id",
+                "perspective_id",
+                "labels",
+                "prompt_id",
+                "source_anchor_ids",
+                "question"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_perspective_questions"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_perspective_answers",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_perspective_answers",
+      "instruction": "Answer every exact perspective question in the supplied array. Preserve question_id, parent_qa_id, perspective_id, labels, prompt_id, source_anchor_ids, and question text exactly. Put only the substantive response in answer and mark unresolved when necessary. Do not omit, reorder, or regenerate questions.",
+      "compact_instruction_projection": "Answer every exact perspective question in the supplied array. Preserve question_id, parent_qa_id, perspective_id, labels, prompt_id, source_anchor_ids, and question text exactly. Put only the substantive response in answer and mark unresolved when necessary. Do not omit, reorder, or regenerate questions.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_perspective_answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable question identifier."
+                },
+                "parent_qa_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable parent Q&A identifier."
+                },
+                "perspective_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable perspective identifier."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Perspective and category labels."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "prompt_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable question-prompt catalog identifier."
+                },
+                "source_anchor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Exact source anchors inherited from the question."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Exact question text being answered."
+                },
+                "answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Substantive answer to the exact question."
+                },
+                "unresolved": {
+                  "type": "boolean",
+                  "description": "True when an essential point remains unsettled."
+                },
+                "slot_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Stable selected prompt-slot identifier within its parent perspective."
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A source locator and finding or an explicitly identified assumption."
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "question_id",
+                "slot_id",
+                "parent_qa_id",
+                "perspective_id",
+                "labels",
+                "prompt_id",
+                "source_anchor_ids",
+                "question",
+                "answer",
+                "unresolved",
+                "evidence"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_perspective_answers"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_perspective_synthesis",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_perspective_synthesis",
+      "instruction": "For each parent Q&A, synthesize all of its answered perspective questions into one concise statement describing what this exercise uncovered so far. Preserve parent_qa_id, synthesis_id, and the complete supporting question ID set. Include material uncertainty in unresolved. Do not generate the final question yet.",
+      "compact_instruction_projection": "For each parent Q&A, synthesize all of its answered perspective questions into one concise statement describing what this exercise uncovered so far. Preserve parent_qa_id, synthesis_id, and the complete supporting question ID set. Include material uncertainty in unresolved. Do not generate the final question yet.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_perspective_synthesis": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "parent_qa_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable parent Q&A identifier."
+                },
+                "synthesis_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable synthesis identifier assigned by the controller."
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Synthesis of findings across this parent's perspective answers."
+                },
+                "supporting_question_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Perspective question ID supporting this synthesis."
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "unresolved": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Material unresolved points retained from the exercise."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "parent_qa_id",
+                "synthesis_id",
+                "statement",
+                "supporting_question_ids",
+                "unresolved"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_perspective_synthesis"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_final_questions",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_final_questions",
+      "instruction": "For every parent Q&A, read its synthesis and all supporting perspective answers, then generate exactly one concrete final question that best extends the exploration. Preserve question_id, parent_qa_id, synthesis_id, labels, and source_anchor_ids. Return the full array and do not answer it yet.",
+      "compact_instruction_projection": "For every parent Q&A, read its synthesis and all supporting perspective answers, then generate exactly one concrete final question that best extends the exploration. Preserve question_id, parent_qa_id, synthesis_id, labels, and source_anchor_ids. Return the full array and do not answer it yet.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_final_questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable final-question identifier assigned before generation."
+                },
+                "parent_qa_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable parent Q&A identifier."
+                },
+                "synthesis_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable synthesis identifier for this parent."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Configured final-question labels."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "source_anchor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Source anchors inherited from the parent Q&A and perspective answers."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Complete final question extending the synthesized findings."
+                }
+              },
+              "required": [
+                "question_id",
+                "parent_qa_id",
+                "synthesis_id",
+                "labels",
+                "source_anchor_ids",
+                "question"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_final_questions"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "inquiry_final_answers",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
+    },
+    {
+      "keyword": "inquiry_final_answers",
+      "instruction": "Answer every exact final question in the supplied array. Preserve question_id, parent_qa_id, synthesis_id, labels, source_anchor_ids, and question text exactly. Put the substantive response in answer and mark unresolved when necessary.",
+      "compact_instruction_projection": "Answer every exact final question in the supplied array. Preserve question_id, parent_qa_id, synthesis_id, labels, source_anchor_ids, and question text exactly. Put the substantive response in answer and mark unresolved when necessary.",
+      "return_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "inquiry_final_answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable final-question identifier."
+                },
+                "parent_qa_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable parent Q&A identifier."
+                },
+                "synthesis_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Stable synthesis identifier."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Configured final-question labels."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "source_anchor_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S",
+                    "description": "Exact source anchors inherited from the final question."
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Exact final-question text being answered."
+                },
+                "answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "description": "Substantive answer to the exact final question."
+                },
+                "unresolved": {
+                  "type": "boolean",
+                  "description": "True when an essential point remains unsettled."
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A source locator and finding or an explicitly identified assumption."
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "question_id",
+                "parent_qa_id",
+                "synthesis_id",
+                "labels",
+                "source_anchor_ids",
+                "question",
+                "answer",
+                "unresolved",
+                "evidence"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "inquiry_final_answers"
+        ],
+        "additionalProperties": false
+      },
+      "read_keywords": [
+        "inquiry",
+        "verbatim_request",
+        "user_intent"
+      ],
+      "next": "desired_state",
+      "process": "shared inquiry handler",
+      "derive_schema": "inquiry projection derivation",
+      "optional_read_keywords": [
+        "current_state"
+      ]
     }
-  ]
+  ],
+  "batch_revision": {
+    "version": 2,
+    "catalog_module": "src/inquiry-catalog.mjs",
+    "prompt_builder": "src/question-generator-prompt.mjs",
+    "schema_behavior": "State handlers clone these external base return schemas and derive exact current-batch cardinality and IDs before persisting the projection."
+  }
 }

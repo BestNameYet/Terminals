@@ -7,6 +7,24 @@ import { dispatchAliasReceipt } from './alias-dispatcher.mjs';
 import * as original from '../2d-state-event-procedure-design/src/iterator.mjs';
 import * as revised from '../revised-procedure/src/iterator.mjs';
 
+function makeScratchNote(context, readiness = 'ready') {
+  return {
+    category: 'verification',
+    summary: 'Inspected the current procedure projection and confirmed the test condition: ' + context,
+    evidence_status: 'verified',
+    evidence: [{
+      kind: 'tool_result',
+      reference: 'test-fixture:procedure-scratchpad',
+      finding: 'The synthetic test case records the expected projection keyword and explicit execution outcome.'
+    }],
+    assessment: 'The observation supplies a concrete fixture-specific basis for the transition validation in this test.',
+    next_action: 'Submit the current state input, then verify the saved response or rejection diagnostic.',
+    readiness,
+    unresolved: readiness === 'blocked' ? ['The synthetic fixture has an unresolved prerequisite.'] : []
+  }
+}
+
+
 test('both tables contain callable cells and preserve the original research matrix', async () => {
   const matrix = JSON.parse(await readFile(new URL(
     '../2d-state-event-procedure-design/research/fsm2d-matrix.json', import.meta.url), 'utf8'));
@@ -29,6 +47,7 @@ test('mutation serializes against the latest saved state and ignores observer fa
   process.env.MCP_PROCEDURE_STATE_DIR = dir;
   const { Procedure } = await import('./procedure.mjs');
   const { nonce } = await Procedure({}, { onTransition() { throw new Error('monitor'); } });
+  await Procedure({ nonce, scratchpad: { note: makeScratchNote('concurrent competing state input') } });
   const [first, second] = await Promise.all([
     Procedure({ nonce, input: { verbatim_request: 'first' } }, {
       async onTransition() { throw new Error('monitor'); }
@@ -56,7 +75,7 @@ test('revised alias skips optional questions and repairs a failed preflight', as
   const command = 'Procedure -r ' + nonce;
   const submitWithoutNote = input => call(command + ' ' + JSON.stringify(input));
   const submit = async input => {
-    await call(command + ' --scratchpad {"note":"Observed input for this projection"}');
+    await call(command + ' --scratchpad ' + JSON.stringify({ note: makeScratchNote('current projection test') }));
     return submitWithoutNote(input);
   };
   const intent = { intent: 'Design', objectives: [], constraints: ['Design only'], requested_outcome: 'Report' };

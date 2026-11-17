@@ -1,35 +1,77 @@
 # Revised Terminals Procedure
 
-Use Terminals MCP with `runOn` set to `@`.
+Use Terminal MCP with `runOn: "@"`. Every new **original and revised** run now requires a validated scratchpad note before each state transition.
 
-| Operation | whatPrompt |
+| Operation | `whatPrompt` |
 | --- | --- |
-| Start | `Procedure -r` |
-| Replay | `Procedure -r <nonce>` |
-| Submit | `Procedure -r <nonce> {"verbatim_request":"Design a report"}` |
+| Start revised | `Procedure -r` |
+| Start original | `Procedure` |
+| Replay revised | `Procedure -r <nonce>` |
+| Submit revised state | `Procedure -r <nonce> {"verbatim_request":"Design a report"}` |
+| Read complete scratchpad | `Procedure -r <nonce> --scratchpad` |
+| Append validated note | `Procedure -r <nonce> --scratchpad {"note":{...}}` |
+| Explicit mandatory start (redundant) | `Procedure -r --scratchpad=mandatory` |
 
-Use the nonce from the start response and the semantic keyword in the active projection. Submit one JSON object per call. Completed runs replay their saved receipt. Revised runs have their own nonce storage under the server's procedure state directory.
+The nonce is returned when a run starts. Replay returns the current saved projection or completion receipt. The currently requested semantic keyword is authoritative: submit exactly one JSON object keyed by that keyword. Both profiles share the same structural note contract, and the original profile uses the same scratchpad commands without `-r`.
 
-The first observation pass is read-only. Ask questions that resolve material uncertainty about understanding, designing, executing, or verifying the requested outcome. Avoid redundant questions and questions already answered by available evidence. Submit an empty list when no material question remains. Plan steps declare earlier prerequisites through `depends_on`. Change-to-action associations come from accepted agent actions.
+## Mandatory, validated, nonce-scoped scratchpad
 
-A failed preflight or requested revision returns the run to `execution_procedure` with structured discrepancies. The controller retains the previous plan and simulation and issues a new simulation after the revised plan is accepted. Execution becomes available after preflight clears. The final diagnostic records actual outcomes against acceptance conditions, including failures or unverified items.
+**Every nonterminal state transition requires a current, valid, ready scratchpad note.** Missing notes cause `scratchpad.note_required`. A note from a previous revision or a different state does not authorize advancement. Accepting a state submission increments the revision; if simulation fails and the controller revisits `execution_procedure`, the revisit is a *new* revision and requires a new note. Invalid state submissions that are retried within the same revision do not consume or invalidate a valid current note.
 
-The workspace adapts the keyword-addressed state handlers, stored projections, return schemas and bindings from the original procedure workspace. It shares the original schema validator and its installed dependency.
+There is **no optional mode for new runs**. `--scratchpad=mandatory` remains supported for explicitness; `--scratchpad=optional` is rejected. Existing *incomplete* nonce records created under historical optional mode are subject to the same mandatory gate when resumed. Existing *completed* records remain replayable/readable without retroactively modifying their history; scratchpads of completed procedures cannot be appended.
 
-### Scratchpad
+The controlling JSON Schema is `workspaces/2d-state-event-procedure-design/scratchpad-return-schema.json`. To append, submit an object with the single top-level key `note`; its value **must be an object**, not the old freeform string. These note fields are required:
 
-Both profiles store scratchpad notes under the run's nonce. The default mode is optional. Select mandatory mode at start with `Procedure -r --scratchpad=mandatory` or `Procedure --scratchpad=mandatory`.
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `category` | enum | `observation`, `analysis`, `decision`, `risk`, `verification`, `handoff`, or `correction` |
+| `summary` | substantial string | State-specific observation/finding, with concrete referents (minimum 32 characters) |
+| `evidence_status` | enum | `verified`, `unverified`, or `not_applicable` |
+| `evidence` | array of typed objects | Each item has `kind`, traceable `reference`, and the specific `finding`; verified status requires at least one entry |
+| `assessment` | substantial string | Why this observation matters to the state and required outcome (minimum 32 characters) |
+| `next_action` | substantial string | Exact next test, state operation, artifact change, or handoff (minimum 24 characters) |
+| `readiness` | enum | `ready` or `blocked`; the latter **cannot** advance the procedure |
+| `unresolved` | array | Open questions or blockers; at least one required when `readiness=blocked` |
+| `limitation` | conditional string | Required when `evidence_status=unverified`, explaining what is missing and how to establish it |
 
-For a revised run, read notes with `Procedure -r <nonce> --scratchpad` and append with `Procedure -r <nonce> --scratchpad {"note":"Record an observation."}`. For an original run, use the same scratchpad commands without `-r`. State submissions continue to use each profile's existing syntax.
+The evidence item `kind` must be one of `user_request`, `tool_result`, `repository`, `document`, `measurement`, `calculation`, or `other`. Evidence references should identify paths, IDs, experiment stations, tool receipts, or exact user turns. The field constraints include nonwhitespace and minimum lengths, array count bounds, recognized enums, and `additionalProperties: false`. These are **structural checks**; schema validation cannot establish factual correctness or force an agent to tell the truth. A note claiming verification should still be audited against the actual source.
 
-Mandatory mode requires one note for the active projection revision before advancement. Retries keep the revision. An accepted transition that issues a new projection, including a repair revisit, starts a fresh revision. Read the full history even after completion.
+### Valid example
 
-### Scratchpad
+```text
+Procedure -r <nonce> --scratchpad {"note":{"category":"verification","summary":"Confirmed the current configuration and source references against the exact input and procedure projection.","evidence_status":"verified","evidence":[{"kind":"tool_result","reference":"terminal:source-inspection-42","finding":"The inspected source file contains the expected header and seven distinct active records."}],"assessment":"The required inputs are now supported by a concrete readback, so this projection can advance without an unresolved dependency.","next_action":"Submit the requested current-state object, then check that the saved projection revision increases.","readiness":"ready","unresolved":[]}}
+```
 
-Both profiles store scratchpad notes under the run's nonce. The default mode is optional. Select mandatory mode at start with `Procedure -r --scratchpad=mandatory` or `Procedure --scratchpad=mandatory`.
+For an initial state without external evidence, use `evidence_status:"not_applicable"` with `evidence:[]`, a meaningful explanation in the summary and assessment, and an actionable next step. For an unverifiable proposition, use `evidence_status:"unverified"`, a meaningful `limitation`, and do not label it as a measurement or confirmed fact.
 
-For a revised run, read notes with `Procedure -r <nonce> --scratchpad` and append with `Procedure -r <nonce> --scratchpad {"note":"Record an observation."}`. For an original run, use the same scratchpad commands without `-r`. State submissions continue to use each profile's existing syntax.
+### Blocked example
 
-Mandatory mode requires one note for the active projection revision before advancement. Retries keep the revision. An accepted transition that issues a new projection, including a repair revisit, starts a fresh revision. Read the full history even after completion.
+```json
+{
+  "note": {
+    "category": "risk",
+    "summary": "The required original source is unavailable, preventing verification of the claimed parameter values.",
+    "evidence_status": "unverified",
+    "evidence": [],
+    "assessment": "The missing source prevents a reliable conclusion and must not be treated as a completed evidence check.",
+    "next_action": "Retrieve the original source or document its access limitations before permitting state advancement.",
+    "readiness": "blocked",
+    "unresolved": ["Original data page and instrument uncertainty remain unavailable."],
+    "limitation": "The indexed abstract does not expose the measurement stations or uncertainty fields needed for a source-level verification."
+  }
+}
+```
 
-A scratchpad append takes a JSON object with one nonblank `note` string. The server supplies the sequence number, timestamp, state keyword, and revision. Record an observation, open question, dependency, failed check, or handoff detail that will help at a later step. See the **Nonce-Scoped Procedure Scratchpad** rule in [the account instructions](../../references/account-custom-instructions.json) for examples and the [minimum schema](../2d-state-event-procedure-design/scratchpad-return-schema.json).
+The above payload can be **appended** as a documented blocker, but `scratchpad.note_blocked` prevents advancement until a later valid note with `readiness:"ready"` is appended for the same active keyword and revision.
+
+## Validation and persistence
+
+Validation occurs twice: (1) at append, against the JSON Schema; and (2) immediately before an otherwise-accepted state transition, against the latest persisted note, keyword, revision, schema and readiness. Append rejects malformed input without persisting a note. Transition revalidation rejects stale records and improperly modified disk state. Rejected transitions include machine-readable diagnostics (`scratchpad.note_required`, `scratchpad.note_state_mismatch`, `scratchpad.note_invalid`, `scratchpad.note_blocked`).
+
+The server, not the agent, supplies `sequence`, `timestamp`, current state `keyword`, projection `revision` and stored `note`. All notes live in the nonce-scoped procedure record and are available through `--scratchpad`, including after completion. A note is **not** the state's structured output: the next state input must still match the `final_schema` displayed in its projection. Historical freeform notes are readable, but cannot satisfy a new transition's structured-note requirement.
+
+## Revised procedure state machine
+
+The first observation pass is read-only. Ask only clarifying questions that materially affect the outcome; `clarifying_questions:[]` skips the question-answer stage. Each execution-plan step identifies earlier prerequisites via `depends_on`; change-to-action associations are inferred from accepted agent actions. A failed preflight or requested revision returns to `execution_procedure` with discrepancy context and a new projection revision. The controller preserves the prior plan and simulation. Execution follows a passing simulation; the final post-execution diagnostic compares actual outcomes with acceptance conditions.
+
+The revised procedure reuses the original validator and state-machine infrastructure. Changing code in the Git repository does not, by itself, prove that an already-running MCP server has reloaded the revised module; verify the live alias behavior separately.

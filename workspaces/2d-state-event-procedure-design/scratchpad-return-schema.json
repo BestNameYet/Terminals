@@ -1,14 +1,200 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Procedure scratchpad append input",
+  "title": "Validated mandatory procedure scratchpad append",
+  "description": "A nonce-scoped scratchpad entry required before every original or revised Procedure state transition. The server supplies the nonce, current state keyword, active projection revision, sequence number and timestamp; the caller supplies only a structured note. The declared evidence type, observations, consequences and readiness must remain distinguishable. This schema verifies structure and documentation, not the objective truth of the claims.",
   "type": "object",
   "properties": {
     "note": {
-      "type": "string",
-      "pattern": "\\S",
-      "description": "A task-relevant note with at least one non-whitespace character."
+      "type": "object",
+      "description": "Structured stage-specific record. Content must refer to work performed or an explicit limitation in the currently active procedure projection; a generic acknowledgement or filler is insufficient.",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "observation",
+            "analysis",
+            "decision",
+            "risk",
+            "verification",
+            "handoff",
+            "correction"
+          ],
+          "description": "Classification of the purpose of the note. This controls the interpretation of the recorded observation but does not itself establish factual validity."
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 6000,
+          "pattern": "\\S",
+          "description": "Specific observation, finding, or decision relevant to the current procedure stage. Include concrete referents, affected state or artifact, and actual result rather than merely saying that work is complete."
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "unverified",
+            "not_applicable"
+          ],
+          "description": "Whether the supporting record cited here is directly checked, currently unverified, or legitimately inapplicable (e.g. initial intent parsing). An assertion of 'verified' requires at least one source reference."
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 12,
+          "description": "Source-linked facts that support the summary. Entries must identify a concrete origin, locator and its particular finding; distinguish a tool result or source text from inference. Empty only when evidence is not verified or not applicable.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "user_request",
+                  "tool_result",
+                  "repository",
+                  "document",
+                  "measurement",
+                  "calculation",
+                  "other"
+                ],
+                "description": "Class of the supporting information. A simulation, calculation or source interpretation should not be labeled as a direct measurement."
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 8,
+                "maxLength": 1200,
+                "pattern": "\\S",
+                "description": "Traceable citation, path, tool receipt, measurement identifier, or explicit conversation reference rather than a generic word like 'source'."
+              },
+              "finding": {
+                "type": "string",
+                "minLength": 24,
+                "maxLength": 3000,
+                "pattern": "\\S",
+                "description": "What the specific source actually supports, with limitations when relevant; avoid implying that mere existence of a reference proves causality."
+              }
+            },
+            "required": [
+              "kind",
+              "reference",
+              "finding"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 6000,
+          "pattern": "\\S",
+          "description": "Reasoned implication for the current procedure, including why the observation matters to an expected result, decision, requirement, error, risk, or next state."
+        },
+        "next_action": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 3000,
+          "pattern": "\\S",
+          "description": "Specific immediate next operation, verification or handoff, expressed as an executable or inspectable action. For a final stage this may state how to verify/review the completed record."
+        },
+        "readiness": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "blocked"
+          ],
+          "description": "Stage-readiness declaration. 'ready' allows transition if all other validation passes; 'blocked' records a finding but prevents advancement until a later valid 'ready' note is appended for this same revision."
+        },
+        "unresolved": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 1800,
+            "pattern": "\\S"
+          },
+          "description": "Concrete unknowns or blockers. 'blocked' requires at least one unresolved item; 'ready' may still retain nonblocking open questions."
+        },
+        "limitation": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 2500,
+          "pattern": "\\S",
+          "description": "Required when evidence is 'unverified'. Explain exactly what could not yet be established and what evidence would resolve it."
+        }
+      },
+      "required": [
+        "category",
+        "summary",
+        "evidence_status",
+        "evidence",
+        "assessment",
+        "next_action",
+        "readiness",
+        "unresolved"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "evidence_status": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "evidence_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "evidence_status": {
+                "const": "unverified"
+              }
+            },
+            "required": [
+              "evidence_status"
+            ]
+          },
+          "then": {
+            "required": [
+              "limitation"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "readiness": {
+                "const": "blocked"
+              }
+            },
+            "required": [
+              "readiness"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unresolved": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
     }
   },
-  "required": ["note"],
+  "required": [
+    "note"
+  ],
   "additionalProperties": false
 }

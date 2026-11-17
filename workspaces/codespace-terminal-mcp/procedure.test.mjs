@@ -5,6 +5,24 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { dispatchAliasReceipt } from './alias-dispatcher.mjs';
 
+function makeScratchNote(context, readiness = 'ready') {
+  return {
+    category: 'verification',
+    summary: 'Inspected the current procedure projection and confirmed the test condition: ' + context,
+    evidence_status: 'verified',
+    evidence: [{
+      kind: 'tool_result',
+      reference: 'test-fixture:procedure-scratchpad',
+      finding: 'The synthetic test case records the expected projection keyword and explicit execution outcome.'
+    }],
+    assessment: 'The observation supplies a concrete fixture-specific basis for the transition validation in this test.',
+    next_action: 'Submit the current state input, then verify the saved response or rejection diagnostic.',
+    readiness,
+    unresolved: readiness === 'blocked' ? ['The synthetic fixture has an unresolved prerequisite.'] : []
+  }
+}
+
+
 test('Procedure accepts no argument and makes nonce replay available', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'procedure-alias-'));
   const old = process.env.MCP_PROCEDURE_STATE_DIR;
@@ -27,6 +45,8 @@ test('Procedure accepts no argument and makes nonce replay available', async () 
     const rejectedValue = JSON.parse(rejected.outputThat[0]);
     assert.equal(rejectedValue.projection.keyword, 'verbatim_request');
     assert.ok(rejectedValue.projection.error_message);
+    const noteReceipt = await dispatchAliasReceipt('Procedure ' + initial.nonce + ' --scratchpad ' + JSON.stringify({ note: makeScratchNote('first prompt') }), registry);
+    assert.equal(noteReceipt.exitCode, 0, noteReceipt.stderr);
     const advanced = await dispatchAliasReceipt('Procedure ' + JSON.stringify({ nonce: initial.nonce, input: {verbatim_request:'Example prompt'} }), registry);
     assert.equal(advanced.exitCode, 0, advanced.stderr);
     const next = JSON.parse(advanced.outputThat[0]);
@@ -62,6 +82,7 @@ test('Procedure saves and replays a completion receipt with all accepted inputs'
     assert.equal(retry.projection.keyword, state.keyword);
     assert.ok(retry.projection.error_message);
 
+    await Procedure({ nonce, scratchpad: { note: makeScratchNote('final diagnostic completion') } });
     const final = {
       checklist: [{ ...condition, actual: 'ready', status: 'pass', discrepancy: '', evidence: ['readback'] }],
       overall_result: 'pass'
@@ -122,8 +143,8 @@ test('both profiles persist mandatory scratchpads and serialize notes with advan
       assert.equal(blocked.projection.error_message.errortype, 'scratchpad.note_required');
       assert.deepEqual(blocked.projection.final_schema, projection.final_schema);
       await Promise.all([
-        call(note + ' {"note":"First observation"}'),
-        call(note + ' {"note":"Second observation"}')
+        call(note + ' ' + JSON.stringify({ note: makeScratchNote('first observation') })),
+        call(note + ' ' + JSON.stringify({ note: makeScratchNote('second observation') }))
       ]);
       const advanced = await submit(input);
       assert.equal(advanced.projection.keyword, 'user_intent');

@@ -61,8 +61,8 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
     if (Object.hasOwn(args, 'input') || Object.hasOwn(args, 'scratchpad')) {
       throw new TypeError('Input and scratchpad operations require a nonce');
     }
-    const scratchpadMode = Object.hasOwn(args, 'scratchpadMode') ? args.scratchpadMode : 'optional';
-    if (!['optional', 'mandatory'].includes(scratchpadMode)) throw new TypeError('Invalid scratchpad mode');
+    const scratchpadMode = Object.hasOwn(args, 'scratchpadMode') ? args.scratchpadMode : 'mandatory';
+    if (scratchpadMode !== 'mandatory') throw new TypeError('Scratchpad notes are mandatory; optional mode is not permitted');
     const nonce = randomUUID();
     // The new run is persisted before its first projection is returned.
     return create(nonce, { save, onTransition, scratchpadMode, render: renderFor(nonce) });
@@ -78,8 +78,10 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
       return { nonce, completed: Boolean(record.completed), scratchpad: scratchpadFor(record) };
     }
     const request = args.scratchpad;
-    if (!validateScratchpadNote(request)) {
-      throw new TypeError('Scratchpad append requires one nonempty note string');
+    const validation = validateScratchpadNote(request);
+    if (!validation.valid) {
+      const details = validation.errors.map(issue => (issue.instancePath || '/') + ' ' + issue.message).join('; ');
+      throw new TypeError('Invalid scratchpad append: ' + details);
     }
     return serializeMutation(key, async () => {
       const record = await load(nonce);

@@ -614,6 +614,8 @@
     "applicability": "Applies to both @Procedure and @Procedure -r through Terminals MCP with runOn set to @.",
     "commands": {
       "mandatory_start": [
+        "Procedure",
+        "Procedure -r",
         "Procedure --scratchpad=mandatory",
         "Procedure -r --scratchpad=mandatory"
       ],
@@ -622,30 +624,48 @@
         "Procedure -r <nonce> --scratchpad"
       ],
       "append_examples": [
-        "Procedure <nonce> --scratchpad {\"note\":\"Record an observation.\"}",
-        "Procedure -r <nonce> --scratchpad {\"note\":\"Record an observation.\"}"
+        "Procedure <nonce> --scratchpad {\"note\":{\"category\":\"verification\",\"summary\":\"Verified that the current procedure projection has the required source and completion evidence.\",\"evidence_status\":\"verified\",\"evidence\":[{\"kind\":\"tool_result\",\"reference\":\"terminal:verification-001\",\"finding\":\"The returned tool receipt confirms the current status and the intended state result.\"}],\"assessment\":\"The observation is linked to a concrete source, so it supports advancement of the active projection.\",\"next_action\":\"Submit the active projection input and verify its accepted successor and revision.\",\"readiness\":\"ready\",\"unresolved\":[]}}",
+        "Procedure -r <nonce> --scratchpad {\"note\":{\"category\":\"verification\",\"summary\":\"Verified that the current procedure projection has the required source and completion evidence.\",\"evidence_status\":\"verified\",\"evidence\":[{\"kind\":\"tool_result\",\"reference\":\"terminal:verification-001\",\"finding\":\"The returned tool receipt confirms the current status and the intended state result.\"}],\"assessment\":\"The observation is linked to a concrete source, so it supports advancement of the active projection.\",\"next_action\":\"Submit the active projection input and verify its accepted successor and revision.\",\"readiness\":\"ready\",\"unresolved\":[]}}"
       ]
     },
-    "behavior": "Use the same nonce and profile as the run. A bare start uses optional mode. Append notes containing task observations or handoff information. Each append preserves the active projection and prior notes. A mandatory run requires a note for the current projection revision before advancement. Retries reuse the revision, and a new projection, including a repair revisit, requires a fresh note.",
+    "behavior": "For BOTH @Procedure and @Procedure -r, every new run is mandatory. There is no optional-mode bypass. Every accepted E_RETURN requires a valid structured scratchpad note matching the current nonce, keyword and projection revision, with readiness=ready. Append validates JSON Schema; advancement revalidates persisted note and its association. A blocked note is recorded but cannot advance until a newer ready note is appended for the same revision. Retries retain the revision; every newly issued projection, including a repair revisit, requires a fresh note. Completed histories remain readable and immutable. Incomplete legacy optional-mode records are mandatory on resumption.",
     "return_schema": "workspaces/2d-state-event-procedure-design/scratchpad-return-schema.json",
-    "entry_instruction": "Submit one JSON object with a nonblank note string and no other fields. Record the most useful task information to carry forward: a sourced observation, an unresolved question, a dependency or assumption, a failed check and next action, or handoff context. Label assumptions and unresolved facts clearly. Refer to accepted inputs or evidence by ID or locator when available. Use the state submission for the requested structured result. The server supplies sequence, timestamp, state keyword, and projection revision.",
+    "entry_instruction": "Submit exactly one JSON object containing a note OBJECT, not a freeform string. The note must contain category, substantive summary, evidence_status, evidence array of typed source references and findings, assessment, next_action, readiness and unresolved array; additionally supply limitation when evidence_status=unverified. Verified evidence requires at least one traceable reference. Blocked readiness requires an unresolved item and cannot authorize a transition. Follow the strict draft-2020-12 JSON Schema; the server supplies sequence, timestamp, active state keyword and revision. The schema validates structure and evidence claims, not truthfulness. State outputs still use their separately advertised final_schema.",
     "examples": {
-      "inspection": {
-        "note": "Observed: the sample export contains daily totals. Evidence: fixtures/export.csv, granularity column."
+      "verified": {
+        "note": {
+          "category": "verification",
+          "summary": "Verified that the current procedure projection has the required source and completion evidence.",
+          "evidence_status": "verified",
+          "evidence": [
+            {
+              "kind": "tool_result",
+              "reference": "terminal:verification-001",
+              "finding": "The returned tool receipt confirms the current status and the intended state result."
+            }
+          ],
+          "assessment": "The observation is linked to a concrete source, so it supports advancement of the active projection.",
+          "next_action": "Submit the active projection input and verify its accepted successor and revision.",
+          "readiness": "ready",
+          "unresolved": []
+        }
       },
-      "clarification": {
-        "note": "Open question: what timezone defines the reporting day? The source contract does not specify it."
-      },
-      "planning": {
-        "note": "Dependency: confirm the report timezone before implementing the grouping step."
-      },
-      "repair": {
-        "note": "Preflight found that the grouping step assumes hourly data. Recheck the input granularity and revise that step."
-      },
-      "handoff": {
-        "note": "Verified the input format from the sample export. Next: check the required output columns against C2."
+      "blocked": {
+        "note": {
+          "category": "risk",
+          "summary": "The required source for validating this procedure input has not been retrieved or independently checked.",
+          "evidence_status": "unverified",
+          "evidence": [],
+          "assessment": "The missing external evidence makes this stage unsuitable for a verified advancement.",
+          "next_action": "Inspect the referenced original file and record a source-backed finding before retrying.",
+          "readiness": "blocked",
+          "unresolved": [
+            "Original source identifier has not been read directly."
+          ],
+          "limitation": "Only a secondary or unsourced claim is available at this point."
+        }
       }
     },
-    "completion": "Read the full history at any step or after completion. Completion closes the scratchpad to appends."
+    "completion": "A state transition is permitted only after append and transition-time validation of a ready, current-revision note. The nonce history may be read at any point or after completion; completed scratchpads are read-only."
   }
 ]

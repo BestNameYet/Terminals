@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -e\nname=shiny-robot-v64x5jj4v4q2x96\nstate=$(gh api \"user/codespaces/$name\" --jq .state)\nprintf 'STATE=%s\\n' \"$state\"\nif [ \"$state\" = Available ]; then\n timeout 25s gh codespace ssh -c \"$name\" -- bash -lc 'test -d /workspaces/Terminals && echo WORKSPACE_OK; pgrep -f \"[h]ttp-server.mjs\" >/dev/null && echo MCP_PROCESS_RUNNING'\nfi",
+  "outputThat": [
+    "STATE=Available"
+  ]
+}

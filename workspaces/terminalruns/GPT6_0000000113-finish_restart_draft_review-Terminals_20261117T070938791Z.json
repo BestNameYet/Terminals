@@ -1,0 +1,15 @@
+{
+  "inputThis": "$:set -euo pipefail\np=user/codespaces/shiny-robot-v64x5jj4v4q2x96\nstate(){ gh api \"$p\" --jq .state; }\nfor i in $(seq 1 26); do s=$(state); echo \"STATE=$s\"; case \"$s\" in Available) exit 0;; Shutdown) echo START_REQUEST; gh api --method POST \"$p/start\" --jq .state; break;; Starting|Provisioning) break;; ShuttingDown) sleep 4;; *) echo \"UNEXPECTED_STATE=$s\"; exit 2;; esac; done\nfor i in $(seq 1 30); do s=$(state); echo \"READY_CHECK=$s\"; case \"$s\" in Available) exit 0;; Shutdown) echo START_REQUEST; gh api --method POST \"$p/start\" --jq .state; sleep 5;; *) sleep 4;; esac; done\nexit 1",
+  "outputThat": [
+    "STATE=Shutdown",
+    "START_REQUEST",
+    "Shutdown",
+    "READY_CHECK=Shutdown",
+    "START_REQUEST",
+    "Starting",
+    "READY_CHECK=Starting",
+    "READY_CHECK=Starting",
+    "READY_CHECK=Starting",
+    "READY_CHECK=Available"
+  ]
+}

@@ -20,8 +20,20 @@ jobs:
       GH_TOKEN: ${{ secrets.CODESPACES_PAT }}
       CODESPACE_NAME: ${{ vars.MCP_CODESPACE_NAME || 'shiny-robot' }}
     steps:
-      - name: Start Codespace
+      - name: Start Codespace if shut down
         shell: bash
         run: |
           set -euo pipefail
-          gh api --method POST "user/codespaces/${CODESPACE_NAME}/start" >/dev/null
+          endpoint="user/codespaces/${CODESPACE_NAME}"
+          state=$(gh api --method GET "$endpoint" --jq '.state // empty')
+          if [[ -z "$state" ]]; then
+            echo "Codespaces API returned no state." >&2
+            exit 1
+          fi
+
+          if [[ "$state" == Shutdown ]]; then
+            gh api --method POST "$endpoint/start" >/dev/null
+            echo "Codespace was Shutdown. Start request accepted."
+          else
+            printf 'Codespace state: %s. Skipping start.\n' "$state"
+          fi

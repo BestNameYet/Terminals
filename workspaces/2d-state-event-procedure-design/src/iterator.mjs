@@ -1,3 +1,4 @@
+import { createInquiry, inquiryHandlers, inquiryTransitions, answerTransition, includeInquiry } from "./inquiry.mjs"
 import { COMPLETE, compileTable, createDispatcher, notify } from "./fsm2d.mjs"
 import handler0 from "./verbatim_request.mjs"
 import handler1 from "./user_intent.mjs"
@@ -15,6 +16,7 @@ import handler12 from "./post_execution_diagnostic.mjs"
 import { getDefinition, renderCompletion, withDiagnostic } from "./render_state.mjs"
 
 const handlers = {
+  ...inquiryHandlers,
   "verbatim_request": handler0,
   "user_intent": handler1,
   "clarifying_questions": handler2,
@@ -38,11 +40,13 @@ export async function buildState(keyword, inputs) {
   }
   const projection = await handlers[keyword]({ error: null }, 0, read, undefined)
   if (!projection || !projection.final_schema) throw new TypeError("projection")
+  includeInquiry(projection, inputs)
   return { keyword, next: definition.next, projection }
 }
 
 export async function create(nonce, { save, render, onTransition, scratchpadMode = "mandatory" }, keyword = "verbatim_request") {
-  const record = { state: await buildState(keyword, {}), inputs: {}, scratchpad: { mode: scratchpadMode, revision: 1, entries: [] } }
+  const inputs = { inquiry: createInquiry() }
+  const record = { state: await buildState(keyword, inputs), inputs, scratchpad: { mode: scratchpadMode, revision: 1, entries: [] } }
   await save(nonce, record)
   notify(onTransition, { nonce, outcome: "started", after: keyword })
   return render(record.state.projection, record)
@@ -50,10 +54,11 @@ export async function create(nonce, { save, render, onTransition, scratchpadMode
 
 
 const transitions = {
+  ...inquiryTransitions,
   verbatim_request: "user_intent",
   user_intent: "clarifying_questions",
   clarifying_questions: "question_answers",
-  question_answers: "desired_state",
+  question_answers: answerTransition,
   desired_state: "current_state",
   current_state: "required_changes",
   required_changes: "agent_actions",

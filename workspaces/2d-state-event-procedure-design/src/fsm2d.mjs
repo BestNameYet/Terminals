@@ -18,7 +18,7 @@ function returnCell(validate, routes, selectRoute = () => "default") {
       const result = await validate({ error: null }, 0, read, event.input, projection)
       if (!result.valid) return { kind: "REJECT", diagnostic: result.error }
       const value = result.input[keyword]
-      return { kind: "ACCEPT", value, route: selectRoute(value) }
+      return { kind: "ACCEPT", value, route: selectRoute(value, record) }
     }
   })
 }

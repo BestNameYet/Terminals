@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\np=user/codespaces/shiny-robot-v64x5jj4v4q2x96\nstate() { gh api \"$p\" --jq .state; }\ns=$(state)\nprintf 'Initial: %s\\n' \"$s\"\nif [[ \"$s\" == Starting ]]; then\n  for i in {1..20}; do s=$(state); [[ \"$s\" != Starting ]] && break; sleep 3; done\nfi\nif [[ \"$s\" != Shutdown && \"$s\" != ShuttingDown ]]; then gh api --method POST \"$p/stop\" >/dev/null; fi\nfor i in {1..25}; do s=$(state); [[ \"$s\" == Shutdown ]] && break; sleep 3; done\n[[ \"$s\" == Shutdown ]]\necho 'Stopped: Shutdown'\ngh api --method POST \"$p/start\" >/dev/null\nfor i in {1..35}; do s=$(state); if [[ \"$s\" == Available ]]; then echo 'Restarted: Available'; exit 0; fi; sleep 3; done\nprintf 'Start timed out: %s\\n' \"$s\"\nexit 1",
+  "outputThat": [
+    "Initial: Available"
+  ]
+}

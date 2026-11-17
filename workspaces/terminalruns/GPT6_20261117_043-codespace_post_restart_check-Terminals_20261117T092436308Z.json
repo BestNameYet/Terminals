@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:api user/codespaces/shiny-robot-v64x5jj4v4q2x96 --jq .state",
+  "outputThat": [
+    "Available"
+  ]
+}

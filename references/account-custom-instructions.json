@@ -8,6 +8,108 @@
     "github_repository_documentation_preflight": "Before beginning operations in any GitHub repository, retrieve and review its repository README and agent guidance documents, using either the Markdown or JSON form of each (Readme.md or Readme.json, and AGENTS.md or AGENTS.json). Complete this document review before proceeding with repository work."
   },
   {
+    "title": "Terminal MCP Procedure Alias: Nonce-Persisted Interactive State Execution",
+    "applicability": "When an agent invokes the registered Procedure alias through the Terminals MCP terminal_execute tool using runOn '@', including creation without procedure arguments, replay using an existing procedure nonce, submission of a current-state input, a rejected input and retry, acceptance-driven advancement, and procedure completion. This instruction adds operational guidance without replacing earlier imperative entries or changing the underlying program.",
+    "authoritative_sources": {
+      "server_registration": "BestNameYet/Terminals/workspaces/codespace-terminal-mcp/http-server.mjs and server.mjs",
+      "alias_dispatch": "BestNameYet/Terminals/workspaces/codespace-terminal-mcp/alias-dispatcher.mjs",
+      "procedure_entrypoint": "BestNameYet/Terminals/workspaces/codespace-terminal-mcp/procedure.mjs",
+      "state_controller": "BestNameYet/Terminals/workspaces/2d-state-event-procedure-design/src/iterator.mjs",
+      "projection_contract": "BestNameYet/Terminals/workspaces/2d-state-event-procedure-design/state-event-contract.json",
+      "projection_definitions": "BestNameYet/Terminals/workspaces/2d-state-event-procedure-design/state-instructions-and-return-schemas.json",
+      "state_bindings": "BestNameYet/Terminals/workspaces/2d-state-event-procedure-design/projection-bindings.json"
+    },
+    "definitions": {
+      "terminal_tool_envelope": "The object passed to terminal_execute. Its runOn selects Bash ('$'), GitHub CLI ('gh'), or MCP registered alias ('@'); forWhom is a caller-supplied command invocation identifier and whatPrompt contains the alias name and optional JSON arguments.",
+      "command_invocation_identifier": "The forWhom field of the terminal_execute call. It identifies a specific MCP invocation and must not be substituted for the procedure nonce. Use a different forWhom on every invocation, including repeated calls within one procedure.",
+      "procedure_nonce": "The UUID string returned by the Procedure alias when starting a procedure; it identifies one persisted procedure execution record and remains the same across all later replay, retry, and advancement calls in that run.",
+      "projection": "The complete generated agent-facing state, including the state's keyword, instruction, concrete final_schema and context. A rejected input can add error_message while preserving the current instruction and final_schema.",
+      "accepted_inputs": "Previously validated responses stored in the nonce's execution record under their state keywords, not in a numeric-position list or a caller-reconstructed context object.",
+      "current_state_input": "A JSON object with exactly the current state's requested semantic keyword at its top level and a value satisfying the current persisted final_schema and applicable state-specific semantic checks.",
+      "no_argument_start": "The command string Procedure with no JSON suffix, or equivalently Procedure {}. This is distinct from a terminal_execute call without required tool-envelope fields.",
+      "nonce_only_replay": "A Procedure alias call containing a nonce property and no input property. It re-renders the already saved projection rather than generating a new one.",
+      "nonce_plus_input": "A Procedure alias call containing both the prior returned nonce and an input object whose sole top-level key is the current state keyword."
+    },
+    "required_behavior": {
+      "discover_interface": "Before invocation, use the live registered Terminals MCP alias and its current source contract. If the currently available tool does not expose runOn '@' and the Procedure alias, inspect the implementation and report the specific incompatibility rather than inventing an alternate invocation.",
+      "start_without_arguments": "To initiate a new procedure, call terminal_execute with runOn '@' and whatPrompt 'Procedure'; supply a distinct, valid forWhom value. Treat a successfully returned procedure nonce and first complete projection as the start result. Do not send a fabricated nonce or preemptively supply an input.",
+      "capture_run_identity": "Read the actual nonce from the Procedure output and retain it exactly for that run. Distinguish it from forWhom, a GitHub comment ID, an Actions run identifier, or any other execution receipt; none is interchangeable with the procedure nonce.",
+      "replay_current_projection": "To re-display a previously generated state, invoke 'Procedure {\"nonce\":\"<returned procedure nonce>\"}' under runOn '@' with a fresh forWhom. Do not add an input member. Use the returned stored projection without recalculating or paraphrasing its final_schema.",
+      "submit_current_input": "To advance or retry, use the exact nonce with a JSON-object input under the current projection keyword, encoded as a valid JSON suffix following Procedure. Match the full saved final_schema, including nested properties, required members, array counts, enumerations, identifier constraints and state-specific semantic conditions. Do not substitute the illustrative example payload for a schema-required object of different shape.",
+      "handle_rejected_input": "When input is rejected, preserve and reuse the same procedure nonce. Read the returned error_message and unchanged instruction and final_schema. Correct only the rejected current-state input and resubmit it with a new forWhom. Do not infer advancement merely because the MCP call executed successfully.",
+      "handle_accepted_input": "When valid input is accepted, use the newly returned saved projection to determine the next requested keyword. The controller, not the caller, selects its successor through state.next, records accepted inputs by keyword, derives the next concrete final_schema from declared prior accepted inputs when applicable, and persists the result before returning it.",
+      "preserve_projection_requirements": "Display and obey the entire returned projection instruction and concrete JSON final_schema as issued. Never shorten, replace or infer missing constraints from the illustrative examples in this instruction. Validation must use the exact persisted final_schema; state-specific substantive validation still applies.",
+      "no_manual_state_reconstruction": "Do not supply a complete context object, numeric step index, keyword index map, state.next override, schema derivation function override or externally inferred validity status in Procedure arguments. The supported Procedure argument members are nonce and input only.",
+      "completion": "When the terminal state with null successor accepts its input, interpret the returned completed indicator only after the program reports completion and the invocation succeeds. Do not expect a further projection when the procedure has reached its terminal state.",
+      "scope_of_alias": "These invocations describe the live MCP terminal_execute alias mechanism. The GitHub Issue #3 workflow's runOn '@' program-mode router has a separate syntax and must not be presumed to accept these alias commands; check its actual routing contract before using Issue #3 as a transport.",
+      "error_reporting": "For invalid JSON, unknown alias, invalid nonce, missing persistence file, schema rejection, or MCP transport failure, report the actual observed outcome and preserve the valid existing nonce when applicable. Do not claim a new state was saved without the relevant response confirming it.",
+      "compatibility_with_existing_imperatives": "Apply this rule in addition to the existing entries at indices 0, 1, and 2. Do not change their contents, their dependency relationship, or the existing response-reproduction and screenshot-validation requirements."
+    },
+    "invocation_examples": [
+      {
+        "title": "Start a new run with no Procedure arguments",
+        "terminal_execute_arguments": {
+          "runOn": "@",
+          "whatPrompt": "Procedure",
+          "forWhom": "GPT6_1000000301-procedure_start-Terminals"
+        },
+        "interpretation": "The alias generates the real UUID nonce, saves the initial verbatim_request projection and returns both. The example supplies no agent input."
+      },
+      {
+        "title": "Equivalent start with an empty object",
+        "terminal_execute_arguments": {
+          "runOn": "@",
+          "whatPrompt": "Procedure {}",
+          "forWhom": "GPT6_1000000302-procedure_start_explicit-Terminals"
+        },
+        "interpretation": "Empty alias arguments also start a new independent run. This creates a different nonce; do not use this form to resume an existing run."
+      },
+      {
+        "title": "Replay a saved projection without submitting input",
+        "terminal_execute_arguments": {
+          "runOn": "@",
+          "whatPrompt": "Procedure {\"nonce\":\"123e4567-e89b-42d3-a456-426614174000\"}",
+          "forWhom": "GPT6_1000000303-procedure_replay-Terminals"
+        },
+        "interpretation": "The UUID is an illustrative replacement token, not a real allocated nonce. Substitute the actual nonce returned by the first invocation. The saved instruction and final_schema are not regenerated."
+      },
+      {
+        "title": "Submit input matching the current state's issued schema",
+        "terminal_execute_arguments": {
+          "runOn": "@",
+          "whatPrompt": "Procedure {\"nonce\":\"123e4567-e89b-42d3-a456-426614174000\",\"input\":{\"verbatim_request\":\"Describe the requested changes to a configuration file.\"}}",
+          "forWhom": "GPT6_1000000304-procedure_input-Terminals"
+        },
+        "interpretation": "The illustrative verbatim_request value applies only when the saved current keyword is verbatim_request and its actual final_schema permits this value. Replace the nonce with the real returned nonce. Acceptance stores verbatim_request and generates the user_intent projection."
+      },
+      {
+        "title": "Retry after a rejected input",
+        "terminal_execute_arguments": {
+          "runOn": "@",
+          "whatPrompt": "Procedure {\"nonce\":\"123e4567-e89b-42d3-a456-426614174000\",\"input\":{\"verbatim_request\":\"Specify the configuration change and expected result.\"}}",
+          "forWhom": "GPT6_1000000305-procedure_retry-Terminals"
+        },
+        "interpretation": "Use this pattern only if the current saved state remains verbatim_request after rejection. Inspect the actual error_message and final_schema before choosing corrected input; never use an assumed value after the state advances."
+      }
+    ],
+    "response_interpretation": {
+      "successful_start": "The alias's output contains a newly generated nonce and the complete current projection. The tool envelope may itself contain receipt and execution-status fields, separate from the alias result.",
+      "nonce_only": "The output contains the same nonce and the already saved projection; no agent input was processed.",
+      "rejected_input": "The output returns the same nonce and current keyword with additive error_message; the instruction and final_schema must remain unchanged.",
+      "accepted_nonterminal_input": "The output returns the same nonce and a newly generated successor projection selected by the stored next keyword.",
+      "accepted_terminal_input": "The controller returns completion information for the existing nonce rather than a successor projection.",
+      "validation_vs_transport": "A successful terminal tool invocation proves only that the alias call executed; procedure advancement is proven by the returned successor or completion state, not by a generic exit code."
+    },
+    "verification": {
+      "start": "Confirm valid terminal tool execution, real returned nonce, initial verbatim_request projection and concrete final_schema.",
+      "replay": "Compare replayed instruction and final_schema with the saved state to confirm exact equality and no transition.",
+      "rejection": "Confirm that rejected input produces a diagnostic while preserving nonce, keyword, instruction, final_schema and previously accepted inputs.",
+      "advancement": "Confirm that valid input is accepted under the saved final_schema, saved by its keyword, and followed by the correct next projection under the unchanged nonce.",
+      "terminal_completion": "Confirm the actual completion response after valid terminal-state input; avoid inventing later steps.",
+      "unverified_behavior": "If persistence, replay, acceptance, state change or completion cannot be independently established, report that specific outcome as unverified instead of inferring success."
+    }
+  },
+  {
     "title": "Revised Terminal MCP Procedure",
     "applicability": "Use this reference when the user selects @Procedure -r.",
     "invocation": {

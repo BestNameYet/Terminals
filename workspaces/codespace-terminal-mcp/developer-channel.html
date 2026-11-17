@@ -18,8 +18,9 @@ a { color: LinkText; }
 .message header { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
 .message p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 form { display: grid; gap: 8px; }
-textarea, button { font: inherit; color: inherit; background: Canvas; border: 1px solid color-mix(in srgb, CanvasText 34%, Canvas); border-radius: 8px; padding: 8px; }
+textarea, input, button { font: inherit; color: inherit; background: Canvas; border: 1px solid color-mix(in srgb, CanvasText 34%, Canvas); border-radius: 8px; padding: 8px; }
 textarea { width: 100%; min-height: 66px; resize: vertical; }
+input { width: 100%; }
 button { cursor: pointer; }
 button:disabled { opacity: .55; cursor: default; }
 #send { background: CanvasText; color: Canvas; padding-inline: 16px; margin-left: auto; }
@@ -32,15 +33,19 @@ button:disabled { opacity: .55; cursor: default; }
   </header>
   <div class="toolbar">
     <a id="issue-link" href="https://github.com/BestNameYet/Terminals/issues/12" target="_blank" rel="noopener noreferrer">BestNameYet/Terminals · Issue #12</a>
-    <span class="hint">Checks for replies every minute while open.</span>
-    <button type="button" id="refresh">Refresh now</button>
+    <span class="hint">No background polling. Load updates when needed.</span>
+    <button type="button" id="refresh">Load updates</button>
   </div>
   <section id="messages" role="log" aria-label="Developer channel messages" aria-live="polite"></section>
   <form id="composer">
-    <label for="draft">Message to the developer</label>
-    <textarea id="draft" maxlength="5000" required placeholder="Write a GitHub issue comment"></textarea>
+    <label for="participant-id">Target participant_id</label>
+    <input id="participant-id" maxlength="128" pattern="[A-Za-z0-9][A-Za-z0-9._:-]{0,127}" required>
+    <label for="comment-id">Target Issue #12 comment_id</label>
+    <input id="comment-id" inputmode="numeric" pattern="[1-9][0-9]{0,19}" maxlength="20" required>
+    <label for="draft">Update to append</label>
+    <textarea id="draft" maxlength="5000" required placeholder="Write a channel update"></textarea>
     <div class="composer-actions">
-      <span class="hint">Sending posts a comment to Issue #12.</span>
+      <span class="hint">Sending appends to the selected Issue #12 comment.</span>
       <button id="send" disabled>Send</button>
     </div>
   </form>
@@ -51,12 +56,28 @@ const messages = document.querySelector('#messages');
 const issueLink = document.querySelector('#issue-link');
 const form = document.querySelector('#composer');
 const draft = document.querySelector('#draft');
+const participantInput = document.querySelector('#participant-id');
+const commentInput = document.querySelector('#comment-id');
 const send = document.querySelector('#send');
 const refreshButton = document.querySelector('#refresh');
 const pending = new Map();
+const events = new Map();
 let requestId = 0;
 let loading = false;
-let intervalId;
+let cursor = '0';
+
+try {
+  participantInput.value = localStorage.getItem('terminals-channel-participant-id') || 'counterpart';
+  commentInput.value = localStorage.getItem('terminals-channel-comment-id') || '6962337133';
+} catch {
+  participantInput.value = 'counterpart';
+  commentInput.value = '6962337133';
+}
+function rememberRoute(key, value) {
+  try { localStorage.setItem(key, value); } catch {}
+}
+participantInput.addEventListener('change', () => rememberRoute('terminals-channel-participant-id', participantInput.value.trim()));
+commentInput.addEventListener('change', () => rememberRoute('terminals-channel-comment-id', commentInput.value.trim()));
 
 function notify(method, params) {
   window.parent.postMessage({ jsonrpc: '2.0', method, params }, '*');
@@ -87,11 +108,13 @@ window.addEventListener('message', ({ source, data }) => {
 async function callTool(name, args = {}) {
   const result = await call('tools/call', { name, arguments: args }, 30000);
   const content = result?.content?.find(item => item.type === 'text')?.text;
-  if (!content) throw new Error('The server returned no channel data.');
-  let value;
-  try { value = JSON.parse(content); }
-  catch { throw new Error(content); }
-  if (result.isError) throw new Error(value.error || 'The channel request failed.');
+  let value = result?.structuredContent;
+  if (!value && content) {
+    try { value = JSON.parse(content); }
+    catch { throw new Error(content); }
+  }
+  if (result.isError) throw new Error(value?.error || 'The channel request failed.');
+  if (!value) throw new Error('The server returned no channel data.');
   return value;
 }
 
@@ -103,30 +126,45 @@ function render(items) {
     article.className = 'message';
     const top = document.createElement('header');
     const author = document.createElement('strong');
-    author.textContent = item.author || 'unknown';
+    author.textContent = item.participant_id || 'channel update';
     const time = document.createElement('time');
-    time.dateTime = item.createdAt || '';
-    time.textContent = item.createdAt ? new Date(item.createdAt).toLocaleString() : '';
+    time.dateTime = item.created_at || '';
+    time.textContent = item.created_at ? new Date(item.created_at).toLocaleString() : '';
     top.append(author, time);
     const body = document.createElement('p');
-    body.textContent = item.body || '';
+    body.textContent = item.message || item.body || '';
     article.append(top, body);
     messages.append(article);
   }
   if (atBottom) messages.scrollTop = messages.scrollHeight;
 }
 
-async function refresh(silent = false) {
+function applyResource(value) {
+  if (!Array.isArray(value.events)) throw new Error('The resource response has no events array.');
+  for (const event of value.events) events.set(String(event.cursor), event);
+  cursor = String(value.cursor || cursor);
+  render([...events.values()].sort((a, b) => Number(a.cursor) - Number(b.cursor)));
+}
+
+function routeArgs() {
+  return {
+    participant_id: participantInput.value.trim(),
+    comment_id: commentInput.value.trim(),
+    after_cursor: cursor
+  };
+}
+
+async function refresh() {
   if (loading) return;
   loading = true;
   refreshButton.disabled = true;
-  if (!silent) status.textContent = 'Checking GitHub…';
+  status.textContent = 'Reading the participant resource…';
   try {
-    const result = await callTool('developer_channel_read');
-    issueLink.href = result.channel.url;
-    issueLink.textContent = result.channel.repository + ' · Issue #' + result.channel.issueNumber;
-    render(result.messages);
-    status.textContent = 'Updated ' + new Date().toLocaleTimeString();
+    const result = await callTool('developer_channel_read', routeArgs());
+    issueLink.href = 'https://github.com/BestNameYet/Terminals/issues/12#issuecomment-' + result.comment_id;
+    issueLink.textContent = 'BestNameYet/Terminals · Issue #12 · ' + result.participant_id;
+    applyResource(result);
+    status.textContent = 'Loaded cursor ' + cursor;
   } catch (error) {
     status.textContent = 'Unavailable: ' + error.message;
   } finally {
@@ -142,11 +180,16 @@ form.addEventListener('submit', async event => {
   const message = draft.value;
   if (!message.trim() || send.disabled) return;
   send.disabled = true;
-  status.textContent = 'Sending…';
+  status.textContent = 'Appending update…';
   try {
-    await callTool('developer_channel_send', { message });
+    const result = await callTool('developer_channel_send', {
+      participant_id: participantInput.value.trim(),
+      comment_id: commentInput.value.trim(),
+      message
+    });
+    applyResource(result);
     draft.value = '';
-    await refresh(true);
+    status.textContent = 'Appended at cursor ' + cursor;
   } catch (error) {
     status.textContent = 'Send failed: ' + error.message;
   } finally {
@@ -164,12 +207,10 @@ async function connect() {
     notify('ui/notifications/initialized', {});
     send.disabled = false;
     await refresh();
-    intervalId = setInterval(() => refresh(true), 60000);
   } catch (error) {
     status.textContent = 'Unavailable: ' + error.message;
   }
 }
 connect();
-window.addEventListener('pagehide', () => clearInterval(intervalId));
 </script>
 </html>

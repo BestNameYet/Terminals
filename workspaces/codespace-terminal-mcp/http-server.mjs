@@ -13,7 +13,17 @@ import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 import { EOTRecorder } from './eot-recorder.mjs';
 import { TurnJournal } from './turn-journal.mjs';
 import { Procedure } from './procedure.mjs';
-import { DeveloperChannel, readDeveloperChannel, sendDeveloperChannelMessage } from './developer-channel.mjs';
+import {
+  DEVELOPER_CHANNEL_READ_SCHEMA,
+  DEVELOPER_CHANNEL_SEND_SCHEMA,
+  DeveloperChannel,
+  listDeveloperChannelResources,
+  parseParticipantResourceUri,
+  participantResourceUri,
+  readDeveloperChannel,
+  readDeveloperChannelResource,
+  sendDeveloperChannelMessage
+} from './developer-channel.mjs';
 import { createSupervisor } from './supervisor.mjs';
 
 registerAlias('EOTRecorder', EOTRecorder);
@@ -32,12 +42,12 @@ const terminalView = {
 function setup(supervisor){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
   { name: 'developer_channel_open', title: 'Open developer channel', description: 'Open the near-live GitHub issue conversation with the Terminals developer.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: developerChannelView.uri } } },
-  { name: 'developer_channel_read', title: 'Read developer channel', description: 'Read the opening post and current comments in BestNameYet/Terminals issue 12.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true } },
-  { name: 'developer_channel_send', title: 'Send developer channel message', description: 'Post a user-composed message as a GitHub comment on BestNameYet/Terminals issue 12.', inputSchema: { type: 'object', required: ['message'], additionalProperties: false, properties: { message: { type: 'string', minLength: 1, maxLength: 5000 } } }, annotations: { openWorldHint: true } },
+  { name: 'developer_channel_read', title: 'Read developer channel', description: 'Read new events from a target participant resource in Issue #12 using its stable participant_id and comment_id.', inputSchema: DEVELOPER_CHANNEL_READ_SCHEMA, annotations: { readOnlyHint: true } },
+  { name: 'developer_channel_send', title: 'Append developer channel update', description: 'Append an update to the stable Issue #12 comment addressed by participant_id and comment_id.', inputSchema: DEVELOPER_CHANNEL_SEND_SCHEMA, annotations: { openWorldHint: true } },
   { name: 'terminal_open', title: 'Open Codespace terminal', description: 'Show the terminal controls in ChatGPT.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: terminalView.uri } } },
   { name: 'terminal_execute', description: 'Execute a fresh Bash ($), GitHub CLI (gh), or registered convenience function (@) command.', inputSchema: schema },
 ] }));
-server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView, developerChannelView, ...await listResponseResources()] }));
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView, developerChannelView, ...await listDeveloperChannelResources(), ...await listResponseResources()] }));
 server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
   if (params.uri === terminalView.uri) {
     const text = await readFile(new URL('./terminal.html', import.meta.url), 'utf8');
@@ -46,6 +56,10 @@ server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
   if (params.uri === developerChannelView.uri) {
     const text = await readFile(new URL('./developer-channel.html', import.meta.url), 'utf8');
     return { contents: [{ uri: developerChannelView.uri, mimeType: developerChannelView.mimeType, text }] };
+  }
+  if (parseParticipantResourceUri(params.uri)) {
+    const value = await readDeveloperChannelResource(params.uri);
+    return { contents: [{ uri: params.uri, mimeType: 'application/json', text: JSON.stringify(value) }] };
   }
   return { contents: [await readResponseResource(params.uri)] };
 });
@@ -56,13 +70,37 @@ server.setRequestHandler(CallToolRequestSchema, ({ params }) => {
 return server;
 }
 
+function developerChannelToolResult(value) {
+  const baseUri = participantResourceUri(value.participant_id, value.comment_id);
+  const resourceUri = baseUri + '?after_cursor=' + encodeURIComponent(value.after_cursor || '0');
+  return {
+    content: [
+      { type: 'text', text: JSON.stringify(value) },
+      { type: 'resource_link', uri: resourceUri, name: 'Updated Comm channel resource', mimeType: 'application/json' }
+    ],
+    structuredContent: value
+  };
+}
+
 async function callTool(params, onProcedureTransition) {
 if (params.name === 'developer_channel_open') return { content: [{ type: 'text', text: 'Developer channel app ready for BestNameYet/Terminals issue 12.' }] };
-if (params.name === 'developer_channel_read') return { content: [{ type: 'text', text: JSON.stringify(await readDeveloperChannel()) }] };
+if (params.name === 'developer_channel_read') {
+  const args = params.arguments || {};
+  if (Object.keys(args).some(key => !['participant_id', 'comment_id', 'after_cursor'].includes(key)) ||
+      typeof args.participant_id !== 'string' || typeof args.comment_id !== 'string') {
+    throw new TypeError('Expected participant_id and comment_id, with optional after_cursor');
+  }
+  return developerChannelToolResult(await readDeveloperChannel(args));
+}
 if (params.name === 'developer_channel_send') {
   const args = params.arguments || {};
-  if (Object.keys(args).length !== 1 || typeof args.message !== 'string') throw new TypeError('Expected one message string');
-  return { content: [{ type: 'text', text: JSON.stringify(await sendDeveloperChannelMessage(args.message)) }] };
+  if (Object.keys(args).length !== 3 ||
+      typeof args.participant_id !== 'string' ||
+      typeof args.comment_id !== 'string' ||
+      typeof args.message !== 'string') {
+    throw new TypeError('Expected participant_id, comment_id and message');
+  }
+  return developerChannelToolResult(await sendDeveloperChannelMessage(args));
 }
 if (params.name === 'terminal_open') return { content: await renderResponseContent(JSON.stringify({message:'Codespace terminal ready.'})) };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};

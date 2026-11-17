@@ -1,0 +1,8 @@
+{
+  "inputThis": "$:p=user/codespaces/shiny-robot-v64x5jj4v4q2x96\nfor i in {1..15}; do\n s=$(gh api \"$p\" --jq .state 2>&1) || { printf '%s\\n' \"$s\"; exit 1; }\n printf 'STATE=%s\\n' \"$s\"\n case \"$s\" in\n Available) exit 0;;\n Shutdown)\n   result=$(gh api --method POST \"$p/start\" --jq .state 2>&1); code=$?\n   printf 'START=%s\\n' \"$result\"\n   if [ \"$code\" -ne 0 ]; then sleep 7; else sleep 4; fi;;\n Starting|ShuttingDown) sleep 4;;\n *) exit 1;;\n esac\ndone\nexit 1",
+  "outputThat": [
+    "STATE=Shutdown",
+    "START=Shutdown",
+    "STATE=Queued"
+  ]
+}

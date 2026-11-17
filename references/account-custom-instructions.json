@@ -594,5 +594,25 @@
       "execution_limitation": "The recorder does not initiate itself automatically. Every recorded event requires an actual MCP tool invocation.",
       "change_control": "This prototype describes intended usage. It does not change the existing recorder implementation, register a new function, alter an MCP tool schema, or modify the repository."
     }
+  },
+  {
+    "title": "Nonce-Scoped Procedure Scratchpad",
+    "applicability": "Applies to both @Procedure and @Procedure -r through Terminals MCP with runOn set to @.",
+    "commands": {
+      "mandatory_start": [
+        "Procedure --scratchpad=mandatory",
+        "Procedure -r --scratchpad=mandatory"
+      ],
+      "read": [
+        "Procedure <nonce> --scratchpad",
+        "Procedure -r <nonce> --scratchpad"
+      ],
+      "append_examples": [
+        "Procedure <nonce> --scratchpad {\"note\":\"Record an observation.\"}",
+        "Procedure -r <nonce> --scratchpad {\"note\":\"Record an observation.\"}"
+      ]
+    },
+    "behavior": "Use the same nonce and profile as the run. A bare start uses optional mode. Append notes containing task observations or handoff information. Each append preserves the active projection and prior notes. A mandatory run requires a note for the current projection revision before advancement. Retries reuse the revision, and a new projection, including a repair revisit, requires a fresh note.",
+    "completion": "Read the full history at any step or after completion. Completion closes the scratchpad to appends."
   }
 ]

@@ -1,3 +1,5 @@
+import { scratchpadDiagnostic } from "./scratchpad.mjs"
+
 export const COMPLETE = "COMPLETE"
 
 function replayStored() {
@@ -84,11 +86,15 @@ export function createDispatcher({ table, buildState, renderCompletion, withDiag
 
     const record = event.type === "E_RETURN" && !saved.completed ? structuredClone(saved) : saved
     const read = key => record.inputs[key]
-    const decision = await cell.handle({ record, read }, event)
+    let decision = await cell.handle({ record, read }, event)
+    if (decision.kind === "ACCEPT") {
+      const diagnostic = scratchpadDiagnostic(record)
+      if (diagnostic) decision = { kind: "REJECT", diagnostic }
+    }
     switch (decision.kind) {
       case "REPLAY":
         notify(onTransition, { nonce, outcome: "replayed", before, after: before })
-        return render(record.state.projection)
+        return render(record.state.projection, record)
       case "REPLAY_COMPLETE":
         notify(onTransition, { nonce, outcome: "completion_replay", before })
         return record.completionReceipt ?? renderCompletion(nonce, record.inputs)
@@ -96,7 +102,7 @@ export function createDispatcher({ table, buildState, renderCompletion, withDiag
         record.state.projection = withDiagnostic(before, record.state.projection, decision.diagnostic)
         await save(nonce, record)
         notify(onTransition, { nonce, outcome: "retry", before, after: before })
-        return render(record.state.projection)
+        return render(record.state.projection, record)
       case "ACCEPT": {
         if (!cell.routes || !Object.hasOwn(cell.routes, decision.route)) {
           throw new Error(`Undeclared route for ${before}: ${decision.route}`)
@@ -112,9 +118,10 @@ export function createDispatcher({ table, buildState, renderCompletion, withDiag
           return record.completionReceipt
         }
         record.state = await buildState(next, record.inputs, record.repair)
+        if (record.scratchpad) record.scratchpad.revision += 1
         await save(nonce, record)
         notify(onTransition, { nonce, outcome: "advanced", before, after: next })
-        return render(record.state.projection)
+        return render(record.state.projection, record)
       }
       default:
         throw new Error(`Invalid procedure decision: ${decision.kind}`)

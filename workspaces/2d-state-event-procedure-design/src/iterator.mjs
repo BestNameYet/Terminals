@@ -41,11 +41,11 @@ export async function buildState(keyword, inputs) {
   return { keyword, next: definition.next, projection }
 }
 
-export async function create(nonce, { save, render, onTransition }, keyword = "verbatim_request") {
-  const record = { state: await buildState(keyword, {}), inputs: {} }
+export async function create(nonce, { save, render, onTransition, scratchpadMode = "optional" }, keyword = "verbatim_request") {
+  const record = { state: await buildState(keyword, {}), inputs: {}, scratchpad: { mode: scratchpadMode, revision: 1, entries: [] } }
   await save(nonce, record)
   notify(onTransition, { nonce, outcome: "started", after: keyword })
-  return render(record.state.projection)
+  return render(record.state.projection, record)
 }
 
 

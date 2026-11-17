@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { join } from 'node:path';
+import { appendNote, scratchpadFor, scratchpadSummary } from '../2d-state-event-procedure-design/src/scratchpad.mjs';
 import * as legacy from '../2d-state-event-procedure-design/src/iterator.mjs';
 
 // One nonce identifies one saved execution record throughout the procedure.
@@ -51,19 +52,45 @@ export async function Procedure(args = {}, { revised = false, onTransition } = {
     throw new TypeError('Procedure requires an argument object');
   }
   const keys = Object.keys(args);
-  if (keys.some(key => !['nonce', 'input'].includes(key))) {
+  if (keys.some(key => !['nonce', 'input', 'scratchpadMode', 'scratchpad'].includes(key))) {
     throw new TypeError('Unrecognized Procedure argument');
   }
-  const render = projection => ({ nonce: args.nonce, projection });
+  const renderFor = nonce => (projection, record) =>
+    ({ nonce, projection, scratchpad: scratchpadSummary(record) });
   if (!Object.hasOwn(args, 'nonce')) {
-    if (Object.hasOwn(args, 'input')) throw new TypeError('Input requires nonce');
+    if (Object.hasOwn(args, 'input') || Object.hasOwn(args, 'scratchpad')) {
+      throw new TypeError('Input and scratchpad operations require a nonce');
+    }
+    const scratchpadMode = Object.hasOwn(args, 'scratchpadMode') ? args.scratchpadMode : 'optional';
+    if (!['optional', 'mandatory'].includes(scratchpadMode)) throw new TypeError('Invalid scratchpad mode');
     const nonce = randomUUID();
     // The new run is persisted before its first projection is returned.
-    return create(nonce, { save, onTransition, render: projection => ({ nonce, projection }) });
+    return create(nonce, { save, onTransition, scratchpadMode, render: renderFor(nonce) });
+  }
+  const { nonce } = args;
+  const key = fileFor(directory, nonce);
+  const render = renderFor(nonce);
+  if (Object.hasOwn(args, 'scratchpadMode')) throw new TypeError('Scratchpad mode is set at creation');
+  if (Object.hasOwn(args, 'scratchpad')) {
+    if (Object.hasOwn(args, 'input')) throw new TypeError('Choose scratchpad or state input');
+    if (args.scratchpad === true) {
+      const record = await load(nonce);
+      return { nonce, completed: Boolean(record.completed), scratchpad: scratchpadFor(record) };
+    }
+    const request = args.scratchpad;
+    if (!request || typeof request !== 'object' || Array.isArray(request) ||
+        Object.keys(request).length !== 1 || typeof request.note !== 'string' || !request.note.trim()) {
+      throw new TypeError('Scratchpad append requires one nonempty note string');
+    }
+    return serializeMutation(key, async () => {
+      const record = await load(nonce);
+      const entry = appendNote(record, request.note);
+      await save(nonce, record);
+      return { nonce, entry, scratchpad: scratchpadSummary(record) };
+    });
   }
   if (Object.hasOwn(args, 'input')) {
-    return serializeMutation(fileFor(directory, args.nonce), () =>
-      f(args.input, args.nonce, { load, save, render, onTransition }));
+    return serializeMutation(key, () => f(args.input, nonce, { load, save, render, onTransition }));
   }
-  return f(undefined, args.nonce, { load, save, render, onTransition });
+  return f(undefined, nonce, { load, save, render, onTransition });
 }

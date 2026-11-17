@@ -97,3 +97,45 @@ test('Procedure saves and replays a completion receipt with all accepted inputs'
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+test('both profiles persist mandatory scratchpads and serialize notes with advancement', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'procedure-scratchpad-'));
+  const old = process.env.MCP_PROCEDURE_STATE_DIR;
+  process.env.MCP_PROCEDURE_STATE_DIR = dir;
+  try {
+    const { Procedure } = await import('./procedure.mjs?scratchpad-test');
+    const registry = new Map([['Procedure', Procedure]]);
+    const call = async prompt => {
+      const receipt = await dispatchAliasReceipt(prompt, registry);
+      assert.equal(receipt.exitCode, 0, receipt.stderr);
+      return JSON.parse(receipt.outputThat[0]);
+    };
+    for (const revised of [false, true]) {
+      const prefix = revised ? 'Procedure -r' : 'Procedure';
+      const { nonce, projection } = await call(prefix + ' --scratchpad=mandatory');
+      const submit = input => call(revised
+        ? prefix + ' ' + nonce + ' ' + JSON.stringify(input)
+        : prefix + ' ' + JSON.stringify({ nonce, input }));
+      const note = prefix + ' ' + nonce + ' --scratchpad';
+      const input = { verbatim_request: 'Design a report' };
+      const blocked = await submit(input);
+      assert.equal(blocked.projection.error_message.errortype, 'scratchpad.note_required');
+      assert.deepEqual(blocked.projection.final_schema, projection.final_schema);
+      await Promise.all([
+        call(note + ' {"note":"First observation"}'),
+        call(note + ' {"note":"Second observation"}')
+      ]);
+      const advanced = await submit(input);
+      assert.equal(advanced.projection.keyword, 'user_intent');
+      assert.equal(advanced.scratchpad.revision, 2);
+      const history = await call(note);
+      assert.deepEqual(history.scratchpad.entries.map(entry => [entry.sequence, entry.revision]), [[1, 1], [2, 1]]);
+      const intent = { intent: 'Design', objectives: [], constraints: [], requested_outcome: 'Report' };
+      assert.equal((await submit({ user_intent: intent })).projection.error_message.errortype, 'scratchpad.note_required');
+    }
+  } finally {
+    if (old === undefined) delete process.env.MCP_PROCEDURE_STATE_DIR;
+    else process.env.MCP_PROCEDURE_STATE_DIR = old;
+    await rm(dir, { recursive: true, force: true });
+  }
+});

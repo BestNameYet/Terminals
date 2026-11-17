@@ -27,10 +27,14 @@ export async function dispatchAliasReceipt(whatPrompt, registry = aliases, onPro
     if (!match[2] && match[1] !== 'Procedure') throw new Error('Missing JSON arguments for alias: ' + match[1]);
     let args;
     const revised = match[1] === 'Procedure' && /^-r(?:\s|$)/.test(match[2] ?? '');
+    const positional = revised || (match[1] === 'Procedure' &&
+      /^(?:--scratchpad=|[a-f0-9-]{36}\s+--scratchpad(?:\s|$))/.test(match[2] ?? ''));
     try {
-      args = revised ? parseRevisedProcedure(match[2]) : match[2] ? JSON.parse(match[2]) : {};
+      args = positional
+        ? parseProcedure(revised ? match[2].slice(2).trim() : match[2])
+        : match[2] ? JSON.parse(match[2]) : {};
     } catch (error) {
-      if (revised) throw error;
+      if (positional) throw error;
       throw new Error('Invalid JSON arguments for alias: ' + match[1]);
     }
     if (args === null || typeof args !== 'object' || Array.isArray(args)) {
@@ -50,14 +54,16 @@ export async function dispatchAliasReceipt(whatPrompt, registry = aliases, onPro
   return receipt;
 }
 
-function parseRevisedProcedure(suffix) {
-  const rest = suffix.slice(2).trim();
+function parseProcedure(rest) {
   if (!rest) return {};
+  if (rest.startsWith('--scratchpad=')) return { scratchpadMode: rest.slice('--scratchpad='.length) };
   const [, nonce, input] = /^(\S+)(?:\s+([\s\S]+))?$/.exec(rest);
   if (!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(nonce)) {
-    throw new Error('Expected Procedure -r <nonce> [<JSON input object>]');
+    throw new Error('Expected a Procedure nonce followed by JSON input or --scratchpad');
   }
   if (input === undefined) return { nonce };
+  const scratchpad = /^--scratchpad(?:\s+([\s\S]+))?$/.exec(input);
+  if (scratchpad) return { nonce, scratchpad: scratchpad[1] ? JSON.parse(scratchpad[1]) : true };
   let value;
   try { value = JSON.parse(input); }
   catch { throw new Error('Invalid JSON input for Procedure -r'); }

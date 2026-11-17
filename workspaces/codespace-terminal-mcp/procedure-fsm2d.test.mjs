@@ -52,9 +52,13 @@ test('revised alias skips optional questions and repairs a failed preflight', as
     assert.equal(result.exitCode, 0, result.stderr);
     return JSON.parse(result.outputThat[0]);
   };
-  const { nonce } = await call('Procedure -r');
+  const { nonce } = await call('Procedure -r --scratchpad=mandatory');
   const command = 'Procedure -r ' + nonce;
-  const submit = input => call(command + ' ' + JSON.stringify(input));
+  const submitWithoutNote = input => call(command + ' ' + JSON.stringify(input));
+  const submit = async input => {
+    await call(command + ' --scratchpad {"note":"Observed input for this projection"}');
+    return submitWithoutNote(input);
+  };
   const intent = { intent: 'Design', objectives: [], constraints: ['Design only'], requested_outcome: 'Report' };
   await submit({ verbatim_request: 'Design a report' });
   const orient = await submit({ user_intent: intent });
@@ -64,7 +68,7 @@ test('revised alias skips optional questions and repairs a failed preflight', as
   assert.equal((await submit({ clarifying_questions: [] })).projection.keyword, 'desired_state');
 
   const path = join(dir, 'revised', nonce + '.json');
-  const { inputs } = JSON.parse(await readFile(path, 'utf8'));
+  const { inputs, scratchpad } = JSON.parse(await readFile(path, 'utf8'));
   assert.deepEqual(inputs.question_answers, []);
   const step = {
     id: 'S1', change_ids: ['R1'], action_ids: ['A1'], action: 'Write report',
@@ -78,7 +82,7 @@ test('revised alias skips optional questions and repairs a failed preflight', as
     execution_procedure: { steps: [step] }
   });
   const state = await revised.buildState('simulation_results', inputs);
-  await writeFile(path, JSON.stringify({ state, inputs }));
+  await writeFile(path, JSON.stringify({ state, inputs, scratchpad }));
   const checklist = [{ condition_id: 'C1', expected: 'Report', simulated: 'Report', passed: true, discrepancy: '' }];
   const simulation = {
     steps: [{ step_id: 'S1', simulated_result: 'Report', passed: true }],
@@ -89,12 +93,21 @@ test('revised alias skips optional questions and repairs a failed preflight', as
   assert.equal(repair.projection.keyword, 'execution_procedure');
   assert.deepEqual(repair.projection.context.repair.revisions, blocked.revisions);
   assert.deepEqual(await call(command), repair);
-  await submit({ execution_procedure: { steps: [{ ...step, action: 'Write report.md' }] } });
+  const revisedPlan = { execution_procedure: { steps: [{ ...step, action: 'Write report.md' }] } };
+  const rejected = await submitWithoutNote(revisedPlan);
+  assert.equal(rejected.projection.error_message.errortype, 'scratchpad.note_required');
+  assert.deepEqual(rejected.projection.final_schema, repair.projection.final_schema);
+  assert.equal(rejected.scratchpad.revision, repair.scratchpad.revision);
+  await submit(revisedPlan);
   const execute = await submit({ simulation_results: simulation });
   assert.equal(execute.projection.keyword, 'execution_results');
   const saved = JSON.parse(await readFile(path, 'utf8'));
   assert.deepEqual(saved.planAttempts[0].simulation_results, blocked);
   assert.equal(saved.repair, undefined);
+  const history = await call(command + ' --scratchpad');
+  const simulations = history.scratchpad.entries.filter(entry => entry.keyword === 'simulation_results');
+  assert.equal(simulations.length, 2);
+  assert.notEqual(simulations[0].revision, simulations[1].revision);
 });
 
 test('failed save leaves a previously loaded record intact', async () => {

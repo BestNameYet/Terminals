@@ -188,7 +188,7 @@
     },
     {
       "state": "clarifying_questions",
-      "instruction": "Read the inspected observations and unknowns. Return zero or more clarifying_questions. Each has a unique id, a question, and the decision its answer could change. Omit questions whose answers would not affect scope, approach, or verification. Investigate available evidence before asking the user.",
+      "instruction": "Read the inspected observations and unknowns. Generate clarifying questions when their answers would provide information materially relevant to understanding, designing, executing, or verifying the user's requested outcome. Do not require the answers to change the established scope or approach. Avoid redundant questions and questions already answered by available evidence. Return zero or more clarifying_questions. Each has a unique id and a question.",
       "return_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
@@ -196,7 +196,7 @@
         "properties": {
           "clarifying_questions": {
             "type": "array",
-            "description": "Questions that can affect scope, approach, or verification. An empty array is valid.",
+            "description": "Questions that resolve material uncertainty about the requested outcome. An empty array is valid.",
             "items": {
               "type": "object",
               "description": "Each object in `clarifying_questions` represents one question and contains its identifier and full question text.",
@@ -208,16 +208,11 @@
                 "question": {
                   "type": "string",
                   "description": "The `clarifying_questions[].question` property is a string containing a complete interrogative sentence identifying information needed to fulfill the request."
-                },
-                "decision": {
-                  "type": "string",
-                  "minLength": 1
                 }
               },
               "required": [
                 "id",
-                "question",
-                "decision"
+                "question"
               ],
               "additionalProperties": false
             }
@@ -234,7 +229,7 @@
         "user_intent",
         "current_state"
       ],
-      "compact_instruction_projection": "Read the inspected observations and unknowns. Return zero or more clarifying_questions. Each has a unique id, a question, and the decision its answer could change. Omit questions whose answers would not affect scope, approach, or verification. Investigate available evidence before asking the user.",
+      "compact_instruction_projection": "Read the inspected observations and unknowns. Generate clarifying questions when their answers would provide information materially relevant to understanding, designing, executing, or verifying the user's requested outcome. Do not require the answers to change the established scope or approach. Avoid redundant questions and questions already answered by available evidence. Return zero or more clarifying_questions. Each has a unique id and a question.",
       "schema_derivation": {
         "input_keywords": [
           "verbatim_request",

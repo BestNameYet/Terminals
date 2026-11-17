@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:gh workflow run chatgpt-shared-conversation-extractor.yml --repo BestNameYet/Terminals --ref main --raw-field request_json='{\"target_url\":\"https://chatgpt.com/share/6afbf0a9-1d90-83e8-bd6c-edccecec1981\",\"export_profile\":\"complete\",\"request_id\":\"GPT6_0000000097-extract-6afbf0a9\"}'",
+  "outputThat": [
+    "https://github.com/BestNameYet/Terminals/actions/runs/44029897416"
+  ]
+}

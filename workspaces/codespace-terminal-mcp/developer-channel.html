@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer channel</title>
+<style>
+:root { color-scheme: light dark; font: 14px system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1px; }
+main { border: 1px solid color-mix(in srgb, CanvasText 20%, Canvas); border-radius: 14px; padding: 16px; }
+header, .toolbar, .composer-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+header { justify-content: space-between; }
+h1 { margin: 0; font-size: 17px; }
+#status, .hint, time, .meta { font-size: 12px; opacity: .78; }
+a { color: LinkText; }
+#messages { display: grid; gap: 8px; max-height: 24rem; min-height: 8rem; overflow: auto; margin: 14px 0; }
+.message { border: 1px solid color-mix(in srgb, CanvasText 18%, Canvas); border-radius: 10px; padding: 10px; }
+.message header { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.message p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+form { display: grid; gap: 8px; }
+textarea, button { font: inherit; color: inherit; background: Canvas; border: 1px solid color-mix(in srgb, CanvasText 34%, Canvas); border-radius: 8px; padding: 8px; }
+textarea { width: 100%; min-height: 66px; resize: vertical; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+#send { background: CanvasText; color: Canvas; padding-inline: 16px; margin-left: auto; }
+.composer-actions { justify-content: space-between; }
+</style>
+<main>
+  <header>
+    <h1>Developer channel</h1>
+    <span id="status" role="status">Connecting…</span>
+  </header>
+  <div class="toolbar">
+    <a id="issue-link" href="https://github.com/BestNameYet/Terminals/issues/12" target="_blank" rel="noopener noreferrer">BestNameYet/Terminals · Issue #12</a>
+    <span class="hint">Checks for replies every minute while open.</span>
+    <button type="button" id="refresh">Refresh now</button>
+  </div>
+  <section id="messages" role="log" aria-label="Developer channel messages" aria-live="polite"></section>
+  <form id="composer">
+    <label for="draft">Message to the developer</label>
+    <textarea id="draft" maxlength="5000" required placeholder="Write a GitHub issue comment"></textarea>
+    <div class="composer-actions">
+      <span class="hint">Sending posts a comment to Issue #12.</span>
+      <button id="send" disabled>Send</button>
+    </div>
+  </form>
+</main>
+<script>
+const status = document.querySelector('#status');
+const messages = document.querySelector('#messages');
+const issueLink = document.querySelector('#issue-link');
+const form = document.querySelector('#composer');
+const draft = document.querySelector('#draft');
+const send = document.querySelector('#send');
+const refreshButton = document.querySelector('#refresh');
+const pending = new Map();
+let requestId = 0;
+let loading = false;
+let intervalId;
+
+function notify(method, params) {
+  window.parent.postMessage({ jsonrpc: '2.0', method, params }, '*');
+}
+
+function call(method, params, timeout) {
+  return new Promise((resolve, reject) => {
+    const id = ++requestId;
+    const timer = setTimeout(() => {
+      pending.delete(id);
+      reject(new Error('The host did not respond.'));
+    }, timeout);
+    pending.set(id, { resolve, reject, timer });
+    window.parent.postMessage({ jsonrpc: '2.0', id, method, params }, '*');
+  });
+}
+
+window.addEventListener('message', ({ source, data }) => {
+  if (source !== window.parent || data?.jsonrpc !== '2.0') return;
+  const request = pending.get(data.id);
+  if (!request) return;
+  pending.delete(data.id);
+  clearTimeout(request.timer);
+  if (data.error) request.reject(new Error(data.error.message));
+  else request.resolve(data.result);
+});
+
+async function callTool(name, args = {}) {
+  const result = await call('tools/call', { name, arguments: args }, 30000);
+  const content = result?.content?.find(item => item.type === 'text')?.text;
+  if (!content) throw new Error('The server returned no channel data.');
+  let value;
+  try { value = JSON.parse(content); }
+  catch { throw new Error(content); }
+  if (result.isError) throw new Error(value.error || 'The channel request failed.');
+  return value;
+}
+
+function render(items) {
+  const atBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 28;
+  messages.replaceChildren();
+  for (const item of items) {
+    const article = document.createElement('article');
+    article.className = 'message';
+    const top = document.createElement('header');
+    const author = document.createElement('strong');
+    author.textContent = item.author || 'unknown';
+    const time = document.createElement('time');
+    time.dateTime = item.createdAt || '';
+    time.textContent = item.createdAt ? new Date(item.createdAt).toLocaleString() : '';
+    top.append(author, time);
+    const body = document.createElement('p');
+    body.textContent = item.body || '';
+    article.append(top, body);
+    messages.append(article);
+  }
+  if (atBottom) messages.scrollTop = messages.scrollHeight;
+}
+
+async function refresh(silent = false) {
+  if (loading) return;
+  loading = true;
+  refreshButton.disabled = true;
+  if (!silent) status.textContent = 'Checking GitHub…';
+  try {
+    const result = await callTool('developer_channel_read');
+    issueLink.href = result.channel.url;
+    issueLink.textContent = result.channel.repository + ' · Issue #' + result.channel.issueNumber;
+    render(result.messages);
+    status.textContent = 'Updated ' + new Date().toLocaleTimeString();
+  } catch (error) {
+    status.textContent = 'Unavailable: ' + error.message;
+  } finally {
+    loading = false;
+    refreshButton.disabled = false;
+  }
+}
+
+refreshButton.addEventListener('click', () => refresh());
+
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  const message = draft.value;
+  if (!message.trim() || send.disabled) return;
+  send.disabled = true;
+  status.textContent = 'Sending…';
+  try {
+    await callTool('developer_channel_send', { message });
+    draft.value = '';
+    await refresh(true);
+  } catch (error) {
+    status.textContent = 'Send failed: ' + error.message;
+  } finally {
+    send.disabled = false;
+  }
+});
+
+async function connect() {
+  try {
+    if (window.parent === window) throw new Error('Open this channel in ChatGPT.');
+    await call('ui/initialize', {
+      appInfo: { name: 'Developer channel', version: '1.0.0' },
+      appCapabilities: {}, protocolVersion: '2026-01-26',
+    }, 10000);
+    notify('ui/notifications/initialized', {});
+    send.disabled = false;
+    await refresh();
+    intervalId = setInterval(() => refresh(true), 60000);
+  } catch (error) {
+    status.textContent = 'Unavailable: ' + error.message;
+  }
+}
+connect();
+window.addEventListener('pagehide', () => clearInterval(intervalId));
+</script>
+</html>

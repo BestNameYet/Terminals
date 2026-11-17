@@ -13,12 +13,15 @@ import { dispatchAliasReceipt, registerAlias } from './alias-dispatcher.mjs';
 import { EOTRecorder } from './eot-recorder.mjs';
 import { TurnJournal } from './turn-journal.mjs';
 import { Procedure } from './procedure.mjs';
+import { DeveloperChannel, readDeveloperChannel, sendDeveloperChannelMessage } from './developer-channel.mjs';
 import { createSupervisor } from './supervisor.mjs';
 
 registerAlias('EOTRecorder', EOTRecorder);
 registerAlias('TurnJournal', TurnJournal);
 registerAlias('Procedure', Procedure);
+registerAlias('DeveloperChannel', DeveloperChannel);
 const schema={type:'object',additionalProperties:false,required:['runOn','whatPrompt','forWhom'],properties:{runOn:{type:'string',enum:['$','gh','@']},whatPrompt:{type:'string',minLength:1},forWhom:{type:'string',pattern:'^[A-Za-z0-9_-]{1,128}$'}}};
+const developerChannelView = { uri: 'ui://terminals/developer-channel.html', name: 'Developer channel', mimeType: 'text/html;profile=mcp-app' };
 const terminalWorkspace = process.env.GITHUB_WORKSPACE || fileURLToPath(new URL('../../', import.meta.url));
 const terminalView = {
   uri: 'ui://terminals/codespace-terminal.html',
@@ -28,14 +31,21 @@ const terminalView = {
 
 function setup(supervisor){const server=new Server({name:'terminals-issue3',version:'0.1.0'},{capabilities:{tools:{},resources:{}}});
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
+  { name: 'developer_channel_open', title: 'Open developer channel', description: 'Open the near-live GitHub issue conversation with the Terminals developer.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: developerChannelView.uri } } },
+  { name: 'developer_channel_read', title: 'Read developer channel', description: 'Read the opening post and current comments in BestNameYet/Terminals issue 12.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true } },
+  { name: 'developer_channel_send', title: 'Send developer channel message', description: 'Post a user-composed message as a GitHub comment on BestNameYet/Terminals issue 12.', inputSchema: { type: 'object', required: ['message'], additionalProperties: false, properties: { message: { type: 'string', minLength: 1, maxLength: 5000 } } }, annotations: { openWorldHint: true } },
   { name: 'terminal_open', title: 'Open Codespace terminal', description: 'Show the terminal controls in ChatGPT.', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true }, _meta: { ui: { resourceUri: terminalView.uri } } },
   { name: 'terminal_execute', description: 'Execute a fresh Bash ($), GitHub CLI (gh), or registered convenience function (@) command.', inputSchema: schema },
 ] }));
-server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView, ...await listResponseResources()] }));
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [terminalView, developerChannelView, ...await listResponseResources()] }));
 server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
   if (params.uri === terminalView.uri) {
     const text = await readFile(new URL('./terminal.html', import.meta.url), 'utf8');
     return { contents: [{ uri: terminalView.uri, mimeType: terminalView.mimeType, text }] };
+  }
+  if (params.uri === developerChannelView.uri) {
+    const text = await readFile(new URL('./developer-channel.html', import.meta.url), 'utf8');
+    return { contents: [{ uri: developerChannelView.uri, mimeType: developerChannelView.mimeType, text }] };
   }
   return { contents: [await readResponseResource(params.uri)] };
 });
@@ -47,6 +57,13 @@ return server;
 }
 
 async function callTool(params, onProcedureTransition) {
+if (params.name === 'developer_channel_open') return { content: [{ type: 'text', text: 'Developer channel app ready for BestNameYet/Terminals issue 12.' }] };
+if (params.name === 'developer_channel_read') return { content: [{ type: 'text', text: JSON.stringify(await readDeveloperChannel()) }] };
+if (params.name === 'developer_channel_send') {
+  const args = params.arguments || {};
+  if (Object.keys(args).length !== 1 || typeof args.message !== 'string') throw new TypeError('Expected one message string');
+  return { content: [{ type: 'text', text: JSON.stringify(await sendDeveloperChannelMessage(args.message)) }] };
+}
 if (params.name === 'terminal_open') return { content: await renderResponseContent(JSON.stringify({message:'Codespace terminal ready.'})) };
 if(params.name!=='terminal_execute')throw Error('Unknown tool');const a=params.arguments||{};
 if(Object.keys(a).sort().join(',')!=='forWhom,runOn,whatPrompt'||!['$','gh','@'].includes(a.runOn)||typeof a.whatPrompt!=='string'||!a.whatPrompt.trim()||typeof a.forWhom!=='string'||!/^[A-Za-z0-9_-]{1,128}$/.test(a.forWhom))throw Error('Invalid input');

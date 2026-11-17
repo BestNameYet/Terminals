@@ -1,0 +1,6 @@
+{
+  "inputThis": "$:set -euo pipefail\np=user/codespaces/shiny-robot-v64x5jj4v4q2x96\ns=$(gh api \"$p\" --jq .state); echo \"STATE=$s\"\nif [ \"$s\" = Shutdown ]; then gh api --method POST \"$p/start\" --jq .state; for i in $(seq 1 30); do s=$(gh api \"$p\" --jq .state); echo \"READY_CHECK=$s\"; [ \"$s\" = Available ] && exit 0; sleep 4; done; exit 1; fi",
+  "outputThat": [
+    "STATE=ShuttingDown"
+  ]
+}

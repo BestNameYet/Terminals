@@ -1,0 +1,6 @@
+{
+  "inputThis": "gh:codespace ports -c shiny-robot-v64x5jj4v4q2x96 --json sourcePort,visibility,browseUrl",
+  "outputThat": [
+    "[{\"browseUrl\":\"https://shiny-robot-v64x5jj4v4q2x96-3000.app.github.dev\",\"sourcePort\":3000,\"visibility\":\"public\"},{\"browseUrl\":\"https://shiny-robot-v64x5jj4v4q2x96-3001.app.github.dev\",\"sourcePort\":3001,\"visibility\":\"private\"}]"
+  ]
+}

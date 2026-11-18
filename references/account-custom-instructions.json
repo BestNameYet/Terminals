@@ -1,6 +1,6 @@
 [
   {
-    "title": "Account Custom Instruction Container",
+   "title": "Account Custom Instruction Container",
     "applicability": "Governs the interpretation of the account custom-instruction collection. Each following entry contains one complete standalone rule object or one subject-specific grouped-rule array.",
     "rules_template_path": "references/rules-template.json",
     "machine_dialect_rules_path": "references/machine-dialect-rules.json",
